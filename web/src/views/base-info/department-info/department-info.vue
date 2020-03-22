@@ -56,7 +56,7 @@
     data() {
       return {
         showDialog: false,
-        addInfo: false,
+        addInfo: false, //add or edit
         fatherID: "",
         selectedInfo: null,
         dialogTitle: "",
@@ -68,7 +68,7 @@
                   {prop:"departmentName", label:"名称"},
                   {prop:"initials", label:"拼音码"}],
         tableData: [],
-        paths: [],
+        paths: [], // for previous
         }
     },
     
