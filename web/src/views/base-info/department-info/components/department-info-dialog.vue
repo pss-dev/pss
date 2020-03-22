@@ -47,19 +47,16 @@
         this.$emit('closeDialog')
       },
 
-      // submitData() {
-      //   this.$emit("submitData", this.departmentData, this.oldID);
-      // }
       submitData() {
-              this.$refs['departmentData'].validate((valid) => {
-                if (valid) {
-                  this.$emit("submitData", this.departmentData, this.oldID);
-                } else {
-                  console.log('error submit!!');
-                  return false;
-                }
-              });
-            }
+        this.$refs['departmentData'].validate((valid) => {
+          if (valid) {
+            this.$emit("submitData", this.departmentData, this.oldID);
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+      }
     },
 
     props: ["title", "departmentData"],
