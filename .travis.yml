@@ -1,0 +1,37 @@
+language: java
+sudo: false
+
+jdk:
+   - openjdk8
+
+# cache
+cache: false
+
+# install
+before_install:
+# For permission denied in travis-ci
+   - chmod +x gradlew
+
+services:
+# For karma test to start browser.
+   - xvfb
+
+install: skip
+
+# build
+script:
+   - ./gradlew clean build --no-daemon --console plain
+
+# notifications
+notifications:
+   email:
+      recipients:
+         - 18829346477@163.com
+      on_success: change
+      on_failure: always
+      on_cancel: never
+      on_error: never
+      on_start: never
+
+after_success:
+   - ./gradlew clean
