@@ -15,7 +15,7 @@
       </el-table-column>
 
       <el-table-column
-				v-if="showEdit"
+        v-if="showEdit"
         fixed="right"
         label="操作"
         width="80px">
