@@ -24,7 +24,7 @@ public class SessionFactoryConfig {
       localSessionFactoryBean.setDataSource(dataSource);
       PathMatchingResourcePatternResolver pmprpr = new PathMatchingResourcePatternResolver();
       Resource[] resource = pmprpr.getResources("classpath*:com/pssdev/pss/**/domain/*.hbm.xml");
-      localSessionFactoryBean.setMappingLocations(resource);
+      //localSessionFactoryBean.setMappingLocations(resource);
       Properties hibernateProperties = new Properties();
       hibernateProperties.put("hibernate.dialect",dialect);
       hibernateProperties.put("current_session_context_class", sessionContextClass);
@@ -32,6 +32,7 @@ public class SessionFactoryConfig {
       hibernateProperties.put("hibernate.format_sql", formatSql);
       hibernateProperties.put("hibernate.hbm2ddl.auto", ddlAuto);
       localSessionFactoryBean.setHibernateProperties(hibernateProperties);
+      localSessionFactoryBean.setPackagesToScan("com.pssdev.pss.entity");
 
       return localSessionFactoryBean;
    }
