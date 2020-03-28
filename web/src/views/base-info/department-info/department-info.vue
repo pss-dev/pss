@@ -56,18 +56,22 @@
     data() {
       return {
         showDialog: false,
-        addInfo: false, //add or edit
-        fatherID: "",
-        selectedInfo: null,
         dialogTitle: "",
         dialogData: {},
+
+        addInfo: false, //add or edit
+        selectedInfo: null,
+
         currentPage: 1,
         pageSize: 30,
         totalSize: 1024,
-        titData: [{prop:"departmentID", label:"编号"},
-                  {prop:"departmentName", label:"名称"},
+
+        titData: [{prop:"id", label:"编号"},
+                  {prop:"name", label:"名称"},
                   {prop:"initials", label:"拼音码"}],
         tableData: [],
+
+        fatherID: "",
         paths: [], // for previous
         }
     },
@@ -121,8 +125,8 @@
         this.dialogTitle = "空白新增";
         this.addInfo = true;
         this.dialogData = {
-          departmentID: '',
-          departmentName: '',
+          id: '',
+          name: '',
           initials: ''
         };
         this.showDialog = true;

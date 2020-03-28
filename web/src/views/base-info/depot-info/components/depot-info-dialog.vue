@@ -3,15 +3,18 @@
     :title="title"
     :visible.sync="dialogVisible"
     :before-close="handleClose">
-      <el-form :model="departmentData" ref="departmentData" :rules="rules" class="demo-ruleForm">
-        <el-form-item label="部门编号" prop="departmentID" :label-width="formLabelWidth">
-          <el-input v-model="departmentData.id" autocomplete="off"></el-input>
+      <el-form :model="depotData" ref="depotData" :rules="rules" class="demo-ruleForm">
+        <el-form-item label="编号" prop="depotID" :label-width="formLabelWidth">
+          <el-input v-model="depotData.id" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="部门名称" :label-width="formLabelWidth">
-          <el-input v-model="departmentData.name" autocomplete="off"></el-input>
+        <el-form-item label="名称" :label-width="formLabelWidth">
+          <el-input v-model="depotData.name" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="分支" :label-width="formLabelWidth">
+          <el-input v-model="depotData.branch" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="拼音码" :label-width="formLabelWidth">
-          <el-input v-model="departmentData.initials" autocomplete="off"></el-input>
+          <el-input v-model="depotData.initials" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button @click="closeDialog">取 消</el-button>
@@ -23,15 +26,15 @@
 
 <script>
   export default {
-    name: "departmentInfoDialog",
+    name: "depotInfoDialog",
     data() {
       return {
         dialogVisible: true,
         oldID: "",
         formLabelWidth: '120px',
         rules: {
-          departmentID: [
-            { required: true, message: '请输部门编号', trigger: 'blur' }
+          depotID: [
+            { required: true, message: '请输仓库编号', trigger: 'blur' }
           ]
         },
       }
@@ -48,9 +51,9 @@
       },
 
       submitData() {
-        this.$refs['departmentData'].validate((valid) => {
+        this.$refs['depotData'].validate((valid) => {
           if (valid) {
-            this.$emit("submitData", this.departmentData, this.oldID);
+            this.$emit("submitData", this.depotData, this.oldID);
           } else {
             console.log('error submit!!');
             return false;
@@ -59,11 +62,11 @@
       }
     },
 
-    props: ["title", "departmentData"],
+    props: ["title", "depotData"],
 
     created: function() {
-      if(this.departmentData) {
-        this.oldID = this.departmentData.id;
+      if(this.depotData) {
+        this.oldID = this.depotData.id;
       }
     }
   }
