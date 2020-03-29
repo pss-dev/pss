@@ -5,7 +5,7 @@ const service = axios.create({
   headers: {
     'Content-type': 'application/json'
   },
-  timeout: 30000 
+  timeout: 30000
 })
 
 function errorNotice({title = '服务器通讯异常', error} = {}) {
@@ -17,9 +17,9 @@ function errorNotice({title = '服务器通讯异常', error} = {}) {
   });
 }
 
-service.interceptor.request.use(config => {}, error => {
-  errorNotice({error})
-  return Promise.reject(error)
+service.interceptor.request.use(() => {}, error => {
+  errorNotice({error});
+  return Promise.reject(error);
 })
 
 service.interceptor.response.use(response => {

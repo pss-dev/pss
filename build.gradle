@@ -1,63 +1,38 @@
 buildscript {
-   ext {
-      jupiterVersion = '5.5.2'
+   repositories {
+      maven{
+         url 'http://maven.aliyun.com/nexus/content/groups/public/'
+      }
    }
 }
 
-plugins {
-   id 'org.springframework.boot' version '2.1.6.RELEASE'
-   id 'java'
+allprojects {
+   group = 'com.pssdev'
+   version = '0.0.1-SNAPSHOT'
+
+   repositories {
+      maven{
+         url 'http://maven.aliyun.com/nexus/content/groups/public/'
+      }
+   }
+
+   buildscript {
+      ext {
+         jupiterVersion = '5.5.2'
+
+         // all projects variable
+         productionBuild = project.hasProperty('buildenv') && project.property('buildenv') == 'prod'
+      }
+   }
 }
 
-apply plugin: 'io.spring.dependency-management'
-
-group = 'com.pssdev'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
-
-configurations {
-   developmentOnly
-   runtimeClasspath {
-      extendsFrom developmentOnly
-   }
-   compileOnly {
-      extendsFrom annotationProcessor
-   }
+task clean(type: Delete) {
+   group 'build'
+   delete = ['build']
 }
 
-repositories {
-   maven {
-      url 'http://maven.aliyun.com/nexus/content/groups/public'
-   }
-   mavenCentral()
-}
-
-dependencies {
-   // spring
-   implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-   implementation 'org.springframework.boot:spring-boot-starter-web'
-   implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-
-   // datasource
-   runtimeOnly 'com.h2database:h2'
-   implementation 'com.alibaba:druid:1.1.18'
-
-   // tools
-   developmentOnly 'org.springframework.boot:spring-boot-devtools'
-   annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-
-   // test
-   testImplementation('org.springframework.boot:spring-boot-starter-test') {
-      exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-   }
-   testImplementation "org.junit.jupiter:junit-jupiter-api:${jupiterVersion}"
-   testImplementation "org.junit.jupiter:junit-jupiter-params:${jupiterVersion}"
-   testImplementation "org.junit.jupiter:junit-jupiter-engine:${jupiterVersion}"
-
-}
-
-test {
-   useJUnitPlatform()
+task cleanAll(type: Delete, dependsOn: [clean]) {
+   group 'build'
 }
 
 wrapper {
