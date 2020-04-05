@@ -8,7 +8,7 @@ const service = axios.create({
   timeout: 30000
 })
 
-function errorNotice({title = '服务器通讯异常', error} = {}) {
+function errorNotice ({ title = '服务器通讯异常', error } = {}) {
   const duration = 3000
   ElementUI.$notify.error({
     title,
@@ -17,16 +17,18 @@ function errorNotice({title = '服务器通讯异常', error} = {}) {
   });
 }
 
-service.interceptor.request.use(() => {}, error => {
-  errorNotice({error});
-  return Promise.reject(error);
+service.interceptors.request.use(config => {
+  return config;
+}, error => {
+  errorNotice({ error })
+  return Promise.reject(error)
 })
 
-service.interceptor.response.use(response => {
-  const code = response.data.code;
-  if (code !== '000000') {
-    errorNotice({error: response.data.msg})
-  }
+service.interceptors.response.use(response => {
+  // const code = response.data.code;
+  // if (code !== '000000') {
+  //   errorNotice({error: response.data.msg})
+  // }
   return response
 }, error => {
   errorNotice(error)
