@@ -1,33 +1,32 @@
 <template class="c1">
   <div>
     <el-table
-        :data="tableData.filter(data => !search ||
-         data.id.toLowerCase().includes(search.toLowerCase()) ||
-         data.name.toLowerCase().includes(search.toLowerCase()))"
-        border
-        highlight-current-row
-        @current-change="handleCurrentChange"
-        @row-dblclick="doubleClick"
-        height="400"
-        style="width: 100%">
-        <el-table-column
-          v-for="title in titles"
-          v-bind="title"
-          :key="title.prop"
-          min-width="100px">
-        </el-table-column>
-    
-        <el-table-column
-          align="right">
-          <template slot="header" slot-scope="scope">
-            <el-input
-              v-model="search"
-              size="mini"
-              placeholder="输入关键字搜索"/>
-          </template>
-          <template slot-scope="scope">
-          </template>
-        </el-table-column>
+      :data="tableData.filter(data => !search ||
+        data.id.toLowerCase().includes(search.toLowerCase()) ||
+        data.name.toLowerCase().includes(search.toLowerCase()))"
+      border
+      highlight-current-row
+      @current-change="handleCurrentChange"
+      @row-dblclick="doubleClick"
+      height="400"
+      style="width: 100%">
+
+      <el-table-column
+        v-for="title in titles"
+        v-bind="title"
+        :key="title.prop"
+        min-width="100px">
+      </el-table-column>
+
+      <!-- <el-table-column
+        align="right">
+        <template slot="header" slot-scope="scope">
+          <el-input
+            v-model="search"
+            size="mini"
+            placeholder="输入关键字搜索"/>
+        </template>
+      </el-table-column> -->
     </el-table>
 
     <el-pagination
@@ -45,7 +44,7 @@
     <el-button @click="close" size="small">关闭</el-button>
   </div>
   
-  </template>
+</template>
   
   <script>
     export default {
@@ -61,11 +60,11 @@
         handleCurrentChange(value) {
           this.$emit('handleCurrentChange', value);
         },
-        
+
         handlePageChange() {
           
         },
-        
+
         handleSizeChange() {
           
         },
@@ -73,15 +72,15 @@
         doubleClick(value) {
           this.$emit('getChildData', value);
         },
-        
+
         ok() {
           this.$emit('ok');
         },
-        
+
         close() {
           this.$emit('close');
         },
-        
+
         previous() {
           this.$emit('previous');
         },

@@ -141,11 +141,11 @@
     },
 
     created: function() {
-      var params = {
-        departmentID: this.fatherID,
-        currentPage: this.currentPage,
-        pageSize: this.pageSize
-      };
+      // var params = {
+      //   departmentID: this.fatherID,
+      //   currentPage: this.currentPage,
+      //   pageSize: this.pageSize
+      // };
 
       //this.getDepartmentInfo(params);
     }
