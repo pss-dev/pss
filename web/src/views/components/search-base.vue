@@ -1,5 +1,10 @@
 <template class="c1">
   <div>
+    <el-input
+      v-model="search"
+      size="mini"
+      placeholder="输入关键字搜索"/>
+
     <el-table
       :data="tableData.filter(data => !search ||
         data.id.toLowerCase().includes(search.toLowerCase()) ||
@@ -17,16 +22,6 @@
         :key="title.prop"
         min-width="100px">
       </el-table-column>
-
-      <!-- <el-table-column
-        align="right">
-        <template slot="header" slot-scope="scope">
-          <el-input
-            v-model="search"
-            size="mini"
-            placeholder="输入关键字搜索"/>
-        </template>
-      </el-table-column> -->
     </el-table>
 
     <el-pagination
