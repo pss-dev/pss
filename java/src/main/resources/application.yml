@@ -1,6 +1,7 @@
 server:
    port: 80
 
+# Hibernate config
 pss:
    hibernate:
       ddl-auto: update
@@ -8,3 +9,4 @@ pss:
       session-context-class: org.springframework.orm.hibernate5.SpringSessionContext
       formatSql: true
       show-sql: true
+

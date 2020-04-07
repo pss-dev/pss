@@ -8,6 +8,7 @@ import OrderForm from "@/views/order-form/order-form"
 Vue.use(VueRouter)
 
 export default new VueRouter({
+  mode: "history",
   routes: [
     {
       path: '/',

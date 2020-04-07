@@ -13,3 +13,8 @@
 ``` shell script
 gradlew[.bat] clean build
 ```
+
+### 2. Startup Project
+``` shell script
+gradlew[.bat] bootRun
+```

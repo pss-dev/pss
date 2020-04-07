@@ -1,5 +1,6 @@
 <template>
   <header class="index-header">
+    <a href="/dept">Department</a>
     <div class="header-left">进销存logo</div>
     <div class="header-right">登出</div>
   </header>
@@ -25,5 +26,5 @@ export default {
     .header-right {
       width: 20%;
     }
-  }  
+  }
 </style>
