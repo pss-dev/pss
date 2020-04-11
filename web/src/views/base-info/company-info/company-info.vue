@@ -130,7 +130,8 @@ export default {
 
     deleteInfo () {
       var deleteParams = {
-        id: this.selectedInfo.id
+        id: this.selectedInfo.id,
+        fatherID: this.fatherID
       }
 
       companyInfoApi
@@ -146,8 +147,7 @@ export default {
       }
 
       var previousInfo = this.paths[this.paths.length - 1];
-      var previousParams = this.getParameterForNewTable(previousInfo.id,
-        previousInfo.page, this.pageSize);
+      var previousParams = this.getParameterForNewTable(previousInfo.id);
 
       this.getCompanyInfo(previousParams).then(() => {
         this.paths.pop();

@@ -50,11 +50,9 @@ export default {
       this.showDialog = false;
     },
 
-    getParameterForNewTable (tableID, currentPage, pageSize) {
+    getParameterForNewTable (tableID) {
       var params = {
-        id: tableID,
-        currentPage: currentPage,
-        pageSize: pageSize
+        id: tableID
       };
 
       return params;

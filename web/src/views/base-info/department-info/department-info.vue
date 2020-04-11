@@ -115,6 +115,7 @@ export default {
     deleteInfo () {
       var deleteParams = {
         id: this.selectedInfo.id,
+        fatherID: this.fatherID
       }
 
       departmentInfoApi
