@@ -9,6 +9,7 @@
       @edit="edit"
       @handleCurrentChange="handleCurrentChange"
       @getChildData="getChildData"
+      @pageChange="pageChange"
     ></base-info-table>
 
     <base-info-footer
@@ -16,8 +17,6 @@
       :currentPage="currentPage"
       :selectedInfoInvalid="isSelectedInfoInvalid()"
       :previousDisable="!hasFatherInfo()"
-      @pageChange="pageChange"
-      @pageSizeChange="pageSizeChange"
       @newInfo="newInfo"
       @copyNew="copyNew"
       @deleteInfo="deleteInfo"
@@ -77,7 +76,7 @@ export default {
 
   methods: {
     getChildData (value) {
-      var param = this.getParameterForNewTable(value.id, 1, this.pageSize);
+      var param = this.getParameterForNewTable(value.id);
 
       this.getCompanyInfo(param).then(() => {
         this.addPaths();
@@ -112,7 +111,7 @@ export default {
     },
 
     submitData (companyData, oldID) {
-      var params = this.getParameterForNewTable(this.fatherID, this.currentPage, this.pageSize);
+      var params = this.getParameterForNewTable(this.fatherID);
 
       if (this.addInfo) {
         companyInfoApi.addCompanyInfo(params, companyData).then(
@@ -131,9 +130,7 @@ export default {
 
     deleteInfo () {
       var deleteParams = {
-        id: this.selectedInfo.id,
-        currentPage: this.currentPage,
-        pageSize: this.pageSize
+        id: this.selectedInfo.id
       }
 
       companyInfoApi
@@ -159,15 +156,6 @@ export default {
       });
     },
 
-    pageChange (value) {
-      var params = this.getParameterForNewTable(this.fatherID, value, this.pageSize);
-
-      this.getCompanyInfo(params).then(() => {
-        this.currentPage = value;
-      });
-
-    },
-
     getCompanyInfo (params) {
       return companyInfoApi.getCompanyInfo(params).then(
         (res) => {
@@ -186,7 +174,7 @@ export default {
   },
 
   created: function () {
-    var params = this.getParameterForNewTable(this.fatherID, this.currentPage, this.pageSize);
+    var params = this.getParameterForNewTable(this.fatherID);
 
     this.getCompanyInfo(params);
   }

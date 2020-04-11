@@ -8,6 +8,7 @@
       :showEdit="true"
       @handleCurrentChange="handleCurrentChange"
       @getChildData="getChildData"
+      @pageChange="pageChange"
     ></base-info-table>
 
     <base-info-footer
@@ -15,8 +16,6 @@
       :currentPage="currentPage"
       :selectedInfoInvalid="isSelectedInfoInvalid()"
       :previousDisable="!hasFatherInfo()"
-      @pageChange="pageChange"
-      @pageSizeChange="pageSizeChange"
       @newInfo="newInfo"
       @copyNew="copyNew"
       @edit="edit"
@@ -65,7 +64,7 @@ export default {
 
   methods: {
     getChildData (value) {
-      var param = this.getParameterForNewTable(value.id, 1, this.pageSize);
+      var param = this.getParameterForNewTable(value.id);
 
       this.getDepartmentInfo(param).then(() => {
         this.addPaths();
@@ -96,7 +95,7 @@ export default {
     },
 
     submitData (departmentData, oldID) {
-      var params = this.getParameterForNewTable(this.fatherID, this.currentPage, this.pageSize);
+      var params = this.getParameterForNewTable(this.fatherID);
 
       if (this.addInfo) {
         departmentInfoApi.addDepartmentInfo(params, departmentData).then(
@@ -116,8 +115,6 @@ export default {
     deleteInfo () {
       var deleteParams = {
         id: this.selectedInfo.id,
-        currentPage: this.currentPage,
-        pageSize: this.pageSize
       }
 
       departmentInfoApi
@@ -133,23 +130,13 @@ export default {
       }
 
       var previousInfo = this.paths[this.paths.length - 1];
-      var previousParams = this.getParameterForNewTable(previousInfo.id,
-        previousInfo.page, this.pageSize);
+      var previousParams = this.getParameterForNewTable(previousInfo.id);
 
       this.getDepartmentInfo(previousParams).then(() => {
         this.paths.pop();
         this.currentPage = previousInfo.page;
         this.fatherID = previousInfo.id;
       });
-    },
-
-    pageChange (value) {
-      var params = this.getParameterForNewTable(this.fatherID, value, this.pageSize);
-
-      this.getDepartmentInfo(params).then(() => {
-        this.currentPage = value;
-      });
-
     },
 
     getDepartmentInfo (params) {
@@ -170,7 +157,7 @@ export default {
   },
 
   created: function () {
-    var params = this.getParameterForNewTable(this.fatherID, this.currentPage, this.pageSize);
+    var params = this.getParameterForNewTable(this.fatherID);
 
     this.getDepartmentInfo(params);
   }

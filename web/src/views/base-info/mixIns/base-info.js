@@ -64,6 +64,10 @@ export default {
       this.pageSize = value;
     },
 
+    pageChange (value) {
+      this.currentPage = value;
+    },
+
     resetCurrentPage () {
       this.currentPage = 1;
     },

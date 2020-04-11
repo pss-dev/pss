@@ -1,14 +1,5 @@
 <template>
   <el-container>
-    <el-pagination
-      @size-change="handleSizeChange"
-      @current-change="handlePageChange"
-      :small="true"
-      :current-page="currentPage"
-      :page-sizes="[30, 50, 100, 200]"
-      layout="sizes, jumper, prev, next, total"
-      :total="totalSize"
-    ></el-pagination>
     <el-button @click="newInfo" size="small">空白新增</el-button>
     <el-button @click="copyNew" size="small" :disabled="selectedInfoInvalid">复制新增</el-button>
     <el-button @click="edit" size="small" :disabled="selectedInfoInvalid">编辑</el-button>
@@ -23,14 +14,6 @@ export default {
   name: "baseInfoFooter",
 
   methods: {
-    handleSizeChange (value) {
-      this.$emit('pageSizeChange', value);
-    },
-
-    handlePageChange (value) {
-      this.$emit('pageChange', value);
-    },
-
     newInfo () {
       this.$emit('newInfo');
     },
@@ -62,12 +45,6 @@ export default {
   },
 
   props: {
-    "totalSize": {
-      type: Number
-    },
-    "currentPage": {
-      type: Number
-    },
     "selectedInfoInvalid": {
       type: Boolean,
       default: true
@@ -75,7 +52,8 @@ export default {
     "previousDisable": {
       type: Boolean,
       default: true
-    }  }
+    }
+  }
 }
 </script>
 

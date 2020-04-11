@@ -3,9 +3,10 @@
     <el-input v-model="search" size="mini" placeholder="输入关键字搜索" />
 
     <el-table
-      :data="tableData.filter(data => !search ||
+      :data="search ? tableData.filter(data =>
       data.id.toLowerCase().includes(search.toLowerCase()) ||
-      data.name.toLowerCase().includes(search.toLowerCase()))"
+      data.name.toLowerCase().includes(search.toLowerCase())): 
+      tableData.slice((currentPage-1) * pageSize, currentPage * pageSize)"
       border
       highlight-current-row
       @current-change="handleCurrentChange"
@@ -21,7 +22,7 @@
       @current-change="handlePageChange"
       :small="true"
       :current-page="currentPage"
-      :page-sizes="[30, 50, 100, 200]"
+      :page-sizes="[1, 2, 3, 4]"
       layout="sizes, jumper, prev, next, total"
       :total="totalSize"
     ></el-pagination>
@@ -39,6 +40,9 @@ export default {
   data () {
     return {
       search: '',
+
+      currentPage: 1,
+      pageSize: 1,
     }
   },
 
@@ -47,12 +51,12 @@ export default {
       this.$emit('handleCurrentChange', value)
     },
 
-    handlePageChange () {
-
+    handlePageChange (value) {
+      this.currentPage = value;
     },
 
-    handleSizeChange () {
-
+    handleSizeChange (value) {
+      this.pageSize = value;
     },
 
     doubleClick (value) {
@@ -72,7 +76,7 @@ export default {
     },
   },
 
-  props: ["titles", "tableData", "totalSize", "previousDisable", "currentPage"]
+  props: ["titles", "tableData", "totalSize", "previousDisable"]
 }
   </script>
 
