@@ -1,11 +1,17 @@
 <template>
-  <label>header</label>
+  <label>{{this.paths}}</label>
 </template>
 
 <script>
-  export default {
-    name: "baseInfoHeader"
+export default {
+  name: "baseInfoHeader",
+
+  props: {
+    "paths": {
+      type: String
+    }
   }
+}
 </script>
 
 <style>

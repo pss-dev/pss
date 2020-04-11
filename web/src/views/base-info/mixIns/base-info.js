@@ -18,6 +18,20 @@ export default {
   },
 
   methods: {
+    getPathsLabel () {
+      if (this.paths.length > 0) {
+        let pathsLabel = ""
+
+        this.paths.forEach(element => {
+          pathsLabel += element + "/";
+        });
+
+        return pathsLabel;
+      }
+
+      return "root";
+    },
+
     handleCurrentChange (value) {
       this.selectedInfo = value;
     },

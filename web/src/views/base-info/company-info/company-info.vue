@@ -6,6 +6,7 @@
       :titles="titData"
       :tableData="tableData"
       :showEdit="true"
+      @edit="edit"
       @handleCurrentChange="handleCurrentChange"
       @getChildData="getChildData"
     ></base-info-table>
@@ -19,18 +20,17 @@
       @pageSizeChange="pageSizeChange"
       @newInfo="newInfo"
       @copyNew="copyNew"
-      @edit="edit"
       @deleteInfo="deleteInfo"
       @previous="previous"
     ></base-info-footer>
 
-    <department-info-dialog
+    <company-info-dialog
       @closeDialog="closeDialog"
       @submitData="submitData"
       :title="dialogTitle"
-      :departmentData="dialogData"
+      :companyData="dialogData"
       v-if="showDialog"
-    ></department-info-dialog>
+    ></company-info-dialog>
   </div>
 </template>
 
@@ -39,18 +39,27 @@ import baseInfoHeader from "../components/base-info-header.vue"
 import baseInfoTabler from "../components/base-info-table.vue"
 import baseInfoFooter from "../components/base-info-footer.vue"
 import bseInfo from '../mixIns/base-info'
-import departmentInfoDialog from "./components/department-info-dialog.vue"
+import companyInfoDialog from './components/company-info-dialog'
 
-import departmentInfoApi from "../../../api/department-info-api/departmentInfoApi.js"
+import companyInfoApi from '../../../api/company-info-api/companyInfoApi'
 
 export default {
-  name: "departmentInfo",
+  name: "companyInfo",
+
   mixins: [bseInfo],
+
   components: {
     "base-info-header": baseInfoHeader,
     "base-info-table": baseInfoTabler,
     "base-info-footer": baseInfoFooter,
-    "department-info-dialog": departmentInfoDialog
+    "company-info-dialog": companyInfoDialog
+  },
+
+  props: {
+    "companyType": {
+      type: Number,
+      default: 0 // customer or supplier
+    }
   },
 
   data () {
@@ -58,7 +67,10 @@ export default {
       titData:
         [{ prop: "id", label: "编号" },
         { prop: "name", label: "名称" },
-        { prop: "initials", label: "拼音码" }],
+        { prop: "initials", label: "拼音码" },
+        { prop: "address", label: "地址" },
+        { prop: "contactPerson", label: "联系人" },
+        { prop: "contactPhone", label: "联系人电话" },],
       tableData: [],
     }
   },
@@ -67,15 +79,15 @@ export default {
     getChildData (value) {
       var param = this.getParameterForNewTable(value.id, 1, this.pageSize);
 
-      this.getDepartmentInfo(param).then(() => {
+      this.getCompanyInfo(param).then(() => {
         this.addPaths();
         this.resetCurrentPage();
         this.fatherID = value.id;
       });
     },
 
-    edit () {
-      this.setDialogInfo("编辑", this.selectedInfo, false);
+    edit (value) {
+      this.setDialogInfo("编辑", value, false);
       this.showDialog = true;
     },
 
@@ -83,7 +95,11 @@ export default {
       var emptyDialogData = {
         id: '',
         name: '',
-        initials: ''
+        initials: '',
+        address: '',
+        contactPerson: '',
+        contactPhone: '',
+        type: this.companyType
       };
 
       this.setDialogInfo("空白新增", emptyDialogData, true);
@@ -95,18 +111,18 @@ export default {
       this.showDialog = true;
     },
 
-    submitData (departmentData, oldID) {
+    submitData (companyData, oldID) {
       var params = this.getParameterForNewTable(this.fatherID, this.currentPage, this.pageSize);
 
       if (this.addInfo) {
-        departmentInfoApi.addDepartmentInfo(params, departmentData).then(
+        companyInfoApi.addCompanyInfo(params, companyData).then(
           (res) => {
             this.setResponseResult(res.data);
           });
       }
       else {
         params.oldID = oldID;
-        departmentInfoApi.modifyDepartmentInfo(params, departmentData).then(
+        companyInfoApi.modifyCompanyInfo(params, companyData).then(
           (res) => {
             this.setResponseResult(res.data);
           });
@@ -120,8 +136,8 @@ export default {
         pageSize: this.pageSize
       }
 
-      departmentInfoApi
-        .deleteDepartmentInfo(deleteParams)
+      companyInfoApi
+        .deleteCompanyInfo(deleteParams)
         .then((res) => {
           this.setResponseResult(res.data);
         });
@@ -136,7 +152,7 @@ export default {
       var previousParams = this.getParameterForNewTable(previousInfo.id,
         previousInfo.page, this.pageSize);
 
-      this.getDepartmentInfo(previousParams).then(() => {
+      this.getCompanyInfo(previousParams).then(() => {
         this.paths.pop();
         this.currentPage = previousInfo.page;
         this.fatherID = previousInfo.id;
@@ -146,14 +162,14 @@ export default {
     pageChange (value) {
       var params = this.getParameterForNewTable(this.fatherID, value, this.pageSize);
 
-      this.getDepartmentInfo(params).then(() => {
+      this.getCompanyInfo(params).then(() => {
         this.currentPage = value;
       });
 
     },
 
-    getDepartmentInfo (params) {
-      return departmentInfoApi.getDepartmentInfo(params).then(
+    getCompanyInfo (params) {
+      return companyInfoApi.getCompanyInfo(params).then(
         (res) => {
           this.setResponseResult(res.data);
         });
@@ -172,7 +188,7 @@ export default {
   created: function () {
     var params = this.getParameterForNewTable(this.fatherID, this.currentPage, this.pageSize);
 
-    this.getDepartmentInfo(params);
+    this.getCompanyInfo(params);
   }
 }
 </script>
