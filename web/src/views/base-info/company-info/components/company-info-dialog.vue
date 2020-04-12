@@ -47,7 +47,7 @@ export default {
       formLabelWidth: '120px',
       rules: {
         companyID: [
-          { required: true, message: '请输编号', trigger: 'blur' }
+          //{ required: true, message: '请输编号', trigger: 'blur' }
         ]
       },
     }
