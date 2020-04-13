@@ -10,7 +10,7 @@
       border
       highlight-current-row
       @current-change="handleCurrentChange"
-      @row-dblclick="doubleClick"
+      @row-dblclick="getChildData"
       height="400"
       style="width: 100%"
     >
@@ -22,27 +22,48 @@
       @current-change="handlePageChange"
       :small="true"
       :current-page="currentPage"
-      :page-sizes="[1, 2, 3, 4]"
+      :page-sizes="[30, 50, 100, 200]"
       layout="sizes, jumper, prev, next, total"
       :total="totalSize"
     ></el-pagination>
 
     <el-button @click="previous" size="small" :disabled="previousDisable">上一层</el-button>
+    <el-button @click="getChildData" size="small" :disabled="previousDisable">下一层</el-button>
     <el-button @click="ok" size="small">确定</el-button>
     <el-button @click="close" size="small">关闭</el-button>
   </div>
 </template>
   
-  <script>
+<script>
 export default {
   name: "searchBase",
+
+  props: {
+    "titles": {
+      type: Array
+    },
+    "tableData": {
+      type: Array
+    },
+    "totalSize": {
+      type: Number
+    },
+    "previousDisable": {
+      type: Boolean,
+      default: true,
+    },
+    "nextDisable": {
+      type: Boolean,
+      default: true,
+    },
+  },
+
 
   data () {
     return {
       search: '',
 
-      currentPage: 1,
-      pageSize: 1,
+      pageSize: 30,
     }
   },
 
@@ -52,14 +73,14 @@ export default {
     },
 
     handlePageChange (value) {
-      this.currentPage = value;
+      this.$emit('pageChange', value)
     },
 
     handleSizeChange (value) {
       this.pageSize = value;
     },
 
-    doubleClick (value) {
+    getChildData (value) {
       this.$emit('getChildData', value);
     },
 
@@ -75,8 +96,6 @@ export default {
       this.$emit('previous');
     },
   },
-
-  props: ["titles", "tableData", "totalSize", "previousDisable"]
 }
   </script>
 

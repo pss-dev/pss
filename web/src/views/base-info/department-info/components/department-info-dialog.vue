@@ -1,7 +1,7 @@
 <template>
   <el-dialog :title="title" :visible.sync="dialogVisible" :before-close="handleClose">
     <el-form :model="departmentData" ref="departmentData" :rules="rules" class="demo-ruleForm">
-      <el-form-item label="部门编号" prop="departmentID" :label-width="formLabelWidth">
+      <el-form-item label="部门编号" prop="id" :label-width="formLabelWidth">
         <el-input v-model="departmentData.id" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="部门名称" :label-width="formLabelWidth">
@@ -37,7 +37,7 @@ export default {
       oldID: "",
       formLabelWidth: '120px',
       rules: {
-        departmentID: [
+        id: [
           { required: true, message: '请输部门编号', trigger: 'blur' }
         ]
       },

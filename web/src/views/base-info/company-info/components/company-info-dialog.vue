@@ -1,7 +1,7 @@
 <template>
   <el-dialog :title="title" :visible.sync="dialogVisible" :before-close="handleClose">
     <el-form :model="companyData" ref="companyData" :rules="rules" class="demo-ruleForm">
-      <el-form-item label="编号" prop="companyID" :label-width="formLabelWidth">
+      <el-form-item label="编号" prop="id" :label-width="formLabelWidth">
         <el-input v-model="companyData.id" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="名称" :label-width="formLabelWidth">
@@ -46,8 +46,8 @@ export default {
       oldID: "",
       formLabelWidth: '120px',
       rules: {
-        companyID: [
-          //{ required: true, message: '请输编号', trigger: 'blur' }
+        id: [
+          { required: true, message: '请输编号', trigger: 'blur' }
         ]
       },
     }
