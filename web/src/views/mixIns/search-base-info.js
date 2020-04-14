@@ -3,8 +3,9 @@ export default {
     return {
       selectedInfo: null,
 
-      dialogVisible: false,
+      dialogVisible: true,
 
+      totalSize: 1,
       currentPage: 1,
 
       fatherID: "",
@@ -15,6 +16,10 @@ export default {
   methods: {
     handleClose () {
       this.$emit('closeDialog')
+    },
+
+    handleSubmit () {
+      this.$emit('submitData', this.selectedInfo)
     },
 
     handleCurrentChange (value) {

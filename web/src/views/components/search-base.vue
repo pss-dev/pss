@@ -46,7 +46,12 @@ export default {
       type: Array
     },
     "totalSize": {
-      type: Number
+      type: Number,
+      default: 1
+    },
+    "currentPage": {
+      type: Number,
+      default: 1
     },
     "previousDisable": {
       type: Boolean,

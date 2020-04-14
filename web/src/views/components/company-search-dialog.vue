@@ -1,5 +1,10 @@
 <template>
-  <el-dialog :title="title" :visible.sync="dialogVisible" :before-close="handleClose">
+  <el-dialog
+    :title="title"
+    :visible.sync="dialogVisible"
+    :before-close="handleClose"
+    append-to-body
+  >
     <search-base
       :titles="titleData"
       :tableData="tableData"
@@ -10,6 +15,8 @@
       @handleCurrentChange="handleCurrentChange"
       @getChildData="getChildData"
       @previous="previous"
+      @close="handleClose"
+      @ok="handleSubmit"
     ></search-base>
   </el-dialog>
 </template>
@@ -28,32 +35,20 @@ export default {
 
   data () {
     return {
-      dialogTitle: "来往单位查询",
+      title: "来往单位查询",
 
       titleData: [
         { prop: "id", label: "编号" },
         { prop: "name", label: "名称" }],
 
-      tableData: [],
+      tableData: [{ id: "1", name: "name1" },
+      { id: "2", name: "name2" }],
 
       selectedInfo: null,
-
-      fatherID: "",
-      paths: [], // for previous
-
-      currentPage: 1,
     }
   },
 
   methods: {
-    handleClose () {
-      this.$emit('closeDialog')
-    },
-
-    handleCurrentChange (value) {
-      this.selectedInfo = value;
-    },
-
     getChildData (value) {
       var param = this.getParameterForNewTable(value.id);
 
@@ -79,9 +74,8 @@ export default {
       });
     },
 
-
-    getcompanyInfo (params) {
-      return companyInfoApi.getcompanyInfo(params).then(
+    getCompanyInfo (params) {
+      return companyInfoApi.getCompanyInfo(params).then(
         (res) => {
           this.setResponseResult(res.data);
         });
@@ -93,14 +87,6 @@ export default {
         this.tableData = data.result;
       }
     },
-
-    isSelectedInfoValid () {
-      return this.selectedInfo != null;
-    },
-
-    hasFatherInfo () {
-      return this.paths.length > 0;
-    }
   },
 
   created: function () {
@@ -108,7 +94,7 @@ export default {
       id: this.fatherID,
     };
 
-    this.getcompanyInfo(params);
+    this.getCompanyInfo(params);
   }
 }
 </script>

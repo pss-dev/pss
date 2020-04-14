@@ -1,19 +1,35 @@
 <template>
   <el-dialog :title="title" :visible.sync="dialogVisible" :before-close="handleClose">
-    <el-form :model="branchData" ref="branchData" :rules="rules" class="demo-ruleForm">
-      <el-form-item label="分支编号" prop="id" :label-width="formLabelWidth">
+    <el-form
+      :model="branchData"
+      ref="branchData"
+      :rules="rules"
+      label-width="100px"
+      class="demo-dynamic"
+    >
+      <el-form-item label="分支编号" prop="id">
         <el-input v-model="branchData.id" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item label="分支名称" :label-width="formLabelWidth">
+      <el-form-item label="分支名称">
         <el-input v-model="branchData.name" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item label="客户" :label-width="formLabelWidth">
-        <el-input v-model="branchData.customerName" autocomplete="off"></el-input>
+      <el-form-item label="客户">
+        <el-col :span="21">
+          <el-input disabled v-model="branchData.customerName" autocomplete="off"></el-input>
+        </el-col>
+        <el-col :span="1">
+          <el-button @click="showCompanyDialog(true)">...</el-button>
+        </el-col>
       </el-form-item>
-      <el-form-item label="供货商" :label-width="formLabelWidth">
-        <el-input v-model="branchData.supplierName" autocomplete="off"></el-input>
+      <el-form-item label="供货商">
+        <el-col :span="21">
+          <el-input disabled v-model="branchData.supplierName" autocomplete="off"></el-input>
+        </el-col>
+        <el-col :span="1">
+          <el-button @click="showCompanyDialog(false)">...</el-button>
+        </el-col>
       </el-form-item>
-      <el-form-item label="拼音码" :label-width="formLabelWidth">
+      <el-form-item label="拼音码">
         <el-input v-model="branchData.initials" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item>
@@ -21,15 +37,28 @@
         <el-button type="primary" @click="submitData">确 定</el-button>
       </el-form-item>
     </el-form>
+    <company-search-dialog
+      @closeDialog="closecompanyDialog"
+      @submitData="submitcompanyData"
+      v-if="companydialogVisible"
+    ></company-search-dialog>
   </el-dialog>
 </template>
 
 <script>
+import companySearchDialog from "../../../components/company-search-dialog"
+
 export default {
   name: "branchInfoDialog",
+  components: {
+    "company-search-dialog": companySearchDialog
+  },
+
   data () {
     return {
       dialogVisible: true,
+      companydialogVisible: false,
+      isCustomer: true,
       oldID: "",
       formLabelWidth: '120px',
       rules: {
@@ -59,6 +88,28 @@ export default {
           return false;
         }
       });
+    },
+
+    showCompanyDialog (type) {
+      this.isCustomer = type;
+      this.companydialogVisible = true;
+    },
+
+    closecompanyDialog () {
+      this.companydialogVisible = false;
+    },
+
+    submitcompanyData (value) {
+      if (this.isCustomer) {
+        this.branchData.customerID = value.id;
+        this.branchData.customerName = value.name;
+      }
+      else {
+        this.branchData.supplierID = value.id;
+        this.branchData.supplierName = value.name;
+      }
+
+      this.companydialogVisible = false;
     }
   },
 

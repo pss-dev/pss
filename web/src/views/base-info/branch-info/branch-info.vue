@@ -85,9 +85,9 @@ export default {
         id: '',
         name: '',
         customerID: '',
-        customerName: '这里将来需要用company search dialog 选择',
+        customerName: '',
         supplierID: '',
-        supplierName: '这里将来需要用company search dialog 选择',
+        supplierName: '',
         initials: ''
       };
 
@@ -139,15 +139,15 @@ export default {
       var previousInfo = this.paths[this.paths.length - 1];
       var previousParams = this.getParameterForNewTable(previousInfo.id);
 
-      this.getbranchInfo(previousParams).then(() => {
+      this.getBranchInfo(previousParams).then(() => {
         this.paths.pop();
         this.currentPage = previousInfo.page;
         this.fatherID = previousInfo.id;
       });
     },
 
-    getbranchInfo (params) {
-      return branchInfoApi.getbranchInfo(params).then(
+    getBranchInfo (params) {
+      return branchInfoApi.getBranchInfo(params).then(
         (res) => {
           this.setResponseResult(res.data);
         });
@@ -166,7 +166,7 @@ export default {
   created: function () {
     var params = this.getParameterForNewTable(this.fatherID);
 
-    this.getbranchInfo(params);
+    this.getBranchInfo(params);
   }
 }
 </script>
