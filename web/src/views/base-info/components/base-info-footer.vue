@@ -1,17 +1,69 @@
 <template>
   <el-container>
-    <el-button @click="newInfo" size="small">空白新增</el-button>
-    <el-button @click="copyNew" size="small" :disabled="selectedInfoInvalid">复制新增</el-button>
+    <el-button v-if="newInfoVisiable" @click="newInfo" size="small">空白新增</el-button>
+    <el-button
+      v-if="copyNewVisiable"
+      @click="copyNew"
+      size="small"
+      :disabled="selectedInfoInvalid"
+    >复制新增</el-button>
     <el-button @click="edit" size="small" :disabled="selectedInfoInvalid">编辑</el-button>
-    <el-button @click="deleteInfo" size="small" :disabled="selectedInfoInvalid" type="danger">删除</el-button>
-    <el-button @click="previous" size="small" :disabled="previousDisable">上一层</el-button>
-    <el-button @click="next" size="small" :disabled="selectedInfoInvalid">下一层</el-button>
+    <el-button
+      v-if="deleteInfoVisiable"
+      @click="deleteInfo"
+      size="small"
+      :disabled="selectedInfoInvalid"
+      type="danger"
+    >删除</el-button>
+    <el-button
+      v-if="previousVisiable"
+      @click="previous"
+      size="small"
+      :disabled="previousDisable"
+    >上一层</el-button>
+    <el-button v-if="nextVisiable" @click="next" size="small" :disabled="selectedInfoInvalid">下一层</el-button>
   </el-container>
 </template>
 
 <script>
 export default {
   name: "baseInfoFooter",
+
+  props: {
+    "selectedInfoInvalid": {
+      type: Boolean,
+      default: true
+    },
+    "previousDisable": {
+      type: Boolean,
+      default: true
+    },
+    "newInfoVisiable": {
+      type: Boolean,
+      default: true
+    },
+    "copyNewVisiable": {
+      type: Boolean,
+      default: true
+    },
+    "deleteInfoVisiable": {
+      type: Boolean,
+      default: true
+    },
+    "previousVisiable": {
+      type: Boolean,
+      default: true
+    },
+    "nextVisiable": {
+      type: Boolean,
+      default: true
+    }
+  },
+
+  data () {
+    return {
+    };
+  },
 
   methods: {
     newInfo () {
@@ -38,22 +90,6 @@ export default {
       this.$emit('next');
     }
   },
-
-  data () {
-    return {
-    };
-  },
-
-  props: {
-    "selectedInfoInvalid": {
-      type: Boolean,
-      default: true
-    },
-    "previousDisable": {
-      type: Boolean,
-      default: true
-    }
-  }
 }
 </script>
 

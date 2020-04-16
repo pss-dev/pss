@@ -1,7 +1,7 @@
 import baseApi from '../baseApi.js'
 import fetch from '@/http/fetch'
 
-function getPriceInfo(params) {
+function getPriceInfo (params) {
   return fetch({
     url: baseApi.baseApi('/price'),
     method: 'get',
@@ -9,7 +9,7 @@ function getPriceInfo(params) {
   })
 }
 
-function addPriceInfo(params, data) {
+function addPriceInfo (params, data) {
   return fetch({
     url: baseApi.baseApi('/price'),
     method: 'post',
@@ -18,7 +18,7 @@ function addPriceInfo(params, data) {
   })
 }
 
-function modifyPriceInfo(params, data) {
+function modifyPriceInfo (params, data) {
   return fetch({
     url: baseApi.baseApi('/price'),
     method: 'put',
@@ -27,7 +27,7 @@ function modifyPriceInfo(params, data) {
   })
 }
 
-function deletePriceInfo(params) {
+function deletePriceInfo (params) {
   return fetch({
     url: baseApi.baseApi('/price'),
     method: 'delete',
@@ -38,6 +38,6 @@ function deletePriceInfo(params) {
 export default {
   getPriceInfo,
   addPriceInfo,
-	modifyPriceInfo,
+  modifyPriceInfo,
   deletePriceInfo
 }

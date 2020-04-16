@@ -38,8 +38,8 @@
       </el-form-item>
     </el-form>
     <company-search-dialog
-      @closeDialog="closecompanyDialog"
-      @submitData="submitcompanyData"
+      @closeDialog="closeCompanyDialog"
+      @submitData="submitCompanyData"
       v-if="companydialogVisible"
     ></company-search-dialog>
   </el-dialog>
@@ -52,6 +52,15 @@ export default {
   name: "branchInfoDialog",
   components: {
     "company-search-dialog": companySearchDialog
+  },
+
+  props: {
+    "title": {
+      type: String
+    },
+    "branchData": {
+      type: Object
+    },
   },
 
   data () {
@@ -95,11 +104,11 @@ export default {
       this.companydialogVisible = true;
     },
 
-    closecompanyDialog () {
+    closeCompanyDialog () {
       this.companydialogVisible = false;
     },
 
-    submitcompanyData (value) {
+    submitCompanyData (value) {
       if (this.isCustomer) {
         this.branchData.customerID = value.id;
         this.branchData.customerName = value.name;
@@ -112,8 +121,6 @@ export default {
       this.companydialogVisible = false;
     }
   },
-
-  props: ["title", "branchData"],
 
   created: function () {
     if (this.branchData) {
