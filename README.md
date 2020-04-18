@@ -18,3 +18,8 @@ gradlew[.bat] clean build
 ``` shell script
 gradlew[.bat] bootRun
 ```
+
+### 3. Server 端编码规范
+* 所有 Controller 的请求 URL 以 `/api/1.0/` 开头
+* 所有 Controller 的 rest api 都使用 `swagger` document.
+* 事务放在 service 层

@@ -12,10 +12,6 @@ before_install:
 # For permission denied in travis-ci
    - chmod +x gradlew
 
-services:
-# For karma test to start browser.
-   - xvfb
-
 install: skip
 
 # build
