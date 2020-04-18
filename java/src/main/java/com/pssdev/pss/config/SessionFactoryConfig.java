@@ -4,8 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 
 import javax.sql.DataSource;
@@ -16,15 +14,19 @@ import java.util.Properties;
 @ConfigurationProperties(prefix = "pss.hibernate")
 public class SessionFactoryConfig {
    @Autowired
-   private DataSource dataSource;
+   public SessionFactoryConfig(DataSource dataSource) {
+      this.dataSource = dataSource;
+   }
 
    @Bean("sessionFactory")
    public LocalSessionFactoryBean getSessionFactory() throws IOException {
       LocalSessionFactoryBean localSessionFactoryBean = new LocalSessionFactoryBean();
       localSessionFactoryBean.setDataSource(dataSource);
-      PathMatchingResourcePatternResolver pmprpr = new PathMatchingResourcePatternResolver();
-      Resource[] resource = pmprpr.getResources("classpath*:com/pssdev/pss/**/domain/*.hbm.xml");
-      //localSessionFactoryBean.setMappingLocations(resource);
+//      PathMatchingResourcePatternResolver pmprpr = new PathMatchingResourcePatternResolver();
+//      Resource[] resource = pmprpr.getResources("classpath*:com/pssdev/pss/**/domain/*.hbm.xml");
+//      localSessionFactoryBean.setMappingLocations(resource);
+
+      localSessionFactoryBean.setAnnotatedPackages("classpath*:com/pssdev/pss/entity");
       Properties hibernateProperties = new Properties();
       hibernateProperties.put("hibernate.dialect",dialect);
       hibernateProperties.put("current_session_context_class", sessionContextClass);
@@ -35,14 +37,6 @@ public class SessionFactoryConfig {
       localSessionFactoryBean.setPackagesToScan("com.pssdev.pss.entity");
 
       return localSessionFactoryBean;
-   }
-
-   public DataSource getDataSource() {
-      return dataSource;
-   }
-
-   public void setDataSource(DataSource dataSource) {
-      this.dataSource = dataSource;
    }
 
    public String getDialect() {
@@ -90,4 +84,6 @@ public class SessionFactoryConfig {
    private boolean showSql;
    private boolean formatSql;
    private String ddlAuto;
+
+   private final DataSource dataSource;
 }

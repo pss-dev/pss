@@ -12,10 +12,12 @@ import org.springframework.transaction.annotation.TransactionManagementConfigure
 public class TransactionConfig implements TransactionManagementConfigurer {
 
    @Autowired
-   private HibernateTransactionManager transactionManager;
+   public TransactionConfig(SessionFactory sessionFactory) {
+      this.sessionFactory = sessionFactory;
+   }
 
    @Bean("transactionManager")
-   public HibernateTransactionManager getTransactionManager(SessionFactory sessionFactory){
+   public HibernateTransactionManager getTransactionManager(){
       HibernateTransactionManager hibernateTransactionManager = new HibernateTransactionManager();
       hibernateTransactionManager.setSessionFactory(sessionFactory);
 
@@ -24,6 +26,8 @@ public class TransactionConfig implements TransactionManagementConfigurer {
 
    @Override
    public PlatformTransactionManager annotationDrivenTransactionManager() {
-      return transactionManager;
+      return getTransactionManager();
    }
+
+   private final SessionFactory sessionFactory;
 }

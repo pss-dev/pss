@@ -19,6 +19,7 @@ allprojects {
    buildscript {
       ext {
          jupiterVersion = '5.5.2'
+         swaggerVersion = "2.9.2"
 
          // all projects variable
          productionBuild = project.hasProperty('buildenv') && project.property('buildenv') == 'prod'
