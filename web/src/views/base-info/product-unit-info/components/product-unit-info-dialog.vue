@@ -7,8 +7,8 @@
       <el-form-item label="单位名称" :label-width="formLabelWidth">
         <el-input v-model="productUnitData.name" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item label="拼音码" :label-width="formLabelWidth">
-        <el-input v-model="productUnitData.initials" autocomplete="off"></el-input>
+      <el-form-item label="备注" :label-width="formLabelWidth">
+        <el-input v-model="productUnitData.note" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button @click="closeDialog">取 消</el-button>

@@ -52,7 +52,7 @@ export default {
 
     getParameterForNewTable (tableID) {
       var params = {
-        id: tableID
+        fatherID: tableID
       };
 
       return params;
