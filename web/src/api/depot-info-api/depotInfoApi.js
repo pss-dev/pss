@@ -1,7 +1,7 @@
 import baseApi from '../baseApi.js'
 import fetch from '@/http/fetch'
 
-function getDepotInfo(params) {
+function getDepotInfo (params) {
   return fetch({
     url: baseApi.baseApi('/depot'),
     method: 'get',
@@ -9,16 +9,15 @@ function getDepotInfo(params) {
   })
 }
 
-function addDepotInfo(params, data) {
+function addDepotInfo (data) {
   return fetch({
     url: baseApi.baseApi('/depot'),
     method: 'post',
-    params,
     data
   })
 }
 
-function modifyDepotInfo(params, data) {
+function modifyDepotInfo (params, data) {
   return fetch({
     url: baseApi.baseApi('/depot'),
     method: 'put',
@@ -27,17 +26,17 @@ function modifyDepotInfo(params, data) {
   })
 }
 
-function deleteDepotInfo(params) {
+function deleteDepotInfo (data) {
   return fetch({
     url: baseApi.baseApi('/depot'),
     method: 'delete',
-    params
+    data
   })
 }
 
 export default {
   getDepotInfo,
   addDepotInfo,
-	modifyDepotInfo,
+  modifyDepotInfo,
   deleteDepotInfo
 }

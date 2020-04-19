@@ -84,7 +84,8 @@ export default {
         name: '',
         branchID: '',
         branchName: '',
-        initials: ''
+        initials: '',
+        fatherID: this.fatherID
       };
 
       this.setDialogInfo("空白新增", emptyDialogData, true);
@@ -97,10 +98,10 @@ export default {
     },
 
     submitData (depotData, oldID) {
-      var params = this.getParameterForNewTable(this.fatherID);
+      var params = {};
 
       if (this.addInfo) {
-        depotInfoApi.addDepotInfo(params, depotData).then(
+        depotInfoApi.addDepotInfo(depotData).then(
           (res) => {
             this.setResponseResult(res.data);
           });
@@ -115,13 +116,8 @@ export default {
     },
 
     deleteInfo () {
-      var deleteParams = {
-        id: this.selectedInfo.id,
-        fatherID: this.fatherID
-      }
-
       depotInfoApi
-        .deletedeDotInfo(deleteParams)
+        .deletedeDotInfo(this.selectedInfo)
         .then((res) => {
           this.setResponseResult(res.data);
         });

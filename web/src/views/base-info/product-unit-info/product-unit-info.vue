@@ -80,7 +80,8 @@ export default {
       var emptyDialogData = {
         id: '',
         name: '',
-        initials: ''
+        initials: '',
+        fatherID: this.fatherID,
       };
 
       this.setDialogInfo("空白新增", emptyDialogData, true);
@@ -93,10 +94,10 @@ export default {
     },
 
     submitData (productUnitData, oldID) {
-      var params = this.getParameterForNewTable(this.fatherID);
+      var params = {};
 
       if (this.addInfo) {
-        productUnitInfoApi.addProductUnitInfo(params, productUnitData).then(
+        productUnitInfoApi.addProductUnitInfo(productUnitData).then(
           (res) => {
             this.setResponseResult(res.data);
           });
@@ -111,13 +112,8 @@ export default {
     },
 
     deleteInfo () {
-      var deleteParams = {
-        id: this.selectedInfo.id,
-        fatherID: this.fatherID
-      }
-
       productUnitInfoApi
-        .deleteProductUnitInfo(deleteParams)
+        .deleteProductUnitInfo(this.selectedInfo)
         .then((res) => {
           this.setResponseResult(res.data);
         });

@@ -97,7 +97,8 @@ export default {
         address: '',
         contactPerson: '',
         contactPhone: '',
-        type: this.companyType
+        type: this.companyType,
+        fatherID: this.fatherID,
       };
 
       this.setDialogInfo("空白新增", emptyDialogData, true);
@@ -110,10 +111,10 @@ export default {
     },
 
     submitData (companyData, oldID) {
-      var params = this.getParameterForNewTable(this.fatherID);
+      var params = {};
 
       if (this.addInfo) {
-        companyInfoApi.addCompanyInfo(params, companyData).then(
+        companyInfoApi.addCompanyInfo(companyData).then(
           (res) => {
             this.setResponseResult(res.data);
           });
@@ -128,13 +129,8 @@ export default {
     },
 
     deleteInfo () {
-      var deleteParams = {
-        id: this.selectedInfo.id,
-        fatherID: this.fatherID
-      }
-
       companyInfoApi
-        .deleteCompanyInfo(deleteParams)
+        .deleteCompanyInfo(this.selectedInfo)
         .then((res) => {
           this.setResponseResult(res.data);
         });

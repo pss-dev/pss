@@ -81,7 +81,8 @@ export default {
       var emptyDialogData = {
         id: '',
         name: '',
-        initials: ''
+        initials: '',
+        fatherID: this.fatherID,
       };
 
       this.setDialogInfo("空白新增", emptyDialogData, true);
@@ -94,11 +95,10 @@ export default {
     },
 
     submitData (departmentData, oldID) {
-      var params = this.getParameterForNewTable(this.fatherID);
+      var params = {};
 
       if (this.addInfo) {
-        console.log("===========submitData  ", params, departmentData);
-        departmentInfoApi.addDepartmentInfo(params, departmentData).then(
+        departmentInfoApi.addDepartmentInfo(departmentData).then(
           (res) => {
             this.setResponseResult(res.data);
           });
@@ -113,13 +113,8 @@ export default {
     },
 
     deleteInfo () {
-      var deleteParams = {
-        id: this.selectedInfo.id,
-        fatherID: this.fatherID
-      }
-
       departmentInfoApi
-        .deleteDepartmentInfo(deleteParams)
+        .deleteDepartmentInfo(this.selectedInfo)
         .then((res) => {
           this.setResponseResult(res.data);
         });

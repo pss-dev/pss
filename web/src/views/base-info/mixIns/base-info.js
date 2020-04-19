@@ -53,8 +53,7 @@ export default {
     },
 
     getParameterForNewTable (tableID) {
-      var params = {
-      };
+      var params = {};
 
       if (tableID) {
         params.fatherID = tableID;
