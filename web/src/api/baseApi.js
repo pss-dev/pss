@@ -1,6 +1,6 @@
-function baseApi(url) {
-  return `${url}`
+function baseApi (url) {
+  return `/api/1.0/${url}`
 }
-export default{
+export default {
   baseApi
 }

@@ -8,6 +8,7 @@ import Branch from "@/views/base-info/branch-info/branch-info"
 import Price from "@/views/base-info/price-info/price-info"
 import Depot from "@/views/base-info/depot-info/depot-info"
 import ProductUnit from "@/views/base-info/product-unit-info/product-unit-info"
+import Product from "@/views/base-info/product-info/product-info"
 // import Login from '@/views/login'
 
 Vue.use(VueRouter)
@@ -70,6 +71,13 @@ export default new VueRouter({
         title: 'ProductUnit'
       },
       component: ProductUnit
+    },
+    {
+      path: '/product',
+      meata: {
+        title: 'Product'
+      },
+      component: Product
     }
   ]
 })
