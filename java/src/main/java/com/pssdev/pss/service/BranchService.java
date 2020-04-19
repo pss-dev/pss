@@ -9,7 +9,7 @@ public interface BranchService {
      * get branch by father id
      * @return
      */
-    List<Branch> getBranch(Integer fatherID);
+    Branch getBranch(Integer fatherID);
 
     /**
      * get all Branches

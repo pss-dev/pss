@@ -19,10 +19,12 @@ public class DepartmentController {
    }
 
    @GetMapping("/department")
-   @ApiOperation("获取指定部门下的子部门集合, 如果父部门未指定则获取所有部门信息")
+   @ApiOperation("获取指定部门集合, 如果父部门未指定则获取所有部门信息")
    public List<Department> getDepartment(@ApiParam("上级部门 ID") @RequestParam(name = "parentId", required = false) Integer parentId) {
       return departmentService.getDepartments(parentId);
    }
+
+
 
    private final DepartmentService departmentService;
 }

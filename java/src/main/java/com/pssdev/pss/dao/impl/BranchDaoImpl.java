@@ -20,8 +20,8 @@ public class BranchDaoImpl extends BaseDao implements BranchDao {
     }
 
     @Override
-    public List<Branch> getBranch(Integer fatherID) {
-        return (List<Branch>) getSession().load(Branch.class, fatherID);
+    public Branch getBranch(Integer fatherID) {
+        return (Branch) getSession().load(Branch.class, fatherID);
     }
 
     @Override

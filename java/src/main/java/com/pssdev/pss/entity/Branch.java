@@ -1,5 +1,7 @@
 package com.pssdev.pss.entity;
 
+import io.swagger.annotations.ApiModel;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -7,6 +9,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity(name = "t_branch")
+@ApiModel("分支信息")
 public class Branch implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface BranchDao {
     public List<Branch> getAllBranch();
-    public List<Branch> getBranch(Integer fatherID);
+    public Branch getBranch(Integer fatherID);
     public Integer insertBranch(Branch branch);
     public void deleteBranch(Integer branchID);
     public void updateBranch(Branch branch);

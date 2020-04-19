@@ -20,8 +20,8 @@ public class BranchServiceImpl implements BranchService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<Branch> getBranch(Integer fatherID) {
-        return (List<Branch>) branchDao.getBranch(fatherID);
+    public Branch getBranch(Integer fatherID) {
+        return branchDao.getBranch(fatherID);
     }
 
     @Transactional(readOnly = true)
