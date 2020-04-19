@@ -1,58 +1,67 @@
 package com.pssdev.pss.service;
 
 import com.pssdev.pss.entity.Department;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.*;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @SpringBootTest
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class DepartmentServiceTests {
 
    @Autowired
    private DepartmentService departmentService;
 
    @Test
+   @Order(1)
    public void testNonNull() {
       Assertions.assertNotNull(departmentService, "Init Department Dao Error.");
    }
 
-   @Test
+   @Order(2)
+   @RepeatedTest(value = 5, name = "Insert 5 dept to make sure get dept id not null")
    public void testInsertTopDepartment() {
+      int index = (int) (1000 * Math.random());
       Department dept1 = new Department();
-      dept1.setName("Top Level");
-      dept1.setInitials("TL");
+      dept1.setName("Top Level" + index);
+      dept1.setInitials("TL" + index);
 
       departmentService.insertDepartment(dept1);
    }
 
    @Test
+   @Order(3)
    public void testGetDepartments() {
       List<Department> departments = departmentService.getDepartments();
 
       Assertions.assertNotNull(departments, "Departments is empty");
    }
 
-   @Test
-   public void testGetDepartment() {
-      final int ID = 2;
-      Department department = departmentService.getDepartment(ID);
+   @ParameterizedTest
+   @ValueSource(ints = {2})
+   @Order(4)
+   public void testGetDepartment(int id) {
+      Department department = departmentService.getDepartment(id);
 
       Assertions.assertNotNull(department, "Department is null");
-      Assertions.assertEquals(department.getId(), ID, "Get department error.");
+      Assertions.assertEquals(department.getId(), id, "Get department error.");
 
       LOGGER.info("Department: {}", department);
    }
 
-   @Test
-   public void testInsertChildDepartment() {
-      final int ID = 2;
-      Department parentDept = departmentService.getDepartment(ID);
+   @ParameterizedTest
+   @ValueSource(ints = {2})
+   @Order(5)
+   public void testInsertChildDepartment(int id) {
+      Department parentDept = departmentService.getDepartment(id);
 
       LOGGER.info("Query parent dept first: {}", parentDept);
 
@@ -73,7 +82,7 @@ public class DepartmentServiceTests {
       LOGGER.info("Insert dept {}, {}.", cid1, cid2);
 
       // get parent again
-      parentDept = departmentService.getDepartment(ID);
+      parentDept = departmentService.getDepartment(id);
 
       LOGGER.info("Query parent dept again: {}", parentDept);
 
@@ -86,6 +95,13 @@ public class DepartmentServiceTests {
 
       Assertions.assertTrue(childIds.contains(cid1), "Missing child 1");
       Assertions.assertTrue(childIds.contains(cid2), "Missing child 2");
+   }
+
+   @ParameterizedTest
+   @ValueSource(ints = 2)
+   @Order(6)
+   public void testDeleteDepartment(int id) {
+      departmentService.deleteDepartment(id);
    }
 
    private static final Logger LOGGER
