@@ -56,7 +56,7 @@ export default {
       titData:
         [{ prop: "id", label: "编号" },
         { prop: "name", label: "名称" },
-        { prop: "initials", label: "拼音码" }],
+        { prop: "note", label: "备注" }],
       tableData: [],
     }
   },
