@@ -9,14 +9,14 @@ import java.util.Objects;
 @Entity
 public class Company {
    @Id
-   @GeneratedValue(strategy = GenerationType.AUTO)
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
    private String id;
    private String name;
    private String initials;
    private String address;
    private String contactPerson;
    private String contactPhone;
-   private String type;
+   private int type;
    private String fatherId;
 
    public String getId() {
@@ -67,11 +67,11 @@ public class Company {
       this.contactPhone = contactPhone;
    }
 
-   public String getType() {
+   public int getType() {
       return type;
    }
 
-   public void setType(String type) {
+   public void setType(int type) {
       this.type = type;
    }
 
@@ -103,5 +103,19 @@ public class Company {
               Objects.equals(contactPhone, company.contactPhone) &&
               Objects.equals(type, company.type) &&
               Objects.equals(fatherId, company.fatherId);
+   }
+
+   @Override
+   public String toString() {
+      return "Company{" +
+              "id='" + id + '\'' +
+              ", name='" + name + '\'' +
+              ", initials='" + initials + '\'' +
+              ", address='" + address + '\'' +
+              ", contactPerson='" + contactPerson + '\'' +
+              ", contactPhone='" + contactPhone + '\'' +
+              ", type=" + type +
+              ", fatherId='" + fatherId + '\'' +
+              '}';
    }
 }

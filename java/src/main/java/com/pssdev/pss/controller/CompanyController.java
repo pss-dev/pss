@@ -8,32 +8,33 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/1.0")
 public class CompanyController {
    @Autowired
    private CompanyService companyService;
 
-   @PostMapping("/api/1.0/company")
-   public List<Company> getCompanies(@RequestParam("fatherID") String fatherID, Company company) throws Exception {
-      companyService.insertCompany(fatherID, company);
-
+   @PostMapping("/company")
+   public List<Company> insertCompanies(@RequestBody Company company) throws Exception {
+      companyService.insertCompany(company);
+System.out.println("-------company------" + company);
       return companyService.getCompanies();
    }
 
-   @DeleteMapping("/api/1.0/company")
-   public List<Company> deleteCompany(Company company) {
+   @DeleteMapping("/company")
+   public List<Company> deleteCompany(@RequestBody Company company) {
       companyService.deleteCompany(company);
 
       return companyService.getCompanies();
    }
 
-   @PutMapping("/api/1.0/company")
-   public List<Company> modifyCompany(Company company) throws Exception {
+   @PutMapping("/company")
+   public List<Company> modifyCompany(@RequestBody Company company) throws Exception {
       companyService.modifyCompany(company);
 
       return companyService.getCompanies();
    }
 
-   @GetMapping("/api/1.0/company")
+   @GetMapping("/company")
    public List<Company> getCompanies() {
       return companyService.getCompanies();
    }

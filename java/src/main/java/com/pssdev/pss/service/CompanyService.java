@@ -7,10 +7,9 @@ import java.util.List;
 public interface CompanyService {
    /**
     * 插入公司信息
-    * @param fatherId
     * @param company
     */
-   void insertCompany(String fatherId, Company company) throws Exception;
+   void insertCompany(Company company) throws Exception;
 
    /**
     * 删除公司信息

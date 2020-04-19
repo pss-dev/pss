@@ -5,6 +5,7 @@ import com.pssdev.pss.entity.Company;
 import com.pssdev.pss.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -16,14 +17,17 @@ public class CompanyServiceImpl implements CompanyService {
 
    @Override
    @Transactional
-   public void insertCompany(String fatherId, Company company) throws Exception {
-      Company father = companyDao.getCompany(fatherId);
+   public void insertCompany(Company company) throws Exception {
+      if(!StringUtils.isEmpty(company.getFatherId())) {
+         Company father = companyDao.getCompany(company.getFatherId());
 
-      if(father == null) {
-         throw new Exception("找不所属公司");
+         if(father == null) {
+            throw new Exception("找不所属公司");
+         }
       }
-      else {
-         company.setFatherId(fatherId);
+
+      if(companyDao.getCompany(company.getId()) != null) {
+         throw new Exception("公司已经存在");
       }
 
       companyDao.insertCompany(company);
