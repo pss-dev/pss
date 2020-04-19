@@ -35,7 +35,11 @@ public class DepartmentDaoImpl extends BaseDao implements DepartmentDao {
 
    @Override
    public void deleteDepartment(Integer id) {
-      getSession().delete(new Department(id));
+      Department department = getDepartment(id);
+
+      if(department != null) {
+         getSession().delete(department);
+      }
    }
 
    @Override
