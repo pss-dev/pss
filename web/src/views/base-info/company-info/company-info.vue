@@ -70,7 +70,6 @@ export default {
         { prop: "address", label: "地址" },
         { prop: "contactPerson", label: "联系人" },
         { prop: "contactPhone", label: "联系人电话" },],
-      tableData: [],
     }
   },
 
@@ -161,15 +160,6 @@ export default {
         (res) => {
           this.setResponseResult(res.data);
         });
-    },
-
-    setResponseResult (data) {
-      if (data.totalSize && data.result) {
-        this.totalSize = data.totalSize;
-        this.tableData = data.result;
-
-        this.showDialog = false;
-      }
     },
   },
 

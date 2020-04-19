@@ -60,7 +60,6 @@ export default {
         { prop: "customer", label: "客户" },
         { prop: "supplier", label: "供货商" },
         { prop: "initials", label: "拼音码" }],
-      tableData: [],
     }
   },
 
@@ -151,15 +150,6 @@ export default {
         (res) => {
           this.setResponseResult(res.data);
         });
-    },
-
-    setResponseResult (data) {
-      if (data.totalSize && data.result) {
-        this.totalSize = data.totalSize;
-        this.tableData = data.result;
-
-        this.showDialog = false;
-      }
     },
   },
 

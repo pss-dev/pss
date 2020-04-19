@@ -58,7 +58,6 @@ export default {
         [{ prop: "id", label: "编号" },
         { prop: "name", label: "名称" },
         { prop: "initials", label: "拼音码" }],
-      tableData: [],
     }
   },
 
@@ -145,15 +144,6 @@ export default {
         (res) => {
           this.setResponseResult(res.data);
         });
-    },
-
-    setResponseResult (data) {
-      if (data.totalSize && data.result) {
-        this.totalSize = data.totalSize;
-        this.tableData = data.result;
-
-        this.showDialog = false;
-      }
     },
   },
 
