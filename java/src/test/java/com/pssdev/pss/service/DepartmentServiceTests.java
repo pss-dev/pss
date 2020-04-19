@@ -41,7 +41,7 @@ public class DepartmentServiceTests {
    @Order(3)
    public void testGetDepartments() {
       List<Department> departments = departmentService.getDepartments();
-
+System.err.println("=departments====" + departments);
       Assertions.assertNotNull(departments, "Departments is empty");
    }
 
