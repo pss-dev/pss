@@ -42,6 +42,8 @@ public class DepartmentServiceTests {
    public void testGetDepartments() {
       List<Department> departments = departmentService.getDepartments();
 
+      LOGGER.info("Get All Departments: {}", departments);
+
       Assertions.assertNotNull(departments, "Departments is empty");
    }
 

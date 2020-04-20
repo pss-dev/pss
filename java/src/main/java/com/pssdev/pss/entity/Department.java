@@ -1,5 +1,7 @@
 package com.pssdev.pss.entity;
 
+import io.swagger.annotations.*;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -7,19 +9,27 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity(name = "t_dept")
+@ApiModel("部门信息实例")
 public class Department implements Serializable {
+   @ApiModelProperty("部门 ID")
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Integer id;
+
+   @ApiModelProperty("部门名字")
    @Column
    private String name;
+
+   @ApiModelProperty("部门简称")
    @Column
    private String initials;
 
+   @ApiModelProperty("父部门")
    @ManyToOne
    @JoinColumn(name = "parent_id")
    private Department parent;
 
+   @ApiModelProperty("子部门")
    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
    private Set<Department> children = new HashSet<>();
 
