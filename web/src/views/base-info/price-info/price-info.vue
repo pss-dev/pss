@@ -57,7 +57,6 @@ export default {
         [{ prop: "id", label: "编号" },
         { prop: "name", label: "名称" }],
       tableData: [{ id: "最高售价", name: "最高售价" }],
-
     }
   },
 
@@ -82,15 +81,6 @@ export default {
         (res) => {
           this.setResponseResult(res.data);
         });
-    },
-
-    setResponseResult (data) {
-      if (data.totalSize && data.result) {
-        this.totalSize = data.totalSize;
-        this.tableData = data.result;
-
-        this.showDialog = false;
-      }
     },
   },
 

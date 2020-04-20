@@ -19,9 +19,30 @@ public class DepartmentController {
    }
 
    @GetMapping("/department")
-   @ApiOperation("获取指定部门下的子部门集合, 如果父部门未指定则获取所有部门信息")
-   public List<Department> getDepartment(@ApiParam("上级部门 ID") @RequestParam(name = "parentId", required = false) Integer parentId) {
+   @ApiOperation("获取指定部门集合, 如果父部门未指定则获取所有部门信息")
+   public List<Department> getDepartment(@ApiParam("上级部门 ID")
+                                         @RequestParam(name = "parentId", required = false)
+                                         Integer parentId)
+   {
       return departmentService.getDepartments(parentId);
+   }
+
+   @PutMapping("/department")
+   @ApiOperation("添加部门信息")
+   public Integer insertDepartment(@ApiParam("部门信息") @RequestBody Department department) {
+      return departmentService.insertDepartment(department);
+   }
+
+   @PostMapping("/department")
+   @ApiOperation("修改部门信息")
+   public void updateDepartment(@ApiParam("部门信息") @RequestBody Department department) {
+      departmentService.updateDepartment(department);
+   }
+
+   @DeleteMapping("/department")
+   @ApiOperation("删除部门信息")
+   public void deleteDepartment(@ApiParam("部门 ID") @RequestParam Integer id) {
+      departmentService.deleteDepartment(id);
    }
 
    private final DepartmentService departmentService;

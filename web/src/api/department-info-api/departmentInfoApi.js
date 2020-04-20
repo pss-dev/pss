@@ -1,7 +1,7 @@
 import baseApi from '../baseApi.js'
 import fetch from '@/http/fetch'
 
-function getDepartmentInfo(params) {
+function getDepartmentInfo (params) {
   return fetch({
     url: baseApi.baseApi('/department'),
     method: 'get',
@@ -9,16 +9,15 @@ function getDepartmentInfo(params) {
   })
 }
 
-function addDepartmentInfo(params, data) {
+function addDepartmentInfo (data) {
   return fetch({
     url: baseApi.baseApi('/department'),
     method: 'post',
-    params,
     data
   })
 }
 
-function modifyDepartmentInfo(params, data) {
+function modifyDepartmentInfo (params, data) {
   return fetch({
     url: baseApi.baseApi('/department'),
     method: 'put',
@@ -27,17 +26,17 @@ function modifyDepartmentInfo(params, data) {
   })
 }
 
-function deleteDepartmentInfo(params) {
+function deleteDepartmentInfo (data) {
   return fetch({
     url: baseApi.baseApi('/department'),
     method: 'delete',
-    params
+    data
   })
 }
 
 export default {
   getDepartmentInfo,
   addDepartmentInfo,
-	modifyDepartmentInfo,
+  modifyDepartmentInfo,
   deleteDepartmentInfo
 }

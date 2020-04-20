@@ -60,7 +60,6 @@ export default {
         { prop: "customer", label: "客户" },
         { prop: "supplier", label: "供货商" },
         { prop: "initials", label: "拼音码" }],
-      tableData: [],
     }
   },
 
@@ -88,7 +87,8 @@ export default {
         customerName: '',
         supplierID: '',
         supplierName: '',
-        initials: ''
+        initials: '',
+        fatherID: this.fatherID,
       };
 
       this.setDialogInfo("空白新增", emptyDialogData, true);
@@ -101,10 +101,10 @@ export default {
     },
 
     submitData (branchData, oldID) {
-      var params = this.getParameterForNewTable(this.fatherID);
+      var params = {};
 
       if (this.addInfo) {
-        branchInfoApi.addbranchInfo(params, branchData).then(
+        branchInfoApi.addbranchInfo(branchData).then(
           (res) => {
             this.setResponseResult(res.data);
           });
@@ -119,13 +119,8 @@ export default {
     },
 
     deleteInfo () {
-      var deleteParams = {
-        id: this.selectedInfo.id,
-        fatherID: this.fatherID
-      }
-
       branchInfoApi
-        .deletebranchInfo(deleteParams)
+        .deletebranchInfo(this.selectedInfo)
         .then((res) => {
           this.setResponseResult(res.data);
         });
@@ -151,15 +146,6 @@ export default {
         (res) => {
           this.setResponseResult(res.data);
         });
-    },
-
-    setResponseResult (data) {
-      if (data.totalSize && data.result) {
-        this.totalSize = data.totalSize;
-        this.tableData = data.result;
-
-        this.showDialog = false;
-      }
     },
   },
 

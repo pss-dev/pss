@@ -1,6 +1,8 @@
 export default {
   data () {
     return {
+      tableData: [],
+
       addInfo: false, //add or edit
       selectedInfo: null,
 
@@ -51,9 +53,12 @@ export default {
     },
 
     getParameterForNewTable (tableID) {
-      var params = {
-        fatherID: tableID
-      };
+      var params = {};
+
+      if (tableID) {
+        params.fatherID = tableID;
+      }
+
 
       return params;
     },
@@ -79,6 +84,15 @@ export default {
 
     hasFatherInfo () {
       return this.paths.length > 0;
+    },
+
+    setResponseResult (data) {
+      if (data) {
+        this.totalSize = data;
+        this.tableData = data.length;
+
+        this.showDialog = false;
+      }
     },
   }
 }

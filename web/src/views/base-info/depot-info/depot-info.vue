@@ -59,7 +59,6 @@ export default {
         { prop: "name", label: "名称" },
         { prop: "branch", label: "分支机构" },
         { prop: "initials", label: "拼音码" }],
-      tableData: [],
     }
   },
 
@@ -85,7 +84,8 @@ export default {
         name: '',
         branchID: '',
         branchName: '',
-        initials: ''
+        initials: '',
+        fatherID: this.fatherID
       };
 
       this.setDialogInfo("空白新增", emptyDialogData, true);
@@ -98,10 +98,10 @@ export default {
     },
 
     submitData (depotData, oldID) {
-      var params = this.getParameterForNewTable(this.fatherID);
+      var params = {};
 
       if (this.addInfo) {
-        depotInfoApi.addDepotInfo(params, depotData).then(
+        depotInfoApi.addDepotInfo(depotData).then(
           (res) => {
             this.setResponseResult(res.data);
           });
@@ -116,13 +116,8 @@ export default {
     },
 
     deleteInfo () {
-      var deleteParams = {
-        id: this.selectedInfo.id,
-        fatherID: this.fatherID
-      }
-
       depotInfoApi
-        .deletedeDotInfo(deleteParams)
+        .deletedeDotInfo(this.selectedInfo)
         .then((res) => {
           this.setResponseResult(res.data);
         });
@@ -148,15 +143,6 @@ export default {
         (res) => {
           this.setResponseResult(res.data);
         });
-    },
-
-    setResponseResult (data) {
-      if (data.totalSize && data.result) {
-        this.totalSize = data.totalSize;
-        this.tableData = data.result;
-
-        this.showDialog = false;
-      }
     },
   },
 

@@ -1,7 +1,7 @@
 import baseApi from '../baseApi.js'
 import fetch from '@/http/fetch'
 
-function getCompanyInfo(params) {
+function getCompanyInfo (params) {
   return fetch({
     url: baseApi.baseApi('/company'),
     method: 'get',
@@ -9,16 +9,15 @@ function getCompanyInfo(params) {
   })
 }
 
-function addCompanyInfo(params, data) {
+function addCompanyInfo (data) {
   return fetch({
     url: baseApi.baseApi('/company'),
     method: 'post',
-    params,
     data
   })
 }
 
-function modifyCompanyInfo(params, data) {
+function modifyCompanyInfo (params, data) {
   return fetch({
     url: baseApi.baseApi('/company'),
     method: 'put',
@@ -27,17 +26,17 @@ function modifyCompanyInfo(params, data) {
   })
 }
 
-function deleteCompanyInfo(params) {
+function deleteCompanyInfo (data) {
   return fetch({
     url: baseApi.baseApi('/company'),
     method: 'delete',
-    params
+    data
   })
 }
 
 export default {
   getCompanyInfo,
   addCompanyInfo,
-	modifyCompanyInfo,
+  modifyCompanyInfo,
   deleteCompanyInfo
 }

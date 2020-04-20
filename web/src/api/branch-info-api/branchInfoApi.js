@@ -1,7 +1,7 @@
 import baseApi from '../baseApi.js'
 import fetch from '@/http/fetch'
 
-function getBranchInfo(params) {
+function getBranchInfo (params) {
   return fetch({
     url: baseApi.baseApi('/branch'),
     method: 'get',
@@ -9,16 +9,15 @@ function getBranchInfo(params) {
   })
 }
 
-function addBranchInfo(params, data) {
+function addBranchInfo (data) {
   return fetch({
     url: baseApi.baseApi('/branch'),
     method: 'post',
-    params,
     data
   })
 }
 
-function modifyBranchInfo(params, data) {
+function modifyBranchInfo (params, data) {
   return fetch({
     url: baseApi.baseApi('/branch'),
     method: 'put',
@@ -27,17 +26,17 @@ function modifyBranchInfo(params, data) {
   })
 }
 
-function deleteBranchInfo(params) {
+function deleteBranchInfo (data) {
   return fetch({
     url: baseApi.baseApi('/branch'),
     method: 'delete',
-    params
+    data
   })
 }
 
 export default {
   getBranchInfo,
   addBranchInfo,
-	modifyBranchInfo,
+  modifyBranchInfo,
   deleteBranchInfo
 }
