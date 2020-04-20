@@ -2,7 +2,6 @@ package com.pssdev.pss.service;
 
 import com.pssdev.pss.entity.Branch;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -11,9 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @SpringBootTest
 public class BranchServiceTests {
@@ -36,6 +33,9 @@ public class BranchServiceTests {
     @Test
     public void testGetBranches() {
         List branches = branchService.getBranches();
+
+        LOGGER.info("Query all branches: {}", branches);
+
         Assertions.assertNotNull(branches, "Branches is Empty");
     }
 
