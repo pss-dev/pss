@@ -54,9 +54,9 @@ export default {
   data () {
     return {
       titData:
-        [{ prop: "id", label: "编号" },
-        { prop: "name", label: "名称" }],
-      tableData: [{ id: "最高售价", name: "最高售价" }],
+        [{ prop: "name", label: "名称" },
+        { prop: "label", label: "显示名称" }],
+      tableData: [{ id: "high", name: "最高售价", label: "最高售价" }],
     }
   },
 

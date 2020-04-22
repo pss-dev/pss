@@ -57,7 +57,13 @@ export default {
       titData:
         [{ prop: "id", label: "编号" },
         { prop: "name", label: "名称" },
-        { prop: "initials", label: "拼音码" }],
+        { prop: "specification", label: "规格" },
+        { prop: "type", label: "型号" },
+        { prop: "unit[0].purchasePrice1", label: "预设进价1" },
+        { prop: "unit[0].purchasePrice2", label: "预设进价2" },
+        { prop: "unit[0].sellPrice1", label: "预设售价1" },
+        { prop: "unit[0].sellPrice2", label: "预设售价2" },
+        { prop: "stopPurchase", label: "停止采购" },],
     }
   },
 
@@ -81,7 +87,30 @@ export default {
       var emptyDialogData = {
         id: '',
         name: '',
-        initials: ''
+        initials: '',
+        specification: '',
+        type: '',
+        address: '',
+        used: '',
+        stopPurchase: '',
+        stop: '',
+        sellDefaultUnit: '',
+        purchaseDefaultUnit: '',
+        unit: [{
+          unitID: '',
+          unitName: '',
+          purchasePrice1: '',
+          purchasePrice2: '',
+          purchasePrice3: '',
+          highestPurchasePrice: '',
+          sellPrice1: '',
+          sellPrice2: '',
+          sellPrice3: '',
+          retailPrice: '',
+          lowestSellPrice: '',
+          highestSellPrice: '',
+          default: true,
+        }],
       };
 
       this.setDialogInfo("空白新增", emptyDialogData, true);

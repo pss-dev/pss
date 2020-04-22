@@ -1,8 +1,8 @@
 <template>
   <el-dialog :title="title" :visible.sync="dialogVisible" :before-close="handleClose">
     <el-form :model="priceData" ref="priceData" :rules="rules" class="demo-ruleForm">
-      <el-form-item label="名称" prop="name" :label-width="formLabelWidth">
-        <el-input v-model="priceData.name" autocomplete="off"></el-input>
+      <el-form-item label="名称" prop="label" :label-width="formLabelWidth">
+        <el-input v-model="priceData.label" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button @click="closeDialog">取 消</el-button>
@@ -20,7 +20,7 @@ export default {
       dialogVisible: true,
       formLabelWidth: '120px',
       rules: {
-        name: [
+        label: [
           { required: true, message: '请输价格名称', trigger: 'blur' }
         ]
       },
