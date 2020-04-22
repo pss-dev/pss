@@ -16,7 +16,7 @@ install: skip
 
 # build
 script:
-   - ./gradlew clean build --no-daemon --console plain
+   - ./gradlew clean build -Pbuildenv=prod --no-daemon --console plain
 
 # notifications
 notifications:
