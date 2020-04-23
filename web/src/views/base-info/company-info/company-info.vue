@@ -152,7 +152,7 @@ export default {
     },
 
     getCompanyInfo (params) {
-      return companyInfoApi.getCompanyInfo(params).then(
+      companyInfoApi.getCompanyInfo(params).then(
         (res) => {
           this.setResponseResult(res.data);
         });

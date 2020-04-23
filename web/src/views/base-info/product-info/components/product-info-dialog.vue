@@ -23,7 +23,11 @@
           </el-form-item>
         </el-form>
       </el-tab-pane>
-      <el-tab-pane label="单位" name="second"></el-tab-pane>
+      <el-tab-pane label="单位" name="second">
+        <el-button @click="closeDialog">默认采购单位</el-button>
+        <el-button @click="closeDialog">默认销售单位</el-button>
+        <el-table></el-table>
+      </el-tab-pane>
     </el-tabs>
     <el-button @click="closeDialog">取 消</el-button>
     <el-button type="primary" @click="submitData">确 定</el-button>
@@ -49,7 +53,6 @@ export default {
 
   methods: {
     closeDialog () {
-      console.log("===== ", this.productData);
       this.$emit('closeDialog');
     },
 

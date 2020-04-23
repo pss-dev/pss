@@ -136,7 +136,7 @@ export default {
     },
 
     getDepartmentInfo (params) {
-      return departmentInfoApi.getDepartmentInfo(params).then(
+      departmentInfoApi.getDepartmentInfo(params).then(
         (res) => {
           this.setResponseResult(res.data);
         });

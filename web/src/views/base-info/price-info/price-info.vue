@@ -77,7 +77,7 @@ export default {
     },
 
     getPriceInfo (params) {
-      return priceInfoApi.getPriceInfo(params).then(
+      priceInfoApi.getPriceInfo(params).then(
         (res) => {
           this.setResponseResult(res.data);
         });

@@ -139,7 +139,7 @@ export default {
     },
 
     getDepotInfo (params) {
-      return depotInfoApi.getDepotInfo(params).then(
+      depotInfoApi.getDepotInfo(params).then(
         (res) => {
           this.setResponseResult(res.data);
         });

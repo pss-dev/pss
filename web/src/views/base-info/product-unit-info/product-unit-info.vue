@@ -135,7 +135,7 @@ export default {
     },
 
     getProductUnitInfo (params) {
-      return productUnitInfoApi.getProductUnitInfo(params).then(
+      productUnitInfoApi.getProductUnitInfo(params).then(
         (res) => {
           this.setResponseResult(res.data);
         });
