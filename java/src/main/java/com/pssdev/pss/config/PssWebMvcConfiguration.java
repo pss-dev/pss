@@ -8,8 +8,6 @@ public class PssWebMvcConfiguration implements WebMvcConfigurer {
 
    @Override
    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//      registry.addResourceHandler("/**")
-//         .addResourceLocations(ResourceUtils.CLASSPATH_URL_PREFIX + "/static");
    }
 
 }

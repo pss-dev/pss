@@ -16,7 +16,9 @@ gradlew[.bat] clean build
 
 ### 2. Startup Project
 ``` shell script
-gradlew[.bat] bootRun
+gradlew[.bat] bootRun # 先编译后启动
+# or
+gradlew[.bat] server # 不会编译 classes
 ```
 
 ### 3. Server 端编码规范
