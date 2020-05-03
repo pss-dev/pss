@@ -28,6 +28,7 @@
       @submitData="submitData"
       :title="dialogTitle"
       :productData="dialogData"
+      :priceData="priceData"
       v-if="showDialog"
     ></product-info-dialog>
   </div>
@@ -133,8 +134,9 @@ export default {
         sellDefaultUnit: '',
         purchaseDefaultUnit: '',
         unit: [{
-          unitID: '',
-          unitName: '',
+          unitID: 'psc',
+          unitName: '1',
+          crate: 1,
           purchasePrice1: '',
           purchasePrice2: '',
           purchasePrice3: '',
@@ -221,9 +223,9 @@ export default {
   },
 
   created: function () {
-    //var params = this.getParameterForNewTable(this.fatherID);
-    //this.getProductInfo(params);
-    //this.getPriceInfo();
+    var params = this.getParameterForNewTable(this.fatherID);
+    this.getProductInfo(params);
+    this.getPriceInfo();
   }
 }
 </script>
