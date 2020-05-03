@@ -140,7 +140,7 @@
 
 <script>
 import productUnitSearchDialog from '../../../components/product-unit-search-dialog'
-import productUnitApi from '../../../../api/productUnit-info-api'
+import productUnitApi from '../../../../api/productUnit-info-api/productUnitInfoApi.js'
 
 export default {
   name: "productInfoDialog",
@@ -192,7 +192,7 @@ export default {
       let emptyUnit = {
         unitID: '',
         unitName: 'empty',
-        crate: '',
+        crate: 1,
         purchasePrice1: '',
         purchasePrice2: '',
         purchasePrice3: '',
