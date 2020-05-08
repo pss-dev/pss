@@ -133,6 +133,7 @@ export default {
         stop: '',
         sellDefaultUnit: '',
         purchaseDefaultUnit: '',
+        actionType: 0,
         unit: [{
           unitID: 'psc',
           unitName: '1',
@@ -148,6 +149,7 @@ export default {
           lowestSellPrice: '',
           highestSellPrice: '',
           default: true,
+          actionType: 0,
         }],
       };
 

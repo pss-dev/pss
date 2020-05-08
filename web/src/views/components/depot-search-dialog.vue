@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" :before-close="handleClose">
+  <el-dialog :title="title" :visible.sync="dialogVisible" :before-close="handleClose">
     <search-base
       :titles="titleData"
       :tableData="tableData"
@@ -8,20 +8,21 @@
       :totalSize="totalSize"
       :currentPage="currentPage"
       @handleCurrentChange="handleCurrentChange"
-      @pageChange="pageChange"
       @getChildData="getChildData"
       @previous="previous"
+      @close="handleClose"
+      @ok="handleSubmit"
     ></search-base>
   </el-dialog>
 </template>
 
 <script>
-import departmentInfoApi from "../../api/department-info-api/departmentInfoApi.js"
+import depotInfoApi from "../../api/depot-info-api/depotInfoApi.js"
 import searchBase from "./search-base.vue"
 import searchBseInfo from '../mixIns/search-base-info'
 
 export default {
-  name: "departmentInfo",
+  name: "depotInfo",
   mixins: [searchBseInfo],
   components: {
     "search-base": searchBase
@@ -29,27 +30,16 @@ export default {
 
   data () {
     return {
-      dialogTitle: "部门查询",
+      title: "仓库机构查询",
 
-      titleData: [{ prop: "id", label: "编号" },
-      { prop: "name", label: "名称" }],
+      titleData: [
+        { prop: "id", label: "编号" },
+        { prop: "name", label: "名称" }],
 
-      tableData: [{ id: "aaa", name: "bbb" },
-      { id: "111aaa0", name: "bbb1" },
-      { id: "aaa2", name: "bbb3" },
-      { id: "aaa4", name: "bbb5" },
-      { id: "aaa", name: "bbb" },
-      { id: "222aaa0", name: "bbb1" },
-      { id: "aaa2", name: "bbb3" },
-      { id: "aaa4", name: "bbb5" },
-      { id: "aaa", name: "bbb" },
-      { id: "333aaa0", name: "bbb1" },
-      { id: "aaa2", name: "bbb3" },
-      { id: "aaa4", name: "bbb5" },
-      { id: "aaa", name: "bbb" },
-      { id: "444aaa0", name: "bbb1" },
-      { id: "aaa2", name: "bbb3" },
-      { id: "aaa4", name: "bbb5" }],
+      tableData: [{ id: "1", name: "name1" },
+      { id: "2", name: "name2" }],
+
+      selectedInfo: null,
     }
   },
 
@@ -57,7 +47,7 @@ export default {
     getChildData (value) {
       var param = this.getParameterForNewTable(value.id);
 
-      this.getDepartmentInfo(param).then(() => {
+      this.getDepotInfo(param).then(() => {
         this.addPaths();
         this.resetCurrentPage();
         this.fatherID = value.id;
@@ -72,16 +62,15 @@ export default {
       var previousInfo = this.paths[this.paths.length - 1];
       var previousParams = this.getParameterForNewTable(previousInfo.id);
 
-      this.getDepartmentInfo(previousParams).then(() => {
+      this.getDepotInfo(previousParams).then(() => {
         this.paths.pop();
         this.currentPage = previousInfo.page;
         this.fatherID = previousInfo.id;
       });
     },
 
-
-    getDepartmentInfo (params) {
-      return departmentInfoApi.getDepartmentInfo(params).then(
+    getDepotInfo (params) {
+      return depotInfoApi.getDepotInfo(params).then(
         (res) => {
           this.setResponseResult(res.data);
         });
@@ -93,8 +82,6 @@ export default {
         this.tableData = data.result;
       }
     },
-
-
   },
 
   created: function () {
@@ -102,7 +89,7 @@ export default {
       id: this.fatherID,
     };
 
-    this.getDepartmentInfo(params);
+    this.getDepotInfo(params);
   }
 }
 </script>

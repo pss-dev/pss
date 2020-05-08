@@ -70,7 +70,11 @@
           </el-table-column>
           <el-table-column prop="crate" label="换算率">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.crate" placeholder="换算率"></el-input>
+              <el-input
+                v-model="scope.row.crate"
+                placeholder="换算率"
+                @input="unitInfoChange(scope.row)"
+              ></el-input>
             </template>
           </el-table-column>
 
@@ -188,6 +192,10 @@ export default {
       this.$emit('closeDialog');
     },
 
+    unitInfoChange (row) {
+      console.log("========  change ", row);
+    },
+
     addUnit () {
       let emptyUnit = {
         unitID: '',
@@ -204,6 +212,7 @@ export default {
         lowestSellPrice: '',
         highestSellPrice: '',
         default: false,
+        actionType: 0,
       };
 
       this.productData.unit.push(emptyUnit);
