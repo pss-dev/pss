@@ -7,8 +7,9 @@ import Company from "@/views/base-info/company-info/company-info"
 import Branch from "@/views/base-info/branch-info/branch-info"
 import Price from "@/views/base-info/price-info/price-info"
 import Depot from "@/views/base-info/depot-info/depot-info"
-import ProductUnit from "@/views/base-info/product-unit-info/product-unit-info"
+import Unit from "@/views/base-info/unit-info/unit-info"
 import Product from "@/views/base-info/product-info/product-info"
+import Account from "@/views/base-info/account-info/account-info"
 // import Login from '@/views/login'
 
 Vue.use(VueRouter)
@@ -66,11 +67,11 @@ export default new VueRouter({
       component: Depot
     },
     {
-      path: '/punit',
+      path: '/unit',
       meata: {
-        title: 'ProductUnit'
+        title: 'Unit'
       },
-      component: ProductUnit
+      component: Unit
     },
     {
       path: '/product',
@@ -78,6 +79,13 @@ export default new VueRouter({
         title: 'Product'
       },
       component: Product
+    },
+    {
+      path: '/account',
+      meata: {
+        title: 'Account'
+      },
+      component: Account
     }
   ]
 })

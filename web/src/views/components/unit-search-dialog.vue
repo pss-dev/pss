@@ -39,7 +39,7 @@ export default {
 
   data () {
     return {
-      title: "商品单位信息查询",
+      title: "单位信息查询",
 
       titleData: [
         { prop: "id", label: "编号" },
@@ -66,9 +66,16 @@ export default {
   },
 
   created: function () {
-  }
-}
+    if (!this.tableData) {
+      var params = {
+        id: this.fatherID,
+      };
 
+      this.getProductUnitInfo(params);
+    }
+  }
+
+}
 </script>
 
 <style>

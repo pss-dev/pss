@@ -12,9 +12,11 @@
     ---
     <a href="/depot">Depot</a>
     ---
-    <a href="/punit">ProductUnit</a>
+    <a href="/unit">Unit</a>
     ---
     <a href="/product">Product</a>
+    ---
+    <a href="/account">Account</a>
     <div class="header-left">进销存logo</div>
     <div class="header-right">登出</div>
   </header>

@@ -6,6 +6,7 @@
       :titles="titData"
       :tableData="tableData"
       :showEdit="true"
+      @edit="edit"
       @handleCurrentChange="handleCurrentChange"
       @getChildData="getChildData"
       @pageChange="pageChange"
@@ -18,18 +19,17 @@
       :previousDisable="!hasFatherInfo()"
       @newInfo="newInfo"
       @copyNew="copyNew"
-      @edit="edit"
       @deleteInfo="deleteInfo"
       @previous="previous"
     ></base-info-footer>
 
-    <product-unit-info-dialog
+    <account-info-dialog
       @closeDialog="closeDialog"
       @submitData="submitData"
       :title="dialogTitle"
-      :productUnitData="dialogData"
+      :accountData="dialogData"
       v-if="showDialog"
-    ></product-unit-info-dialog>
+    ></account-info-dialog>
   </div>
 </template>
 
@@ -38,17 +38,27 @@ import baseInfoHeader from "../components/base-info-header.vue"
 import baseInfoTabler from "../components/base-info-table.vue"
 import baseInfoFooter from "../components/base-info-footer.vue"
 import bseInfo from '../mixIns/base-info'
-import productUnitInfoDialog from "./components/product-unit-info-dialog.vue"
-import productUnitInfoApi from "../../../api/productUnit-info-api/productUnitInfoApi.js"
+import accountInfoDialog from './components/account-info-dialog'
+
+import accountInfoApi from '../../../api/account-info-api/accountInfoApi'
 
 export default {
-  name: "productUnitInfo",
+  name: "accountInfo",
+
   mixins: [bseInfo],
+
   components: {
     "base-info-header": baseInfoHeader,
     "base-info-table": baseInfoTabler,
     "base-info-footer": baseInfoFooter,
-    "product-unit-info-dialog": productUnitInfoDialog
+    "account-info-dialog": accountInfoDialog
+  },
+
+  props: {
+    "accountType": {
+      type: Number,
+      default: 0 // customer or supplier
+    }
   },
 
   data () {
@@ -56,7 +66,7 @@ export default {
       titData:
         [{ prop: "id", label: "编号" },
         { prop: "name", label: "名称" },
-        { prop: "note", label: "备注" }],
+        { prop: "balance", label: "余额" }],
     }
   },
 
@@ -64,15 +74,15 @@ export default {
     getChildData (value) {
       var param = this.getParameterForNewTable(value.id);
 
-      this.getProductUnitInfo(param).then(() => {
+      this.getaccountInfo(param).then(() => {
         this.addPaths();
         this.resetCurrentPage();
         this.fatherID = value.id;
       });
     },
 
-    edit () {
-      this.setDialogInfo("编辑", this.selectedInfo, false);
+    edit (value) {
+      this.setDialogInfo("编辑", value, false);
       this.showDialog = true;
     },
 
@@ -80,8 +90,7 @@ export default {
       var emptyDialogData = {
         id: '',
         name: '',
-        initials: '',
-        fatherID: this.fatherID,
+        balance: '',
       };
 
       this.setDialogInfo("空白新增", emptyDialogData, true);
@@ -93,18 +102,18 @@ export default {
       this.showDialog = true;
     },
 
-    submitData (productUnitData, oldID) {
+    submitData (accountData, oldID) {
       var params = {};
 
       if (this.addInfo) {
-        productUnitInfoApi.addProductUnitInfo(productUnitData).then(
+        accountInfoApi.addAccountInfo(accountData).then(
           (res) => {
             this.setResponseResult(res.data);
           });
       }
       else {
         params.oldID = oldID;
-        productUnitInfoApi.modifyProductUnitInfo(params, productUnitData).then(
+        accountInfoApi.modifyAccountInfo(params, accountData).then(
           (res) => {
             this.setResponseResult(res.data);
           });
@@ -112,8 +121,8 @@ export default {
     },
 
     deleteInfo () {
-      productUnitInfoApi
-        .deleteProductUnitInfo(this.selectedInfo)
+      accountInfoApi
+        .deleteAccountInfo(this.selectedInfo)
         .then((res) => {
           this.setResponseResult(res.data);
         });
@@ -127,15 +136,15 @@ export default {
       var previousInfo = this.paths[this.paths.length - 1];
       var previousParams = this.getParameterForNewTable(previousInfo.id);
 
-      this.getProductUnitInfo(previousParams).then(() => {
+      this.getAccountInfo(previousParams).then(() => {
         this.paths.pop();
         this.currentPage = previousInfo.page;
         this.fatherID = previousInfo.id;
       });
     },
 
-    getProductUnitInfo (params) {
-      productUnitInfoApi.getProductUnitInfo(params).then(
+    getAccountInfo (params) {
+      accountInfoApi.getAccountInfo(params).then(
         (res) => {
           this.setResponseResult(res.data);
         });
@@ -145,7 +154,7 @@ export default {
   created: function () {
     var params = this.getParameterForNewTable(this.fatherID);
 
-    this.getProductUnitInfo(params);
+    this.getAccountInfo(params);
   }
 }
 </script>

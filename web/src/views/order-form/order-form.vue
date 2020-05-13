@@ -144,7 +144,12 @@
       <el-row>
         <el-col :span="3">
           <el-input placeholder="账户选择">
-            <el-button size="small" slot="append" icon="el-icon-search"></el-button>
+            <el-button
+              size="small"
+              slot="append"
+              icon="el-icon-search"
+              @click="showAccountDialog()"
+            ></el-button>
           </el-input>
         </el-col>
         <el-col :span="3">
@@ -195,6 +200,11 @@
       @submitData="submitProductUnitData"
       @closeDialog="closeProductUnitDialog"
     ></product-unit-search-dialog>
+    <account-search-dialog
+      v-if="accountDialogVisiable"
+      @submitData="submitAccountData"
+      @closeDialog="closeAccountDialog"
+    ></account-search-dialog>
   </div>
 </template>
 
@@ -205,6 +215,7 @@ import companySearchDialog from "../components/company-search-dialog.vue"
 import depotSearchDialog from "../components/depot-search-dialog.vue"
 import productSearchDialog from "../components/product-search-dialog.vue"
 import productUnitSearchDialog from "../components/product-unit-search-dialog.vue"
+import accountSearchDialog from "../components/account-search-dialog.vue"
 
 import orderFormApi from "../../api/order-form-api/orderFormApi.js"
 
@@ -217,7 +228,8 @@ export default {
     "company-search-dialog": companySearchDialog,
     "depot-search-dialog": depotSearchDialog,
     "product-search-dialog": productSearchDialog,
-    "product-unit-search-dialog": productUnitSearchDialog
+    "product-unit-search-dialog": productUnitSearchDialog,
+    "account-search-dialog": accountSearchDialog
   },
 
   data () {
@@ -229,6 +241,7 @@ export default {
         company: '',
         employee: '',
         depot: '',
+        account: '',
         money: 0, // 收款
         wipe: 0, // 抹零
 
@@ -258,7 +271,8 @@ export default {
       employeeDialogVisiable: false,
       depotDialogVisiable: false,
       productDialogVisiable: false,
-      productUnitDialogVisiable: false
+      productUnitDialogVisiable: false,
+      accountDialogVisiable: false
     }
   },
 
@@ -319,6 +333,14 @@ export default {
 
     closeProductUnitDialog () {
       this.productUnitDialogVisiable = false;
+    },
+
+    showAccountDialog () {
+      this.accountDialogVisiable = true;
+    },
+
+    closeAccountDialog () {
+      this.accountDialogVisiable = false;
     },
 
     addProduct () {

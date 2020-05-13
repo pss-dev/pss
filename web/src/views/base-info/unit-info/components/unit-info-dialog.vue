@@ -1,14 +1,14 @@
 <template>
   <el-dialog :title="title" :visible.sync="dialogVisible" :before-close="handleClose">
-    <el-form :model="productUnitData" ref="productUnitData" :rules="rules" class="demo-ruleForm">
+    <el-form :model="UnitData" ref="UnitData" :rules="rules" class="demo-ruleForm">
       <el-form-item label="单位编号" prop="id" :label-width="formLabelWidth">
-        <el-input v-model="productUnitData.id" autocomplete="off"></el-input>
+        <el-input v-model="unitData.id" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="单位名称" :label-width="formLabelWidth">
-        <el-input v-model="productUnitData.name" autocomplete="off"></el-input>
+        <el-input v-model="unitData.name" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="备注" :label-width="formLabelWidth">
-        <el-input v-model="productUnitData.note" autocomplete="off"></el-input>
+        <el-input v-model="unitData.note" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button @click="closeDialog">取 消</el-button>
@@ -20,13 +20,13 @@
 
 <script>
 export default {
-  name: "productUnitInfoDialog",
+  name: "unitInfoDialog",
 
   props: {
     "title": {
       type: String
     },
-    "productUnitData": {
+    "unitData": {
       type: Object
     }
   },
@@ -55,9 +55,9 @@ export default {
     },
 
     submitData () {
-      this.$refs['productUnitData'].validate((valid) => {
+      this.$refs['unitData'].validate((valid) => {
         if (valid) {
-          this.$emit("submitData", this.productUnitData, this.oldID);
+          this.$emit("submitData", this.unitData, this.oldID);
         } else {
           console.log('error submit!!');
           return false;
@@ -67,8 +67,8 @@ export default {
   },
 
   created: function () {
-    if (this.productUnitData) {
-      this.oldID = this.productUnitData.id;
+    if (this.unitData) {
+      this.oldID = this.unitData.id;
     }
   }
 }
