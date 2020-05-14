@@ -10,6 +10,7 @@ import Depot from "@/views/base-info/depot-info/depot-info"
 import Unit from "@/views/base-info/unit-info/unit-info"
 import Product from "@/views/base-info/product-info/product-info"
 import Account from "@/views/base-info/account-info/account-info"
+import Employee from "@/views/base-info/employee-info/employee-info"
 // import Login from '@/views/login'
 
 Vue.use(VueRouter)
@@ -86,6 +87,13 @@ export default new VueRouter({
         title: 'Account'
       },
       component: Account
+    },
+    {
+      path: '/employee',
+      meata: {
+        title: 'Employee'
+      },
+      component: Employee
     }
   ]
 })

@@ -11,6 +11,7 @@
       @pageChange="pageChange"
       @getChildData="getChildData"
       @previous="previous"
+      @ok="handleSubmit"
     ></search-base>
   </el-dialog>
 </template>

@@ -9,7 +9,7 @@
         </el-col>
         <el-col :span="6">
           <div class="inputBlock">
-            <el-input placeholder="分支机构">
+            <el-input placeholder="分支机构" v-model="orderFormData.branch.name">
               <el-button size="small" @click="showBranchDialog" slot="append" icon="el-icon-search"></el-button>
             </el-input>
           </div>
@@ -170,11 +170,6 @@
       </el-row>
     </div>
 
-    <department-search-dialog
-      v-if="departmentDialogVisiable"
-      @submitData="submitDepartmentData"
-      @closeDialog="closeDepartmentDialog"
-    ></department-search-dialog>
     <branch-search-dialog
       v-if="branchDialogVisiable"
       @submitData="submitBranchData"
@@ -185,6 +180,11 @@
       @submitData="submitCompanyData"
       @closeDialog="closeCompanyDialog"
     ></company-search-dialog>
+    <department-search-dialog
+      v-if="departmentDialogVisiable"
+      @submitData="submitDepartmentData"
+      @closeDialog="closeDepartmentDialog"
+    ></department-search-dialog>
     <depot-search-dialog
       v-if="depotDialogVisiable"
       @submitData="submitDepotData"
@@ -235,27 +235,30 @@ export default {
   data () {
     return {
       orderFormData: {
+        id: "",
         createDate: new Date(),
-        department: '',
-        branch: '',
-        company: '',
-        employee: '',
-        depot: '',
-        account: '',
+        branch: { id: "", name: "" },
+        company: { id: "", name: "" },
+        employee: { id: "", name: "" },
+        department: { id: "", name: "" },
+        depot: { id: "", name: "" },
+        account: { id: "", name: "" },
         money: 0, // 收款
         wipe: 0, // 抹零
+        actionType: 0,
 
         product: [
           {
             productID: '',
             productName: '',
-            productUnit: '',
+            productUnit: { id: "", name: "" },
             stock: 0, //库存
             count: 0,
             price: 0,
             amount: 0,
             note: '',
-            specification: '' //规格
+            specification: '', //规格
+            actionType: 0
           }
         ],
 
@@ -285,11 +288,25 @@ export default {
       this.branchDialogVisiable = false;
     },
 
+    submitBranchData (branchValue) {
+      this.orderFormData.branch.id = branchValue.id;
+      this.orderFormData.branch.name = branchValue.name;
+
+      this.branchDialogVisiable = false;
+    },
+
     showCompanyDialog () {
       this.companyDialogVisiable = true;
     },
 
     closeCompanyDialog () {
+      this.companyDialogVisiable = false;
+    },
+
+    submitCompanyData (companyValue) {
+      this.orderFormData.company.id = companyValue.id;
+      this.orderFormData.company.name = companyValue.name;
+
       this.companyDialogVisiable = false;
     },
 
@@ -301,6 +318,13 @@ export default {
       this.employeeDialogVisiable = false;
     },
 
+    submitEmployeeData (employeeValue) {
+      this.orderFormData.employee.id = employeeValue.id;
+      this.orderFormData.employee.name = employeeValue.name;
+
+      this.employeeDialogVisiable = false;
+    },
+
     showDepartmentDialog () {
       this.departmentDialogVisiable = true;
     },
@@ -309,11 +333,26 @@ export default {
       this.departmentDialogVisiable = false;
     },
 
+    submitDepartmentData (departmentValue) {
+      console.log("======  ", departmentValue);
+      this.orderFormData.department.id = departmentValue.id;
+      this.orderFormData.department.name = departmentValue.name;
+
+      this.departmentDialogVisiable = false;
+    },
+
     showDepotDialog () {
       this.depotDialogVisiable = true;
     },
 
     closeDepotDialog () {
+      this.depotDialogVisiable = false;
+    },
+
+    submitDepotData (depotValue) {
+      this.orderFormData.depot.id = depotValue.id;
+      this.orderFormData.depot.name = depotValue.name;
+
       this.depotDialogVisiable = false;
     },
 
@@ -326,6 +365,12 @@ export default {
       this.productDialogVisiable = false;
     },
 
+    submitProductData (productValue) {
+      this.scopeValue.productID = productValue.id;
+
+      this.productDialogVisiable = false;
+    },
+
     showProductUnitSelectDialog (scope) {
       this.productUnitDialogVisiable = true;
       this.scopeValue = scope.row;
@@ -335,11 +380,26 @@ export default {
       this.productUnitDialogVisiable = false;
     },
 
+    submitProductUnitData (productUnitValue) {
+      this.scopeValue.productUnit.id = productUnitValue.id;
+      this.scopeValue.productUnit.name = productUnitValue.name;
+      this.scopeValue.productUnit.price = productUnitValue.price;
+
+      this.productUnitDialogVisiable = false;
+    },
+
     showAccountDialog () {
       this.accountDialogVisiable = true;
     },
 
     closeAccountDialog () {
+      this.accountDialogVisiable = false;
+    },
+
+    submitAccountData (accountValue) {
+      this.orderFormData.account.id = accountValue.id;
+      this.orderFormData.account.name = accountValue.name;
+
       this.accountDialogVisiable = false;
     },
 
@@ -353,7 +413,8 @@ export default {
         price: 0,
         amount: 0,
         note: '',
-        specification: '' //规格
+        specification: '', //规格
+        actionType: 0
       };
 
       this.orderFormData.product.push(productData);
@@ -367,7 +428,7 @@ export default {
 
     verifyOrderForm () {
       var params = {
-        id: this.fatherID,
+        id: this.orderFormData.id,
       };
 
       orderFormApi.verifyOrderForm(params).then((res) => {

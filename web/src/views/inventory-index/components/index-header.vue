@@ -17,6 +17,8 @@
     <a href="/product">Product</a>
     ---
     <a href="/account">Account</a>
+    ---
+    <a href="/employee">Employee</a>
     <div class="header-left">进销存logo</div>
     <div class="header-right">登出</div>
   </header>
