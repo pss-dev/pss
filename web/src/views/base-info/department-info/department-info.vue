@@ -61,7 +61,7 @@ export default {
 
   methods: {
     getChildData (value) {
-      var param = this.getParameterForNewTable(value.id);
+      let param = this.getParameterForNewTable(value.id);
 
       this.getDepartmentInfo(param).then(() => {
         this.addPaths();
@@ -76,7 +76,7 @@ export default {
     },
 
     newInfo () {
-      var emptyDialogData = {
+      let emptyDialogData = {
         id: -1,
         name: '',
         initials: '',
@@ -93,7 +93,7 @@ export default {
     },
 
     submitData (departmentData) {
-      var params = {};
+      let params = {};
 
       if (this.addInfo) {
         this.setDefaultID(departmentData);
@@ -124,8 +124,8 @@ export default {
         return;
       }
 
-      var previousInfo = this.paths[this.paths.length - 1];
-      var previousParams = this.getParameterForNewTable(previousInfo.id);
+      let previousInfo = this.paths[this.paths.length - 1];
+      let previousParams = this.getParameterForNewTable(previousInfo.id);
 
       this.getDepartmentInfo(previousParams).then(() => {
         this.paths.pop();
@@ -143,7 +143,7 @@ export default {
   },
 
   created: function () {
-    var params = this.getParameterForNewTable(this.fatherID);
+    let params = this.getParameterForNewTable(this.fatherID);
 
     this.getDepartmentInfo(params);
   }

@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Service("departmentService")
@@ -27,9 +26,17 @@ public class DepartmentServiceImpl implements DepartmentService {
    @Transactional(readOnly = true)
    @Override
    public List<Department> getDepartments(Integer parentId) {
-      return parentId == null
-         ? departmentDao.getAllDepartments()
-         : Arrays.asList(departmentDao.getDepartment(parentId));
+      if(parentId == null) {
+         return departmentDao.getAllDepartments();
+      }
+
+      Department department = departmentDao.getDepartment(parentId);
+
+      if(department != null) {
+         return department.getChildren();
+      }
+
+      return null;
    }
 
    @Transactional(readOnly = true)

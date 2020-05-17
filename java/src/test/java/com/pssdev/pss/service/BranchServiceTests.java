@@ -32,7 +32,7 @@ public class BranchServiceTests {
 
     @Test
     public void testGetBranches() {
-        List branches = branchService.getBranches();
+        List<Branch> branches = branchService.getBranches();
 
         LOGGER.info("Query all branches: {}", branches);
 
@@ -43,7 +43,7 @@ public class BranchServiceTests {
     public void testUpdateBranch() {
         Integer fatherId = 1;
         Branch branch = branchService.getBranch(fatherId);
-        Set children = new HashSet<>();
+        Set<Branch> children = new HashSet<>();
         Branch child1 = new Branch();
         child1.setName("child1");
         children.add(child1);
