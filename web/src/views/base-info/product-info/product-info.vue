@@ -5,7 +5,6 @@
     <base-info-table
       :titles="titData"
       :tableData="tableData"
-      :showEdit="true"
       @handleCurrentChange="handleCurrentChange"
       @getChildData="getChildData"
       @pageChange="pageChange"
@@ -70,8 +69,7 @@ export default {
       ],
 
       titData:
-        [{ prop: "id", label: "编号" },
-        { prop: "name", label: "名称" },
+        [{ prop: "name", label: "名称" },
         { prop: "specification", label: "规格" },
         { prop: "type", label: "型号" },
         { prop: "unit[0].purchasePrice1", label: this.getPriceTitle("purchasePrice1") },
@@ -122,7 +120,7 @@ export default {
 
     newInfo () {
       var emptyDialogData = {
-        id: '',
+        id: -1,
         name: '',
         initials: '',
         specification: '',
@@ -135,7 +133,7 @@ export default {
         purchaseDefaultUnit: '',
         actionType: 0,
         unit: [{
-          unitID: 'psc',
+          unitID: -1,
           unitName: '1',
           crate: 1,
           purchasePrice1: '',
@@ -162,17 +160,18 @@ export default {
       this.showDialog = true;
     },
 
-    submitData (productData, oldID) {
+    submitData (productData) {
       var params = this.getParameterForNewTable(this.fatherID);
 
       if (this.addInfo) {
+        this.setDefaultID(productData);
+
         productInfoApi.addProductInfo(params, productData).then(
           (res) => {
             this.setResponseResult(res.data);
           });
       }
       else {
-        params.oldID = oldID;
         productInfoApi.modifyProductInfo(params, productData).then(
           (res) => {
             this.setResponseResult(res.data);

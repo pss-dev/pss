@@ -5,7 +5,6 @@
     <base-info-table
       :titles="titData"
       :tableData="tableData"
-      :showEdit="true"
       @handleCurrentChange="handleCurrentChange"
       @getChildData="getChildData"
       @pageChange="pageChange"
@@ -55,8 +54,7 @@ export default {
   data () {
     return {
       titData:
-        [{ prop: "id", label: "编号" },
-        { prop: "name", label: "名称" },
+        [{ prop: "name", label: "名称" },
         { prop: "customer", label: "客户" },
         { prop: "supplier", label: "供货商" },
         { prop: "initials", label: "拼音码" }],
@@ -81,7 +79,7 @@ export default {
 
     newInfo () {
       var emptyDialogData = {
-        id: '',
+        id: -1,
         name: '',
         customerID: '',
         customerName: '',
@@ -100,17 +98,18 @@ export default {
       this.showDialog = true;
     },
 
-    submitData (branchData, oldID) {
+    submitData (branchData) {
       var params = {};
 
       if (this.addInfo) {
+        this.setDefaultID(branchData);
+
         branchInfoApi.addbranchInfo(branchData).then(
           (res) => {
             this.setResponseResult(res.data);
           });
       }
       else {
-        params.oldID = oldID;
         branchInfoApi.modifybranchInfo(params, branchData).then(
           (res) => {
             this.setResponseResult(res.data);

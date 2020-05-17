@@ -3,9 +3,6 @@
     <el-tabs v-model="activeName">
       <el-tab-pane label="基本资料" name="first">
         <el-form :model="productData" ref="productData" :rules="rules" class="demo-ruleForm">
-          <el-form-item label="编号" prop="id" :label-width="formLabelWidth">
-            <el-input v-model="productData.id" autocomplete="off"></el-input>
-          </el-form-item>
           <el-form-item label="名称" :label-width="formLabelWidth">
             <el-input v-model="productData.name" autocomplete="off"></el-input>
           </el-form-item>
@@ -51,9 +48,9 @@
               <span>{{scope.row.default}}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="unitID" label="编号" width="130">
+          <el-table-column prop="unitID" label="名称" width="130">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.unitID" placeholder="编号">
+              <el-input v-model="scope.row.unitName" placeholder="名称">
                 <el-button
                   size="small"
                   @click="showUnitDialog(scope)"
@@ -61,11 +58,6 @@
                   icon="el-icon-search"
                 ></el-button>
               </el-input>
-            </template>
-          </el-table-column>
-          <el-table-column prop="unitName" label="名称">
-            <template slot-scope="scope">
-              <span>{{scope.row.unitName}}</span>
             </template>
           </el-table-column>
           <el-table-column prop="crate" label="换算率">
@@ -170,7 +162,6 @@ export default {
     return {
       dialogVisible: true,
       unitdialogVisible: false,
-      oldID: "",
       activeName: 'first',
       formLabelWidth: '120px',
       selectUnitData: {},
@@ -181,9 +172,9 @@ export default {
       },
 
       unitTableData:
-        [{ id: "个", name: "个", },
-        { id: "盒", name: "盒" },
-        { id: "箱", name: "箱" },],
+        [{ id: 0, name: "个", },
+        { id: 1, name: "盒" },
+        { id: 2, name: "箱" },],
     }
   },
 
@@ -198,7 +189,7 @@ export default {
 
     addUnit () {
       let emptyUnit = {
-        unitID: '',
+        unitID: -1,
         unitName: 'empty',
         crate: 1,
         purchasePrice1: '',
@@ -256,10 +247,6 @@ export default {
   },
 
   created: function () {
-    if (this.productData) {
-      this.oldID = this.productData.productID;
-    }
-
     this.getProductUnitData();
   }
 }

@@ -5,8 +5,6 @@
     <base-info-table
       :titles="titData"
       :tableData="tableData"
-      :showEdit="true"
-      @edit="edit"
       @handleCurrentChange="handleCurrentChange"
       @getChildData="getChildData"
       @pageChange="pageChange"
@@ -64,8 +62,7 @@ export default {
   data () {
     return {
       titData:
-        [{ prop: "id", label: "编号" },
-        { prop: "name", label: "名称" },
+        [{ prop: "name", label: "名称" },
         { prop: "balance", label: "余额" }],
     }
   },
@@ -88,7 +85,7 @@ export default {
 
     newInfo () {
       var emptyDialogData = {
-        id: '',
+        id: -1,
         name: '',
         balance: '',
       };
@@ -102,17 +99,18 @@ export default {
       this.showDialog = true;
     },
 
-    submitData (accountData, oldID) {
+    submitData (accountData) {
       var params = {};
 
       if (this.addInfo) {
+        this.setDefaultID(accountData);
+
         accountInfoApi.addAccountInfo(accountData).then(
           (res) => {
             this.setResponseResult(res.data);
           });
       }
       else {
-        params.oldID = oldID;
         accountInfoApi.modifyAccountInfo(params, accountData).then(
           (res) => {
             this.setResponseResult(res.data);

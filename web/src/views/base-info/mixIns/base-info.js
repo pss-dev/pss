@@ -88,11 +88,15 @@ export default {
 
     setResponseResult (data) {
       if (data) {
-        this.totalSize = data;
-        this.tableData = data.length;
+        this.tableData = data;
+        this.totalSize = data.length;
 
         this.showDialog = false;
       }
     },
+
+    setDefaultID (data) {
+      data.id = -1;
+    }
   }
 }

@@ -1,9 +1,6 @@
 <template>
   <el-dialog :title="title" :visible.sync="dialogVisible" :before-close="handleClose">
     <el-form :model="employeeData" ref="employeeData" :rules="rules" class="demo-ruleForm">
-      <el-form-item label="员工编号" prop="employeeID" :label-width="formLabelWidth">
-        <el-input v-model="employeeData.id" autocomplete="off"></el-input>
-      </el-form-item>
       <el-form-item label="员工姓名" :label-width="formLabelWidth">
         <el-input v-model="employeeData.name" autocomplete="off"></el-input>
       </el-form-item>
@@ -24,7 +21,6 @@ export default {
   data () {
     return {
       dialogVisible: true,
-      oldID: "",
       formLabelWidth: '120px',
       rules: {
         employeeID: [
@@ -47,7 +43,7 @@ export default {
     submitData () {
       this.$refs['employeeData'].validate((valid) => {
         if (valid) {
-          this.$emit("submitData", this.employeeData, this.oldID);
+          this.$emit("submitData", this.employeeData);
         } else {
           console.log('error submit!!');
           return false;
@@ -59,9 +55,6 @@ export default {
   props: ["title", "employeeData"],
 
   created: function () {
-    if (this.employeeData) {
-      this.oldID = this.employeeData.id;
-    }
   }
 }
 </script>

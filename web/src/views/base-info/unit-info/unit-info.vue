@@ -5,7 +5,6 @@
     <base-info-table
       :titles="titData"
       :tableData="tableData"
-      :showEdit="true"
       @handleCurrentChange="handleCurrentChange"
       @getChildData="getChildData"
       @pageChange="pageChange"
@@ -54,8 +53,7 @@ export default {
   data () {
     return {
       titData:
-        [{ prop: "id", label: "编号" },
-        { prop: "name", label: "名称" },
+        [{ prop: "name", label: "名称" },
         { prop: "note", label: "备注" }],
     }
   },
@@ -78,7 +76,7 @@ export default {
 
     newInfo () {
       var emptyDialogData = {
-        id: '',
+        id: -1,
         name: '',
         initials: '',
         fatherID: this.fatherID,
@@ -93,18 +91,19 @@ export default {
       this.showDialog = true;
     },
 
-    submitData (UnitData, oldID) {
+    submitData (unitData) {
       var params = {};
 
       if (this.addInfo) {
-        unitInfoApi.addUnitInfo(UnitData).then(
+        this.setDefaultID(unitData);
+
+        unitInfoApi.addUnitInfo(unitData).then(
           (res) => {
             this.setResponseResult(res.data);
           });
       }
       else {
-        params.oldID = oldID;
-        unitInfoApi.modifyUnitInfo(params, UnitData).then(
+        unitInfoApi.modifyUnitInfo(params, unitData).then(
           (res) => {
             this.setResponseResult(res.data);
           });

@@ -1,9 +1,6 @@
 <template>
   <el-dialog :title="title" :visible.sync="dialogVisible" :before-close="handleClose">
     <el-form :model="UnitData" ref="UnitData" :rules="rules" class="demo-ruleForm">
-      <el-form-item label="单位编号" prop="id" :label-width="formLabelWidth">
-        <el-input v-model="unitData.id" autocomplete="off"></el-input>
-      </el-form-item>
       <el-form-item label="单位名称" :label-width="formLabelWidth">
         <el-input v-model="unitData.name" autocomplete="off"></el-input>
       </el-form-item>
@@ -34,7 +31,6 @@ export default {
   data () {
     return {
       dialogVisible: true,
-      oldID: "",
       formLabelWidth: '120px',
       rules: {
         id: [
@@ -67,9 +63,6 @@ export default {
   },
 
   created: function () {
-    if (this.unitData) {
-      this.oldID = this.unitData.id;
-    }
   }
 }
 </script>

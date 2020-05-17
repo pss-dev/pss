@@ -5,7 +5,6 @@
     <base-info-table
       :titles="titData"
       :tableData="tableData"
-      :showEdit="true"
       @handleCurrentChange="handleCurrentChange"
       @getChildData="getChildData"
       @pageChange="pageChange"
@@ -55,8 +54,7 @@ export default {
   data () {
     return {
       titData:
-        [{ prop: "id", label: "编号" },
-        { prop: "name", label: "名称" },
+        [{ prop: "name", label: "名称" },
         { prop: "initials", label: "拼音码" }],
     }
   },
@@ -79,7 +77,7 @@ export default {
 
     newInfo () {
       var emptyDialogData = {
-        id: '',
+        id: -1,
         name: '',
         initials: '',
         fatherID: this.fatherID,
@@ -94,17 +92,18 @@ export default {
       this.showDialog = true;
     },
 
-    submitData (departmentData, oldID) {
+    submitData (departmentData) {
       var params = {};
 
       if (this.addInfo) {
+        this.setDefaultID(departmentData);
+
         departmentInfoApi.addDepartmentInfo(departmentData).then(
           (res) => {
             this.setResponseResult(res.data);
           });
       }
       else {
-        params.oldID = oldID;
         departmentInfoApi.modifyDepartmentInfo(params, departmentData).then(
           (res) => {
             this.setResponseResult(res.data);

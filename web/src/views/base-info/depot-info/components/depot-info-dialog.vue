@@ -7,9 +7,6 @@
       label-width="100px"
       class="demo-dynamic"
     >
-      <el-form-item label="编号" prop="id">
-        <el-input v-model="depotData.id" autocomplete="off"></el-input>
-      </el-form-item>
       <el-form-item label="名称">
         <el-input v-model="depotData.name" autocomplete="off"></el-input>
       </el-form-item>
@@ -59,7 +56,6 @@ export default {
     return {
       dialogVisible: true,
       branchDialogVisible: false,
-      oldID: "",
       formLabelWidth: '120px',
       rules: {
         id: [
@@ -107,9 +103,6 @@ export default {
   },
 
   created: function () {
-    if (this.depotData) {
-      this.oldID = this.depotData.id;
-    }
   }
 }
 </script>

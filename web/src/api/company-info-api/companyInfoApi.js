@@ -3,7 +3,7 @@ import fetch from '@/http/fetch'
 
 function getCompanyInfo (params) {
   return fetch({
-    url: baseApi.baseApi('/company'),
+    url: baseApi.baseApi('company'),
     method: 'get',
     params
   })
@@ -11,7 +11,7 @@ function getCompanyInfo (params) {
 
 function addCompanyInfo (data) {
   return fetch({
-    url: baseApi.baseApi('/company'),
+    url: baseApi.baseApi('company'),
     method: 'post',
     data
   })
@@ -19,7 +19,7 @@ function addCompanyInfo (data) {
 
 function modifyCompanyInfo (params, data) {
   return fetch({
-    url: baseApi.baseApi('/company'),
+    url: baseApi.baseApi('company'),
     method: 'put',
     params,
     data
@@ -28,7 +28,7 @@ function modifyCompanyInfo (params, data) {
 
 function deleteCompanyInfo (data) {
   return fetch({
-    url: baseApi.baseApi('/company'),
+    url: baseApi.baseApi('company'),
     method: 'delete',
     data
   })

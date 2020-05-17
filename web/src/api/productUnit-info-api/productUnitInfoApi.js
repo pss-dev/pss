@@ -3,7 +3,7 @@ import fetch from '@/http/fetch'
 
 function getProductUnitInfo (params) {
   return fetch({
-    url: baseApi.baseApi('/productUnit'),
+    url: baseApi.baseApi('productUnit'),
     method: 'get',
     params
   })
@@ -11,7 +11,7 @@ function getProductUnitInfo (params) {
 
 function addProductUnitInfo (data) {
   return fetch({
-    url: baseApi.baseApi('/productUnit'),
+    url: baseApi.baseApi('productUnit'),
     method: 'post',
     data
   })
@@ -19,7 +19,7 @@ function addProductUnitInfo (data) {
 
 function modifyProductUnitInfo (params, data) {
   return fetch({
-    url: baseApi.baseApi('/productUnit'),
+    url: baseApi.baseApi('productUnit'),
     method: 'put',
     params,
     data
@@ -28,7 +28,7 @@ function modifyProductUnitInfo (params, data) {
 
 function deleteProductUnitInfo (data) {
   return fetch({
-    url: baseApi.baseApi('/productUnit'),
+    url: baseApi.baseApi('productUnit'),
     method: 'delete',
     data
   })

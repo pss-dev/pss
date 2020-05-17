@@ -5,7 +5,6 @@
     <base-info-table
       :titles="titData"
       :tableData="tableData"
-      :showEdit="true"
       @handleCurrentChange="handleCurrentChange"
       @pageChange="pageChange"
     ></base-info-table>

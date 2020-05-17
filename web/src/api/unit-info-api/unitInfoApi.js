@@ -3,7 +3,7 @@ import fetch from '@/http/fetch'
 
 function getUnitInfo (params) {
   return fetch({
-    url: baseApi.baseApi('/unit'),
+    url: baseApi.baseApi('unit'),
     method: 'get',
     params
   })
@@ -11,7 +11,7 @@ function getUnitInfo (params) {
 
 function addUnitInfo (data) {
   return fetch({
-    url: baseApi.baseApi('/unit'),
+    url: baseApi.baseApi('unit'),
     method: 'post',
     data
   })
@@ -19,7 +19,7 @@ function addUnitInfo (data) {
 
 function modifyUnitInfo (params, data) {
   return fetch({
-    url: baseApi.baseApi('/unit'),
+    url: baseApi.baseApi('unit'),
     method: 'put',
     params,
     data
@@ -28,7 +28,7 @@ function modifyUnitInfo (params, data) {
 
 function deleteUnitInfo (data) {
   return fetch({
-    url: baseApi.baseApi('/unit'),
+    url: baseApi.baseApi('unit'),
     method: 'delete',
     data
   })

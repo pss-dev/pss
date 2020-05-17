@@ -7,9 +7,6 @@
       label-width="100px"
       class="demo-dynamic"
     >
-      <el-form-item label="分支编号" prop="id">
-        <el-input v-model="branchData.id" autocomplete="off"></el-input>
-      </el-form-item>
       <el-form-item label="分支名称">
         <el-input v-model="branchData.name" autocomplete="off"></el-input>
       </el-form-item>
@@ -68,7 +65,6 @@ export default {
       dialogVisible: true,
       companydialogVisible: false,
       isCustomer: true,
-      oldID: "",
       formLabelWidth: '120px',
       rules: {
         id: [
@@ -91,7 +87,7 @@ export default {
     submitData () {
       this.$refs['branchData'].validate((valid) => {
         if (valid) {
-          this.$emit("submitData", this.branchData, this.oldID);
+          this.$emit("submitData", this.branchData);
         } else {
           console.log('error submit!!');
           return false;
@@ -123,9 +119,6 @@ export default {
   },
 
   created: function () {
-    if (this.branchData) {
-      this.oldID = this.branchData.id;
-    }
   }
 }
 </script>

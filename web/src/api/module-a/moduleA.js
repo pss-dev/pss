@@ -1,17 +1,17 @@
 import { baseApi } from '../baseApi'
 import fetch from '@/http/fetch'
 
-function getUserInfo(params) {
+function getUserInfo (params) {
   return fetch({
-    url: baseApi('/getUserInfo'),
+    url: baseApi('getUserInfo'),
     method: 'get',
     params
   })
 }
 
-function modifyUserInfo(data) {
+function modifyUserInfo (data) {
   return fetch({
-    url: baseApi('/modifyUserInfo'),
+    url: baseApi('modifyUserInfo'),
     method: 'post',
     data
   })

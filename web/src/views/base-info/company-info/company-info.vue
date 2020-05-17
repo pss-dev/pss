@@ -5,8 +5,6 @@
     <base-info-table
       :titles="titData"
       :tableData="tableData"
-      :showEdit="true"
-      @edit="edit"
       @handleCurrentChange="handleCurrentChange"
       @getChildData="getChildData"
       @pageChange="pageChange"
@@ -19,6 +17,7 @@
       :previousDisable="!hasFatherInfo()"
       @newInfo="newInfo"
       @copyNew="copyNew"
+      @edit="edit"
       @deleteInfo="deleteInfo"
       @previous="previous"
     ></base-info-footer>
@@ -64,8 +63,7 @@ export default {
   data () {
     return {
       titData:
-        [{ prop: "id", label: "编号" },
-        { prop: "name", label: "名称" },
+        [{ prop: "name", label: "名称" },
         { prop: "initials", label: "拼音码" },
         { prop: "address", label: "地址" },
         { prop: "contactPerson", label: "联系人" },
@@ -91,7 +89,7 @@ export default {
 
     newInfo () {
       var emptyDialogData = {
-        id: '',
+        id: -1,
         name: '',
         initials: '',
         address: '',
@@ -110,17 +108,18 @@ export default {
       this.showDialog = true;
     },
 
-    submitData (companyData, oldID) {
+    submitData (companyData) {
       var params = {};
 
       if (this.addInfo) {
+        this.setDefaultID(companyData);
+
         companyInfoApi.addCompanyInfo(companyData).then(
           (res) => {
             this.setResponseResult(res.data);
           });
       }
       else {
-        params.oldID = oldID;
         companyInfoApi.modifyCompanyInfo(params, companyData).then(
           (res) => {
             this.setResponseResult(res.data);

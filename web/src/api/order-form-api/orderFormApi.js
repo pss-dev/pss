@@ -3,7 +3,7 @@ import fetch from '@/http/fetch'
 
 function getOrderFormInfo (params) {
   return fetch({
-    url: baseApi.baseApi('/orderForm'),
+    url: baseApi.baseApi('orderForm'),
     method: 'get',
     params
   })
@@ -11,7 +11,7 @@ function getOrderFormInfo (params) {
 
 function saveOrderFormInfo (params, data) {
   return fetch({
-    url: baseApi.baseApi('/orderForm'),
+    url: baseApi.baseApi('orderForm'),
     method: 'put',
     params,
     data
@@ -20,7 +20,7 @@ function saveOrderFormInfo (params, data) {
 
 function deleteOrderFormInfo (data) {
   return fetch({
-    url: baseApi.baseApi('/orderForm'),
+    url: baseApi.baseApi('orderForm'),
     method: 'delete',
     data
   })
@@ -28,7 +28,7 @@ function deleteOrderFormInfo (data) {
 
 function verifyOrderFormInfo (data) {
   return fetch({
-    url: baseApi.baseApi('/orderForm/verify'),
+    url: baseApi.baseApi('orderForm/verify'),
     method: 'get',
     data
   })

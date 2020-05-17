@@ -3,7 +3,7 @@ import fetch from '@/http/fetch'
 
 function getDepartmentInfo (params) {
   return fetch({
-    url: baseApi.baseApi('/department'),
+    url: baseApi.baseApi('department'),
     method: 'get',
     params
   })
@@ -11,7 +11,7 @@ function getDepartmentInfo (params) {
 
 function addDepartmentInfo (data) {
   return fetch({
-    url: baseApi.baseApi('/department'),
+    url: baseApi.baseApi('department'),
     method: 'post',
     data
   })
@@ -19,7 +19,7 @@ function addDepartmentInfo (data) {
 
 function modifyDepartmentInfo (params, data) {
   return fetch({
-    url: baseApi.baseApi('/department'),
+    url: baseApi.baseApi('department'),
     method: 'put',
     params,
     data
@@ -28,7 +28,7 @@ function modifyDepartmentInfo (params, data) {
 
 function deleteDepartmentInfo (data) {
   return fetch({
-    url: baseApi.baseApi('/department'),
+    url: baseApi.baseApi('department'),
     method: 'delete',
     data
   })

@@ -1,35 +1,35 @@
 import baseApi from '../baseApi.js'
 import fetch from '@/http/fetch'
 
-function getAccountInfo(params) {
+function getAccountInfo (params) {
   return fetch({
-    url: baseApi.baseApi('/account'),
+    url: baseApi.baseApi('account'),
     method: 'get',
     params
   })
 }
 
-function addAccountInfo(params, data) {
+function addAccountInfo (params, data) {
   return fetch({
-    url: baseApi.baseApi('/account'),
+    url: baseApi.baseApi('account'),
     method: 'post',
     params,
     data
   })
 }
 
-function modifyAccountInfo(params, data) {
+function modifyAccountInfo (params, data) {
   return fetch({
-    url: baseApi.baseApi('/account'),
+    url: baseApi.baseApi('account'),
     method: 'put',
     params,
     data
   })
 }
 
-function deleteAccountInfo(params) {
+function deleteAccountInfo (params) {
   return fetch({
-    url: baseApi.baseApi('/account'),
+    url: baseApi.baseApi('account'),
     method: 'delete',
     params
   })
@@ -38,6 +38,6 @@ function deleteAccountInfo(params) {
 export default {
   getAccountInfo,
   addAccountInfo,
-	modifyAccountInfo,
+  modifyAccountInfo,
   deleteAccountInfo
 }

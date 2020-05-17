@@ -5,10 +5,7 @@
     <base-info-table
       :titles="titData"
       :tableData="tableData"
-      :showEdit="true"
-      @edit="edit"
       @handleCurrentChange="handleCurrentChange"
-      @getChildData="getChildData"
       @pageChange="pageChange"
     ></base-info-table>
 
@@ -16,11 +13,9 @@
       :totalSize="totalSize"
       :currentPage="currentPage"
       :selectedInfoInvalid="isSelectedInfoInvalid()"
-      :previousDisable="!hasFatherInfo()"
       @newInfo="newInfo"
       @copyNew="copyNew"
       @deleteInfo="deleteInfo"
-      @previous="previous"
     ></base-info-footer>
 
     <employee-info-dialog
@@ -64,22 +59,11 @@ export default {
   data () {
     return {
       titData:
-        [{ prop: "id", label: "编号" },
-        { prop: "name", label: "名称" }],
+        [{ prop: "name", label: "名称" }],
     }
   },
 
   methods: {
-    getChildData (value) {
-      var param = this.getParameterForNewTable(value.id);
-
-      this.getemployeeInfo(param).then(() => {
-        this.addPaths();
-        this.resetCurrentPage();
-        this.fatherID = value.id;
-      });
-    },
-
     edit (value) {
       this.setDialogInfo("编辑", value, false);
       this.showDialog = true;
@@ -87,7 +71,7 @@ export default {
 
     newInfo () {
       var emptyDialogData = {
-        id: '',
+        id: -1,
         name: '',
         passworld: '',
       };
@@ -101,17 +85,18 @@ export default {
       this.showDialog = true;
     },
 
-    submitData (employeeData, oldID) {
+    submitData (employeeData) {
       var params = {};
 
       if (this.addInfo) {
+        this.setDefaultID(employeeData);
+
         employeeInfoApi.addEmployeeInfo(employeeData).then(
           (res) => {
             this.setResponseResult(res.data);
           });
       }
       else {
-        params.oldID = oldID;
         employeeInfoApi.modifyEmployeeInfo(params, employeeData).then(
           (res) => {
             this.setResponseResult(res.data);
@@ -125,21 +110,6 @@ export default {
         .then((res) => {
           this.setResponseResult(res.data);
         });
-    },
-
-    previous () {
-      if (this.paths.length < 1) {
-        return;
-      }
-
-      var previousInfo = this.paths[this.paths.length - 1];
-      var previousParams = this.getParameterForNewTable(previousInfo.id);
-
-      this.getEmployeeInfo(previousParams).then(() => {
-        this.paths.pop();
-        this.currentPage = previousInfo.page;
-        this.fatherID = previousInfo.id;
-      });
     },
 
     getEmployeeInfo (params) {
