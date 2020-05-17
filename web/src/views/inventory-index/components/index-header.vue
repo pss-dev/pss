@@ -1,48 +1,50 @@
 <template>
-  <header class="index-header">
-    <a href="/dept">Department</a>
-    ---
-    <a href="/order">OrderForm</a>
-    ---
-    <a href="/company">Company</a>
-    ---
-    <a href="/branch">Branch</a>
-    ---
-    <a href="/price">Price</a>
-    ---
-    <a href="/depot">Depot</a>
-    ---
-    <a href="/unit">Unit</a>
-    ---
-    <a href="/product">Product</a>
-    ---
-    <a href="/account">Account</a>
-    ---
-    <a href="/employee">Employee</a>
-    <div class="header-left">进销存logo</div>
-    <div class="header-right">登出</div>
-  </header>
+	<header class="index-header">
+		<div class="info">
+			<div class="header-left">进销存logo</div>
+			<div class="header-right" @click="logout()">登出</div>
+		</div>
+	</header>
 </template>
 
 <script>
 export default {
-  name: 'IndexHeader',
+	name: "IndexHeader",
+	data() {
+		return {}
+	},
+	methods: {
+		logout() {
+			this.$message({
+				message: "尚未开发",
+				showClose: true,
+			})
+		},
+	},
 }
 </script>
 
 <style lang="scss" scoped>
 .index-header {
-  display: flex;
-  align-items: center;
-  padding-right: 20px;
-  height: 60px;
-  border-bottom: 1px solid #999;
-  .header-left {
-    width: 80%;
-    text-align: center;
-  }
-  .header-right {
-    width: 20%;
-  }
+	margin-top: 30px;
+	padding-right: 20px;
+	min-height: 60px;
+	border-bottom: 1px solid #999;
+	.info {
+		display: flex;
+		align-items: center;
+		padding: 10px 0;
+	}
+	.header-left {
+		width: 80%;
+		text-align: center;
+	}
+	.header-right {
+		width: 20%;
+		cursor: pointer;
+	}
+	.nav {
+		padding: 10px 0;
+	}
 }
 </style>
