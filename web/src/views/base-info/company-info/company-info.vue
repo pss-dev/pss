@@ -82,8 +82,8 @@ export default {
       });
     },
 
-    edit (value) {
-      this.setDialogInfo("编辑", value, false);
+    edit () {
+      this.setDialogInfo("编辑", this.selectedInfo, false);
       this.showDialog = true;
     },
 
