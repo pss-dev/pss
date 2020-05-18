@@ -89,7 +89,7 @@ export default {
 
     newInfo () {
       var emptyDialogData = {
-        id: -1,
+        id: null,
         name: '',
         initials: '',
         address: '',

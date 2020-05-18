@@ -34,6 +34,8 @@ task clean(type: Delete) {
 
 task cleanAll(type: Delete, dependsOn: [clean]) {
    group 'build'
+
+   delete = [".gradle"]
 }
 
 wrapper {

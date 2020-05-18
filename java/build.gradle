@@ -64,6 +64,11 @@ dependencies {
    testImplementation "org.junit.platform:junit-platform-commons:1.6.2"
 }
 
+task cleanAll(type: Delete, dependsOn: [clean]) {
+   group 'build'
+   delete = ['out', '.gradle']
+}
+
 test {
    useJUnitPlatform()
 

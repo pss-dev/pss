@@ -6,8 +6,7 @@ buildscript {
 }
 
 plugins {
-   id 'maven-publish'
-   id "com.github.node-gradle.node" version "2.2.0"
+   id "com.github.node-gradle.node" version "2.2.3"
 }
 
 node {

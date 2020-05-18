@@ -48,8 +48,21 @@ public class CompanyServiceImpl implements CompanyService {
          throw new Exception("公司不存在");
       }
       else {
-         companyDao.modifyCompany(company);
+         oldCompany.setName(company.getName());
+         oldCompany.setInitials(company.getInitials());
+         oldCompany.setAddress(company.getAddress());
+         oldCompany.setContactPerson(company.getContactPerson());
+         oldCompany.setContactPhone(company.getContactPhone());
+         oldCompany.setFatherId(company.getFatherId());
+         oldCompany.setType(company.getType());
+         companyDao.modifyCompany(oldCompany);
       }
+   }
+
+   @Override
+   @Transactional
+   public List<Company> getCompanies(Integer fatherId) {
+      return fatherId == null ? this.getCompanies() : companyDao.getCompanies(fatherId);
    }
 
    @Override

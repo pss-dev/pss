@@ -71,7 +71,7 @@ public class Branch implements Serializable {
         this.initials = initials;
     }
 
-    public void setChildren(Set children) {
+    public void setChildren(Set<Branch> children) {
         this.children = children;
     }
 

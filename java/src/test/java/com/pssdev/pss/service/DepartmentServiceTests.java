@@ -88,7 +88,7 @@ public class DepartmentServiceTests {
 
       LOGGER.info("Query parent dept again: {}", parentDept);
 
-      Set<Department> children = parentDept.getChildren();
+      List<Department> children = parentDept.getChildren();
 
       Assertions.assertFalse(
          children == null || children.size() < 1, "Query children error.");
