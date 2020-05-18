@@ -26,6 +26,15 @@ public interface CompanyService {
    /**
     * 获得所有用户信息
     * @return
+    * @param fatherId
+    */
+   List<Company> getCompanies(Integer fatherId);
+
+   /**
+    * 获得所有用户信息
+    * @return
     */
    List<Company> getCompanies();
+
+
 }

@@ -1,7 +1,6 @@
 package com.pssdev.pss.dao;
 
 import com.pssdev.pss.entity.Company;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -16,7 +15,13 @@ public interface CompanyDao {
     * 删除来往公司信息
     * @param id
     */
-   void deleteCompany(String id);
+   void deleteCompany(Integer id);
+
+   /**
+    * 删除来往公司信息
+    * @param company
+    */
+   void deleteCompany(Company company);
 
    /**
     * 更新来往公司信息
@@ -28,11 +33,18 @@ public interface CompanyDao {
     * 根据id获取来往公司信息
     * @param id
     */
-   Company getCompany(String id);
+   Company getCompany(Integer id);
 
    /**
     * 获得所有来往公司信息
     * @return
     */
    List<Company> getCompanies();
+
+   /**
+    * 获得所有来往公司信息
+    * @return
+    * @param fatherId
+    */
+   List<Company> getCompanies(Integer fatherId);
 }

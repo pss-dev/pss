@@ -16,7 +16,6 @@ public class CompanyController {
    @PostMapping("/company")
    public List<Company> insertCompanies(@RequestBody Company company) throws Exception {
       companyService.insertCompany(company);
-System.out.println("-------company------" + company);
       return companyService.getCompanies();
    }
 
@@ -35,8 +34,8 @@ System.out.println("-------company------" + company);
    }
 
    @GetMapping("/company")
-   public List<Company> getCompanies() {
-      return companyService.getCompanies();
+   public List<Company> getCompanies(@RequestParam(required = false) Integer fatherId) {
+      return companyService.getCompanies(fatherId);
    }
 
 }

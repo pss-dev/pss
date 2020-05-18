@@ -9,21 +9,21 @@ import java.util.Objects;
 @Entity
 public class Company {
    @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
-   private String id;
+   @GeneratedValue(strategy = GenerationType.AUTO)
+   private Integer id;
    private String name;
    private String initials;
    private String address;
    private String contactPerson;
    private String contactPhone;
    private int type;
-   private String fatherId;
+   private Integer fatherId;
 
-   public String getId() {
+   public Integer getId() {
       return id;
    }
 
-   public void setId(String id) {
+   public void setId(Integer id) {
       this.id = id;
    }
 
@@ -75,11 +75,11 @@ public class Company {
       this.type = type;
    }
 
-   public String getFatherId() {
+   public Integer getFatherId() {
       return fatherId;
    }
 
-   public void setFatherId(String fatherId) {
+   public void setFatherId(Integer fatherId) {
       this.fatherId = fatherId;
    }
 
