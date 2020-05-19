@@ -1,33 +1,37 @@
 <template>
   <main class="idnex-main">
-    <el-menu :default-active="activeIndex"
-             class="el-menu-demo nav"
-             mode="horizontal"
-             @select="handleSelect">
+    <el-menu
+      :default-active="activeIndex"
+      class="el-menu-demo nav"
+      mode="horizontal"
+      @select="handleSelect"
+    >
       <template v-for="item in navData">
-        <el-menu-item v-if="!item.children"
-                      :key="item.index"
-                      :index="item.index"
-                      @click="openTab(item)">{{ item.label }}</el-menu-item>
-        <el-submenu v-if="item.children"
-                    :key="item.index"
-                    :index="item.index">
+        <el-menu-item
+          v-if="!item.children"
+          :key="item.index"
+          :index="item.index"
+          @click="openTab(item)"
+        >{{ item.label }}</el-menu-item>
+        <el-submenu v-if="item.children" :key="item.index" :index="item.index">
           <template slot="title">{{ item.label }}</template>
-          <el-menu-item v-for="childItem in item.children"
-                        :key="childItem.index"
-                        :index="childItem.index"
-                        @click="openTab(childItem)">{{ childItem.label }}</el-menu-item>
+          <el-menu-item
+            v-for="childItem in item.children"
+            :key="childItem.index"
+            :index="childItem.index"
+            @click="openTab(childItem)"
+          >{{ childItem.label }}</el-menu-item>
         </el-submenu>
       </template>
     </el-menu>
-    <el-tabs v-model="editableTabsValue"
-             type="card"
-             @tab-remove="removeTab">
-      <el-tab-pane :key="item.name"
-                   v-for="item in editableTabs"
-                   :label="item.title"
-                   :closable="!item.discloseable"
-                   :name="item.name">
+    <el-tabs v-model="editableTabsValue" type="card" @tab-remove="removeTab">
+      <el-tab-pane
+        :key="item.name"
+        v-for="item in editableTabs"
+        :label="item.title"
+        :closable="!item.discloseable"
+        :name="item.name"
+      >
         <keep-alive>
           <component :is="item.name"></component>
         </keep-alive>
@@ -44,40 +48,29 @@ let baseInfoMenuArr = [
     discloseable: true
   },
   {
-    label: "商品类别",
+    label: "商品计量单位",
     value: "Unit"
   },
   {
-    label: "商品计量单位",
+    label: "价格名称",
+    value: "Price"
+  },
+  {
+    label: "客户档案",
+    value: "Company"
+  },
+  {
+    label: "供货商档案",
+    value: "Company"
+  },
+  {
+    label: "存货仓库",
     value: "Depot"
   },
   {
-    label: "价格名称"
+    label: "部门档案",
+    value: "Department"
   },
-  {
-    label: "客户档案"
-  },
-  {
-    label: "供货商档案"
-  },
-  {
-    label: "地区档案"
-  },
-  {
-    label: "部门档案"
-  },
-  {
-    label: "职员档案"
-  },
-  {
-    label: "存货仓库"
-  },
-  {
-    label: "角色管理"
-  },
-  {
-    label: "账户选择"
-  }
 ];
 
 let orderManageMenuArr = [
@@ -94,6 +87,28 @@ let orderManageMenuArr = [
     label: "单据查询"
   }
 ];
+
+let manageSettingMenuArr = [
+  {
+    label: "职员档案"
+  },
+  {
+    label: "角色管理"
+  },
+  {
+    label: "账户信息"
+  },
+];
+
+let statisticsgMenuArr = [
+  {
+    label: "日志"
+  },
+  {
+    label: "营收"
+  }
+];
+
 const firstMenuArr = [
   // value为组件名，决定了tab页内容
   {
@@ -108,15 +123,17 @@ const firstMenuArr = [
   },
   {
     label: "管理设置",
-    value: "manageSetting"
+    value: "manageSetting",
+    children: manageSettingMenuArr
   },
   {
-    label: "日志",
-    value: "log"
+    label: "统计查询",
+    value: "statistics",
+    children: statisticsgMenuArr
   }
 ];
 
-function getNavData() {
+function getNavData () {
   let navArr = firstMenuArr.slice(0); // 浅克隆
   navArr.forEach((ele, index) => {
     ele.index = index + 1 + "";
@@ -139,7 +156,7 @@ export default {
     Unit,
     Depot
   },
-  data() {
+  data () {
     return {
       activeIndex: "1-1",
       navData: getNavData(),
@@ -154,23 +171,23 @@ export default {
     };
   },
   methods: {
-    handleSelect(key, keyPath) {
+    handleSelect (key, keyPath) {
       console.log(key, keyPath);
     },
-    judgeIsAdd(tabName) {
+    judgeIsAdd (tabName) {
       return this.editableTabs.findIndex(ele => ele.name === tabName) < 0;
     },
-    openTab(item) {
+    openTab (item) {
       if (this.judgeIsAdd(item.value)) {
         this.addTab(item);
       } else {
         this.editableTabsValue = item.value;
       }
     },
-    handleClick(tab, event) {
+    handleClick (tab, event) {
       console.log(tab, event);
     },
-    addTab({ label, value, discloseable }) {
+    addTab ({ label, value, discloseable }) {
       if (!label || !value) {
         this.$message({
           message: `名字为${label}，组件名为${value}tab，名字和组件名都不能为空！`,
@@ -185,7 +202,7 @@ export default {
       });
       this.editableTabsValue = value;
     },
-    removeTab(targetName) {
+    removeTab (targetName) {
       let tabs = this.editableTabs;
       let activeName = this.editableTabsValue;
       if (activeName === targetName) {
@@ -203,7 +220,7 @@ export default {
       this.editableTabs = tabs.filter(tab => tab.name !== targetName);
     }
   },
-  created() {
+  created () {
     // console.log(this.navData)
   }
 };

@@ -78,7 +78,7 @@ export default {
       var emptyDialogData = {
         id: -1,
         name: '',
-        initials: '',
+        note: '',
         fatherID: this.fatherID,
       };
 
