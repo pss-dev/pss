@@ -32,24 +32,24 @@
 </template>
 
 <script>
-import baseInfoHeader from "../components/base-info-header.vue"
-import baseInfoTabler from "../components/base-info-table.vue"
-import baseInfoFooter from "../components/base-info-footer.vue"
-import bseInfo from '../mixIns/base-info'
-import accountInfoDialog from './components/account-info-dialog'
+import BaseInfoHeader from "../components/base-info-header.vue"
+import BaseInfoTabler from "../components/base-info-table.vue"
+import BaseInfoFooter from "../components/base-info-footer.vue"
+import BseInfo from '../mixIns/base-info'
+import AccountInfoDialog from './components/account-info-dialog'
 
 import accountInfoApi from '../../../api/account-info-api/accountInfoApi'
 
 export default {
   name: "accountInfo",
 
-  mixins: [bseInfo],
+  mixins: [BseInfo],
 
   components: {
-    "base-info-header": baseInfoHeader,
-    "base-info-table": baseInfoTabler,
-    "base-info-footer": baseInfoFooter,
-    "account-info-dialog": accountInfoDialog
+    "base-info-header": BaseInfoHeader,
+    "base-info-table": BaseInfoTabler,
+    "base-info-footer": BaseInfoFooter,
+    "account-info-dialog": AccountInfoDialog
   },
 
   props: {

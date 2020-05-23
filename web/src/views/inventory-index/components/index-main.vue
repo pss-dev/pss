@@ -57,11 +57,11 @@ let baseInfoMenuArr = [
   },
   {
     label: "客户档案",
-    value: "Company"
+    value: "Customer"
   },
   {
     label: "供货商档案",
-    value: "Company"
+    value: "Supplier"
   },
   {
     label: "存货仓库",
@@ -71,17 +71,24 @@ let baseInfoMenuArr = [
     label: "部门档案",
     value: "Department"
   },
+  {
+    label: "分支机构",
+    value: "Branch"
+  },
 ];
 
 let orderManageMenuArr = [
   {
-    label: "进货单"
+    label: "进货单",
+    value: "PurchaseForm"
   },
   {
-    label: "销售单"
+    label: "销售单",
+    value: "SalesForm"
   },
   {
-    label: "退货单"
+    label: "退货单",
+    value: "ReturnForm"
   },
   {
     label: "单据查询"
@@ -90,13 +97,15 @@ let orderManageMenuArr = [
 
 let manageSettingMenuArr = [
   {
-    label: "职员档案"
+    label: "职员档案",
+    value: "Employee"
   },
   {
     label: "角色管理"
   },
   {
-    label: "账户信息"
+    label: "账户信息",
+    value: "Account"
   },
 ];
 
@@ -150,11 +159,31 @@ function getNavData () {
 import Product from "@/views/base-info/product-info/product-info";
 import Unit from "@/views/base-info/unit-info/unit-info";
 import Depot from "@/views/base-info/depot-info/depot-info";
+import Price from "@/views/base-info/price-info/price-info";
+import Employee from "@/views/base-info/employee-info/employee-info";
+import Account from "@/views/base-info/account-info/account-info";
+import Customer from "@/views/base-info/company-info/customer-info";
+import Supplier from "@/views/base-info/company-info/supplier-info";
+import Department from "@/views/base-info/department-info/department-info";
+import Branch from "@/views/base-info/branch-info/branch-info";
+import PurchaseForm from "@/views/order-form/purchase-form";
+import ReturnForm from "@/views/order-form/return-form";
+import SalesForm from "@/views/order-form/sales-form";
 export default {
   components: {
     Product,
     Unit,
-    Depot
+    Depot,
+    Price,
+    Employee,
+    Account,
+    Customer,
+    Supplier,
+    Department,
+    Branch,
+    PurchaseForm,
+    ReturnForm,
+    SalesForm
   },
   data () {
     return {

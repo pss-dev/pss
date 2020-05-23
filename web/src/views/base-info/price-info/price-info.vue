@@ -32,22 +32,22 @@
 </template>
 
 <script>
-import baseInfoHeader from "../components/base-info-header.vue"
-import baseInfoTabler from "../components/base-info-table.vue"
-import baseInfoFooter from "../components/base-info-footer.vue"
-import bseInfo from '../mixIns/base-info'
-import priceInfoDialog from "./components/price-info-dialog.vue"
+import BaseInfoHeader from "../components/base-info-header.vue"
+import BaseInfoTabler from "../components/base-info-table.vue"
+import BaseInfoFooter from "../components/base-info-footer.vue"
+import BseInfo from '../mixIns/base-info'
+import PriceInfoDialog from "./components/price-info-dialog.vue"
 
 import priceInfoApi from "../../../api/price-info-api/priceInfoApi.js"
 
 export default {
   name: "priceInfo",
-  mixins: [bseInfo],
+  mixins: [BseInfo],
   components: {
-    "base-info-header": baseInfoHeader,
-    "base-info-table": baseInfoTabler,
-    "base-info-footer": baseInfoFooter,
-    "price-info-dialog": priceInfoDialog
+    "base-info-header": BaseInfoHeader,
+    "base-info-table": BaseInfoTabler,
+    "base-info-footer": BaseInfoFooter,
+    "price-info-dialog": PriceInfoDialog
   },
 
   data () {
