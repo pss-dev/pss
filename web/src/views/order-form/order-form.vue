@@ -167,6 +167,9 @@
         <el-col :span="3">
           <el-button @click="verifyOrderForm()">审核过账</el-button>
         </el-col>
+        <el-col :span="3">
+          <el-button v-print="'#print'">打印</el-button>
+        </el-col>
       </el-row>
     </div>
 
@@ -434,7 +437,7 @@ export default {
       orderFormApi.verifyOrderForm(params).then((res) => {
         console.log(res);
       });
-    }
+    },
   },
 }
 </script>

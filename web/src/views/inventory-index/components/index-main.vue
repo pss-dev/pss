@@ -57,11 +57,11 @@ let baseInfoMenuArr = [
   },
   {
     label: "客户档案",
-    value: "Company"
+    value: "Customer"
   },
   {
     label: "供货商档案",
-    value: "Company"
+    value: "Supplier"
   },
   {
     label: "存货仓库",
@@ -80,13 +80,15 @@ let baseInfoMenuArr = [
 let orderManageMenuArr = [
   {
     label: "进货单",
-    value: "OrderForm"
+    value: "PurchaseForm"
   },
   {
-    label: "销售单"
+    label: "销售单",
+    value: "SalesForm"
   },
   {
-    label: "退货单"
+    label: "退货单",
+    value: "ReturnForm"
   },
   {
     label: "单据查询"
@@ -160,10 +162,13 @@ import Depot from "@/views/base-info/depot-info/depot-info";
 import Price from "@/views/base-info/price-info/price-info";
 import Employee from "@/views/base-info/employee-info/employee-info";
 import Account from "@/views/base-info/account-info/account-info";
-import Company from "@/views/base-info/company-info/company-info";
+import Customer from "@/views/base-info/company-info/customer-info";
+import Supplier from "@/views/base-info/company-info/supplier-info";
 import Department from "@/views/base-info/department-info/department-info";
 import Branch from "@/views/base-info/branch-info/branch-info";
-import OrderForm from "@/views/order-form/order-form";
+import PurchaseForm from "@/views/order-form/purchase-form";
+import ReturnForm from "@/views/order-form/return-form";
+import SalesForm from "@/views/order-form/sales-form";
 export default {
   components: {
     Product,
@@ -172,10 +177,13 @@ export default {
     Price,
     Employee,
     Account,
-    Company,
+    Customer,
+    Supplier,
     Department,
     Branch,
-    OrderForm
+    PurchaseForm,
+    ReturnForm,
+    SalesForm
   },
   data () {
     return {
