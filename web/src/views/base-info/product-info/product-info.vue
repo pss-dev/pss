@@ -34,23 +34,23 @@
 </template>
 
 <script>
-import baseInfoHeader from "../components/base-info-header.vue"
-import baseInfoTabler from "../components/base-info-table.vue"
-import baseInfoFooter from "../components/base-info-footer.vue"
-import bseInfo from '../mixIns/base-info'
-import productInfoDialog from "./components/product-info-dialog.vue"
+import BaseInfoHeader from "../components/base-info-header.vue"
+import BaseInfoTabler from "../components/base-info-table.vue"
+import BaseInfoFooter from "../components/base-info-footer.vue"
+import BseInfo from '../mixIns/base-info'
+import ProductInfoDialog from "./components/product-info-dialog.vue"
 
 import productInfoApi from "../../../api/product-info-api/productInfoApi.js"
 import priceInfoApi from "../../../api/price-info-api/priceInfoApi.js"
 
 export default {
   name: "productInfo",
-  mixins: [bseInfo],
+  mixins: [BseInfo],
   components: {
-    "base-info-header": baseInfoHeader,
-    "base-info-table": baseInfoTabler,
-    "base-info-footer": baseInfoFooter,
-    "product-info-dialog": productInfoDialog
+    "base-info-header": BaseInfoHeader,
+    "base-info-table": BaseInfoTabler,
+    "base-info-footer": BaseInfoFooter,
+    "product-info-dialog": ProductInfoDialog
   },
 
   data () {

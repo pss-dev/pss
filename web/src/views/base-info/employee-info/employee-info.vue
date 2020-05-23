@@ -29,24 +29,24 @@
 </template>
 
 <script>
-import baseInfoHeader from "../components/base-info-header.vue"
-import baseInfoTabler from "../components/base-info-table.vue"
-import baseInfoFooter from "../components/base-info-footer.vue"
-import bseInfo from '../mixIns/base-info'
-import employeeInfoDialog from './components/employee-info-dialog'
+import BaseInfoHeader from "../components/base-info-header.vue"
+import BaseInfoTabler from "../components/base-info-table.vue"
+import BaseInfoFooter from "../components/base-info-footer.vue"
+import BseInfo from '../mixIns/base-info'
+import EmployeeInfoDialog from './components/employee-info-dialog'
 
 import employeeInfoApi from '../../../api/employee-info-api/employeeInfoApi'
 
 export default {
   name: "employeeInfo",
 
-  mixins: [bseInfo],
+  mixins: [BseInfo],
 
   components: {
-    "base-info-header": baseInfoHeader,
-    "base-info-table": baseInfoTabler,
-    "base-info-footer": baseInfoFooter,
-    "employee-info-dialog": employeeInfoDialog
+    "base-info-header": BaseInfoHeader,
+    "base-info-table": BaseInfoTabler,
+    "base-info-footer": BaseInfoFooter,
+    "employee-info-dialog": EmployeeInfoDialog
   },
 
   props: {

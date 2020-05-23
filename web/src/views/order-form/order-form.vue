@@ -209,13 +209,13 @@
 </template>
 
 <script>
-import departmentSearchDialog from "../components/department-search-dialog.vue"
-import branchSearchDialog from "../components/branch-search-dialog.vue"
-import companySearchDialog from "../components/company-search-dialog.vue"
-import depotSearchDialog from "../components/depot-search-dialog.vue"
-import productSearchDialog from "../components/product-search-dialog.vue"
-import productUnitSearchDialog from "../components/product-unit-search-dialog.vue"
-import accountSearchDialog from "../components/account-search-dialog.vue"
+import DepartmentSearchDialog from "../components/department-search-dialog.vue"
+import BranchSearchDialog from "../components/branch-search-dialog.vue"
+import CompanySearchDialog from "../components/company-search-dialog.vue"
+import DepotSearchDialog from "../components/depot-search-dialog.vue"
+import ProductSearchDialog from "../components/product-search-dialog.vue"
+import ProductUnitSearchDialog from "../components/product-unit-search-dialog.vue"
+import AccountSearchDialog from "../components/account-search-dialog.vue"
 
 import orderFormApi from "../../api/order-form-api/orderFormApi.js"
 
@@ -223,13 +223,13 @@ export default {
   name: "orderForm",
 
   components: {
-    "department-search-dialog": departmentSearchDialog,
-    "branch-search-dialog": branchSearchDialog,
-    "company-search-dialog": companySearchDialog,
-    "depot-search-dialog": depotSearchDialog,
-    "product-search-dialog": productSearchDialog,
-    "product-unit-search-dialog": productUnitSearchDialog,
-    "account-search-dialog": accountSearchDialog
+    "department-search-dialog": DepartmentSearchDialog,
+    "branch-search-dialog": BranchSearchDialog,
+    "company-search-dialog": CompanySearchDialog,
+    "depot-search-dialog": DepotSearchDialog,
+    "product-search-dialog": ProductSearchDialog,
+    "product-unit-search-dialog": ProductUnitSearchDialog,
+    "account-search-dialog": AccountSearchDialog
   },
 
   data () {

@@ -71,11 +71,16 @@ let baseInfoMenuArr = [
     label: "部门档案",
     value: "Department"
   },
+  {
+    label: "分支机构",
+    value: "Branch"
+  },
 ];
 
 let orderManageMenuArr = [
   {
-    label: "进货单"
+    label: "进货单",
+    value: "OrderForm"
   },
   {
     label: "销售单"
@@ -90,13 +95,15 @@ let orderManageMenuArr = [
 
 let manageSettingMenuArr = [
   {
-    label: "职员档案"
+    label: "职员档案",
+    value: "Employee"
   },
   {
     label: "角色管理"
   },
   {
-    label: "账户信息"
+    label: "账户信息",
+    value: "Account"
   },
 ];
 
@@ -150,11 +157,25 @@ function getNavData () {
 import Product from "@/views/base-info/product-info/product-info";
 import Unit from "@/views/base-info/unit-info/unit-info";
 import Depot from "@/views/base-info/depot-info/depot-info";
+import Price from "@/views/base-info/price-info/price-info";
+import Employee from "@/views/base-info/employee-info/employee-info";
+import Account from "@/views/base-info/account-info/account-info";
+import Company from "@/views/base-info/company-info/company-info";
+import Department from "@/views/base-info/department-info/department-info";
+import Branch from "@/views/base-info/branch-info/branch-info";
+import OrderForm from "@/views/order-form/order-form";
 export default {
   components: {
     Product,
     Unit,
-    Depot
+    Depot,
+    Price,
+    Employee,
+    Account,
+    Company,
+    Department,
+    Branch,
+    OrderForm
   },
   data () {
     return {
