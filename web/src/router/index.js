@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Index from '@/views/inventory-index/inventory-index'
+import InventoryLogin from '@/views/login/inventory-login'
 import Department from '@/views/base-info/department-info/department-info'
 import OrderForm from "@/views/order-form/order-form"
 import Company from "@/views/base-info/company-info/company-info"
@@ -17,13 +18,19 @@ Vue.use(VueRouter)
 
 export default new VueRouter({
   mode: "history",
-  routes: [
-    {
+  routes: [{
       path: '/',
       meata: {
         title: '首页'
       },
       component: Index
+    },
+    {
+      path: '/login',
+      meata: {
+        title: '登录页'
+      },
+      component: InventoryLogin
     },
     {
       path: '/dept',
