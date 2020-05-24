@@ -50,7 +50,7 @@
           </el-table-column>
           <el-table-column prop="unitID" label="名称" width="130">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.unitName" placeholder="名称">
+              <el-input readonly v-model="scope.row.unitName" placeholder="名称">
                 <el-button
                   size="small"
                   @click="showUnitDialog(scope)"

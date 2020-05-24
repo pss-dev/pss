@@ -10,13 +10,10 @@
       <el-form-item label="名称">
         <el-input v-model="depotData.name" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item label="分支">
-        <el-col :span="21">
-          <el-input disabled v-model="depotData.branchName" autocomplete="off"></el-input>
-        </el-col>
-        <el-col :span="1">
-          <el-button @click="showBranchDialog()">...</el-button>
-        </el-col>
+      <el-form-item label="分支" :label-width="formLabelWidth">
+        <el-input readonly v-model="depotData.branch.name" autocomplete="off">
+          <el-button size="small" @click="showBranchDialog()" slot="append" icon="el-icon-search"></el-button>
+        </el-input>
       </el-form-item>
       <el-form-item label="拼音码">
         <el-input v-model="depotData.initials" autocomplete="off"></el-input>
@@ -35,12 +32,12 @@
 </template>
 
 <script>
-import branchSearchDialog from "../../../components/branch-search-dialog"
+import BranchSearchDialog from "../../../components/branch-search-dialog"
 
 export default {
   name: "depotInfoDialog",
   components: {
-    "branch-search-dialog": branchSearchDialog
+    "branch-search-dialog": BranchSearchDialog
   },
 
   props: {
@@ -95,8 +92,8 @@ export default {
     },
 
     submitBranchData (value) {
-      this.depotData.branchID = value.id;
-      this.depotData.branchName = value.name;
+      this.depotData.branch.id = value.id;
+      this.depotData.branch.name = value.name;
 
       this.branchDialogVisible = false;
     }

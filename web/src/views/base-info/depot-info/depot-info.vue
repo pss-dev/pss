@@ -80,8 +80,7 @@ export default {
       var emptyDialogData = {
         id: -1,
         name: '',
-        branchID: '',
-        branchName: '',
+        branch: { id: -1, name: '' },
         initials: '',
         fatherID: this.fatherID
       };

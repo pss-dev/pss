@@ -101,9 +101,6 @@ let manageSettingMenuArr = [
     value: "Employee"
   },
   {
-    label: "角色管理"
-  },
-  {
     label: "账户信息",
     value: "Account"
   },
