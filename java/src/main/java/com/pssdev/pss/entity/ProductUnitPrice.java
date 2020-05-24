@@ -3,6 +3,7 @@ package com.pssdev.pss.entity;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -10,13 +11,15 @@ public class ProductUnitPrice {
    @Id
    @GeneratedValue(strategy = GenerationType.AUTO)
    private Integer id;
-   @OneToMany(targetEntity = PriceValue.class)
+   @OneToMany(targetEntity = PriceValue.class, fetch = FetchType.EAGER)
    @JoinColumn(name = "price_unit_price_id")
    @Cascade(org.hibernate.annotations.CascadeType.ALL)
    private Set<PriceValue> prices;
    @OneToOne(targetEntity = ProductUnit.class)
    @JoinColumn(name = "unit_id")
    private ProductUnit unit;
+   @Transient
+   private int actionType;
 
    public Integer getId() {
       return id;
@@ -42,6 +45,14 @@ public class ProductUnitPrice {
       this.unit = unit;
    }
 
+   public int getActionType() {
+      return actionType;
+   }
+
+   public void setActionType(int actionType) {
+      this.actionType = actionType;
+   }
+
    @Override
    public String toString() {
       return "ProductUnitPrice{" +
@@ -49,5 +60,22 @@ public class ProductUnitPrice {
               ", prices=" + prices +
               ", unit=" + unit +
               '}';
+   }
+
+   @Override
+   public boolean equals(Object o) {
+      if (this == o) return true;
+      if (o == null || getClass() != o.getClass()) {
+         return false;
+      }
+
+      ProductUnitPrice unitPrice = (ProductUnitPrice) o;
+
+      return Objects.equals(id, unitPrice.id);
+   }
+
+   @Override
+   public int hashCode() {
+      return Objects.hash(id);
    }
 }

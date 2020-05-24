@@ -1,10 +1,10 @@
 package com.pssdev.pss.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class Company {
@@ -17,7 +17,13 @@ public class Company {
    private String contactPerson;
    private String contactPhone;
    private int type;
-   private Integer fatherId;
+   @JoinColumn(name = "father_id")
+   @ManyToOne(targetEntity = Company.class)
+   private Company father;
+   @JoinColumn(name = "father_id")
+   @OneToMany(targetEntity = Company.class, fetch = FetchType.EAGER)
+   @JsonIgnore
+   private Set<Company> children;
 
    public Integer getId() {
       return id;
@@ -75,12 +81,16 @@ public class Company {
       this.type = type;
    }
 
-   public Integer getFatherId() {
-      return fatherId;
+   public Company getFather() {
+      return father;
    }
 
-   public void setFatherId(Integer fatherId) {
-      this.fatherId = fatherId;
+   public void setFather(Company father) {
+      this.father = father;
+   }
+
+   public boolean isHaveChildren() {
+      return this.children == null || this.children.size() == 0 ? false : true;
    }
 
    @Override
@@ -102,7 +112,7 @@ public class Company {
               Objects.equals(contactPerson, company.contactPerson) &&
               Objects.equals(contactPhone, company.contactPhone) &&
               Objects.equals(type, company.type) &&
-              Objects.equals(fatherId, company.fatherId);
+              Objects.equals(father, company.father);
    }
 
    @Override
@@ -115,7 +125,7 @@ public class Company {
               ", contactPerson='" + contactPerson + '\'' +
               ", contactPhone='" + contactPhone + '\'' +
               ", type=" + type +
-              ", fatherId='" + fatherId + '\'' +
+              ", fatherId='" + getFather() + '\'' +
               '}';
    }
 }

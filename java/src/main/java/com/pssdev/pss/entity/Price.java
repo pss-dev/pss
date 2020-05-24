@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.Objects;
 
 @Entity
 public class Price {
@@ -44,5 +45,27 @@ public class Price {
               ", name='" + name + '\'' +
               ", label='" + label + '\'' +
               '}';
+   }
+
+   @Override
+   public boolean equals(Object o) {
+      if (this == o) {
+         return true;
+      }
+
+      if (o == null || getClass() != o.getClass()) {
+         return false;
+      }
+
+      Price price = (Price) o;
+
+      return Objects.equals(id, price.id) &&
+              Objects.equals(name, price.name) &&
+              Objects.equals(label, price.label);
+   }
+
+   @Override
+   public int hashCode() {
+      return Objects.hash(id, name, label);
    }
 }

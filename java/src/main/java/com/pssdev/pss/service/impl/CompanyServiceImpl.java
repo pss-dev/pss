@@ -18,8 +18,8 @@ public class CompanyServiceImpl implements CompanyService {
    @Override
    @Transactional
    public void insertCompany(Company company) throws Exception {
-      if(!StringUtils.isEmpty(company.getFatherId())) {
-         Company father = companyDao.getCompany(company.getFatherId());
+      if(company.getFather() != null) {
+         Company father = companyDao.getCompany(company.getFather().getId());
 
          if(father == null) {
             throw new Exception("找不所属公司");
@@ -53,8 +53,8 @@ public class CompanyServiceImpl implements CompanyService {
          oldCompany.setAddress(company.getAddress());
          oldCompany.setContactPerson(company.getContactPerson());
          oldCompany.setContactPhone(company.getContactPhone());
-         oldCompany.setFatherId(company.getFatherId());
          oldCompany.setType(company.getType());
+         oldCompany.setFather(company.getFather());
          companyDao.modifyCompany(oldCompany);
       }
    }

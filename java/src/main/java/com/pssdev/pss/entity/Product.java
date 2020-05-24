@@ -16,7 +16,7 @@ public class Product {
    private String type;
    private String address;
    @Cascade(org.hibernate.annotations.CascadeType.ALL)
-   @OneToMany(targetEntity = ProductUnitPrice.class)
+   @OneToMany(targetEntity = ProductUnitPrice.class, fetch = FetchType.EAGER)
    @JoinColumn(name = "product_id")
    private Set<ProductUnitPrice> unit;
    private boolean used;

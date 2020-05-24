@@ -16,6 +16,7 @@ public class ProductController {
    @PostMapping("/product")
    public List<Product> insertProducts(@RequestBody Product product) throws Exception {
       productService.insertProduct(product);
+
       return productService.getProducts();
    }
 

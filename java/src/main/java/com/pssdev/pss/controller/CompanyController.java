@@ -37,5 +37,4 @@ public class CompanyController {
    public List<Company> getCompanies(@RequestParam(required = false) Integer fatherId) {
       return companyService.getCompanies(fatherId);
    }
-
 }
