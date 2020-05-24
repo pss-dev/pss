@@ -9,14 +9,14 @@
         </el-col>
         <el-col :span="6">
           <div class="inputBlock">
-            <el-input placeholder="分支机构" v-model="orderFormData.branch.name">
+            <el-input readonly placeholder="分支机构" v-model="orderFormData.branch.name">
               <el-button size="small" @click="showBranchDialog" slot="append" icon="el-icon-search"></el-button>
             </el-input>
           </div>
         </el-col>
         <el-col :span="6">
           <div class="inputBlock">
-            <el-input placeholder="来往单位">
+            <el-input readonly placeholder="来往单位">
               <el-button
                 size="small"
                 @click="showCompanyDialog"
@@ -31,7 +31,7 @@
       <el-row>
         <el-col :span="6">
           <div class="inputBlock">
-            <el-input placeholder="经手人">
+            <el-input readonly placeholder="经手人">
               <el-button
                 size="small"
                 @click="showDepartmentDialog"
@@ -43,7 +43,7 @@
         </el-col>
         <el-col :span="6">
           <div class="inputBlock">
-            <el-input placeholder="部门">
+            <el-input readonly placeholder="部门">
               <el-button
                 size="small"
                 @click="showDepartmentDialog"
@@ -55,7 +55,7 @@
         </el-col>
         <el-col :span="6">
           <div class="inputBlock">
-            <el-input placeholder="仓库">
+            <el-input readonly placeholder="仓库">
               <el-button size="small" @click="showDepotDialog" slot="append" icon="el-icon-search"></el-button>
             </el-input>
           </div>
@@ -80,7 +80,7 @@
       <el-table :data="orderFormData.product" height="400" style="width: 100%" border show-summary>
         <el-table-column prop="productID" label="商品" width="130">
           <template slot-scope="scope">
-            <el-input v-model="scope.row.productID" placeholder="商品选择">
+            <el-input readonly v-model="scope.row.productID" placeholder="商品选择">
               <el-button
                 size="small"
                 @click="showProductSelectDialog(scope)"
@@ -97,7 +97,7 @@
         </el-table-column>
         <el-table-column prop="productUnit" label="单位">
           <template slot-scope="scope">
-            <el-input v-model="scope.row.productUnit" placeholder="商品选择">
+            <el-input readonly v-model="scope.row.productUnit" placeholder="单位选择">
               <el-button
                 size="small"
                 @click="showProductUnitSelectDialog(scope)"
@@ -168,7 +168,7 @@
           <el-button @click="verifyOrderForm()">审核过账</el-button>
         </el-col>
         <el-col :span="3">
-          <el-button v-print="'#print'">打印</el-button>
+          <el-button @click="showPrintDialog()">打印</el-button>
         </el-col>
       </el-row>
     </div>
@@ -208,6 +208,7 @@
       @submitData="submitAccountData"
       @closeDialog="closeAccountDialog"
     ></account-search-dialog>
+    <print-dialog v-if="printDialogVisiable" @closeDialog="closePrintDialog"></print-dialog>
   </div>
 </template>
 
@@ -219,6 +220,7 @@ import DepotSearchDialog from "../components/depot-search-dialog.vue"
 import ProductSearchDialog from "../components/product-search-dialog.vue"
 import ProductUnitSearchDialog from "../components/product-unit-search-dialog.vue"
 import AccountSearchDialog from "../components/account-search-dialog.vue"
+import PrintDialog from "./components/order-form-print-dialog"
 
 import orderFormApi from "../../api/order-form-api/orderFormApi.js"
 
@@ -232,7 +234,8 @@ export default {
     "depot-search-dialog": DepotSearchDialog,
     "product-search-dialog": ProductSearchDialog,
     "product-unit-search-dialog": ProductUnitSearchDialog,
-    "account-search-dialog": AccountSearchDialog
+    "account-search-dialog": AccountSearchDialog,
+    "print-dialog": PrintDialog
   },
 
   data () {
@@ -278,7 +281,8 @@ export default {
       depotDialogVisiable: false,
       productDialogVisiable: false,
       productUnitDialogVisiable: false,
-      accountDialogVisiable: false
+      accountDialogVisiable: false,
+      printDialogVisiable: false
     }
   },
 
@@ -404,6 +408,14 @@ export default {
       this.orderFormData.account.name = accountValue.name;
 
       this.accountDialogVisiable = false;
+    },
+
+    showPrintDialog () {
+      this.printDialogVisiable = true;
+    },
+
+    closePrintDialog () {
+      this.printDialogVisiable = false;
     },
 
     addProduct () {

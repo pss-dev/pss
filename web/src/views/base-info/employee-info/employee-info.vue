@@ -50,10 +50,6 @@ export default {
   },
 
   props: {
-    "employeeType": {
-      type: Number,
-      default: 0 // customer or supplier
-    }
   },
 
   data () {
@@ -74,6 +70,8 @@ export default {
         id: -1,
         name: '',
         passworld: '',
+        branch: { id: -1, name: '' },
+        department: { id: -1, name: '' },
       };
 
       this.setDialogInfo("空白新增", emptyDialogData, true);
