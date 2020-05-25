@@ -66,7 +66,7 @@ export default {
       this.getDepartmentInfo(param).then(() => {
         this.addPaths();
         this.resetCurrentPage();
-        this.fatherID = value.id;
+        this.parent = value;
       });
     },
 
@@ -77,10 +77,10 @@ export default {
 
     newInfo () {
       let emptyDialogData = {
-        id: -1,
+        id: null,
         name: '',
         initials: '',
-        fatherID: this.fatherID,
+        parent: this.parent,
       };
 
       this.setDialogInfo("空白新增", emptyDialogData, true);
@@ -94,19 +94,20 @@ export default {
 
     submitData (departmentData) {
       let params = {};
+      let getInfoParams = this.getParameterForNewTable(this.getParentID());
 
       if (this.addInfo) {
         this.setDefaultID(departmentData);
 
         departmentInfoApi.addDepartmentInfo(departmentData).then(
-          (res) => {
-            this.setResponseResult(res.data);
+          () => {
+            this.getDepartmentInfo(getInfoParams);
           });
       }
       else {
         departmentInfoApi.modifyDepartmentInfo(params, departmentData).then(
-          (res) => {
-            this.setResponseResult(res.data);
+          () => {
+            this.getDepartmentInfo(getInfoParams);
           });
       }
     },
@@ -114,8 +115,10 @@ export default {
     deleteInfo () {
       departmentInfoApi
         .deleteDepartmentInfo(this.selectedInfo)
-        .then((res) => {
-          this.setResponseResult(res.data);
+        .then(() => {
+          let params = this.getParameterForNewTable(this.getParentID());
+
+          this.getDepartmentInfo(params);
         });
     },
 
@@ -125,12 +128,12 @@ export default {
       }
 
       let previousInfo = this.paths[this.paths.length - 1];
-      let previousParams = this.getParameterForNewTable(previousInfo.id);
+      let previousParams = this.getParameterForNewTable(previousInfo.parent.id);
 
       this.getDepartmentInfo(previousParams).then(() => {
         this.paths.pop();
         this.currentPage = previousInfo.page;
-        this.fatherID = previousInfo.id;
+        this.parent = previousInfo.parent;
       });
     },
 
@@ -143,7 +146,7 @@ export default {
   },
 
   created: function () {
-    let params = this.getParameterForNewTable(this.fatherID);
+    let params = this.getParameterForNewTable(this.getParentID());
 
     this.getDepartmentInfo(params);
   }

@@ -74,7 +74,7 @@ export default {
       this.getaccountInfo(param).then(() => {
         this.addPaths();
         this.resetCurrentPage();
-        this.fatherID = value.id;
+        this.parent = value;
       });
     },
 
@@ -85,9 +85,10 @@ export default {
 
     newInfo () {
       var emptyDialogData = {
-        id: -1,
+        id: null,
         name: '',
         balance: '',
+        parent: this.parent,
       };
 
       this.setDialogInfo("空白新增", emptyDialogData, true);
@@ -101,19 +102,20 @@ export default {
 
     submitData (accountData) {
       var params = {};
+      var getInfoParams = this.getParameterForNewTable(this.getParentID());
 
       if (this.addInfo) {
         this.setDefaultID(accountData);
 
         accountInfoApi.addAccountInfo(accountData).then(
-          (res) => {
-            this.setResponseResult(res.data);
+          () => {
+            this.getAccountInfo(getInfoParams);
           });
       }
       else {
         accountInfoApi.modifyAccountInfo(params, accountData).then(
-          (res) => {
-            this.setResponseResult(res.data);
+          () => {
+            this.getAccountInfo(getInfoParams);
           });
       }
     },
@@ -121,8 +123,10 @@ export default {
     deleteInfo () {
       accountInfoApi
         .deleteAccountInfo(this.selectedInfo)
-        .then((res) => {
-          this.setResponseResult(res.data);
+        .then(() => {
+          var params = this.getParameterForNewTable(this.getParentID());
+
+          this.getAccountInfo(params);
         });
     },
 
@@ -132,12 +136,12 @@ export default {
       }
 
       var previousInfo = this.paths[this.paths.length - 1];
-      var previousParams = this.getParameterForNewTable(previousInfo.id);
+      var previousParams = this.getParameterForNewTable(previousInfo.parent.id);
 
       this.getAccountInfo(previousParams).then(() => {
         this.paths.pop();
         this.currentPage = previousInfo.page;
-        this.fatherID = previousInfo.id;
+        this.parent = previousInfo.parent;
       });
     },
 
@@ -150,7 +154,7 @@ export default {
   },
 
   created: function () {
-    var params = this.getParameterForNewTable(this.fatherID);
+    var params = this.getParameterForNewTable(this.getParentID());
 
     this.getAccountInfo(params);
   }

@@ -3,6 +3,9 @@
     <el-tabs v-model="activeName">
       <el-tab-pane label="基本资料" name="first">
         <el-form :model="productData" ref="productData" :rules="rules" class="demo-ruleForm">
+          <el-form-item label="编号" :label-width="formLabelWidth">
+            <el-input v-model="productData.identifier" autocomplete="off"></el-input>
+          </el-form-item>
           <el-form-item label="名称" :label-width="formLabelWidth">
             <el-input v-model="productData.name" autocomplete="off"></el-input>
           </el-form-item>
@@ -24,19 +27,19 @@
         <label>默认收购单位</label>
         <el-select v-model="productData.purchaseDefaultUnit" placeholder="请选择">
           <el-option
-            v-for="item in productData.unit"
-            :key="item.unitID"
-            :label="item.unitName"
-            :value="item.unitID"
+            v-for="item in productData.units"
+            :key="item.unit.id"
+            :label="item.unit.name"
+            :value="item.unit.id"
           ></el-option>
         </el-select>
         <label>默认销售单位</label>
         <el-select v-model="productData.sellDefaultUnit" placeholder="请选择">
           <el-option
-            v-for="item in productData.unit"
-            :key="item.unitID"
-            :label="item.unitName"
-            :value="item.unitID"
+            v-for="item in productData.units"
+            :key="item.unit.id"
+            :label="item.unit.name"
+            :value="item.unit.id"
           ></el-option>
         </el-select>
 
@@ -70,54 +73,54 @@
             </template>
           </el-table-column>
 
-          <el-table-column prop="purchasePrice1" :label="priceData[0].label">
+          <el-table-column :prop="priceData[0].id" :label="priceData[0].label">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.purchasePrice1"></el-input>
+              <el-input v-model="scope.row.prices[0]"></el-input>
             </template>
           </el-table-column>
-          <el-table-column prop="purchasePrice2" :label="priceData[1].label">
+          <el-table-column :prop="priceData[1].id" :label="priceData[1].label">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.purchasePrice2"></el-input>
+              <el-input v-model="scope.row.prices[1]"></el-input>
             </template>
           </el-table-column>
-          <el-table-column prop="purchasePrice3" :label="priceData[2].label">
+          <el-table-column :prop="priceData[2].id" :label="priceData[2].label">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.purchasePrice3"></el-input>
+              <el-input v-model="scope.row.prices[2]"></el-input>
             </template>
           </el-table-column>
-          <el-table-column prop="highestPurchasePrice" :label="priceData[3].label">
+          <el-table-column :prop="priceData[3].id" :label="priceData[3].label">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.highestPurchasePrice"></el-input>
+              <el-input v-model="scope.row.prices[3]"></el-input>
             </template>
           </el-table-column>
-          <el-table-column prop="sellPrice1" :label="priceData[4].label">
+          <el-table-column :prop="priceData[4].id" :label="priceData[4].label">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.sellPrice1"></el-input>
+              <el-input v-model="scope.row.prices[4]"></el-input>
             </template>
           </el-table-column>
-          <el-table-column prop="sellPrice2" :label="priceData[5].label">
+          <el-table-column :prop="priceData[5].id" :label="priceData[5].label">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.sellPrice2"></el-input>
+              <el-input v-model="scope.row.prices[5]"></el-input>
             </template>
           </el-table-column>
-          <el-table-column prop="sellPrice3" :label="priceData[6].label">
+          <el-table-column :prop="priceData[6].id" :label="priceData[6].label">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.sellPrice3"></el-input>
+              <el-input v-model="scope.row.prices[6]"></el-input>
             </template>
           </el-table-column>
-          <el-table-column prop="retailPrice" :label="priceData[7].label">
+          <el-table-column :prop="priceData[7].id" :label="priceData[7].label">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.retailPrice"></el-input>
+              <el-input v-model="scope.row.prices[7]"></el-input>
             </template>
           </el-table-column>
-          <el-table-column prop="lowestSellPrice" :label="priceData[8].label">
+          <el-table-column :prop="priceData[8].id" :label="priceData[8].label">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.lowestSellPrice"></el-input>
+              <el-input v-model="scope.row.prices[8]"></el-input>
             </template>
           </el-table-column>
-          <el-table-column prop="highestSellPrice" :label="priceData[9].label">
+          <el-table-column :prop="priceData[9].id" :label="priceData[9].label">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.highestSellPrice"></el-input>
+              <el-input v-model="scope.row.prices[9]"></el-input>
             </template>
           </el-table-column>
         </el-table>
@@ -137,6 +140,7 @@
 <script>
 import productUnitSearchDialog from '../../../components/product-unit-search-dialog'
 import productUnitApi from '../../../../api/productUnit-info-api/productUnitInfoApi.js'
+import Tool from '@/views/constant/tool.js'
 
 export default {
   name: "productInfoDialog",
@@ -179,34 +183,40 @@ export default {
   },
 
   methods: {
+    getScopeVModel (prices, id) {
+      prices.forEach((priceValue) => {
+        if (priceValue.price.id == id) {
+          return priceValue;
+        }
+      });
+    },
+
     closeDialog () {
       this.$emit('closeDialog');
     },
 
     unitInfoChange (row) {
-      console.log("========  change ", row);
+      if (row.actionType == -1) {
+        row.actionType = Tool.actionType.update;
+      }
     },
 
     addUnit () {
+      var pricesValue = [];
+
+      this.priceData.forEach((value) => {
+        pricesValue.push({ price: value, number: 0 });
+      });
+
       let emptyUnit = {
-        unitID: -1,
-        unitName: 'empty',
+        unit: { id: -1, name: '' },
         crate: 1,
-        purchasePrice1: '',
-        purchasePrice2: '',
-        purchasePrice3: '',
-        highestPurchasePrice: '',
-        sellPrice1: '',
-        sellPrice2: '',
-        sellPrice3: '',
-        retailPrice: '',
-        lowestSellPrice: '',
-        highestSellPrice: '',
         default: false,
-        actionType: 0,
+        actionType: Tool.actionType.add,
+        prices: pricesValue
       };
 
-      this.productData.unit.push(emptyUnit);
+      this.productData.units.push(emptyUnit);
     },
 
     closeUnitDialog () {
@@ -225,7 +235,7 @@ export default {
     submitData () {
       this.$refs['productData'].validate((valid) => {
         if (valid) {
-          this.$emit("submitData", this.productData, this.oldID);
+          this.$emit("submitData", this.productData);
         } else {
           console.log('error submit!!');
           return false;
@@ -234,8 +244,8 @@ export default {
     },
 
     submitUnitData (value) {
-      this.selectUnitData.unitID = value.id;
-      this.selectUnitData.unitName = value.name;
+      this.selectUnitData.unit.id = value.id;
+      this.selectUnitData.unit.name = value.name;
       this.closeUnitDialog();
     },
 

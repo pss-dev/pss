@@ -12,7 +12,7 @@
       </el-form-item>
       <el-form-item label="客户">
         <el-col :span="21">
-          <el-input disabled v-model="branchData.customerName" autocomplete="off"></el-input>
+          <el-input disabled v-model="branchData.customer.name" autocomplete="off"></el-input>
         </el-col>
         <el-col :span="1">
           <el-button @click="showCompanyDialog(true)">...</el-button>
@@ -20,7 +20,7 @@
       </el-form-item>
       <el-form-item label="供货商">
         <el-col :span="21">
-          <el-input disabled v-model="branchData.supplierName" autocomplete="off"></el-input>
+          <el-input disabled v-model="branchData.supplier.name" autocomplete="off"></el-input>
         </el-col>
         <el-col :span="1">
           <el-button @click="showCompanyDialog(false)">...</el-button>
@@ -106,12 +106,10 @@ export default {
 
     submitCompanyData (value) {
       if (this.isCustomer) {
-        this.branchData.customerID = value.id;
-        this.branchData.customerName = value.name;
+        this.branchData.customer = value;
       }
       else {
-        this.branchData.supplierID = value.id;
-        this.branchData.supplierName = value.name;
+        this.branchData.supplier = value;
       }
 
       this.companydialogVisible = false;

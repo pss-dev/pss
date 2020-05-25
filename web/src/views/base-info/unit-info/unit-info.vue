@@ -26,7 +26,7 @@
       @closeDialog="closeDialog"
       @submitData="submitData"
       :title="dialogTitle"
-      :UnitData="dialogData"
+      :unitData="dialogData"
       v-if="showDialog"
     ></unit-info-dialog>
   </div>
@@ -65,7 +65,7 @@ export default {
       this.getUnitInfo(param).then(() => {
         this.addPaths();
         this.resetCurrentPage();
-        this.fatherID = value.id;
+        this.parent = value;
       });
     },
 
@@ -76,10 +76,10 @@ export default {
 
     newInfo () {
       var emptyDialogData = {
-        id: -1,
+        id: null,
         name: '',
         note: '',
-        fatherID: this.fatherID,
+        parent: parent,
       };
 
       this.setDialogInfo("空白新增", emptyDialogData, true);
@@ -93,19 +93,20 @@ export default {
 
     submitData (unitData) {
       var params = {};
+      var getInfoParams = this.getParameterForNewTable(this.getParentID());
 
       if (this.addInfo) {
         this.setDefaultID(unitData);
 
         unitInfoApi.addUnitInfo(unitData).then(
-          (res) => {
-            this.setResponseResult(res.data);
+          () => {
+            this.getUnitInfo(getInfoParams);
           });
       }
       else {
         unitInfoApi.modifyUnitInfo(params, unitData).then(
-          (res) => {
-            this.setResponseResult(res.data);
+          () => {
+            this.getUnitInfo(getInfoParams);
           });
       }
     },
@@ -113,8 +114,10 @@ export default {
     deleteInfo () {
       unitInfoApi
         .deleteUnitInfo(this.selectedInfo)
-        .then((res) => {
-          this.setResponseResult(res.data);
+        .then(() => {
+          var params = this.getParameterForNewTable(this.getParentID());
+
+          this.getUnitInfo(params);
         });
     },
 
@@ -124,12 +127,12 @@ export default {
       }
 
       var previousInfo = this.paths[this.paths.length - 1];
-      var previousParams = this.getParameterForNewTable(previousInfo.id);
+      var previousParams = this.getParameterForNewTable(previousInfo.parent.id);
 
       this.getUnitInfo(previousParams).then(() => {
         this.paths.pop();
         this.currentPage = previousInfo.page;
-        this.fatherID = previousInfo.id;
+        this.parent = previousInfo.parent;
       });
     },
 
@@ -142,7 +145,7 @@ export default {
   },
 
   created: function () {
-    var params = this.getParameterForNewTable(this.fatherID);
+    var params = this.getParameterForNewTable(this.getParentID());
 
     this.getUnitInfo(params);
   }

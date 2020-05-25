@@ -1,24 +1,31 @@
 import baseApi from '../baseApi.js'
 import fetch from '@/http/fetch'
 
-function getPriceInfo (params) {
+function getPriceInfo () {
   return fetch({
     url: baseApi.baseApi('price'),
     method: 'get',
-    params
   })
 }
 
-function modifyPriceInfo (params, data) {
+function addPriceInfo (data) {
+  return fetch({
+    url: baseApi.baseApi('price'),
+    method: 'post',
+    data
+  })
+}
+
+function modifyPriceInfo (data) {
   return fetch({
     url: baseApi.baseApi('price'),
     method: 'put',
-    params,
     data
   })
 }
 
 export default {
   getPriceInfo,
+  addPriceInfo,
   modifyPriceInfo,
 }

@@ -13,11 +13,12 @@
       :totalSize="totalSize"
       :currentPage="currentPage"
       :selectedInfoInvalid="isSelectedInfoInvalid()"
-      :newInfoVisiable="false"
+      :newInfoVisiable="true"
       :copyNewVisiable="false"
       :deleteInfoVisiable="false"
       :previousVisiable="false"
       :nextVisiable="false"
+      @newInfo="newInfo"
       @edit="edit"
     ></base-info-footer>
 
@@ -60,23 +61,39 @@ export default {
   },
 
   methods: {
+    newInfo () {
+      var priceData = {
+        id: null,
+        name: '',
+        label: ''
+      };
+
+      this.setDialogInfo("空白新增", priceData, true);
+      this.showDialog = true;
+    },
+
     edit () {
       this.setDialogInfo("编辑价格名称", this.selectedInfo, false);
       this.showDialog = true;
     },
 
     submitData (priceData) {
-      var params = this.getParameterForNewTable(this.fatherID);
-
-      priceInfoApi.modifyPriceInfo(params, priceData).then(
-        (res) => {
-          this.setResponseResult(res.data);
-        });
-
+      if (this.addInfo) {
+        priceInfoApi.addPriceInfo(priceData).then(
+          () => {
+            this.getPriceInfo();
+          });
+      }
+      else {
+        priceInfoApi.modifyPriceInfo(priceData).then(
+          () => {
+            this.getPriceInfo();
+          });
+      }
     },
 
-    getPriceInfo (params) {
-      priceInfoApi.getPriceInfo(params).then(
+    getPriceInfo () {
+      priceInfoApi.getPriceInfo().then(
         (res) => {
           this.setResponseResult(res.data);
         });
@@ -84,9 +101,7 @@ export default {
   },
 
   created: function () {
-    var params = this.getParameterForNewTable(this.fatherID);
-
-    this.getPriceInfo(params);
+    this.getPriceInfo();
   }
 }
 </script>

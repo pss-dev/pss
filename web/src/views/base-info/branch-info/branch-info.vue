@@ -68,7 +68,7 @@ export default {
       this.getbranchInfo(param).then(() => {
         this.addPaths();
         this.resetCurrentPage();
-        this.fatherID = value.id;
+        this.parent = value;
       });
     },
 
@@ -79,14 +79,12 @@ export default {
 
     newInfo () {
       var emptyDialogData = {
-        id: -1,
+        id: null,
         name: '',
-        customerID: '',
-        customerName: '',
-        supplierID: '',
-        supplierName: '',
+        customer: { id: null, name: '' },
+        supplier: { id: null, name: '' },
         initials: '',
-        fatherID: this.fatherID,
+        parent: this.parent,
       };
 
       this.setDialogInfo("空白新增", emptyDialogData, true);
@@ -100,19 +98,20 @@ export default {
 
     submitData (branchData) {
       var params = {};
+      var getInfoParams = this.getParameterForNewTable(this.getParentID());
 
       if (this.addInfo) {
         this.setDefaultID(branchData);
 
         branchInfoApi.addbranchInfo(branchData).then(
-          (res) => {
-            this.setResponseResult(res.data);
+          () => {
+            this.getBranchInfo(getInfoParams);
           });
       }
       else {
         branchInfoApi.modifybranchInfo(params, branchData).then(
-          (res) => {
-            this.setResponseResult(res.data);
+          () => {
+            this.getBranchInfo(getInfoParams);
           });
       }
     },
@@ -120,8 +119,10 @@ export default {
     deleteInfo () {
       branchInfoApi
         .deletebranchInfo(this.selectedInfo)
-        .then((res) => {
-          this.setResponseResult(res.data);
+        .then(() => {
+          var params = this.getParameterForNewTable(this.getParentID());
+
+          this.getBranchInfo(params);
         });
     },
 
@@ -131,12 +132,12 @@ export default {
       }
 
       var previousInfo = this.paths[this.paths.length - 1];
-      var previousParams = this.getParameterForNewTable(previousInfo.id);
+      var previousParams = this.getParameterForNewTable(previousInfo.parent.id);
 
       this.getBranchInfo(previousParams).then(() => {
         this.paths.pop();
         this.currentPage = previousInfo.page;
-        this.fatherID = previousInfo.id;
+        this.parent = previousInfo.parent;
       });
     },
 
@@ -149,7 +150,7 @@ export default {
   },
 
   created: function () {
-    var params = this.getParameterForNewTable(this.fatherID);
+    var params = this.getParameterForNewTable(this.getParentID());
 
     this.getBranchInfo(params);
   }

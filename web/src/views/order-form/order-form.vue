@@ -223,6 +223,7 @@ import AccountSearchDialog from "../components/account-search-dialog.vue"
 import PrintDialog from "./components/order-form-print-dialog"
 
 import orderFormApi from "../../api/order-form-api/orderFormApi.js"
+import Tool from '@/views/constant/tool.js'
 
 export default {
   name: "orderForm",
@@ -243,31 +244,28 @@ export default {
       orderFormData: {
         id: "",
         createDate: new Date(),
-        branch: { id: "", name: "" },
-        company: { id: "", name: "" },
-        employee: { id: "", name: "" },
-        department: { id: "", name: "" },
-        depot: { id: "", name: "" },
-        account: { id: "", name: "" },
+        branch: { id: -1, name: "" },
+        company: { id: -1, name: "" },
+        employee: { id: -1, name: "" },
+        department: { id: -1, name: "" },
+        depot: { id: -1, name: "" },
+        account: { id: -1, name: "" },
         money: 0, // 收款
         wipe: 0, // 抹零
-        actionType: 0,
+        actionType: Tool.actionType.add,
 
         product: [
           {
-            productID: '',
-            productName: '',
-            productUnit: { id: "", name: "" },
+            product: {},
             stock: 0, //库存
-            count: 0,
-            price: 0,
-            amount: 0,
-            note: '',
+            count: 0,//数量
+            price: 0,//单价
+            amount: 0,//总价
+            note: '',//备注
             specification: '', //规格
-            actionType: 0
+            actionType: Tool.actionType.add
           }
         ],
-
       },
 
       prices: [],
@@ -296,8 +294,7 @@ export default {
     },
 
     submitBranchData (branchValue) {
-      this.orderFormData.branch.id = branchValue.id;
-      this.orderFormData.branch.name = branchValue.name;
+      this.orderFormData.branch = branchValue;
 
       this.branchDialogVisiable = false;
     },
@@ -311,8 +308,7 @@ export default {
     },
 
     submitCompanyData (companyValue) {
-      this.orderFormData.company.id = companyValue.id;
-      this.orderFormData.company.name = companyValue.name;
+      this.orderFormData.company = companyValue;
 
       this.companyDialogVisiable = false;
     },
@@ -326,8 +322,7 @@ export default {
     },
 
     submitEmployeeData (employeeValue) {
-      this.orderFormData.employee.id = employeeValue.id;
-      this.orderFormData.employee.name = employeeValue.name;
+      this.orderFormData.employee = employeeValue;
 
       this.employeeDialogVisiable = false;
     },
@@ -341,9 +336,7 @@ export default {
     },
 
     submitDepartmentData (departmentValue) {
-      console.log("======  ", departmentValue);
-      this.orderFormData.department.id = departmentValue.id;
-      this.orderFormData.department.name = departmentValue.name;
+      this.orderFormData.department = departmentValue;
 
       this.departmentDialogVisiable = false;
     },
@@ -357,8 +350,7 @@ export default {
     },
 
     submitDepotData (depotValue) {
-      this.orderFormData.depot.id = depotValue.id;
-      this.orderFormData.depot.name = depotValue.name;
+      this.orderFormData.depot = depotValue;
 
       this.depotDialogVisiable = false;
     },
@@ -429,7 +421,7 @@ export default {
         amount: 0,
         note: '',
         specification: '', //规格
-        actionType: 0
+        actionType: Tool.actionType.add
       };
 
       this.orderFormData.product.push(productData);

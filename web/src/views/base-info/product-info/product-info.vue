@@ -56,26 +56,27 @@ export default {
   data () {
     return {
       priceData: [
-        { id: "purchasePrice1", name: "采购价格1", label: "采购价格1" },
-        { id: "purchasePrice2", name: "采购价格2", label: "采购价格2" },
-        { id: "purchasePrice3", name: "采购价格3", label: "采购价格3" },
-        { id: "highestPurchasePrice", name: "最高采购价", label: "最高采购价" },
-        { id: "sellPrice1", name: "销售价格1", label: "销售价格1" },
-        { id: "sellPrice2", name: "销售价格2", label: "销售价格2" },
-        { id: "sellPrice3", name: "销售价格3", label: "销售价格3" },
-        { id: "retailPrice", name: "零售价", label: "零售价" },
-        { id: "lowestSellPrice", name: "最低销售价", label: "最低销售价" },
-        { id: "highestSellPrice", name: "最高售价", label: "最高售价" },
+        { id: 0, name: "采购价格1", label: "采购价格1" },
+        { id: 1, name: "采购价格2", label: "采购价格2" },
+        { id: 2, name: "采购价格3", label: "采购价格3" },
+        { id: 3, name: "最高采购价", label: "最高采购价" },
+        { id: 4, name: "销售价格1", label: "销售价格1" },
+        { id: 5, name: "销售价格2", label: "销售价格2" },
+        { id: 6, name: "销售价格3", label: "销售价格3" },
+        { id: 7, name: "零售价", label: "零售价" },
+        { id: 8, name: "最低销售价", label: "最低销售价" },
+        { id: 9, name: "最高售价", label: "最高售价" },
       ],
 
       titData:
-        [{ prop: "name", label: "名称" },
+        [{ prop: "identifier", label: "编号" },
+        { prop: "name", label: "名称" },
         { prop: "specification", label: "规格" },
         { prop: "type", label: "型号" },
-        { prop: "unit[0].purchasePrice1", label: this.getPriceTitle("purchasePrice1") },
-        { prop: "unit[0].purchasePrice2", label: this.getPriceTitle("purchasePrice2") },
-        { prop: "unit[0].sellPrice1", label: this.getPriceTitle("sellPrice1") },
-        { prop: "unit[0].sellPrice2", label: this.getPriceTitle("sellPrice2") },
+        { prop: "units[0].prices[0].price.id", label: this.priceData[0].label },
+        { prop: "units[0].prices[1].price.id", label: this.priceData[1].label },
+        { prop: "units[0].prices[4].price.id", label: this.priceData[4].label },
+        { prop: "units[0].prices[5].price.id", label: this.priceData[5].label },
         { prop: "stopPurchase", label: "停止采购" },],
     }
   },
@@ -87,30 +88,8 @@ export default {
       this.getProductInfo(param).then(() => {
         this.addPaths();
         this.resetCurrentPage();
-        this.fatherID = value.id;
+        this.parent = value;
       });
-    },
-
-    getPriceTitle (id) {
-      var priceDataValid = this.priceData && this.priceData.length == 10;
-      var label = "";
-
-      switch (id) {
-        case "purchasePrice1":
-          label = priceDataValid ? this.priceData[0].label : "采购价格1";
-          break;
-        case "purchasePrice2":
-          label = priceDataValid ? this.priceData[1].label : "采购价格2";
-          break;
-        case "sellPrice1":
-          label = priceDataValid ? this.priceData[4].label : "销售价格1";
-          break;
-        case "sellPrice2":
-          label = priceDataValid ? this.priceData[5].label : "销售价格2";
-          break;
-      }
-
-      return label;
     },
 
     edit () {
@@ -119,8 +98,15 @@ export default {
     },
 
     newInfo () {
+      var pricesValue = [];
+
+      this.priceData.forEach((value) => {
+        pricesValue.push({ price: value, number: 0 });
+      });
+
       var emptyDialogData = {
-        id: -1,
+        id: null,
+        identifier: '',
         name: '',
         initials: '',
         specification: '',
@@ -132,22 +118,13 @@ export default {
         sellDefaultUnit: '',
         purchaseDefaultUnit: '',
         actionType: 0,
-        unit: [{
-          unitID: -1,
-          unitName: '1',
-          crate: 1,
-          purchasePrice1: '',
-          purchasePrice2: '',
-          purchasePrice3: '',
-          highestPurchasePrice: '',
-          sellPrice1: '',
-          sellPrice2: '',
-          sellPrice3: '',
-          retailPrice: '',
-          lowestSellPrice: '',
-          highestSellPrice: '',
+        parent: this.parent,
+        units: [{
           default: true,
+          crate: 1,
           actionType: 0,
+          unit: {},
+          prices: pricesValue,
         }],
       };
 
@@ -161,20 +138,21 @@ export default {
     },
 
     submitData (productData) {
-      var params = this.getParameterForNewTable(this.fatherID);
+      var params = {};
+      var getInfoParams = this.getParameterForNewTable(this.getParentID());
 
       if (this.addInfo) {
         this.setDefaultID(productData);
 
         productInfoApi.addProductInfo(params, productData).then(
-          (res) => {
-            this.setResponseResult(res.data);
+          () => {
+            this.getProductInfo(getInfoParams);
           });
       }
       else {
         productInfoApi.modifyProductInfo(params, productData).then(
-          (res) => {
-            this.setResponseResult(res.data);
+          () => {
+            this.getProductInfo(getInfoParams);
           });
       }
     },
@@ -187,8 +165,9 @@ export default {
 
       productInfoApi
         .deleteProductInfo(deleteParams)
-        .then((res) => {
-          this.setResponseResult(res.data);
+        .then(() => {
+          var params = this.getParameterForNewTable(this.getParentID());
+          this.getProductInfo(params);
         });
     },
 
@@ -217,14 +196,19 @@ export default {
     getPriceInfo () {
       priceInfoApi.getPriceInfo().then(
         (res) => {
-          this.priceData = res.data;
+          console.log("= ====getPriceInfo ", res);
+
+          if (res.data) {
+            this.priceData = res.data;
+          }
+
         }
       );
     },
   },
 
   created: function () {
-    var params = this.getParameterForNewTable(this.fatherID);
+    var params = this.getParameterForNewTable(this.getParentID());
     this.getProductInfo(params);
     this.getPriceInfo();
   }

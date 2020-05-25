@@ -14,7 +14,7 @@ export default {
       pageSize: 30,
       totalSize: 1024,
 
-      fatherID: "",
+      parent: null,
       paths: [], // for previous
     }
   },
@@ -77,8 +77,9 @@ export default {
 
     addPaths () {
       this.paths.push({
-        tableID: this.fatherID,
-        currentPage: this.currentPage
+        parent: this.parent,
+        data: this.tableData,
+        page: this.currentPage
       });
     },
 
@@ -97,6 +98,14 @@ export default {
 
     setDefaultID (data) {
       data.id = -1;
+    },
+
+    getParentID () {
+      if (this.parent) {
+        return this.parent.id;
+      }
+
+      return null;
     }
   }
 }

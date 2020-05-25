@@ -67,11 +67,12 @@ export default {
 
     newInfo () {
       var emptyDialogData = {
-        id: -1,
+        id: null,
         name: '',
+        account: '',
         passworld: '',
-        branch: { id: -1, name: '' },
-        department: { id: -1, name: '' },
+        branch: { id: null, name: '' },
+        department: { id: null, name: '' },
       };
 
       this.setDialogInfo("空白新增", emptyDialogData, true);
@@ -119,7 +120,7 @@ export default {
   },
 
   created: function () {
-    var params = this.getParameterForNewTable(this.fatherID);
+    var params = this.getParameterForNewTable(this.getParentID());
 
     this.getEmployeeInfo(params);
   }

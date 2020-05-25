@@ -6,8 +6,11 @@
           <el-form-item label="员工姓名" :label-width="formLabelWidth">
             <el-input v-model="employeeData.name" autocomplete="off"></el-input>
           </el-form-item>
+          <el-form-item label="账号" :label-width="formLabelWidth">
+            <el-input v-model="employeeData.account" autocomplete="off"></el-input>
+          </el-form-item>
           <el-form-item label="密码" :label-width="formLabelWidth">
-            <el-input v-model="employeeData.passwor" autocomplete="off"></el-input>
+            <el-input v-model="employeeData.password" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="分支机构" :label-width="formLabelWidth">
             <el-input readonly v-model="employeeData.branch.name" autocomplete="off">
@@ -112,8 +115,7 @@ export default {
     },
 
     submitBranchData (value) {
-      this.employeeData.branch.id = value.id;
-      this.employeeData.branch.name = value.name;
+      this.employeeData.branch = value;
 
       this.branchDialogVisible = false;
     },
@@ -127,8 +129,7 @@ export default {
     },
 
     submitDepartmentData (value) {
-      this.employeeData.department.id = value.id;
-      this.employeeData.department.name = value.name;
+      this.employeeData.department = value;
 
       this.departmentDialogVisible = false;
     }

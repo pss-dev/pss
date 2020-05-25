@@ -92,8 +92,7 @@ export default {
     },
 
     submitBranchData (value) {
-      this.depotData.branch.id = value.id;
-      this.depotData.branch.name = value.name;
+      this.depotData.branch = value;
 
       this.branchDialogVisible = false;
     }

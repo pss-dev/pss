@@ -1,6 +1,6 @@
 <template>
   <el-dialog :title="title" :visible.sync="dialogVisible" :before-close="handleClose">
-    <el-form :model="UnitData" ref="UnitData" :rules="rules" class="demo-ruleForm">
+    <el-form :model="unitData" ref="unitData" :rules="rules" class="demo-ruleForm">
       <el-form-item label="单位名称" :label-width="formLabelWidth">
         <el-input v-model="unitData.name" autocomplete="off"></el-input>
       </el-form-item>
@@ -53,7 +53,7 @@ export default {
     submitData () {
       this.$refs['unitData'].validate((valid) => {
         if (valid) {
-          this.$emit("submitData", this.unitData, this.oldID);
+          this.$emit("submitData", this.unitData);
         } else {
           console.log('error submit!!');
           return false;

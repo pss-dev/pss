@@ -78,7 +78,7 @@ export default {
       this.getCompanyInfo(param).then(() => {
         this.addPaths();
         this.resetCurrentPage();
-        this.fatherID = value.id;
+        this.parent = value;
       });
     },
 
@@ -96,7 +96,7 @@ export default {
         contactPerson: '',
         contactPhone: '',
         type: this.companyType,
-        fatherID: this.fatherID,
+        parent: this.parent,
       };
 
       this.setDialogInfo("空白新增", emptyDialogData, true);
@@ -110,19 +110,20 @@ export default {
 
     submitData (companyData) {
       var params = {};
+      var getInfoParams = this.getParameterForNewTable(this.getParentID());
 
       if (this.addInfo) {
         this.setDefaultID(companyData);
 
         companyInfoApi.addCompanyInfo(companyData).then(
-          (res) => {
-            this.setResponseResult(res.data);
+          () => {
+            this.getCompanyInfo(getInfoParams);
           });
       }
       else {
         companyInfoApi.modifyCompanyInfo(params, companyData).then(
-          (res) => {
-            this.setResponseResult(res.data);
+          () => {
+            this.getCompanyInfo(getInfoParams);
           });
       }
     },
@@ -130,8 +131,10 @@ export default {
     deleteInfo () {
       companyInfoApi
         .deleteCompanyInfo(this.selectedInfo)
-        .then((res) => {
-          this.setResponseResult(res.data);
+        .then(() => {
+          var params = this.getParameterForNewTable(this.getParentID());
+
+          this.getCompanyInfo(params);
         });
     },
 
@@ -141,12 +144,12 @@ export default {
       }
 
       var previousInfo = this.paths[this.paths.length - 1];
-      var previousParams = this.getParameterForNewTable(previousInfo.id);
+      var previousParams = this.getParameterForNewTable(previousInfo.parent.id);
 
       this.getCompanyInfo(previousParams).then(() => {
         this.paths.pop();
         this.currentPage = previousInfo.page;
-        this.fatherID = previousInfo.id;
+        this.parent = previousInfo.parent;
       });
     },
 
@@ -159,7 +162,7 @@ export default {
   },
 
   created: function () {
-    var params = this.getParameterForNewTable(this.fatherID);
+    var params = this.getParameterForNewTable(this.getParentID());
 
     this.getCompanyInfo(params);
   }
