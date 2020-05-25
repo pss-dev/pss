@@ -74,6 +74,7 @@ public class ProductServiceImpl implements ProductService {
       oldProduct.setUsed(newProduct.isUsed());
       oldProduct.setStopPurchase(newProduct.isStopPurchase());
       oldProduct.setStop(newProduct.isStop());
+      oldProduct.setParent(newProduct.getParent());
    }
 
    private void modifyUnitPrice(ProductUnitPrice unitPrice,

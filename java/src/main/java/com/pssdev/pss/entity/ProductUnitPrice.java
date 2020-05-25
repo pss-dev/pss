@@ -20,6 +20,8 @@ public class ProductUnitPrice {
    private ProductUnit unit;
    @Transient
    private int actionType;
+   private boolean defaultUnit;
+   private int crate;
 
    public Integer getId() {
       return id;
@@ -53,12 +55,30 @@ public class ProductUnitPrice {
       this.actionType = actionType;
    }
 
+   public boolean isDefault() {
+      return defaultUnit;
+   }
+
+   public void setDefault(boolean defaultUnit) {
+      this.defaultUnit = defaultUnit;
+   }
+
+   public int getCrate() {
+      return crate;
+   }
+
+   public void setCrate(int crate) {
+      this.crate = crate;
+   }
+
    @Override
    public String toString() {
       return "ProductUnitPrice{" +
               "id=" + id +
               ", prices=" + prices +
               ", unit=" + unit +
+              ", defaultUnit=" + defaultUnit +
+              ", crate=" + crate +
               '}';
    }
 

@@ -1,9 +1,6 @@
 package com.pssdev.pss.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class ProductUnit {
@@ -12,6 +9,9 @@ public class ProductUnit {
    private Integer id;
    private String name;
    private String label;
+   @JoinColumn(name = "father_id")
+   @ManyToOne(targetEntity = ProductUnit.class)
+   private ProductUnit parent;
 
    public Integer getId() {
       return id;
@@ -35,6 +35,14 @@ public class ProductUnit {
 
    public void setLabel(String label) {
       this.label = label;
+   }
+
+   public ProductUnit getParent() {
+      return parent;
+   }
+
+   public void setParent(ProductUnit parent) {
+      this.parent = parent;
    }
 
    @Override

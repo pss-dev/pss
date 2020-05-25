@@ -17,11 +17,15 @@ public class Product {
    private String address;
    @Cascade(org.hibernate.annotations.CascadeType.ALL)
    @OneToMany(targetEntity = ProductUnitPrice.class, fetch = FetchType.EAGER)
+   @OrderBy("unit_id asc")
    @JoinColumn(name = "product_id")
    private Set<ProductUnitPrice> unit;
    private boolean used;
    private boolean stopPurchase;
    private boolean stop;
+   @JoinColumn(name = "father_id")
+   @ManyToOne(targetEntity = Product.class)
+   private Product parent;
    @Transient
    private int actionType;
 
@@ -111,6 +115,14 @@ public class Product {
 
    public void setActionType(int actionType) {
       this.actionType = actionType;
+   }
+
+   public Product getParent() {
+      return parent;
+   }
+
+   public void setParent(Product parent) {
+      this.parent = parent;
    }
 
    @Override

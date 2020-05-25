@@ -19,7 +19,7 @@ public class Company {
    private int type;
    @JoinColumn(name = "father_id")
    @ManyToOne(targetEntity = Company.class)
-   private Company father;
+   private Company parent;
    @JoinColumn(name = "father_id")
    @OneToMany(targetEntity = Company.class, fetch = FetchType.EAGER)
    @JsonIgnore
@@ -81,12 +81,12 @@ public class Company {
       this.type = type;
    }
 
-   public Company getFather() {
-      return father;
+   public Company getParent() {
+      return parent;
    }
 
-   public void setFather(Company father) {
-      this.father = father;
+   public void setParent(Company parent) {
+      this.parent = parent;
    }
 
    public boolean isHaveChildren() {
@@ -112,7 +112,7 @@ public class Company {
               Objects.equals(contactPerson, company.contactPerson) &&
               Objects.equals(contactPhone, company.contactPhone) &&
               Objects.equals(type, company.type) &&
-              Objects.equals(father, company.father);
+              Objects.equals(parent, company.parent);
    }
 
    @Override
@@ -125,7 +125,7 @@ public class Company {
               ", contactPerson='" + contactPerson + '\'' +
               ", contactPhone='" + contactPhone + '\'' +
               ", type=" + type +
-              ", fatherId='" + getFather() + '\'' +
+              ", fatherId='" + getParent() + '\'' +
               '}';
    }
 }
