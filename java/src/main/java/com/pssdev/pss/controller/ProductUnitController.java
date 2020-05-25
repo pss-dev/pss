@@ -10,31 +10,31 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/1.0")
 public class ProductUnitController {
-   @Autowired
-   private ProductUnitService productUnitService;
+  @Autowired
+  private ProductUnitService productUnitService;
 
-   @PostMapping("/productUnit")
-   public List<ProductUnit> insertProductUnits(@RequestBody ProductUnit productUnit) throws Exception {
-      productUnitService.insertProductUnit(productUnit);
-      return productUnitService.getProductUnits();
-   }
+  @PostMapping("/unit")
+  public List<ProductUnit> insertProductUnits(@RequestBody ProductUnit productUnit) throws Exception {
+    productUnitService.insertProductUnit(productUnit);
+    return productUnitService.getProductUnits();
+  }
 
-   @DeleteMapping("/productUnit")
-   public List<ProductUnit> deleteProductUnit(@RequestBody ProductUnit productUnit) {
-      productUnitService.deleteProductUnit(productUnit);
+  @DeleteMapping("/unit")
+  public List<ProductUnit> deleteProductUnit(@RequestBody ProductUnit productUnit) {
+    productUnitService.deleteProductUnit(productUnit);
 
-      return productUnitService.getProductUnits();
-   }
+    return productUnitService.getProductUnits();
+  }
 
-   @PutMapping("/productUnit")
-   public List<ProductUnit> modifyProductUnit(@RequestBody ProductUnit productUnit) throws Exception {
-      productUnitService.modifyProductUnit(productUnit);
+  @PutMapping("/unit")
+  public List<ProductUnit> modifyProductUnit(@RequestBody ProductUnit productUnit) throws Exception {
+    productUnitService.modifyProductUnit(productUnit);
 
-      return productUnitService.getProductUnits();
-   }
+    return productUnitService.getProductUnits();
+  }
 
-   @GetMapping("/productUnit")
-   public List<ProductUnit> getProductUnits(@RequestParam(required = false) Integer fatherId) {
-      return productUnitService.getProductUnits(fatherId);
-   }
+  @GetMapping("/unit")
+  public List<ProductUnit> getProductUnits(@RequestParam(required = false) Integer fatherId) {
+    return productUnitService.getProductUnits(fatherId);
+  }
 }
