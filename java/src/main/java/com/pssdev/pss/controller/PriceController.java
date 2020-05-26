@@ -2,7 +2,6 @@ package com.pssdev.pss.controller;
 
 import com.pssdev.pss.entity.Price;
 import com.pssdev.pss.service.PriceService;
-import com.pssdev.pss.service.PriceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
