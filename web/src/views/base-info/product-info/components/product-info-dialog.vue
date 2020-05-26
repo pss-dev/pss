@@ -45,7 +45,7 @@
 
         <el-button @click="addUnit">添加单位</el-button>
 
-        <el-table :data="productData.unit" height="400" style="width: 100%" border>
+        <el-table :data="productData.units" height="400" style="width: 100%" border>
           <el-table-column prop="default" label="默认基本单位">
             <template slot-scope="scope">
               <span>{{scope.row.default}}</span>
@@ -53,7 +53,7 @@
           </el-table-column>
           <el-table-column prop="unitID" label="名称" width="130">
             <template slot-scope="scope">
-              <el-input readonly v-model="scope.row.unitName" placeholder="名称">
+              <el-input readonly v-model="scope.row.sunitName" placeholder="名称">
                 <el-button
                   size="small"
                   @click="showUnitDialog(scope)"
@@ -73,54 +73,54 @@
             </template>
           </el-table-column>
 
-          <el-table-column :prop="priceData[0].id" :label="priceData[0].label">
+          <el-table-column prop="priceData[0]" :label="priceData[0].label">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.prices[0]"></el-input>
+              <el-input v-model="scope.row.prices[0].number"></el-input>
             </template>
           </el-table-column>
-          <el-table-column :prop="priceData[1].id" :label="priceData[1].label">
+          <el-table-column prop="priceData[1]" :label="priceData[1].label">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.prices[1]"></el-input>
+              <el-input v-model="scope.row.prices[1].number"></el-input>
             </template>
           </el-table-column>
-          <el-table-column :prop="priceData[2].id" :label="priceData[2].label">
+          <el-table-column prop="priceData[2]" :label="priceData[2].label">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.prices[2]"></el-input>
+              <el-input v-model="scope.row.prices[2].number"></el-input>
             </template>
           </el-table-column>
-          <el-table-column :prop="priceData[3].id" :label="priceData[3].label">
+          <el-table-column prop="priceData[3]" :label="priceData[3].label">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.prices[3]"></el-input>
+              <el-input v-model="scope.row.prices[3].number"></el-input>
             </template>
           </el-table-column>
-          <el-table-column :prop="priceData[4].id" :label="priceData[4].label">
+          <el-table-column prop="priceData[4]" :label="priceData[4].label">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.prices[4]"></el-input>
+              <el-input v-model="scope.row.prices[4].number"></el-input>
             </template>
           </el-table-column>
-          <el-table-column :prop="priceData[5].id" :label="priceData[5].label">
+          <el-table-column prop="priceData[5]" :label="priceData[5].label">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.prices[5]"></el-input>
+              <el-input v-model="scope.row.prices[5].number"></el-input>
             </template>
           </el-table-column>
-          <el-table-column :prop="priceData[6].id" :label="priceData[6].label">
+          <el-table-column prop="priceData[6]" :label="priceData[6].label">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.prices[6]"></el-input>
+              <el-input v-model="scope.row.prices[6].number"></el-input>
             </template>
           </el-table-column>
-          <el-table-column :prop="priceData[7].id" :label="priceData[7].label">
+          <el-table-column prop="priceData[7]" :label="priceData[7].label">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.prices[7]"></el-input>
+              <el-input v-model="scope.row.prices[7].number"></el-input>
             </template>
           </el-table-column>
-          <el-table-column :prop="priceData[8].id" :label="priceData[8].label">
+          <el-table-column prop="priceData[8]" :label="priceData[8].label">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.prices[8]"></el-input>
+              <el-input v-model="scope.row.prices[8].number"></el-input>
             </template>
           </el-table-column>
-          <el-table-column :prop="priceData[9].id" :label="priceData[9].label">
+          <el-table-column prop="priceData[9]" :label="priceData[9].label">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.prices[9]"></el-input>
+              <el-input v-model="scope.row.prices[9].number"></el-input>
             </template>
           </el-table-column>
         </el-table>
@@ -169,6 +169,16 @@ export default {
       activeName: 'first',
       formLabelWidth: '120px',
       selectUnitData: {},
+      priceTitles: [{ prop: "prices[0]", label: this.priceData[0].label },
+      { prop: "prices[1]", label: this.priceData[1].label },
+      { prop: "prices[2]", label: this.priceData[2].label },
+      { prop: "prices[3]", label: this.priceData[3].label },
+      { prop: "prices[4]", label: this.priceData[4].label },
+      { prop: "prices[5]", label: this.priceData[5].label },
+      { prop: "prices[6]", label: this.priceData[6].label },
+      { prop: "prices[7]", label: this.priceData[7].label },
+      { prop: "prices[8]", label: this.priceData[8].label },
+      { prop: "prices[9]", label: this.priceData[9].label }],
       rules: {
         id: [
           { required: true, message: '请输单位编号', trigger: 'blur' }
@@ -207,7 +217,7 @@ export default {
       this.priceData.forEach((value) => {
         pricesValue.push({ price: value, number: 0 });
       });
-
+      console.log("======addUnit ", Tool);
       let emptyUnit = {
         unit: { id: -1, name: '' },
         crate: 1,
@@ -258,6 +268,7 @@ export default {
 
   created: function () {
     this.getProductUnitData();
+    console.log("======= priceData ", this.priceData);
   }
 }
 </script>

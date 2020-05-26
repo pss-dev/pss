@@ -96,10 +96,6 @@ export default {
       }
     },
 
-    setDefaultID (data) {
-      data.id = -1;
-    },
-
     getParentID () {
       if (this.parent) {
         return this.parent.id;

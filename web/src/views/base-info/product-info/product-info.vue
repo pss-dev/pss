@@ -56,28 +56,19 @@ export default {
   data () {
     return {
       priceData: [
-        { id: 0, name: "采购价格1", label: "采购价格1" },
-        { id: 1, name: "采购价格2", label: "采购价格2" },
-        { id: 2, name: "采购价格3", label: "采购价格3" },
-        { id: 3, name: "最高采购价", label: "最高采购价" },
-        { id: 4, name: "销售价格1", label: "销售价格1" },
-        { id: 5, name: "销售价格2", label: "销售价格2" },
-        { id: 6, name: "销售价格3", label: "销售价格3" },
+        { id: 0, name: "采购价格1", label: "采购a价格1" },
+        { id: 1, name: "采购价格2", label: "采购v价格2" },
+        { id: 2, name: "采购价格3", label: "采购b价格3" },
+        { id: 3, name: "最高采购价", label: "最高a采购价" },
+        { id: 4, name: "销售价格1", label: "销售价d格1" },
+        { id: 5, name: "销售价格2", label: "销售s价格2" },
+        { id: 6, name: "销售价格3", label: "销售a价格3" },
         { id: 7, name: "零售价", label: "零售价" },
         { id: 8, name: "最低销售价", label: "最低销售价" },
         { id: 9, name: "最高售价", label: "最高售价" },
       ],
 
-      titData:
-        [{ prop: "identifier", label: "编号" },
-        { prop: "name", label: "名称" },
-        { prop: "specification", label: "规格" },
-        { prop: "type", label: "型号" },
-        { prop: "units[0].prices[0].price.id", label: this.priceData[0].label },
-        { prop: "units[0].prices[1].price.id", label: this.priceData[1].label },
-        { prop: "units[0].prices[4].price.id", label: this.priceData[4].label },
-        { prop: "units[0].prices[5].price.id", label: this.priceData[5].label },
-        { prop: "stopPurchase", label: "停止采购" },],
+      titData: []
     }
   },
 
@@ -123,11 +114,11 @@ export default {
           default: true,
           crate: 1,
           actionType: 0,
-          unit: {},
+          unit: { id: null, name: '' },
           prices: pricesValue,
         }],
       };
-
+      console.log("============emptyDialogData  ", emptyDialogData);
       this.setDialogInfo("空白新增", emptyDialogData, true);
       this.showDialog = true;
     },
@@ -211,6 +202,26 @@ export default {
     var params = this.getParameterForNewTable(this.getParentID());
     this.getProductInfo(params);
     this.getPriceInfo();
+
+    if (this.tableData && this.tableData.length > 0) {
+      this.titData =
+        [{ prop: "identifier", label: "编号" },
+        { prop: "name", label: "名称" },
+        { prop: "specification", label: "规格" },
+        { prop: "type", label: "型号" },
+        { prop: "units[0].prices[0].price.id", label: this.priceData[0].label },
+        { prop: "units[0].prices[1].price.id", label: this.priceData[1].label },
+        { prop: "units[0].prices[4].price.id", label: this.priceData[4].label },
+        { prop: "units[0].prices[5].price.id", label: this.priceData[5].label },
+        { prop: "stopPurchase", label: "停止采购" }];
+    }
+    else {
+      this.titData =
+        [{ prop: "identifier", label: "编号" },
+        { prop: "name", label: "名称" },
+        { prop: "specification", label: "规格" },
+        { prop: "type", label: "型号" }];
+    }
   }
 }
 </script>

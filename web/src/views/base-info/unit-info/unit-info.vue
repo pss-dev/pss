@@ -96,8 +96,6 @@ export default {
       var getInfoParams = this.getParameterForNewTable(this.getParentID());
 
       if (this.addInfo) {
-        this.setDefaultID(unitData);
-
         unitInfoApi.addUnitInfo(unitData).then(
           () => {
             this.getUnitInfo(getInfoParams);
