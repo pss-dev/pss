@@ -33,7 +33,7 @@ public class PriceController {
       return priceService.getPrices();
    }
 
-   @GetMapping("/product")
+   @GetMapping("/price")
    public List<Price> getProducts() {
       return priceService.getPrices();
    }
