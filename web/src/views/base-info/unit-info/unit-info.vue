@@ -135,7 +135,7 @@ export default {
     },
 
     getUnitInfo (params) {
-      unitInfoApi.getUnitInfo(params).then(
+      return unitInfoApi.getUnitInfo(params).then(
         (res) => {
           this.setResponseResult(res.data);
         });

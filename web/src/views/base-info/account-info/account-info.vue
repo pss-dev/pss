@@ -105,8 +105,6 @@ export default {
       var getInfoParams = this.getParameterForNewTable(this.getParentID());
 
       if (this.addInfo) {
-        this.setDefaultID(accountData);
-
         accountInfoApi.addAccountInfo(accountData).then(
           () => {
             this.getAccountInfo(getInfoParams);
@@ -146,7 +144,7 @@ export default {
     },
 
     getAccountInfo (params) {
-      accountInfoApi.getAccountInfo(params).then(
+      return accountInfoApi.getAccountInfo(params).then(
         (res) => {
           this.setResponseResult(res.data);
         });

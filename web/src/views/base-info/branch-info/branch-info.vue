@@ -101,8 +101,6 @@ export default {
       var getInfoParams = this.getParameterForNewTable(this.getParentID());
 
       if (this.addInfo) {
-        this.setDefaultID(branchData);
-
         branchInfoApi.addbranchInfo(branchData).then(
           () => {
             this.getBranchInfo(getInfoParams);
@@ -142,7 +140,7 @@ export default {
     },
 
     getBranchInfo (params) {
-      branchInfoApi.getBranchInfo(params).then(
+      return branchInfoApi.getBranchInfo(params).then(
         (res) => {
           this.setResponseResult(res.data);
         });

@@ -13,39 +13,37 @@ import java.util.List;
 @Api("部门信息控制器")
 public class DepartmentController {
 
-   @Autowired
-   public DepartmentController(DepartmentService departmentService) {
-      this.departmentService = departmentService;
-   }
+  @Autowired
+  public DepartmentController(DepartmentService departmentService) {
+    this.departmentService = departmentService;
+  }
 
-   @GetMapping("/department")
-   @ApiOperation("获取指定部门集合, 如果父部门未指定则获取所有部门信息")
-   public List<Department> getDepartment(@ApiParam("上级部门 ID")
-                                         @RequestParam(name = "fatherID", required = false)
-                                         Integer fatherID)
-   {
-      List<Department> departments = departmentService.getDepartments(fatherID);
+  @GetMapping("/department")
+  @ApiOperation("获取指定部门集合, 如果父部门未指定则获取所有部门信息")
+  public List<Department> getDepartment(
+      @ApiParam("上级部门 ID") @RequestParam(name = "fatherID", required = false) Integer fatherID) {
+    List<Department> departments = departmentService.getDepartments(fatherID);
 
-      return departments;
-   }
+    return departments;
+  }
 
-   @PutMapping("/department")
-   @ApiOperation("添加部门信息")
-   public Integer insertDepartment(@ApiParam("部门信息") @RequestBody Department department) {
-      return departmentService.insertDepartment(department);
-   }
+  @PostMapping("/department")
+  @ApiOperation("添加部门信息")
+  public Integer insertDepartment(@ApiParam("部门信息") @RequestBody Department department) {
+    return departmentService.insertDepartment(department);
+  }
 
-   @PostMapping("/department")
-   @ApiOperation("修改部门信息")
-   public void updateDepartment(@ApiParam("部门信息") @RequestBody Department department) {
-      departmentService.updateDepartment(department);
-   }
+  @PutMapping("/department")
+  @ApiOperation("修改部门信息")
+  public void updateDepartment(@ApiParam("部门信息") @RequestBody Department department) {
+    departmentService.updateDepartment(department);
+  }
 
-   @DeleteMapping("/department")
-   @ApiOperation("删除部门信息")
-   public void deleteDepartment(@ApiParam("部门 ID") @RequestParam Integer id) {
-      departmentService.deleteDepartment(id);
-   }
+  @DeleteMapping("/department")
+  @ApiOperation("删除部门信息")
+  public void deleteDepartment(@ApiParam("部门 ID") @RequestParam Department department) {
+    departmentService.deleteDepartment(department);
+  }
 
-   private final DepartmentService departmentService;
+  private final DepartmentService departmentService;
 }

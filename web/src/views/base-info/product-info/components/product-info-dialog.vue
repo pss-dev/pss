@@ -53,7 +53,7 @@
           </el-table-column>
           <el-table-column prop="unitID" label="名称" width="130">
             <template slot-scope="scope">
-              <el-input readonly v-model="scope.row.sunitName" placeholder="名称">
+              <el-input readonly v-model="scope.row.unit.name" placeholder="名称">
                 <el-button
                   size="small"
                   @click="showUnitDialog(scope)"
@@ -139,7 +139,7 @@
 
 <script>
 import productUnitSearchDialog from '../../../components/product-unit-search-dialog'
-import productUnitApi from '../../../../api/productUnit-info-api/productUnitInfoApi.js'
+import unitApi from '../../../../api/unit-info-api/unitInfoApi.js'
 import Tool from '@/views/constant/tool.js'
 
 export default {
@@ -185,10 +185,7 @@ export default {
         ]
       },
 
-      unitTableData:
-        [{ id: 0, name: "个", },
-        { id: 1, name: "盒" },
-        { id: 2, name: "箱" },],
+      unitTableData: [],
     }
   },
 
@@ -260,8 +257,9 @@ export default {
     },
 
     getProductUnitData () {
-      productUnitApi.getProductUnitData().then((res) => {
+      unitApi.getUnitInfo().then((res) => {
         this.unitTableData = res.data;
+        console.log("======getProductUnitData  ", res);
       });
     }
   },

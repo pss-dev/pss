@@ -5,15 +5,16 @@ import com.pssdev.pss.entity.Department;
 import java.util.List;
 
 public interface DepartmentDao {
-   List<Department> getAllDepartments();
+  List<Department> getAllDepartments();
 
-   /**
-    * @return new id.
-    */
-   Integer insertDepartment(Department department);
-   Department getDepartment(Integer parentId);
+  /**
+   * @return new id.
+   */
+  Integer insertDepartment(Department department);
 
-   void deleteDepartment(Integer id);
+  Department getDepartment(Integer parentId);
 
-   void updateDepartment(Department department);
+  void deleteDepartment(Department dept);
+
+  void updateDepartment(Department department);
 }

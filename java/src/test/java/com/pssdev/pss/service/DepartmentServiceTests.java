@@ -17,95 +17,93 @@ import java.util.stream.Collectors;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class DepartmentServiceTests {
 
-   @Autowired
-   private DepartmentService departmentService;
+  @Autowired
+  private DepartmentService departmentService;
 
-   @Test
-   @Order(1)
-   public void testNonNull() {
-      Assertions.assertNotNull(departmentService, "Init Department Dao Error.");
-   }
+  @Test
+  @Order(1)
+  public void testNonNull() {
+    Assertions.assertNotNull(departmentService, "Init Department Dao Error.");
+  }
 
-   @Order(2)
-   @RepeatedTest(value = 5, name = "Insert 5 dept to make sure get dept id not null")
-   public void testInsertTopDepartment() {
-      int index = (int) (1000 * Math.random());
-      Department dept1 = new Department();
-      dept1.setName("Top Level" + index);
-      dept1.setInitials("TL" + index);
+  @Order(2)
+  @RepeatedTest(value = 5, name = "Insert 5 dept to make sure get dept id not null")
+  public void testInsertTopDepartment() {
+    int index = (int) (1000 * Math.random());
+    Department dept1 = new Department();
+    dept1.setName("Top Level" + index);
+    dept1.setInitials("TL" + index);
 
-      departmentService.insertDepartment(dept1);
-   }
+    departmentService.insertDepartment(dept1);
+  }
 
-   @Test
-   @Order(3)
-   public void testGetDepartments() {
-      List<Department> departments = departmentService.getDepartments();
+  @Test
+  @Order(3)
+  public void testGetDepartments() {
+    List<Department> departments = departmentService.getDepartments();
 
-      LOGGER.info("Get All Departments: {}", departments);
+    LOGGER.info("Get All Departments: {}", departments);
 
-      Assertions.assertNotNull(departments, "Departments is empty");
-   }
+    Assertions.assertNotNull(departments, "Departments is empty");
+  }
 
-   @ParameterizedTest
-   @ValueSource(ints = {2})
-   @Order(4)
-   public void testGetDepartment(int id) {
-      Department department = departmentService.getDepartment(id);
+  @ParameterizedTest
+  @ValueSource(ints = { 2 })
+  @Order(4)
+  public void testGetDepartment(int id) {
+    Department department = departmentService.getDepartment(id);
 
-      Assertions.assertNotNull(department, "Department is null");
-      Assertions.assertEquals(department.getId(), id, "Get department error.");
+    Assertions.assertNotNull(department, "Department is null");
+    Assertions.assertEquals(department.getId(), id, "Get department error.");
 
-      LOGGER.info("Department: {}", department);
-   }
+    LOGGER.info("Department: {}", department);
+  }
 
-   @ParameterizedTest
-   @ValueSource(ints = {2})
-   @Order(5)
-   public void testInsertChildDepartment(int id) {
-      Department parentDept = departmentService.getDepartment(id);
+  @ParameterizedTest
+  @ValueSource(ints = { 2 })
+  @Order(5)
+  public void testInsertChildDepartment(int id) {
+    Department parentDept = departmentService.getDepartment(id);
 
-      LOGGER.info("Query parent dept first: {}", parentDept);
+    LOGGER.info("Query parent dept first: {}", parentDept);
 
-      Department cDept1 = new Department();
-      cDept1.setName("Child Level1");
-      cDept1.setInitials("CL1");
-      cDept1.setParent(parentDept);
+    Department cDept1 = new Department();
+    cDept1.setName("Child Level1");
+    cDept1.setInitials("CL1");
+    cDept1.setParent(parentDept);
 
-      Department cDept2 = new Department();
-      cDept2.setName("Child Level2");
-      cDept2.setInitials("CL2");
-      cDept2.setParent(parentDept);
+    Department cDept2 = new Department();
+    cDept2.setName("Child Level2");
+    cDept2.setInitials("CL2");
+    cDept2.setParent(parentDept);
 
-      // insert children
-      int cid1 = departmentService.insertDepartment(cDept1);
-      int cid2 = departmentService.insertDepartment(cDept2);
+    // insert children
+    int cid1 = departmentService.insertDepartment(cDept1);
+    int cid2 = departmentService.insertDepartment(cDept2);
 
-      LOGGER.info("Insert dept {}, {}.", cid1, cid2);
+    LOGGER.info("Insert dept {}, {}.", cid1, cid2);
 
-      // get parent again
-      parentDept = departmentService.getDepartment(id);
+    // get parent again
+    parentDept = departmentService.getDepartment(id);
 
-      LOGGER.info("Query parent dept again: {}", parentDept);
+    LOGGER.info("Query parent dept again: {}", parentDept);
 
-      List<Department> children = parentDept.getChildren();
+    List<Department> children = parentDept.getChildren();
 
-      Assertions.assertFalse(
-         children == null || children.size() < 1, "Query children error.");
+    Assertions.assertFalse(children == null || children.size() < 1, "Query children error.");
 
-      Set<Integer> childIds = children.stream().map(d -> d.getId()).collect(Collectors.toSet());
+    Set<Integer> childIds = children.stream().map(d -> d.getId()).collect(Collectors.toSet());
 
-      Assertions.assertTrue(childIds.contains(cid1), "Missing child 1");
-      Assertions.assertTrue(childIds.contains(cid2), "Missing child 2");
-   }
+    Assertions.assertTrue(childIds.contains(cid1), "Missing child 1");
+    Assertions.assertTrue(childIds.contains(cid2), "Missing child 2");
+  }
 
-   @ParameterizedTest
-   @ValueSource(ints = 2)
-   @Order(6)
-   public void testDeleteDepartment(int id) {
-      departmentService.deleteDepartment(id);
-   }
+  // @ParameterizedTest
+  // @ValueSource(ints = 2)
+  // @Order(6)
+  // public void testDeleteDepartment(Department dept) {
+  // departmentService.deleteDepartment(dept);
+  // }
 
-   private static final Logger LOGGER
-      = LoggerFactory.getLogger(DepartmentServiceTests.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(DepartmentServiceTests.class);
 }

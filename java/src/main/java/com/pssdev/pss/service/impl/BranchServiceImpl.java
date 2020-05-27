@@ -11,40 +11,40 @@ import java.util.List;
 
 @Service
 public class BranchServiceImpl implements BranchService {
-    @Autowired
-    public BranchServiceImpl(BranchDao branchDao) {
-        this.branchDao = branchDao;
-    }
+  @Autowired
+  public BranchServiceImpl(BranchDao branchDao) {
+    this.branchDao = branchDao;
+  }
 
-    private BranchDao branchDao;
+  private BranchDao branchDao;
 
-    @Transactional(readOnly = true)
-    @Override
-    public Branch getBranch(Integer fatherID) {
-        return branchDao.getBranch(fatherID);
-    }
+  @Transactional(readOnly = true)
+  @Override
+  public Branch getBranch(Integer fatherID) {
+    return branchDao.getBranch(fatherID);
+  }
 
-    @Transactional(readOnly = true)
-    @Override
-    public List<Branch> getBranches() {
-        return branchDao.getAllBranch();
-    }
+  @Transactional(readOnly = true)
+  @Override
+  public List<Branch> getBranches() {
+    return branchDao.getAllBranch();
+  }
 
-    @Transactional(readOnly = true)
-    @Override
-    public Integer insertBranch(Branch branch) {
-        return branchDao.insertBranch(branch);
-    }
+  @Transactional(readOnly = true)
+  @Override
+  public Integer insertBranch(Branch branch) {
+    return branchDao.insertBranch(branch);
+  }
 
-    @Transactional(readOnly = true)
-    @Override
-    public void updateBranch(Branch branch) {
-        branchDao.updateBranch(branch);
-    }
+  @Transactional(readOnly = true)
+  @Override
+  public void updateBranch(Branch branch) {
+    branchDao.updateBranch(branch);
+  }
 
-    @Transactional(readOnly = true)
-    @Override
-    public void deleteBranch(Integer id) {
-        branchDao.deleteBranch(id);
-    }
+  @Transactional(readOnly = true)
+  @Override
+  public void deleteBranch(Branch branch) {
+    branchDao.deleteBranch(branch);
+  }
 }

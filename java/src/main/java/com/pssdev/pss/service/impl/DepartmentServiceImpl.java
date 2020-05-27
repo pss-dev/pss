@@ -12,56 +12,56 @@ import java.util.List;
 @Service("departmentService")
 public class DepartmentServiceImpl implements DepartmentService {
 
-   @Autowired
-   public DepartmentServiceImpl(DepartmentDao departmentDao) {
-      this.departmentDao = departmentDao;
-   }
+  @Autowired
+  public DepartmentServiceImpl(DepartmentDao departmentDao) {
+    this.departmentDao = departmentDao;
+  }
 
-   @Transactional(readOnly = true)
-   @Override
-   public Department getDepartment(Integer parentId) {
-      return departmentDao.getDepartment(parentId);
-   }
+  @Transactional(readOnly = true)
+  @Override
+  public Department getDepartment(Integer parentId) {
+    return departmentDao.getDepartment(parentId);
+  }
 
-   @Transactional(readOnly = true)
-   @Override
-   public List<Department> getDepartments(Integer parentId) {
-      if(parentId == null) {
-         return departmentDao.getAllDepartments();
-      }
-
-      Department department = departmentDao.getDepartment(parentId);
-
-      if(department != null) {
-         return department.getChildren();
-      }
-
-      return null;
-   }
-
-   @Transactional(readOnly = true)
-   @Override
-   public List<Department> getDepartments() {
+  @Transactional(readOnly = true)
+  @Override
+  public List<Department> getDepartments(Integer parentId) {
+    if (parentId == null) {
       return departmentDao.getAllDepartments();
-   }
+    }
 
-   @Transactional
-   @Override
-   public int insertDepartment(Department department) {
-      return departmentDao.insertDepartment(department);
-   }
+    Department department = departmentDao.getDepartment(parentId);
 
-   @Transactional
-   @Override
-   public void updateDepartment(Department department) {
-      departmentDao.updateDepartment(department);
-   }
+    if (department != null) {
+      return department.getChildren();
+    }
 
-   @Transactional
-   @Override
-   public void deleteDepartment(Integer id) {
-      departmentDao.deleteDepartment(id);
-   }
+    return null;
+  }
 
-   private final DepartmentDao departmentDao;
+  @Transactional(readOnly = true)
+  @Override
+  public List<Department> getDepartments() {
+    return departmentDao.getAllDepartments();
+  }
+
+  @Transactional
+  @Override
+  public int insertDepartment(Department department) {
+    return departmentDao.insertDepartment(department);
+  }
+
+  @Transactional
+  @Override
+  public void updateDepartment(Department department) {
+    departmentDao.updateDepartment(department);
+  }
+
+  @Transactional
+  @Override
+  public void deleteDepartment(Department dept) {
+    departmentDao.deleteDepartment(dept);
+  }
+
+  private final DepartmentDao departmentDao;
 }

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <company-info companyType="0"></company-info>
+    <company-info :companyType="0"></company-info>
   </div>
 </template>
 

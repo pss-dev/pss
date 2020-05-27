@@ -97,8 +97,6 @@ export default {
       let getInfoParams = this.getParameterForNewTable(this.getParentID());
 
       if (this.addInfo) {
-        this.setDefaultID(departmentData);
-
         departmentInfoApi.addDepartmentInfo(departmentData).then(
           () => {
             this.getDepartmentInfo(getInfoParams);
@@ -138,7 +136,7 @@ export default {
     },
 
     getDepartmentInfo (params) {
-      departmentInfoApi.getDepartmentInfo(params).then(
+      return departmentInfoApi.getDepartmentInfo(params).then(
         (res) => {
           this.setResponseResult(res.data);
         });

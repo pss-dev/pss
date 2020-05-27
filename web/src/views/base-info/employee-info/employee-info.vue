@@ -88,8 +88,6 @@ export default {
       var params = {};
 
       if (this.addInfo) {
-        this.setDefaultID(employeeData);
-
         employeeInfoApi.addEmployeeInfo(employeeData).then(
           (res) => {
             this.setResponseResult(res.data);

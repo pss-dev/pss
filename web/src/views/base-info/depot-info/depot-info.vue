@@ -99,8 +99,6 @@ export default {
       var getInfoParams = this.getParameterForNewTable(this.getParentID());
 
       if (this.addInfo) {
-        this.setDefaultID(depotData);
-
         depotInfoApi.addDepotInfo(depotData).then(
           () => {
             this.getDepotInfo(getInfoParams);
@@ -140,7 +138,7 @@ export default {
     },
 
     getDepotInfo (params) {
-      depotInfoApi.getDepotInfo(params).then(
+      return depotInfoApi.getDepotInfo(params).then(
         (res) => {
           this.setResponseResult(res.data);
         });

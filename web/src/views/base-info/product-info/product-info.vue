@@ -55,18 +55,7 @@ export default {
 
   data () {
     return {
-      priceData: [
-        { id: 0, name: "采购价格1", label: "采购a价格1" },
-        { id: 1, name: "采购价格2", label: "采购v价格2" },
-        { id: 2, name: "采购价格3", label: "采购b价格3" },
-        { id: 3, name: "最高采购价", label: "最高a采购价" },
-        { id: 4, name: "销售价格1", label: "销售价d格1" },
-        { id: 5, name: "销售价格2", label: "销售s价格2" },
-        { id: 6, name: "销售价格3", label: "销售a价格3" },
-        { id: 7, name: "零售价", label: "零售价" },
-        { id: 8, name: "最低销售价", label: "最低销售价" },
-        { id: 9, name: "最高售价", label: "最高售价" },
-      ],
+      priceData: [],
 
       titData: []
     }
@@ -89,6 +78,11 @@ export default {
     },
 
     newInfo () {
+      if (this.priceData.length != 10) {
+        alert("===  price value 数量少于10 请添加 至十个");
+        return;
+      }
+
       var pricesValue = [];
 
       this.priceData.forEach((value) => {
@@ -133,8 +127,6 @@ export default {
       var getInfoParams = this.getParameterForNewTable(this.getParentID());
 
       if (this.addInfo) {
-        this.setDefaultID(productData);
-
         productInfoApi.addProductInfo(params, productData).then(
           () => {
             this.getProductInfo(getInfoParams);
@@ -180,12 +172,13 @@ export default {
     getProductInfo (params) {
       productInfoApi.getProductInfo(params).then(
         (res) => {
+          console.log("=======getProductInfo  ", res);
           this.setResponseResult(res.data);
         });
     },
 
     getPriceInfo () {
-      priceInfoApi.getPriceInfo().then(
+      return priceInfoApi.getPriceInfo().then(
         (res) => {
           console.log("= ====getPriceInfo ", res);
 

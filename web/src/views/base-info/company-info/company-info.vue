@@ -113,8 +113,6 @@ export default {
       var getInfoParams = this.getParameterForNewTable(this.getParentID());
 
       if (this.addInfo) {
-        this.setDefaultID(companyData);
-
         companyInfoApi.addCompanyInfo(companyData).then(
           () => {
             this.getCompanyInfo(getInfoParams);
@@ -154,7 +152,7 @@ export default {
     },
 
     getCompanyInfo (params) {
-      companyInfoApi.getCompanyInfo(params).then(
+      return companyInfoApi.getCompanyInfo(params).then(
         (res) => {
           this.setResponseResult(res.data);
         });
