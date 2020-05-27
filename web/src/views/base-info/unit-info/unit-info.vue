@@ -79,7 +79,7 @@ export default {
         id: null,
         name: '',
         note: '',
-        parent: parent,
+        parent: this.parent,
       };
 
       this.setDialogInfo("空白新增", emptyDialogData, true);

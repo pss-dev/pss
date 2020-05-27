@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -32,7 +33,7 @@ public class ProductUnitServiceImpl implements ProductUnitService {
     if (old != null) {
       old.setNote(productUnit.getNote());
       old.setName(productUnit.getName());
-      this.productUnitDao.modifyProductUnit(productUnit);
+      this.productUnitDao.modifyProductUnit(old);
     } else {
       throw new Exception("商品单位不存在");
     }
@@ -40,7 +41,20 @@ public class ProductUnitServiceImpl implements ProductUnitService {
 
   @Override
   public List<ProductUnit> getProductUnits(Integer fatherId) {
-    return this.productUnitDao.getProductUnits(fatherId);
+    if(fatherId != null) {
+      ProductUnit father = this.productUnitDao.getProductUnit(fatherId);
+
+      if(father != null) {
+        return this.getProductUnits(fatherId);
+      }
+      else {
+        return new ArrayList<>();
+      }
+    }
+    else {
+      return getProductUnits();
+    }
+
   }
 
   @Override
