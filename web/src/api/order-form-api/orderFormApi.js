@@ -9,11 +9,10 @@ function getOrderFormInfo (params) {
   })
 }
 
-function saveOrderFormInfo (params, data) {
+function saveOrderFormInfo (data) {
   return fetch({
     url: baseApi.baseApi('orderForm'),
     method: 'put',
-    params,
     data
   })
 }

@@ -85,8 +85,6 @@ export default {
     },
 
     submitData (employeeData) {
-      var params = {};
-
       if (this.addInfo) {
         employeeInfoApi.addEmployeeInfo(employeeData).then(
           (res) => {
@@ -94,7 +92,7 @@ export default {
           });
       }
       else {
-        employeeInfoApi.modifyEmployeeInfo(params, employeeData).then(
+        employeeInfoApi.modifyEmployeeInfo(employeeData).then(
           (res) => {
             this.setResponseResult(res.data);
           });

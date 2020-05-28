@@ -123,17 +123,16 @@ export default {
     },
 
     submitData (productData) {
-      var params = {};
       var getInfoParams = this.getParameterForNewTable(this.getParentID());
 
       if (this.addInfo) {
-        productInfoApi.addProductInfo(params, productData).then(
+        productInfoApi.addProductInfo(productData).then(
           () => {
             this.getProductInfo(getInfoParams);
           });
       }
       else {
-        productInfoApi.modifyProductInfo(params, productData).then(
+        productInfoApi.modifyProductInfo(productData).then(
           () => {
             this.getProductInfo(getInfoParams);
           });
@@ -160,7 +159,7 @@ export default {
       }
 
       var previousInfo = this.paths[this.paths.length - 1];
-      var previousParams = this.getParameterForNewTable(previousInfo.id);
+      var previousParams = this.getParameterForNewTable(this.getParentID0(previousInfo.parent));
 
       this.getProductInfo(previousParams).then(() => {
         this.paths.pop();
@@ -170,7 +169,7 @@ export default {
     },
 
     getProductInfo (params) {
-      productInfoApi.getProductInfo(params).then(
+      return productInfoApi.getProductInfo(params).then(
         (res) => {
           console.log("=======getProductInfo  ", res);
           this.setResponseResult(res.data);

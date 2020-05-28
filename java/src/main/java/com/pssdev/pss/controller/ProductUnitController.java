@@ -34,7 +34,7 @@ public class ProductUnitController {
   }
 
   @GetMapping("/unit")
-  public List<ProductUnit> getProductUnits(@RequestParam(required = false) Integer fatherId) {
-    return productUnitService.getProductUnits(fatherId);
+  public List<ProductUnit> getProductUnits(@RequestParam(required = false) Integer fatherID) {
+    return productUnitService.getProductUnits(fatherID);
   }
 }

@@ -101,7 +101,6 @@ export default {
     },
 
     submitData (accountData) {
-      var params = {};
       var getInfoParams = this.getParameterForNewTable(this.getParentID());
 
       if (this.addInfo) {
@@ -111,7 +110,7 @@ export default {
           });
       }
       else {
-        accountInfoApi.modifyAccountInfo(params, accountData).then(
+        accountInfoApi.modifyAccountInfo(accountData).then(
           () => {
             this.getAccountInfo(getInfoParams);
           });
@@ -134,7 +133,7 @@ export default {
       }
 
       var previousInfo = this.paths[this.paths.length - 1];
-      var previousParams = this.getParameterForNewTable(previousInfo.parent.id);
+      var previousParams = this.getParameterForNewTable(this.getParentID0(previousInfo.parent));
 
       this.getAccountInfo(previousParams).then(() => {
         this.paths.pop();

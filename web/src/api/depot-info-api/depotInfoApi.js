@@ -17,11 +17,10 @@ function addDepotInfo (data) {
   })
 }
 
-function modifyDepotInfo (params, data) {
+function modifyDepotInfo (data) {
   return fetch({
     url: baseApi.baseApi('depot'),
     method: 'put',
-    params,
     data
   })
 }

@@ -11,20 +11,24 @@
         <el-input v-model="branchData.name" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="客户">
-        <el-col :span="21">
-          <el-input disabled v-model="branchData.customer.name" autocomplete="off"></el-input>
-        </el-col>
-        <el-col :span="1">
-          <el-button @click="showCompanyDialog(true)">...</el-button>
-        </el-col>
+        <el-input readonly v-model="branchData.customer.name" autocomplete="off">
+          <el-button
+            size="small"
+            @click="showCompanyDialog(true)"
+            slot="append"
+            icon="el-icon-search"
+          ></el-button>
+        </el-input>
       </el-form-item>
       <el-form-item label="供货商">
-        <el-col :span="21">
-          <el-input disabled v-model="branchData.supplier.name" autocomplete="off"></el-input>
-        </el-col>
-        <el-col :span="1">
-          <el-button @click="showCompanyDialog(false)">...</el-button>
-        </el-col>
+        <el-input readonly v-model="branchData.supplier.name" autocomplete="off">
+          <el-button
+            size="small"
+            @click="showCompanyDialog(false)"
+            slot="append"
+            icon="el-icon-search"
+          ></el-button>
+        </el-input>
       </el-form-item>
       <el-form-item label="拼音码">
         <el-input v-model="branchData.initials" autocomplete="off"></el-input>
@@ -43,12 +47,12 @@
 </template>
 
 <script>
-import companySearchDialog from "../../../components/company-search-dialog"
+import CompanySearchDialog from "../../../components/company-search-dialog"
 
 export default {
   name: "branchInfoDialog",
   components: {
-    "company-search-dialog": companySearchDialog
+    "company-search-dialog": CompanySearchDialog
   },
 
   props: {

@@ -17,11 +17,10 @@ function addBranchInfo (data) {
   })
 }
 
-function modifyBranchInfo (params, data) {
+function modifyBranchInfo (data) {
   return fetch({
     url: baseApi.baseApi('/branch'),
     method: 'put',
-    params,
     data
   })
 }

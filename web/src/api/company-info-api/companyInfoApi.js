@@ -17,11 +17,10 @@ function addCompanyInfo (data) {
   })
 }
 
-function modifyCompanyInfo (params, data) {
+function modifyCompanyInfo (data) {
   return fetch({
     url: baseApi.baseApi('company'),
     method: 'put',
-    params,
     data
   })
 }

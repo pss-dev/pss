@@ -17,11 +17,10 @@ function addProductUnitInfo (data) {
   })
 }
 
-function modifyProductUnitInfo (params, data) {
+function modifyProductUnitInfo (data) {
   return fetch({
     url: baseApi.baseApi('productUnit'),
     method: 'put',
-    params,
     data
   })
 }

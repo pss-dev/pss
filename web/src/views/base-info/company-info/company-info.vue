@@ -39,7 +39,7 @@ import BaseInfoFooter from "../components/base-info-footer.vue"
 import BseInfo from '../mixIns/base-info'
 import CompanyInfoDialog from './components/company-info-dialog'
 
-import companyInfoApi from '../../../api/company-info-api/companyInfoApi'
+import companyInfoApi from '../../../api/company-info-api/companyInfoApi.js'
 
 export default {
   name: "companyInfo",
@@ -109,9 +109,8 @@ export default {
     },
 
     submitData (companyData) {
-      var params = {};
       var getInfoParams = this.getParameterForNewTable(this.getParentID());
-
+      console.log("====== submitData ", companyData);
       if (this.addInfo) {
         companyInfoApi.addCompanyInfo(companyData).then(
           () => {
@@ -119,7 +118,7 @@ export default {
           });
       }
       else {
-        companyInfoApi.modifyCompanyInfo(params, companyData).then(
+        companyInfoApi.modifyCompanyInfo(companyData).then(
           () => {
             this.getCompanyInfo(getInfoParams);
           });
@@ -142,7 +141,7 @@ export default {
       }
 
       var previousInfo = this.paths[this.paths.length - 1];
-      var previousParams = this.getParameterForNewTable(previousInfo.parent.id);
+      var previousParams = this.getParameterForNewTable(this.getParentID0(previousInfo.parent));
 
       this.getCompanyInfo(previousParams).then(() => {
         this.paths.pop();
@@ -152,8 +151,11 @@ export default {
     },
 
     getCompanyInfo (params) {
+      console.log("=========getCompanyInfo ", params);
+
       return companyInfoApi.getCompanyInfo(params).then(
         (res) => {
+          console.log("=========rrrrr ", res);
           this.setResponseResult(res.data);
         });
     },

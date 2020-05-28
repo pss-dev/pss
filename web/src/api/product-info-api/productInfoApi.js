@@ -9,29 +9,26 @@ function getProductInfo (params) {
   })
 }
 
-function addProductInfo (params, data) {
+function addProductInfo (data) {
   return fetch({
     url: baseApi.baseApi('product'),
     method: 'post',
-    params,
     data
   })
 }
 
-function modifyProductInfo (params, data) {
+function modifyProductInfo (data) {
   return fetch({
     url: baseApi.baseApi('product'),
     method: 'put',
-    params,
     data
   })
 }
 
-function deleteProductInfo (params, data) {
+function deleteProductInfo (data) {
   return fetch({
     url: baseApi.baseApi('product'),
     method: 'delete',
-    params,
     data
   })
 }

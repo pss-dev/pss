@@ -18,11 +18,10 @@ function addEmployeeInfo (params, data) {
   })
 }
 
-function modifyEmployeeInfo (params, data) {
+function modifyEmployeeInfo (data) {
   return fetch({
     url: baseApi.baseApi('employee'),
     method: 'put',
-    params,
     data
   })
 }

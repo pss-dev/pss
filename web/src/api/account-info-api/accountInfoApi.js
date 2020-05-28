@@ -9,20 +9,18 @@ function getAccountInfo (params) {
   })
 }
 
-function addAccountInfo (params, data) {
+function addAccountInfo (data) {
   return fetch({
     url: baseApi.baseApi('account'),
     method: 'post',
-    params,
     data
   })
 }
 
-function modifyAccountInfo (params, data) {
+function modifyAccountInfo (data) {
   return fetch({
     url: baseApi.baseApi('account'),
     method: 'put',
-    params,
     data
   })
 }

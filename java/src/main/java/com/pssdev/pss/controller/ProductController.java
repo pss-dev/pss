@@ -10,32 +10,32 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/1.0/")
 public class ProductController {
-   @Autowired
-   private ProductService productService;
+  @Autowired
+  private ProductService productService;
 
-   @PostMapping("/product")
-   public List<Product> insertProducts(@RequestBody Product product) throws Exception {
-      productService.insertProduct(product);
+  @PostMapping("/product")
+  public List<Product> insertProducts(@RequestBody Product product) throws Exception {
+    productService.insertProduct(product);
 
-      return productService.getProducts();
-   }
+    return productService.getProducts();
+  }
 
-   @DeleteMapping("/product")
-   public List<Product> deleteProduct(@RequestBody Product product) {
-      productService.deleteProduct(product);
+  @DeleteMapping("/product")
+  public List<Product> deleteProduct(@RequestBody Product product) {
+    productService.deleteProduct(product);
 
-      return productService.getProducts();
-   }
+    return productService.getProducts();
+  }
 
-   @PutMapping("/product")
-   public List<Product> modifyProduct(@RequestBody Product product) throws Exception {
-      productService.modifyProduct(product);
+  @PutMapping("/product")
+  public List<Product> modifyProduct(@RequestBody Product product) throws Exception {
+    productService.modifyProduct(product);
 
-      return productService.getProducts();
-   }
+    return productService.getProducts();
+  }
 
-   @GetMapping("/product")
-   public List<Product> getProducts(@RequestParam(required = false) Integer fatherId) {
-      return productService.getProducts(fatherId);
-   }
+  @GetMapping("/product")
+  public List<Product> getProducts(@RequestParam(required = false) Integer fatherID) {
+    return productService.getProducts(fatherID);
+  }
 }

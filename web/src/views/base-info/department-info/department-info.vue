@@ -93,7 +93,6 @@ export default {
     },
 
     submitData (departmentData) {
-      let params = {};
       let getInfoParams = this.getParameterForNewTable(this.getParentID());
 
       if (this.addInfo) {
@@ -103,7 +102,7 @@ export default {
           });
       }
       else {
-        departmentInfoApi.modifyDepartmentInfo(params, departmentData).then(
+        departmentInfoApi.modifyDepartmentInfo(departmentData).then(
           () => {
             this.getDepartmentInfo(getInfoParams);
           });
@@ -126,7 +125,7 @@ export default {
       }
 
       let previousInfo = this.paths[this.paths.length - 1];
-      let previousParams = this.getParameterForNewTable(previousInfo.parent.id);
+      let previousParams = this.getParameterForNewTable(this.getParentID0(previousInfo.parent));
 
       this.getDepartmentInfo(previousParams).then(() => {
         this.paths.pop();

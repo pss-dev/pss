@@ -10,31 +10,26 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/1.0")
 public class CompanyController {
-   @Autowired
-   private CompanyService companyService;
+  @Autowired
+  private CompanyService companyService;
 
-   @PostMapping("/company")
-   public List<Company> insertCompanies(@RequestBody Company company) throws Exception {
-      companyService.insertCompany(company);
-      return companyService.getCompanies();
-   }
+  @PostMapping("/company")
+  public void insertCompanies(@RequestBody Company company) throws Exception {
+    companyService.insertCompany(company);
+  }
 
-   @DeleteMapping("/company")
-   public List<Company> deleteCompany(@RequestBody Company company) {
-      companyService.deleteCompany(company);
+  @DeleteMapping("/company")
+  public void deleteCompany(@RequestBody Company company) {
+    companyService.deleteCompany(company);
+  }
 
-      return companyService.getCompanies();
-   }
+  @PutMapping("/company")
+  public void modifyCompany(@RequestBody Company company) throws Exception {
+    companyService.modifyCompany(company);
+  }
 
-   @PutMapping("/company")
-   public List<Company> modifyCompany(@RequestBody Company company) throws Exception {
-      companyService.modifyCompany(company);
-
-      return companyService.getCompanies();
-   }
-
-   @GetMapping("/company")
-   public List<Company> getCompanies(@RequestParam(required = false) Integer fatherId) {
-      return companyService.getCompanies(fatherId);
-   }
+  @GetMapping("/company")
+  public List<Company> getCompanies(@RequestParam(required = false) Integer fatherID) {
+    return companyService.getCompanies(fatherID);
+  }
 }

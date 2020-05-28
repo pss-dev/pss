@@ -97,7 +97,6 @@ export default {
     },
 
     submitData (branchData) {
-      var params = {};
       var getInfoParams = this.getParameterForNewTable(this.getParentID());
 
       if (this.addInfo) {
@@ -107,7 +106,7 @@ export default {
           });
       }
       else {
-        branchInfoApi.modifybranchInfo(params, branchData).then(
+        branchInfoApi.modifybranchInfo(branchData).then(
           () => {
             this.getBranchInfo(getInfoParams);
           });
@@ -130,7 +129,7 @@ export default {
       }
 
       var previousInfo = this.paths[this.paths.length - 1];
-      var previousParams = this.getParameterForNewTable(previousInfo.parent.id);
+      var previousParams = this.getParameterForNewTable(this.getParentID0(previousInfo.parent));
 
       this.getBranchInfo(previousParams).then(() => {
         this.paths.pop();

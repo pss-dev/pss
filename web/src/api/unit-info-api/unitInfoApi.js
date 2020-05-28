@@ -17,11 +17,10 @@ function addUnitInfo (data) {
   })
 }
 
-function modifyUnitInfo (params, data) {
+function modifyUnitInfo (data) {
   return fetch({
     url: baseApi.baseApi('unit'),
     method: 'put',
-    params,
     data
   })
 }

@@ -45,7 +45,6 @@ let baseInfoMenuArr = [
   {
     label: "商品档案",
     value: "Product",
-    discloseable: true
   },
   {
     label: "商品计量单位",
@@ -191,7 +190,6 @@ export default {
         {
           title: "商品档案",
           name: "Product",
-          discloseable: true
         }
       ]
     };
@@ -206,14 +204,15 @@ export default {
     openTab (item) {
       if (this.judgeIsAdd(item.value)) {
         this.addTab(item);
-      } else {
+      }
+      else {
         this.editableTabsValue = item.value;
       }
     },
     handleClick (tab, event) {
       console.log(tab, event);
     },
-    addTab ({ label, value, discloseable }) {
+    addTab ({ label, value }) {
       if (!label || !value) {
         this.$message({
           message: `名字为${label}，组件名为${value}tab，名字和组件名都不能为空！`,
@@ -224,7 +223,6 @@ export default {
       this.editableTabs.push({
         title: label,
         name: value,
-        discloseable
       });
       this.editableTabsValue = value;
     },

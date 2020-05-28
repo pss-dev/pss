@@ -17,11 +17,10 @@ function addDepartmentInfo (data) {
   })
 }
 
-function modifyDepartmentInfo (params, data) {
+function modifyDepartmentInfo (data) {
   return fetch({
     url: baseApi.baseApi('department'),
     method: 'put',
-    params,
     data
   })
 }

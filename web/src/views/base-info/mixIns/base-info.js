@@ -22,13 +22,14 @@ export default {
   methods: {
     getPathsLabel () {
       if (this.paths.length > 0) {
-        let pathsLabel = ""
+        let pathsLabel = "root"
 
         this.paths.forEach(element => {
-          pathsLabel += element + "/";
+          let path = element.parent == null ? "" : element.parent.name;
+          pathsLabel += path + "/";
         });
 
-        return pathsLabel;
+        return pathsLabel + this.parent.name;
       }
 
       return "root";
@@ -78,7 +79,6 @@ export default {
     addPaths () {
       this.paths.push({
         parent: this.parent,
-        data: this.tableData,
         page: this.currentPage
       });
     },
@@ -97,11 +97,15 @@ export default {
     },
 
     getParentID () {
-      if (this.parent) {
-        return this.parent.id;
+      return this.getParentID0(this.parent);
+    },
+
+    getParentID0 (parent) {
+      if (parent) {
+        return parent.id;
       }
 
       return null;
-    }
+    },
   }
 }
