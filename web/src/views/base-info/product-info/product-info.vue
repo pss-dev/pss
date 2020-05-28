@@ -86,7 +86,7 @@ export default {
       var pricesValue = [];
 
       this.priceData.forEach((value) => {
-        pricesValue.push({ price: value, number: 0 });
+        pricesValue.push({ price: value, value: 0 });
       });
 
       var emptyDialogData = {
@@ -147,7 +147,7 @@ export default {
       }
 
       productInfoApi
-        .deleteProductInfo(deleteParams)
+        .deleteProductInfo(deleteParams, this.selectedInfo)
         .then(() => {
           var params = this.getParameterForNewTable(this.getParentID());
           this.getProductInfo(params);

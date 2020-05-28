@@ -75,52 +75,52 @@
 
           <el-table-column prop="priceData[0]" :label="priceData[0].label">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.prices[0].number"></el-input>
+              <el-input v-model="scope.row.prices[0].value"></el-input>
             </template>
           </el-table-column>
           <el-table-column prop="priceData[1]" :label="priceData[1].label">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.prices[1].number"></el-input>
+              <el-input v-model="scope.row.prices[1].value"></el-input>
             </template>
           </el-table-column>
           <el-table-column prop="priceData[2]" :label="priceData[2].label">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.prices[2].number"></el-input>
+              <el-input v-model="scope.row.prices[2].value"></el-input>
             </template>
           </el-table-column>
           <el-table-column prop="priceData[3]" :label="priceData[3].label">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.prices[3].number"></el-input>
+              <el-input v-model="scope.row.prices[3].value"></el-input>
             </template>
           </el-table-column>
           <el-table-column prop="priceData[4]" :label="priceData[4].label">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.prices[4].number"></el-input>
+              <el-input v-model="scope.row.prices[4].value"></el-input>
             </template>
           </el-table-column>
           <el-table-column prop="priceData[5]" :label="priceData[5].label">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.prices[5].number"></el-input>
+              <el-input v-model="scope.row.prices[5].value"></el-input>
             </template>
           </el-table-column>
           <el-table-column prop="priceData[6]" :label="priceData[6].label">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.prices[6].number"></el-input>
+              <el-input v-model="scope.row.prices[6].value"></el-input>
             </template>
           </el-table-column>
           <el-table-column prop="priceData[7]" :label="priceData[7].label">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.prices[7].number"></el-input>
+              <el-input v-model="scope.row.prices[7].value"></el-input>
             </template>
           </el-table-column>
           <el-table-column prop="priceData[8]" :label="priceData[8].label">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.prices[8].number"></el-input>
+              <el-input v-model="scope.row.prices[8].value"></el-input>
             </template>
           </el-table-column>
           <el-table-column prop="priceData[9]" :label="priceData[9].label">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.prices[9].number"></el-input>
+              <el-input v-model="scope.row.prices[9].value"></el-input>
             </template>
           </el-table-column>
         </el-table>
@@ -212,7 +212,7 @@ export default {
       var pricesValue = [];
 
       this.priceData.forEach((value) => {
-        pricesValue.push({ price: value, number: 0 });
+        pricesValue.push({ price: value, value: 0 });
       });
       console.log("======addUnit ", Tool);
       let emptyUnit = {

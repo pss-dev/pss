@@ -40,8 +40,8 @@ public class ProductServiceImpl implements ProductService {
       }
       else {
          modifyProduct(old, product);
-         Set<ProductUnitPrice> unitPrices = product.getUnit();
-         Set<ProductUnitPrice> oldUnitPrices = product.getUnit();
+         Set<ProductUnitPrice> unitPrices = product.getUnits();
+         Set<ProductUnitPrice> oldUnitPrices = product.getUnits();
 
          if(oldUnitPrices == null) {
             oldUnitPrices = new HashSet<>();

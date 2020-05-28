@@ -41,6 +41,19 @@ public class PriceServiceImpl implements PriceService {
 
    @Override
    public List<Price> getPrices() {
+      if(this.priceDao.getPrices().size() < 10) {
+         for(int i = 0; i < 10; i++) {
+            Price price = new Price();
+            price.setName("价格" + i);
+            price.setLabel("价格" + i);
+            try {
+               this.priceDao.insertPrice(price);
+            } catch (Exception e) {
+               e.printStackTrace();
+            }
+         }
+      }
+
       return this.priceDao.getPrices();
    }
 }

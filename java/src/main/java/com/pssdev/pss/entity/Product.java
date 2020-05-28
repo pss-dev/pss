@@ -19,7 +19,7 @@ public class Product {
    @OneToMany(targetEntity = ProductUnitPrice.class, fetch = FetchType.EAGER)
    @OrderBy("unit_id asc")
    @JoinColumn(name = "product_id")
-   private Set<ProductUnitPrice> unit;
+   private Set<ProductUnitPrice> units;
    private boolean used;
    private boolean stopPurchase;
    private boolean stop;
@@ -77,12 +77,12 @@ public class Product {
       this.address = address;
    }
 
-   public Set<ProductUnitPrice> getUnit() {
-      return unit;
+   public Set<ProductUnitPrice> getUnits() {
+      return units;
    }
 
-   public void setUnit(Set<ProductUnitPrice> unit) {
-      this.unit = unit;
+   public void setUnits(Set<ProductUnitPrice> units) {
+      this.units = units;
    }
 
    public boolean isUsed() {
@@ -134,7 +134,7 @@ public class Product {
               ", specification='" + specification + '\'' +
               ", type='" + type + '\'' +
               ", address='" + address + '\'' +
-              ", unit=" + unit +
+              ", units=" + units +
               ", used=" + used +
               ", stopPurchase=" + stopPurchase +
               ", stop=" + stop +

@@ -27,11 +27,12 @@ function modifyProductInfo (params, data) {
   })
 }
 
-function deleteProductInfo (params) {
+function deleteProductInfo (params, data) {
   return fetch({
     url: baseApi.baseApi('product'),
     method: 'delete',
-    params
+    params,
+    data
   })
 }
 

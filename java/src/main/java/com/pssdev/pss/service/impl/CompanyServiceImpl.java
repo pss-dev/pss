@@ -25,10 +25,6 @@ public class CompanyServiceImpl implements CompanyService {
          }
       }
 
-      if(companyDao.getCompany(company.getId()) != null) {
-         throw new Exception("公司已经存在");
-      }
-
       companyDao.insertCompany(company);
    }
 
