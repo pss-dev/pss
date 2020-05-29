@@ -28,6 +28,7 @@ gradlew[.bat] server # 不会编译 classes
 
 #### 3.2 Service 
 * 事务放在 service 层
+* Cache 放在 service 层, 所有的 ServiceImpl 都应该配置 Cache, 可参考 [DepartmentServiceImpl](https://github.com/pss-dev/pss/blob/master/java/src/main/java/com/pssdev/pss/service/impl/DepartmentServiceImpl.java).
 
 #### 3.3 Dao
 * 所有 Dao 都继承 `BaseDao` 就默认拥有简单 CURD 功能, 只有特殊业务场景或者需求时才需要在自己的 `daoImpl` 中去扩展

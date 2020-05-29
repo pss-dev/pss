@@ -2,8 +2,6 @@ package com.pssdev.pss.service;
 
 import com.pssdev.pss.entity.Branch;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +57,19 @@ public class BranchServiceTests {
   // public void testDeleteBranch(Branch branch) {
   // branchService.deleteBranch(branch);
   // }
+
+  @RepeatedTest(value = 3, name = "Query 3 times to see sql display times.")
+  public void testBranchCache() {
+    List<Branch> branches = branchService.getBranches();
+
+    LOGGER.info("Get All Departments: {}", branches);
+
+    if(branches != null) {
+      branches.stream()
+         .map(Branch::getId)
+         .forEach(branchService::getBranch);
+    }
+  }
 
   private static final Logger LOGGER = LoggerFactory.getLogger(DepartmentServiceTests.class);
 

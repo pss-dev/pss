@@ -9,8 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @SpringBootTest
@@ -98,12 +97,32 @@ public class DepartmentServiceTests {
     Assertions.assertTrue(childIds.contains(cid2), "Missing child 2");
   }
 
-  // @ParameterizedTest
-  // @ValueSource(ints = 2)
-  // @Order(6)
-  // public void testDeleteDepartment(Department dept) {
-  // departmentService.deleteDepartment(dept);
-  // }
+   @ParameterizedTest
+   @ValueSource(ints = { 2 })
+   @Order(6)
+   public void testDeleteDepartment(int id) {
+     Department dept = departmentService.getDepartment(id);
+     List<Department> children = dept.getChildren();
+
+     if(children != null) {
+       children.forEach(departmentService::deleteDepartment);
+     }
+
+     departmentService.deleteDepartment(new Department(id));
+   }
+
+  @RepeatedTest(value = 3, name = "Query 3 times to see sql display times.")
+  public void testDepartmentCache() {
+    List<Department> departments = departmentService.getDepartments();
+
+    LOGGER.info("Get All Departments: {}", departments);
+
+    if(departments != null) {
+      departments.stream()
+         .map(Department::getId)
+         .forEach(departmentService::getDepartment);
+    }
+  }
 
   private static final Logger LOGGER = LoggerFactory.getLogger(DepartmentServiceTests.class);
 }
