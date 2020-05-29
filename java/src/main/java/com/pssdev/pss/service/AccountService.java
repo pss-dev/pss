@@ -7,7 +7,7 @@ import java.util.List;
 public interface AccountService {
   /**
    * get Unit by id
-   * 
+   *
    * @param parentId if null get all dept, else get specified dept.
    */
   List<Account> getAccounts(Integer parentId);
@@ -19,7 +19,7 @@ public interface AccountService {
 
   /**
    * insert a Account
-   * 
+   *
    * @return new Account id.
    */
   void insertAccount(Account account) throws Exception;
@@ -32,5 +32,5 @@ public interface AccountService {
   /**
    * delete a Account
    */
-  void deleteAccount(Integer account);
+  void deleteAccount(Account account);
 }

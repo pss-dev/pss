@@ -19,30 +19,30 @@ public class DepotServiceImpl implements DepotService {
   @Transactional
   public void insertDepot(Depot Depot) throws Exception {
     if (!StringUtils.isEmpty(Depot.getFatherId())) {
-      Depot father = DepotDao.getDepot(Depot.getFatherId());
+      Depot father = DepotDao.get(Depot.getFatherId());
 
       if (father == null) {
         throw new Exception("找不所属仓库");
       }
     }
 
-    if (DepotDao.getDepot(Depot.getId()) != null) {
+    if (DepotDao.get(Depot.getId()) != null) {
       throw new Exception("仓库已经存在");
     }
 
-    DepotDao.insertDepot(Depot);
+    DepotDao.insert(Depot);
   }
 
   @Override
   @Transactional
-  public void deleteDepot(Integer id) {
-    DepotDao.deleteDepot(id);
+  public void deleteDepot(Depot depot) {
+    DepotDao.delete(depot);
   }
 
   @Override
   @Transactional
   public void updateDepot(Depot depot) throws Exception {
-    Depot oldDepot = DepotDao.getDepot(depot.getId());
+    Depot oldDepot = DepotDao.get(depot.getId());
 
     if (oldDepot == null) {
       throw new Exception("仓库不存在");
@@ -50,7 +50,7 @@ public class DepotServiceImpl implements DepotService {
       oldDepot.setName(depot.getName());
       oldDepot.setBranch(depot.getBranch());
       oldDepot.setInitials(depot.getInitials());
-      DepotDao.modifyDepot(oldDepot);
+      DepotDao.update(oldDepot);
     }
   }
 
@@ -63,6 +63,6 @@ public class DepotServiceImpl implements DepotService {
   @Override
   @Transactional
   public List<Depot> getDepots() {
-    return DepotDao.getDepots();
+    return DepotDao.getAll();
   }
 }

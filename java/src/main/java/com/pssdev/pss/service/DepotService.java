@@ -7,7 +7,7 @@ import java.util.List;
 public interface DepotService {
   /**
    * get Depot by id
-   * 
+   *
    * @param parentId if null get all dept, else get specified dept.
    */
   List<Depot> getDepots(Integer parentId);
@@ -19,7 +19,7 @@ public interface DepotService {
 
   /**
    * insert a Depot
-   * 
+   *
    * @return new Depot id.
    */
   void insertDepot(Depot depot) throws Exception;
@@ -32,5 +32,5 @@ public interface DepotService {
   /**
    * delete a Depot
    */
-  void deleteDepot(Integer id);
+  void deleteDepot(Depot depot);
 }

@@ -9,7 +9,7 @@ public interface UserService {
     * get user by id
     * @return
     */
-   List<User> getUser(Long id);
+   User getUser(Long id);
 
    /**
     * get all Users
@@ -31,7 +31,6 @@ public interface UserService {
 
    /**
     * delete a user
-    * @param id
     */
-   void deleteUser(Long id);
+   void deleteUser(User user);
 }

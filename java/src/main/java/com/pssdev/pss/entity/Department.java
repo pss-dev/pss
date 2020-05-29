@@ -1,11 +1,13 @@
 package com.pssdev.pss.entity;
 
-import io.swagger.annotations.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name = "t_dept")
 @ApiModel("部门信息实例")
@@ -30,6 +32,7 @@ public class Department implements Serializable {
 
    @ApiModelProperty("子部门")
    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+   @JsonIgnore
    private List<Department> children = new ArrayList<>();
 
    public Department() {
@@ -86,9 +89,7 @@ public class Department implements Serializable {
          ", name='" + name + '\'' +
          ", initials='" + initials + '\'' +
          ", parent=" + (parent != null ? parent.id : null) +
-         ", children=[" + (children != null
-            ? children.stream().map(d -> d.id + "").collect(Collectors.joining(","))
-            : null)
-         + "]}";
+         ", fatherId='" + getParent() + '\''
+         + "}";
    }
 }

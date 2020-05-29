@@ -18,22 +18,22 @@ public class ProductUnitServiceImpl implements ProductUnitService {
 
   @Override
   public void insertProductUnit(ProductUnit productUnit) throws Exception {
-    this.productUnitDao.insertProductUnit(productUnit);
+    this.productUnitDao.insert(productUnit);
   }
 
   @Override
   public void deleteProductUnit(ProductUnit productUnit) {
-    this.productUnitDao.deleteProductUnit(productUnit);
+    this.productUnitDao.delete(productUnit);
   }
 
   @Override
   public void modifyProductUnit(ProductUnit productUnit) throws Exception {
-    ProductUnit old = this.productUnitDao.getProductUnit(productUnit.getId());
+    ProductUnit old = this.productUnitDao.get(productUnit.getId());
 
     if (old != null) {
       old.setNote(productUnit.getNote());
       old.setName(productUnit.getName());
-      this.productUnitDao.modifyProductUnit(old);
+      this.productUnitDao.update(old);
     } else {
       throw new Exception("商品单位不存在");
     }
@@ -42,7 +42,7 @@ public class ProductUnitServiceImpl implements ProductUnitService {
   @Override
   public List<ProductUnit> getProductUnits(Integer fatherId) {
     if(fatherId != null) {
-      ProductUnit father = this.productUnitDao.getProductUnit(fatherId);
+      ProductUnit father = this.productUnitDao.get(fatherId);
 
       if(father != null) {
         return this.getProductUnits(fatherId);
@@ -59,6 +59,6 @@ public class ProductUnitServiceImpl implements ProductUnitService {
 
   @Override
   public List<ProductUnit> getProductUnits() {
-    return this.productUnitDao.getProductUnits();
+    return this.productUnitDao.getAll();
   }
 }

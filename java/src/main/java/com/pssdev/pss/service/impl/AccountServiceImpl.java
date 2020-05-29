@@ -13,55 +13,55 @@ import java.util.List;
 @Service
 public class AccountServiceImpl implements AccountService {
   @Autowired
-  private AccountDao AccountDao;
+  private AccountDao accountDao;
 
   @Override
   @Transactional
   public void insertAccount(Account account) throws Exception {
     if (!StringUtils.isEmpty(account.getFatherId())) {
-      Account father = AccountDao.getAccount(account.getFatherId());
+      Account father = accountDao.get(account.getFatherId());
 
       if (father == null) {
         throw new Exception("找不到所属账户");
       }
     }
 
-    if (AccountDao.getAccount(account.getId()) != null) {
+    if (accountDao.get(account.getId()) != null) {
       throw new Exception("账户已经存在");
     }
 
-    AccountDao.insertAccount(account);
+    accountDao.insert(account);
   }
 
   @Override
   @Transactional
-  public void deleteAccount(Integer id) {
-    AccountDao.deleteAccount(id);
+  public void deleteAccount(Account account) {
+    accountDao.delete(account);
   }
 
   @Override
   @Transactional
   public void updateAccount(Account account) throws Exception {
-    Account oldAccount = AccountDao.getAccount(account.getId());
+    Account oldAccount = accountDao.get(account.getId());
 
     if (oldAccount == null) {
       throw new Exception("账户不存在");
     } else {
       oldAccount.setName(account.getName());
       oldAccount.setMoney(account.getMoney());
-      AccountDao.modifyAccount(oldAccount);
+      accountDao.update(oldAccount);
     }
   }
 
   @Override
   @Transactional
   public List<Account> getAccounts(Integer fatherId) {
-    return fatherId == null ? this.getAccounts() : AccountDao.getAccounts(fatherId);
+    return fatherId == null ? this.getAccounts() : accountDao.getAccounts(fatherId);
   }
 
   @Override
   @Transactional
   public List<Account> getAccounts() {
-    return AccountDao.getAccounts();
+    return accountDao.getAll();
   }
 }

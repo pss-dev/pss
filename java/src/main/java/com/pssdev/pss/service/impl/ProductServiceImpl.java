@@ -23,17 +23,17 @@ public class ProductServiceImpl implements ProductService {
 
    @Override
    public void insertProduct(Product product) throws Exception {
-      this.productDao.insertProduct(product);
+      this.productDao.insert(product);
    }
 
    @Override
    public void deleteProduct(Product product) {
-      this.productDao.deleteProduct(product);
+      this.productDao.delete(product);
    }
 
    @Override
    public void modifyProduct(Product product) throws Exception {
-      Product old = this.productDao.getProduct(product.getId());
+      Product old = this.productDao.get(product.getId());
 
       if(old == null) {
          throw new Exception("商品不存在");
@@ -61,7 +61,7 @@ public class ProductServiceImpl implements ProductService {
             }
          }
 
-         this.productDao.modifyProduct(old);
+         this.productDao.update(old);
       }
    }
 
@@ -129,18 +129,18 @@ public class ProductServiceImpl implements ProductService {
    @Override
    public List<Product> getProducts(Integer fatherId) {
       if(!StringUtils.isEmpty(fatherId)) {
-         Product father = this.productDao.getProduct(fatherId);
+         Product father = this.productDao.get(fatherId);
 
          if(father == null) {
             return this.productDao.getProducts(fatherId);
          }
       }
 
-      return this.productDao.getProducts();
+      return this.productDao.getAll();
    }
 
    @Override
    public List<Product> getProducts() {
-      return this.productDao.getProducts();
+      return this.productDao.getAll();
    }
 }

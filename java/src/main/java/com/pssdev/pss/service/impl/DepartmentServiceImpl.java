@@ -20,17 +20,17 @@ public class DepartmentServiceImpl implements DepartmentService {
   @Transactional(readOnly = true)
   @Override
   public Department getDepartment(Integer parentId) {
-    return departmentDao.getDepartment(parentId);
+    return departmentDao.get(parentId);
   }
 
   @Transactional(readOnly = true)
   @Override
   public List<Department> getDepartments(Integer parentId) {
     if (parentId == null) {
-      return departmentDao.getAllDepartments();
+      return departmentDao.getAll();
     }
 
-    Department department = departmentDao.getDepartment(parentId);
+    Department department = departmentDao.get(parentId);
 
     if (department != null) {
       return department.getChildren();
@@ -42,25 +42,25 @@ public class DepartmentServiceImpl implements DepartmentService {
   @Transactional(readOnly = true)
   @Override
   public List<Department> getDepartments() {
-    return departmentDao.getAllDepartments();
+    return departmentDao.getAll();
   }
 
   @Transactional
   @Override
   public int insertDepartment(Department department) {
-    return departmentDao.insertDepartment(department);
+    return departmentDao.insert(department);
   }
 
   @Transactional
   @Override
   public void updateDepartment(Department department) {
-    departmentDao.updateDepartment(department);
+    departmentDao.update(department);
   }
 
   @Transactional
   @Override
   public void deleteDepartment(Department dept) {
-    departmentDao.deleteDepartment(dept);
+    departmentDao.delete(dept);
   }
 
   private final DepartmentDao departmentDao;

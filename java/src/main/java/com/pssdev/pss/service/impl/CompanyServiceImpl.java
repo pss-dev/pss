@@ -18,26 +18,26 @@ public class CompanyServiceImpl implements CompanyService {
    @Transactional
    public void insertCompany(Company company) throws Exception {
       if(company.getParent() != null) {
-         Company father = companyDao.getCompany(company.getParent().getId());
+         Company father = companyDao.get(company.getParent().getId());
 
          if(father == null) {
             throw new Exception("找不所属公司");
          }
       }
 
-      companyDao.insertCompany(company);
+      companyDao.insert(company);
    }
 
    @Override
    @Transactional
    public void deleteCompany(Company company) {
-      companyDao.deleteCompany(company.getId());
+      companyDao.delete(company);
    }
 
    @Override
    @Transactional
    public void modifyCompany(Company company) throws Exception {
-      Company oldCompany = companyDao.getCompany(company.getId());
+      Company oldCompany = companyDao.get(company.getId());
 
       if(oldCompany == null) {
          throw new Exception("公司不存在");
@@ -50,7 +50,7 @@ public class CompanyServiceImpl implements CompanyService {
          oldCompany.setContactPhone(company.getContactPhone());
          oldCompany.setType(company.getType());
          oldCompany.setParent(company.getParent());
-         companyDao.modifyCompany(oldCompany);
+         companyDao.update(oldCompany);
       }
    }
 
@@ -63,6 +63,6 @@ public class CompanyServiceImpl implements CompanyService {
    @Override
    @Transactional
    public List<Company> getCompanies() {
-      return companyDao.getCompanies();
+      return companyDao.getAll();
    }
 }

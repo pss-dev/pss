@@ -21,30 +21,30 @@ public class BranchServiceImpl implements BranchService {
   @Transactional(readOnly = true)
   @Override
   public Branch getBranch(Integer fatherID) {
-    return branchDao.getBranch(fatherID);
+    return branchDao.get(fatherID);
   }
 
   @Transactional(readOnly = true)
   @Override
   public List<Branch> getBranches() {
-    return branchDao.getAllBranch();
+    return branchDao.getAll();
   }
 
   @Transactional(readOnly = true)
   @Override
   public Integer insertBranch(Branch branch) {
-    return branchDao.insertBranch(branch);
+    return branchDao.insert(branch);
   }
 
   @Transactional(readOnly = true)
   @Override
   public void updateBranch(Branch branch) {
-    branchDao.updateBranch(branch);
+    branchDao.update(branch);
   }
 
   @Transactional(readOnly = true)
   @Override
   public void deleteBranch(Branch branch) {
-    branchDao.deleteBranch(branch);
+    branchDao.delete(branch);
   }
 }

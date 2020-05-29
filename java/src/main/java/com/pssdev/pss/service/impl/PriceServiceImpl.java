@@ -17,22 +17,22 @@ public class PriceServiceImpl implements PriceService {
 
    @Override
    public void insertPrice(Price price) throws Exception {
-      this.priceDao.insertPrice(price);
+      this.priceDao.insert(price);
    }
 
    @Override
    public void deletePrice(Price price) {
-      this.priceDao.deletePrice(price);
+      this.priceDao.delete(price);
    }
 
    @Override
    public void modifyPrice(Price price) throws Exception {
-      Price old = this.priceDao.getPrice(price.getId());
+      Price old = this.priceDao.get(price.getId());
 
       if(old != null) {
          old.setLabel(price.getLabel());
          old.setName(price.getName());
-         this.priceDao.modifyPrice(old);
+         this.priceDao.update(old);
       }
       else {
          throw new Exception("价格名称不存在");
@@ -41,19 +41,19 @@ public class PriceServiceImpl implements PriceService {
 
    @Override
    public List<Price> getPrices() {
-      if(this.priceDao.getPrices().size() < 10) {
+      if(this.priceDao.getAll().size() < 10) {
          for(int i = 0; i < 10; i++) {
             Price price = new Price();
             price.setName("价格" + i);
             price.setLabel("价格" + i);
             try {
-               this.priceDao.insertPrice(price);
+               this.priceDao.insert(price);
             } catch (Exception e) {
                e.printStackTrace();
             }
          }
       }
 
-      return this.priceDao.getPrices();
+      return this.priceDao.getAll();
    }
 }
