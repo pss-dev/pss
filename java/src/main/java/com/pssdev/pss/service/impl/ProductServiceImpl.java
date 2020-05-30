@@ -11,10 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.transaction.Transactional;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-
 @Service
 @Transactional
 public class ProductServiceImpl implements ProductService {
@@ -40,11 +38,11 @@ public class ProductServiceImpl implements ProductService {
       }
       else {
          modifyProduct(old, product);
-         Set<ProductUnitPrice> unitPrices = product.getUnits();
-         Set<ProductUnitPrice> oldUnitPrices = product.getUnits();
+         List<ProductUnitPrice> unitPrices = product.getUnits();
+         List<ProductUnitPrice> oldUnitPrices = old.getUnits();
 
          if(oldUnitPrices == null) {
-            oldUnitPrices = new HashSet<>();
+            oldUnitPrices = new ArrayList<>();
          }
 
          if(unitPrices != null && unitPrices.size() > 0) {
@@ -78,7 +76,7 @@ public class ProductServiceImpl implements ProductService {
    }
 
    private void modifyUnitPrice(ProductUnitPrice unitPrice,
-                                Set<ProductUnitPrice> oldUnitPrices)
+                                List<ProductUnitPrice> oldUnitPrices)
    {
       ProductUnitPrice modify = findUnitPrice(unitPrice.getId(), oldUnitPrices);
       this.modifyUnitPrice(modify, unitPrice);
@@ -86,8 +84,8 @@ public class ProductServiceImpl implements ProductService {
    }
 
    private void modifyUnitPrice(ProductUnitPrice oldUnitPrice, ProductUnitPrice newUnitPrice) {
-      Set<PriceValue> oldPrices = oldUnitPrice.getPrices();
-      Set<PriceValue> newPrices = newUnitPrice.getPrices();
+      List<PriceValue> oldPrices = oldUnitPrice.getPrices();
+      List<PriceValue> newPrices = newUnitPrice.getPrices();
 
       if(oldPrices == null || newPrices == null) {
          return;
@@ -102,7 +100,7 @@ public class ProductServiceImpl implements ProductService {
       }
    }
 
-   private PriceValue findPriceValue(PriceValue priceValue, Set<PriceValue> prices) {
+   private PriceValue findPriceValue(PriceValue priceValue, List<PriceValue> prices) {
       for(PriceValue price : prices) {
          if(priceValue.equals(price)) {
             return price;
@@ -112,7 +110,7 @@ public class ProductServiceImpl implements ProductService {
       return null;
    }
 
-   private ProductUnitPrice findUnitPrice(int id, Set<ProductUnitPrice> unitPrices) {
+   private ProductUnitPrice findUnitPrice(int id, List<ProductUnitPrice> unitPrices) {
       if(unitPrices == null) {
          return null;
       }

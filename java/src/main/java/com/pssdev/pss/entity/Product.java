@@ -3,7 +3,7 @@ package com.pssdev.pss.entity;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 public class Product {
@@ -15,11 +15,11 @@ public class Product {
    private String specification;
    private String type;
    private String address;
-   @Cascade(org.hibernate.annotations.CascadeType.ALL)
+   @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
    @OneToMany(targetEntity = ProductUnitPrice.class, fetch = FetchType.EAGER)
    @OrderBy("unit_id asc")
    @JoinColumn(name = "product_id")
-   private Set<ProductUnitPrice> units;
+   private List<ProductUnitPrice> units;
    private boolean used;
    private boolean stopPurchase;
    private boolean stop;
@@ -77,11 +77,11 @@ public class Product {
       this.address = address;
    }
 
-   public Set<ProductUnitPrice> getUnits() {
+   public List<ProductUnitPrice> getUnits() {
       return units;
    }
 
-   public void setUnits(Set<ProductUnitPrice> units) {
+   public void setUnits(List<ProductUnitPrice> units) {
       this.units = units;
    }
 
