@@ -42,8 +42,8 @@ export default {
       title: "单位信息查询",
 
       titleData: [
-        { prop: "id", label: "编号" },
-        { prop: "name", label: "名称" }],
+        { prop: "name", label: "名称" },
+        { prop: "note", label: "备注" }],
 
       selectedInfo: null,
     }

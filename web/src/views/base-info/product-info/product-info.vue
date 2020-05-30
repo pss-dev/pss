@@ -43,6 +43,8 @@ import ProductInfoDialog from "./components/product-info-dialog.vue"
 import productInfoApi from "../../../api/product-info-api/productInfoApi.js"
 import priceInfoApi from "../../../api/price-info-api/priceInfoApi.js"
 
+import Tool from '@/views/constant/tool.js'
+
 export default {
   name: "productInfo",
   mixins: [BseInfo],
@@ -102,12 +104,12 @@ export default {
         stop: '',
         sellDefaultUnit: '',
         purchaseDefaultUnit: '',
-        actionType: 0,
+        actionType: Tool.actionType.add,
         parent: this.parent,
         units: [{
           default: true,
           crate: 1,
-          actionType: 0,
+          actionType: Tool.actionType.add,
           unit: { id: null, name: '' },
           prices: pricesValue,
         }],
@@ -124,7 +126,7 @@ export default {
 
     submitData (productData) {
       var getInfoParams = this.getParameterForNewTable(this.getParentID());
-
+      console.log("========= submitData ", productData);
       if (this.addInfo) {
         productInfoApi.addProductInfo(productData).then(
           () => {

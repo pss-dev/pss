@@ -66,6 +66,7 @@
           <el-table-column prop="crate" label="换算率">
             <template slot-scope="scope">
               <el-input
+                type="number"
                 v-model="scope.row.crate"
                 placeholder="换算率"
                 @input="unitInfoChange(scope.row)"
@@ -138,14 +139,14 @@
 </template>
 
 <script>
-import productUnitSearchDialog from '../../../components/product-unit-search-dialog'
+import UnitSearchDialog from '../../../components/unit-search-dialog'
 import unitApi from '../../../../api/unit-info-api/unitInfoApi.js'
 import Tool from '@/views/constant/tool.js'
 
 export default {
   name: "productInfoDialog",
   components: {
-    "product-unit-search-dialog": productUnitSearchDialog,
+    "product-unit-search-dialog": UnitSearchDialog,
   },
 
   props: {
@@ -203,7 +204,7 @@ export default {
     },
 
     unitInfoChange (row) {
-      if (row.actionType == -1) {
+      if (row.actionType == 0) {
         row.actionType = Tool.actionType.update;
       }
     },
@@ -216,7 +217,7 @@ export default {
       });
       console.log("======addUnit ", Tool);
       let emptyUnit = {
-        unit: { id: -1, name: '' },
+        unit: { id: null, name: '' },
         crate: 1,
         default: false,
         actionType: Tool.actionType.add,
@@ -251,8 +252,7 @@ export default {
     },
 
     submitUnitData (value) {
-      this.selectUnitData.unit.id = value.id;
-      this.selectUnitData.unit.name = value.name;
+      this.selectUnitData.unit = value;
       this.closeUnitDialog();
     },
 
