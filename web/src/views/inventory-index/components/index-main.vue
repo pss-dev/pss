@@ -111,7 +111,8 @@ let manageSettingMenuArr = [
 
 let statisticsgMenuArr = [
   {
-    label: "日志"
+    label: "日志",
+    value: "Log"
   },
   {
     label: "营收"
@@ -170,6 +171,7 @@ import Branch from "@/views/base-info/branch-info/branch-info";
 import PurchaseForm from "@/views/order-form/purchase-form";
 import ReturnForm from "@/views/order-form/return-form";
 import SalesForm from "@/views/order-form/sales-form";
+import Log from "@/views/statistics/log/log";
 export default {
   components: {
     Product,
@@ -185,7 +187,8 @@ export default {
     Branch,
     PurchaseForm,
     ReturnForm,
-    SalesForm
+    SalesForm,
+    Log
   },
   data () {
     return {
