@@ -1,5 +1,11 @@
 <template>
-  <el-dialog :title="title" :visible.sync="dialogVisible" :before-close="handleClose">
+  <el-dialog
+    :modal="true"
+    :close-on-click-modal="false"
+    :title="title"
+    :visible.sync="dialogVisible"
+    :before-close="handleClose"
+  >
     <el-table :data="rules" height="400" style="width: 100%" border>
       <el-table-column prop="name">
         <template slot-scope="scope">

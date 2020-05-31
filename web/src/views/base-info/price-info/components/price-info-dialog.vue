@@ -1,5 +1,11 @@
 <template>
-  <el-dialog :title="title" :visible.sync="dialogVisible" :before-close="handleClose">
+  <el-dialog
+    :modal="true"
+    :close-on-click-modal="false"
+    :title="title"
+    :visible.sync="dialogVisible"
+    :before-close="handleClose"
+  >
     <el-form :model="priceData" ref="priceData" :rules="rules" class="demo-ruleForm">
       <el-form-item label="名称" prop="name" :label-width="formLabelWidth">
         <el-input v-model="priceData.name" autocomplete="off"></el-input>

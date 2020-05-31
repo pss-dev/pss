@@ -1,6 +1,8 @@
 export default {
   data () {
     return {
+      showDatasAsTree: true,
+
       tableData: [],
 
       addInfo: false, //add or edit
@@ -105,7 +107,7 @@ export default {
         return parent.id;
       }
 
-      return null;
+      return this.showDatasAsTree ? -1 : null;
     },
 
     cloneData (data) {
@@ -117,6 +119,15 @@ export default {
 
     cloneSelectedInfoData () {
       return this.cloneData(this.selectedInfo);
+    },
+
+    showTypeChange (value) {
+      this.showDatasAsTree = value;
+
+      this.paths = [];
+      this.parent = null;
+
+      this.loadData();
     }
   }
 }

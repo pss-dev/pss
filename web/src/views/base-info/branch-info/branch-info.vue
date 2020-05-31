@@ -1,6 +1,6 @@
 <template>
   <div>
-    <base-info-header :paths="getPathsLabel()"></base-info-header>
+    <base-info-header :paths="getPathsLabel()" @showTypeChange="showTypeChange"></base-info-header>
 
     <base-info-table
       :titles="titData"
@@ -144,12 +144,15 @@ export default {
           this.setResponseResult(res.data);
         });
     },
+
+    loadData () {
+      var params = this.getParameterForNewTable(this.getParentID());
+      this.getBranchInfo(params);
+    }
   },
 
   created: function () {
-    var params = this.getParameterForNewTable(this.getParentID());
-
-    this.getBranchInfo(params);
+    this.loadData();
   }
 }
 </script>

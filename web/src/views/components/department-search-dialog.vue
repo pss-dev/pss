@@ -1,5 +1,11 @@
 <template>
-  <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" :before-close="handleClose">
+  <el-dialog
+    :modal="true"
+    :close-on-click-modal="false"
+    :title="dialogTitle"
+    :visible.sync="dialogVisible"
+    :before-close="handleClose"
+  >
     <search-base
       :titles="titleData"
       :tableData="tableData"

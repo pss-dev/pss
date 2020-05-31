@@ -1,5 +1,11 @@
 <template>
-  <el-dialog :title="title" :visible.sync="dialogVisible" :before-close="handleClose">
+  <el-dialog
+    :modal="true"
+    :close-on-click-modal="false"
+    :title="title"
+    :visible.sync="dialogVisible"
+    :before-close="handleClose"
+  >
     <el-form :model="departmentData" ref="departmentData" :rules="rules" class="demo-ruleForm">
       <el-form-item label="部门名称" :label-width="formLabelWidth">
         <el-input v-model="departmentData.name" autocomplete="off"></el-input>

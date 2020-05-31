@@ -1,6 +1,6 @@
 <template>
   <div>
-    <base-info-header :paths="getPathsLabel()"></base-info-header>
+    <base-info-header :paths="getPathsLabel()" :showTypeVisiable="false"></base-info-header>
 
     <base-info-table
       :titles="titData"

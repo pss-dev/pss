@@ -1,5 +1,11 @@
 <template>
-  <el-dialog :title="title" :visible.sync="dialogVisible" :before-close="handleClose">
+  <el-dialog
+    :modal="true"
+    :close-on-click-modal="false"
+    :title="title"
+    :visible.sync="dialogVisible"
+    :before-close="handleClose"
+  >
     <el-tabs v-model="activeName">
       <el-tab-pane label="基本资料" name="first">
         <el-form :model="productData" ref="productData" :rules="rules" class="demo-ruleForm">

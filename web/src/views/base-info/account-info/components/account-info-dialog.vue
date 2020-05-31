@@ -1,5 +1,11 @@
 <template>
-  <el-dialog :title="title" :visible.sync="dialogVisible" :before-close="handleClose">
+  <el-dialog
+    :modal="true"
+    :close-on-click-modal="false"
+    :title="title"
+    :visible.sync="dialogVisible"
+    :before-close="handleClose"
+  >
     <el-form :model="accountData" ref="accountData" :rules="rules" class="demo-ruleForm">
       <el-form-item label="支付类型" :label-width="formLabelWidth">
         <el-input v-model="accountData.name" autocomplete="off"></el-input>

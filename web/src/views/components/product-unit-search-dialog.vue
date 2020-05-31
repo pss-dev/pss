@@ -1,5 +1,7 @@
 <template>
   <el-dialog
+    :modal="true"
+    :close-on-click-modal="false"
     :title="title"
     :visible.sync="dialogVisible"
     :before-close="handleClose"
