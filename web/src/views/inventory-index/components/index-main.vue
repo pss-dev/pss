@@ -191,13 +191,8 @@ export default {
     return {
       activeIndex: "1-1",
       navData: getNavData(),
-      editableTabsValue: "Product",
-      editableTabs: [
-        {
-          title: "商品档案",
-          name: "Product",
-        }
-      ]
+      editableTabsValue: "",
+      editableTabs: []
     };
   },
   methods: {
