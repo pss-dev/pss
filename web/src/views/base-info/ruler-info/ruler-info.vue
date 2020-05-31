@@ -13,22 +13,20 @@
       :totalSize="totalSize"
       :currentPage="currentPage"
       :selectedInfoInvalid="isSelectedInfoInvalid()"
-      :newInfoVisiable="true"
-      :copyNewVisiable="false"
-      :deleteInfoVisiable="false"
       :previousVisiable="false"
       :nextVisiable="false"
       @newInfo="newInfo"
-      @edit="edit"
+      @copyNew="copyNew"
+      @deleteInfo="deleteInfo"
     ></base-info-footer>
 
-    <price-info-dialog
+    <ruler-info-dialog
       @closeDialog="closeDialog"
       @submitData="submitData"
       :title="dialogTitle"
-      :priceData="dialogData"
+      :RulerData="dialogData"
       v-if="showDialog"
-    ></price-info-dialog>
+    ></ruler-info-dialog>
   </div>
 </template>
 
@@ -37,63 +35,82 @@ import BaseInfoHeader from "../components/base-info-header.vue"
 import BaseInfoTabler from "../components/base-info-table.vue"
 import BaseInfoFooter from "../components/base-info-footer.vue"
 import BseInfo from '../mixIns/base-info'
-import PriceInfoDialog from "./components/price-info-dialog.vue"
+import RulerInfoDialog from './components/ruler-info-dialog'
 
-import priceInfoApi from "../../../api/price-info-api/priceInfoApi.js"
+import RulerInfoApi from '../../../api/ruler-info-api/rulerInfoApi'
 
 export default {
-  name: "priceInfo",
+  name: "RulerInfo",
+
   mixins: [BseInfo],
+
   components: {
     "base-info-header": BaseInfoHeader,
     "base-info-table": BaseInfoTabler,
     "base-info-footer": BaseInfoFooter,
-    "price-info-dialog": PriceInfoDialog
+    "ruler-info-dialog": RulerInfoDialog
+  },
+
+  props: {
   },
 
   data () {
     return {
       titData:
-        [{ prop: "name", label: "名称" },
-        { prop: "label", label: "显示名称" }],
-      tableData: [],
+        [{ prop: "name", label: "名称" }],
     }
   },
 
   methods: {
+    edit () {
+      this.setDialogInfo("编辑", this.selectedInfo, false);
+      this.showDialog = true;
+    },
+
     newInfo () {
-      var priceData = {
+      var emptyDialogData = {
         id: null,
         name: '',
-        label: ''
+        account: '',
+        password: '',
+        branch: { id: null, name: '' },
+        department: { id: null, name: '' },
       };
 
-      this.setDialogInfo("空白新增", priceData, true);
+      this.setDialogInfo("空白新增", emptyDialogData, true);
       this.showDialog = true;
     },
 
-    edit () {
-      this.setDialogInfo("编辑价格名称", this.cloneSelectedInfoData(), false);
+    copyNew () {
+      this.setDialogInfo("复制新增", this.selectedInfo, true);
       this.showDialog = true;
     },
 
-    submitData (priceData) {
+    submitData (rulerData) {
       if (this.addInfo) {
-        priceInfoApi.addPriceInfo(priceData).then(
-          () => {
-            this.getPriceInfo();
+        RulerInfoApi.addRulerInfo(rulerData).then(
+          (res) => {
+            this.setResponseResult(res.data);
           });
       }
       else {
-        priceInfoApi.modifyPriceInfo(priceData).then(
-          () => {
-            this.getPriceInfo();
+        RulerInfoApi.modifyRulerInfo(rulerData).then(
+          (res) => {
+            this.setResponseResult(res.data);
           });
       }
     },
 
-    getPriceInfo () {
-      priceInfoApi.getPriceInfo().then(
+    deleteInfo () {
+      RulerInfoApi
+        .deleteRulerInfo(this.selectedInfo)
+        .then((res) => {
+          this.setResponseResult(res.data);
+        });
+    },
+
+    getRulerInfo (params) {
+      RulerInfoApi.getRulerInfo(params).then(
         (res) => {
           this.setResponseResult(res.data);
         });
@@ -101,7 +118,9 @@ export default {
   },
 
   created: function () {
-    this.getPriceInfo();
+    var params = this.getParameterForNewTable(this.getParentID());
+
+    this.getRulerInfo(params);
   }
 }
 </script>

@@ -32,25 +32,7 @@ export default {
     return {
       dialogTitle: "部门查询",
 
-      titleData: [{ prop: "id", label: "编号" },
-      { prop: "name", label: "名称" }],
-
-      tableData: [{ id: "aaa", name: "bbb" },
-      { id: "111aaa0", name: "bbb1" },
-      { id: "aaa2", name: "bbb3" },
-      { id: "aaa4", name: "bbb5" },
-      { id: "aaa", name: "bbb" },
-      { id: "222aaa0", name: "bbb1" },
-      { id: "aaa2", name: "bbb3" },
-      { id: "aaa4", name: "bbb5" },
-      { id: "aaa", name: "bbb" },
-      { id: "333aaa0", name: "bbb1" },
-      { id: "aaa2", name: "bbb3" },
-      { id: "aaa4", name: "bbb5" },
-      { id: "aaa", name: "bbb" },
-      { id: "444aaa0", name: "bbb1" },
-      { id: "aaa2", name: "bbb3" },
-      { id: "aaa4", name: "bbb5" }],
+      titleData: [{ prop: "name", label: "名称" }],
     }
   },
 
@@ -87,15 +69,6 @@ export default {
           this.setResponseResult(res.data);
         });
     },
-
-    setResponseResult (data) {
-      if (data.totalSize && data.result) {
-        this.totalSize = data.totalSize;
-        this.tableData = data.result;
-      }
-    },
-
-
   },
 
   created: function () {

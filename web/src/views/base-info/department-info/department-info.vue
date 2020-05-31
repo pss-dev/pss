@@ -71,7 +71,7 @@ export default {
     },
 
     edit () {
-      this.setDialogInfo("编辑", this.selectedInfo, false);
+      this.setDialogInfo("编辑", this.cloneSelectedInfoData(), false);
       this.showDialog = true;
     },
 
@@ -88,7 +88,7 @@ export default {
     },
 
     copyNew () {
-      this.setDialogInfo("复制新增", this.selectedInfo, true);
+      this.setDialogInfo("复制新增", this.cloneSelectedInfoData(), true);
       this.showDialog = true;
     },
 

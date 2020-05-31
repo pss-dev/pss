@@ -13,6 +13,8 @@
       :totalSize="totalSize"
       :currentPage="currentPage"
       :selectedInfoInvalid="isSelectedInfoInvalid()"
+      :previousVisiable="false"
+      :nextVisiable="false"
       @newInfo="newInfo"
       @copyNew="copyNew"
       @deleteInfo="deleteInfo"
@@ -55,13 +57,15 @@ export default {
   data () {
     return {
       titData:
-        [{ prop: "name", label: "名称" }],
+        [{ prop: "name", label: "名称" },
+        { prop: "branch.name", label: "分支" },
+        { prop: "department.name", label: "部门" }],
     }
   },
 
   methods: {
     edit () {
-      this.setDialogInfo("编辑", this.selectedInfo, false);
+      this.setDialogInfo("编辑", this.cloneSelectedInfoData(), false);
       this.showDialog = true;
     },
 
@@ -70,7 +74,7 @@ export default {
         id: null,
         name: '',
         account: '',
-        passworld: '',
+        password: '',
         branch: { id: null, name: '' },
         department: { id: null, name: '' },
       };
@@ -80,7 +84,7 @@ export default {
     },
 
     copyNew () {
-      this.setDialogInfo("复制新增", this.selectedInfo, true);
+      this.setDialogInfo("复制新增", this.cloneSelectedInfoData(), true);
       this.showDialog = true;
     },
 

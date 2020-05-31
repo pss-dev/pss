@@ -75,7 +75,7 @@ export default {
     },
 
     edit () {
-      this.setDialogInfo("编辑", this.selectedInfo, false);
+      this.setDialogInfo("编辑", this.cloneSelectedInfoData(), false);
       this.showDialog = true;
     },
 
@@ -102,8 +102,8 @@ export default {
         used: '',
         stopPurchase: '',
         stop: '',
-        sellDefaultUnit: '',
-        purchaseDefaultUnit: '',
+        sellDefaultUnit: {},
+        purchaseDefaultUnit: {},
         actionType: Tool.actionType.add,
         parent: this.parent,
         units: [{
@@ -120,7 +120,7 @@ export default {
     },
 
     copyNew () {
-      this.setDialogInfo("复制新增", this.selectedInfo, true);
+      this.setDialogInfo("复制新增", this.cloneSelectedInfoData(), true);
       this.showDialog = true;
     },
 
@@ -142,13 +142,8 @@ export default {
     },
 
     deleteInfo () {
-      var deleteParams = {
-        id: this.selectedInfo.id,
-        fatherID: this.fatherID
-      }
-
       productInfoApi
-        .deleteProductInfo(deleteParams, this.selectedInfo)
+        .deleteProductInfo(this.selectedInfo)
         .then(() => {
           var params = this.getParameterForNewTable(this.getParentID());
           this.getProductInfo(params);

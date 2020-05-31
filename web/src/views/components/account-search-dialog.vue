@@ -41,11 +41,6 @@ export default {
         { prop: "id", label: "编号" },
         { prop: "name", label: "名称" },
         { prop: "balance", label: "余额" }],
-
-      tableData: [{ id: "1", name: "现金", balance: 100 },
-      { id: "2", name: "移动支付", balance: 300 }],
-
-      selectedInfo: null,
     }
   },
 
@@ -80,13 +75,6 @@ export default {
         (res) => {
           this.setResponseResult(res.data);
         });
-    },
-
-    setResponseResult (data) {
-      if (data.totalSize && data.result) {
-        this.totalSize = data.totalSize;
-        this.tableData = data.result;
-      }
     },
   },
 

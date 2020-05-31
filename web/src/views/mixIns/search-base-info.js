@@ -2,6 +2,7 @@ export default {
   data () {
     return {
       selectedInfo: null,
+      tableData: [],
 
       dialogVisible: true,
 
@@ -56,5 +57,12 @@ export default {
         currentPage: this.currentPage
       });
     },
+
+    setResponseResult (res) {
+      if (res) {
+        this.tableData = res;
+        this.totalSize = res.length;
+      }
+    }
   }
 }

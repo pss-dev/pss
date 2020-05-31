@@ -62,8 +62,8 @@ export default {
   data () {
     return {
       titData:
-        [{ prop: "name", label: "名称" },
-        { prop: "balance", label: "余额" }],
+        [{ prop: "name", label: "支付类型" },
+        { prop: "account", label: "支付账户" }],
     }
   },
 
@@ -79,7 +79,7 @@ export default {
     },
 
     edit () {
-      this.setDialogInfo("编辑", this.selectedInfo, false);
+      this.setDialogInfo("编辑", this.cloneSelectedInfoData(), false);
       this.showDialog = true;
     },
 
@@ -87,7 +87,7 @@ export default {
       var emptyDialogData = {
         id: null,
         name: '',
-        balance: '',
+        account: '',
         parent: this.parent,
       };
 
@@ -96,7 +96,7 @@ export default {
     },
 
     copyNew () {
-      this.setDialogInfo("复制新增", this.selectedInfo, true);
+      this.setDialogInfo("复制新增", this.cloneSelectedInfoData(), true);
       this.showDialog = true;
     },
 

@@ -32,14 +32,7 @@ export default {
     return {
       title: "仓库机构查询",
 
-      titleData: [
-        { prop: "id", label: "编号" },
-        { prop: "name", label: "名称" }],
-
-      tableData: [{ id: "1", name: "name1" },
-      { id: "2", name: "name2" }],
-
-      selectedInfo: null,
+      titleData: [{ prop: "name", label: "名称" }],
     }
   },
 
@@ -74,13 +67,6 @@ export default {
         (res) => {
           this.setResponseResult(res.data);
         });
-    },
-
-    setResponseResult (data) {
-      if (data.totalSize && data.result) {
-        this.totalSize = data.totalSize;
-        this.tableData = data.result;
-      }
     },
   },
 

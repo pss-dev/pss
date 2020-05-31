@@ -107,5 +107,16 @@ export default {
 
       return null;
     },
+
+    cloneData (data) {
+      var obj = {};
+      obj = JSON.parse(JSON.stringify(data));
+
+      return obj;
+    },
+
+    cloneSelectedInfoData () {
+      return this.cloneData(this.selectedInfo);
+    }
   }
 }

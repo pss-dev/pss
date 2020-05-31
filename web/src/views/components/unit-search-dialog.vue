@@ -56,13 +56,6 @@ export default {
           this.setResponseResult(res.data);
         });
     },
-
-    setResponseResult (data) {
-      if (data.totalSize && data.result) {
-        this.totalSize = data.totalSize;
-        this.tableData = data.result;
-      }
-    },
   },
 
   created: function () {

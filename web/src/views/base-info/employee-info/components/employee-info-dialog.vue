@@ -32,13 +32,34 @@
               ></el-button>
             </el-input>
           </el-form-item>
-          <el-form-item>
-            <el-button @click="closeDialog">取 消</el-button>
-            <el-button type="primary" @click="submitData">确 定</el-button>
-          </el-form-item>
         </el-form>
       </el-tab-pane>
-      <el-tab-pane label="权限" name="second"></el-tab-pane>
+      <el-tab-pane label="权限" name="second">
+        <el-table :data="rules" height="400" style="width: 100%" border>
+          <el-table-column prop="name">
+            <template slot-scope="scope">
+              <span>{{scope.row.name}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="read" label="读">
+            <template slot-scope="scope">
+              <el-checkbox v-model="scope.row.read"></el-checkbox>
+            </template>
+          </el-table-column>
+          <el-table-column prop="write" label="写">
+            <template slot-scope="scope">
+              <el-checkbox v-model="scope.row.write"></el-checkbox>
+            </template>
+          </el-table-column>
+          <el-table-column prop="delete" label="删">
+            <template slot-scope="scope">
+              <el-checkbox v-model="scope.row.delete"></el-checkbox>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-tab-pane>
+      <el-button @click="closeDialog">取 消</el-button>
+      <el-button type="primary" @click="submitData">确 定</el-button>
     </el-tabs>
     <branch-search-dialog
       v-if="branchDialogVisible"
@@ -80,8 +101,41 @@ export default {
       departmentDialogVisible: false,
       formLabelWidth: '120px',
       activeName: 'first',
-      rules: {
+      formRules: {
       },
+
+      rules: [
+        {
+          name: '基本信息',
+          read: false,
+          write: false,
+          delete: false,
+        },
+        {
+          name: '员工信息',
+          read: false,
+          write: false,
+          delete: false,
+        },
+        {
+          name: '单据',
+          read: false,
+          write: false,
+          delete: false,
+        },
+        {
+          name: '营收',
+          read: false,
+          write: false,
+          delete: false,
+        },
+        {
+          name: '日志',
+          read: false,
+          write: false,
+          delete: false,
+        }
+      ]
     }
   },
 

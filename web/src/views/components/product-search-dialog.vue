@@ -36,11 +36,6 @@ export default {
         { prop: "id", label: "编号" },
         { prop: "name", label: "名称" },
         { prop: "number", label: "库存" }],
-
-      tableData: [{ id: "1", name: "name1", number: 999 },
-      { id: "2", name: "name2", number: 233 }],
-
-      selectedInfo: null,
     }
   },
 
@@ -75,13 +70,6 @@ export default {
         (res) => {
           this.setResponseResult(res.data);
         });
-    },
-
-    setResponseResult (data) {
-      if (data.totalSize && data.result) {
-        this.totalSize = data.totalSize;
-        this.tableData = data.result;
-      }
     },
   },
 

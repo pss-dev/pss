@@ -78,9 +78,9 @@
 
     <div>
       <el-table :data="orderFormData.product" height="400" style="width: 100%" border show-summary>
-        <el-table-column prop="productID" label="商品" width="130">
+        <el-table-column prop="product.identifier" label="商品" width="130">
           <template slot-scope="scope">
-            <el-input readonly v-model="scope.row.productID" placeholder="商品选择">
+            <el-input readonly v-model="scope.row.product.identifier" placeholder="商品选择">
               <el-button
                 size="small"
                 @click="showProductSelectDialog(scope)"
@@ -92,10 +92,10 @@
         </el-table-column>
         <el-table-column prop="productName" label="商品名称">
           <template slot-scope="scope">
-            <span>{{scope.row.productName}}</span>
+            <span>{{scope.row.product.name}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="productUnit" label="单位">
+        <el-table-column prop="product.unit.name" label="单位">
           <template slot-scope="scope">
             <el-input readonly v-model="scope.row.productUnit" placeholder="单位选择">
               <el-button
@@ -242,30 +242,37 @@ export default {
   data () {
     return {
       orderFormData: {
-        id: "",
+        id: null,
+        type: 1,
+        status: 1,// 用来判断是草稿还是已经审核过的
+        creatUser: { id: null, name: "" }, //由谁创建
+        verifyUser: { id: null, name: "" }, //由谁审核过账
         createDate: new Date(),
-        branch: { id: -1, name: "" },
-        company: { id: -1, name: "" },
-        employee: { id: -1, name: "" },
-        department: { id: -1, name: "" },
-        depot: { id: -1, name: "" },
-        account: { id: -1, name: "" },
-        money: 0, // 收款
-        wipe: 0, // 抹零
+        branch: { id: null, name: "" },
+        company: { id: null, name: "" },
+        employee: { id: null, name: "" },
+        department: { id: null, name: "" },
+        depot: { id: null, name: "" },
+        Summary: '',
+
         actionType: Tool.actionType.add,
 
-        product: [
+        products: [
           {
             product: {},
+            unit: {},
             stock: 0, //库存
             count: 0,//数量
             price: 0,//单价
-            amount: 0,//总价
+            amount: 0,//总价 交互有 不存
             note: '',//备注
-            specification: '', //规格
             actionType: Tool.actionType.add
           }
         ],
+
+        account: { id: null, name: "" },
+        money: 0, // 收款
+        wipe: 0, // 抹零
       },
 
       prices: [],
@@ -380,9 +387,7 @@ export default {
     },
 
     submitProductUnitData (productUnitValue) {
-      this.scopeValue.productUnit.id = productUnitValue.id;
-      this.scopeValue.productUnit.name = productUnitValue.name;
-      this.scopeValue.productUnit.price = productUnitValue.price;
+      this.scopeValue.product.Unit = productUnitValue;
 
       this.productUnitDialogVisiable = false;
     },
@@ -396,8 +401,7 @@ export default {
     },
 
     submitAccountData (accountValue) {
-      this.orderFormData.account.id = accountValue.id;
-      this.orderFormData.account.name = accountValue.name;
+      this.orderFormData.account = accountValue;
 
       this.accountDialogVisiable = false;
     },
@@ -408,23 +412,6 @@ export default {
 
     closePrintDialog () {
       this.printDialogVisiable = false;
-    },
-
-    addProduct () {
-      let productData = {
-        productID: '',
-        productName: '',
-        productUnit: '',
-        stock: 0, //库存
-        count: 0,
-        price: 0,
-        amount: 0,
-        note: '',
-        specification: '', //规格
-        actionType: Tool.actionType.add
-      };
-
-      this.orderFormData.product.push(productData);
     },
 
     save () {
