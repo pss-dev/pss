@@ -4,7 +4,12 @@
       <el-row>
         <el-col :span="6">
           <div>
-            <el-date-picker type="date" v-model="orderFormData.createDate" placeholder="选择日期"></el-date-picker>
+            <el-date-picker
+              type="date"
+              value-format="yyyy-MM-dd"
+              v-model="orderFormData.createDate"
+              placeholder="选择日期"
+            ></el-date-picker>
           </div>
         </el-col>
         <el-col :span="6">
@@ -77,7 +82,8 @@
     </div>
 
     <div>
-      <el-table :data="orderFormData.product" height="400" style="width: 100%" border show-summary>
+      <el-table :data="orderFormData.products" height="400" style="width: 100%" border show-summary>
+        <el-table-column type="index" label="行号" width="50"></el-table-column>
         <el-table-column prop="product.identifier" label="商品" width="130">
           <template slot-scope="scope">
             <el-input readonly v-model="scope.row.product.identifier" placeholder="商品选择">
@@ -159,7 +165,7 @@
           <el-input placeholder="抹零金额"></el-input>
         </el-col>
         <el-col :span="3">
-          <el-input disabled="true" placeholder="抹零后金额"></el-input>
+          <el-input readonly placeholder="抹零后金额"></el-input>
         </el-col>
         <el-col :span="3">
           <el-button @click="save()">保存草稿</el-button>
@@ -208,7 +214,11 @@
       @submitData="submitAccountData"
       @closeDialog="closeAccountDialog"
     ></account-search-dialog>
-    <print-dialog v-if="printDialogVisiable" @closeDialog="closePrintDialog"></print-dialog>
+    <print-dialog
+      v-if="printDialogVisiable"
+      :orderFormData="orderFormData"
+      @closeDialog="closePrintDialog"
+    ></print-dialog>
   </div>
 </template>
 
@@ -245,15 +255,15 @@ export default {
         id: null,
         type: 1,
         status: 1,// 用来判断是草稿还是已经审核过的
-        creatUser: { id: null, name: "" }, //由谁创建
+        creatUser: { id: null, name: "llh" }, //由谁创建
         verifyUser: { id: null, name: "" }, //由谁审核过账
         createDate: new Date(),
         branch: { id: null, name: "" },
-        company: { id: null, name: "" },
-        employee: { id: null, name: "" },
+        company: { id: null, name: "222", contactPerson: "llh", contactPhone: "15123232323" },
+        employee: { id: null, name: "llh" },
         department: { id: null, name: "" },
         depot: { id: null, name: "" },
-        Summary: '',
+        summary: '',
 
         actionType: Tool.actionType.add,
 
