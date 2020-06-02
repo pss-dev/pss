@@ -3,6 +3,7 @@ package com.pssdev.pss.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -22,8 +23,7 @@ public class Company {
    private Company parent;
    @JoinColumn(name = "father_id")
    @OneToMany(targetEntity = Company.class, fetch = FetchType.EAGER)
-   @JsonIgnore
-   private Set<Company> children;
+   private List<Company> children;
 
    public Integer getId() {
       return id;
@@ -87,6 +87,15 @@ public class Company {
 
    public void setParent(Company parent) {
       this.parent = parent;
+   }
+
+   @JsonIgnore
+   public List<Company> getChildren() {
+      return children;
+   }
+
+   public void setChildren(List<Company> children) {
+      this.children = children;
    }
 
    public boolean isHaveChildren() {

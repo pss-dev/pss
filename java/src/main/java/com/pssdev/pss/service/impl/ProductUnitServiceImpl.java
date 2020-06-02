@@ -42,14 +42,7 @@ public class ProductUnitServiceImpl implements ProductUnitService {
   @Override
   public List<ProductUnit> getProductUnits(Integer fatherId) {
     if(fatherId != null) {
-      ProductUnit father = this.productUnitDao.get(fatherId);
-
-      if(father != null) {
-        return this.getProductUnits(fatherId);
-      }
-      else {
-        return new ArrayList<>();
-      }
+      return productUnitDao.getProductUnits(fatherId);
     }
     else {
       return getProductUnits();

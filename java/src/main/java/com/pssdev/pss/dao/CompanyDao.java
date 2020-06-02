@@ -10,5 +10,12 @@ public interface CompanyDao extends CURDDao<Company, Integer> {
     * @return
     * @param fatherId
     */
-   List<Company> getCompanies(Integer fatherId);
+   List<Company> getCompanies(Integer fatherId, Integer type);
+
+   /**
+    * 获得所有来往公司信息
+    * @return
+    * @param type
+    */
+   List<Company> getCompanies(Integer type);
 }

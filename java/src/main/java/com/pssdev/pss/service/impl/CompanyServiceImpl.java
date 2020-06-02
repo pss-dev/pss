@@ -56,13 +56,19 @@ public class CompanyServiceImpl implements CompanyService {
 
    @Override
    @Transactional
-   public List<Company> getCompanies(Integer fatherId) {
-      return fatherId == null ? this.getCompanies() : companyDao.getCompanies(fatherId);
+   public List<Company> getCompanies(Integer fatherId, Integer type) {
+      if(fatherId == null && type == null) {
+         return companyDao.getAll();
+
+      }
+      else {
+         return companyDao.getCompanies(fatherId, type);
+      }
    }
 
    @Override
    @Transactional
-   public List<Company> getCompanies() {
+   public List<Company> getCompanies(Integer type) {
       return companyDao.getAll();
    }
 }

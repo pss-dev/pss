@@ -29,7 +29,9 @@ public class CompanyController {
   }
 
   @GetMapping("/company")
-  public List<Company> getCompanies(@RequestParam(required = false) Integer fatherID) {
-    return companyService.getCompanies(fatherID);
+  public List<Company> getCompanies(@RequestParam(required = false) Integer fatherID,
+                                    @RequestParam(required = false)Integer type)
+  {
+    return companyService.getCompanies(fatherID, type);
   }
 }
