@@ -14,24 +14,18 @@ public class ProductController {
   private ProductService productService;
 
   @PostMapping("/product")
-  public List<Product> insertProducts(@RequestBody Product product) throws Exception {
+  public void insertProducts(@RequestBody Product product) throws Exception {
     productService.insertProduct(product);
-
-    return productService.getProducts();
   }
 
   @DeleteMapping("/product")
-  public List<Product> deleteProduct(@RequestBody Product product) {
+  public void deleteProduct(@RequestBody Product product) {
     productService.deleteProduct(product);
-
-    return productService.getProducts();
   }
 
   @PutMapping("/product")
-  public List<Product> modifyProduct(@RequestBody Product product) throws Exception {
+  public void modifyProduct(@RequestBody Product product) throws Exception {
     productService.modifyProduct(product);
-
-    return productService.getProducts();
   }
 
   @GetMapping("/product")

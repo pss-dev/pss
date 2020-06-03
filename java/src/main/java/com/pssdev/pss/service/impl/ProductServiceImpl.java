@@ -73,6 +73,7 @@ public class ProductServiceImpl implements ProductService {
       oldProduct.setStopPurchase(newProduct.isStopPurchase());
       oldProduct.setStop(newProduct.isStop());
       oldProduct.setParent(newProduct.getParent());
+      oldProduct.setIdentifier(newProduct.getIdentifier());
    }
 
    private void modifyUnitPrice(ProductUnitPrice unitPrice,
@@ -127,11 +128,7 @@ public class ProductServiceImpl implements ProductService {
    @Override
    public List<Product> getProducts(Integer fatherId) {
       if(!StringUtils.isEmpty(fatherId)) {
-         Product father = this.productDao.get(fatherId);
-
-         if(father == null) {
-            return this.productDao.getProducts(fatherId);
-         }
+         return this.productDao.getProducts(fatherId);
       }
 
       return this.productDao.getAll();

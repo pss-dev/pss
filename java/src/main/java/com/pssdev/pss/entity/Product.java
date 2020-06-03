@@ -28,6 +28,7 @@ public class Product {
    private Product parent;
    @Transient
    private int actionType;
+   private String identifier;
 
    public Integer getId() {
       return id;
@@ -125,6 +126,14 @@ public class Product {
       this.parent = parent;
    }
 
+   public String getIdentifier() {
+      return identifier;
+   }
+
+   public void setIdentifier(String identifier) {
+      this.identifier = identifier;
+   }
+
    @Override
    public String toString() {
       return "Product{" +
@@ -138,7 +147,9 @@ public class Product {
               ", used=" + used +
               ", stopPurchase=" + stopPurchase +
               ", stop=" + stop +
+              ", parent=" + parent +
               ", actionType=" + actionType +
+              ", identifier='" + identifier + '\'' +
               '}';
    }
 }

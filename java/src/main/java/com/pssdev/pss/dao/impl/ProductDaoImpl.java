@@ -11,8 +11,15 @@ public class ProductDaoImpl extends BaseDao<Product, Integer> implements Product
 
    @Override
    public List<Product> getProducts(Integer fatherId) {
-      return getSession()
-              .createQuery("from Product p where p.fatherId" + fatherId).list();
+      String hql = "from Product p ";
+      if(fatherId == -1) {
+         hql += " where p.parent is null";
+      }
+      else {
+         hql += " where p.parent.id = " + fatherId;
+      }
+
+      return getSession().createQuery(hql).list();
    }
 
    @Override
