@@ -77,6 +77,7 @@ export default {
         password: '',
         branch: { id: null, name: '' },
         department: { id: null, name: '' },
+        ruler: {},
       };
 
       this.setDialogInfo("空白新增", emptyDialogData, true);

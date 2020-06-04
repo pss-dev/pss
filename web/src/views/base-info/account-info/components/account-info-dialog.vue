@@ -7,10 +7,16 @@
     :before-close="handleClose"
   >
     <el-form :model="accountData" ref="accountData" :rules="rules" class="demo-ruleForm">
-      <el-form-item label="支付类型" :label-width="formLabelWidth">
+      <el-form-item label="账户名称" :label-width="formLabelWidth">
         <el-input v-model="accountData.name" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item label="支付账户" :label-width="formLabelWidth">
+      <el-form-item label="开户行" :label-width="formLabelWidth">
+        <el-input v-model="accountData.bank" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="持卡人" :label-width="formLabelWidth">
+        <el-input v-model="accountData.cardholder" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="卡号" :label-width="formLabelWidth">
         <el-input v-model="accountData.account" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item>

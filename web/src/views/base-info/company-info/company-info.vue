@@ -152,7 +152,7 @@ export default {
 
     getCompanyInfo (params) {
       console.log("=========getCompanyInfo ", params);
-
+      params.type = this.companyType;
       return companyInfoApi.getCompanyInfo(params).then(
         (res) => {
           console.log("=========rrrrr ", res);

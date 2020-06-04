@@ -1,3 +1,4 @@
+
 <template>
   <el-dialog
     :title="title"
@@ -6,7 +7,7 @@
     :width="'80%'"
     append-to-body
   >
-    <div id="print">
+    <div ref="print" id="print">
       <el-row :gutter="20">
         <el-col :span="4">客户姓名：</el-col>
         <el-col :span="4">{{orderFormData.company.name}}</el-col>
@@ -32,10 +33,16 @@
         <el-col :span="12">{{orderFormData.summary}}</el-col>
       </el-row>
 
-      <el-table :data="orderFormData.products" border style="width: 98%" show-summary>
+      <el-table
+        class="print-table"
+        :data="orderFormData.products"
+        show-summary
+        border
+        style="width: 100%"
+      >
         <el-table-column type="index" label="行号" width="50"></el-table-column>
         <el-table-column v-for="title in titles" v-bind="title" :key="title.prop" min-width="100px"></el-table-column>
-      </el-table>aaaa
+      </el-table>
       <el-row>
         <el-col :span="4">总计大写：</el-col>
         <el-col :span="12">伍佰陆十元整</el-col>
@@ -110,4 +117,7 @@ export default {
 </script>
 
 <style>
+.print-table {
+  border: 1px solid #ebeef5;
+}
 </style>

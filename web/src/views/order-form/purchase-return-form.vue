@@ -1,6 +1,6 @@
 <template>
   <div>
-    <order-form></order-form>
+    <order-form :orderFormData="data"></order-form>
   </div>
 </template>
 
@@ -13,6 +13,12 @@ export default {
 
   components: {
     "order-form": OrderForm,
+  },
+
+  props: {
+    "data": {
+      type: Object,
+    }
   },
 
   data () {

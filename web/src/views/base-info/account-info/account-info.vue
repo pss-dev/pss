@@ -87,6 +87,8 @@ export default {
       var emptyDialogData = {
         id: null,
         name: '',
+        bank: '',
+        cardholder: '',
         account: '',
         parent: this.parent,
       };

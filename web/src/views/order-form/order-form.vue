@@ -82,13 +82,26 @@
     </div>
 
     <div>
-      <el-table :data="orderFormData.products" height="400" style="width: 100%" border show-summary>
+      <el-table
+        :data="orderFormData.products"
+        height="400"
+        style="width: 100%"
+        :row-class-name="tableRowClassName"
+        border
+        show-summary
+      >
         <el-table-column type="index" label="行号" width="50"></el-table-column>
         <el-table-column prop="product.identifier" label="商品" width="130">
           <template slot-scope="scope">
-            <el-input readonly v-model="scope.row.product.identifier" placeholder="商品选择">
+            <el-input
+              :disabled="getDisable(scope.row)"
+              readonly
+              v-model="scope.row.product.identifier"
+              placeholder="商品选择"
+            >
               <el-button
                 size="small"
+                :disabled="getDisable(scope.row)"
                 @click="showProductSelectDialog(scope)"
                 slot="append"
                 icon="el-icon-search"
@@ -103,9 +116,15 @@
         </el-table-column>
         <el-table-column prop="product.unit.name" label="单位">
           <template slot-scope="scope">
-            <el-input readonly v-model="scope.row.productUnit" placeholder="单位选择">
+            <el-input
+              :disabled="getDisable(scope.row)"
+              readonly
+              v-model="scope.row.productUnit"
+              placeholder="单位选择"
+            >
               <el-button
                 size="small"
+                :disabled="getDisable(scope.row)"
                 @click="showProductUnitSelectDialog(scope)"
                 slot="append"
                 icon="el-icon-search"
@@ -120,27 +139,37 @@
         </el-table-column>
         <el-table-column prop="count" label="数量">
           <template slot-scope="scope">
-            <el-input v-model="scope.row.count" placeholder="数量"></el-input>
+            <el-input :disabled="getDisable(scope.row)" v-model="scope.row.count" placeholder="数量"></el-input>
           </template>
         </el-table-column>
         <el-table-column prop="price" label="单价">
           <template slot-scope="scope">
-            <el-input v-model="scope.row.price" placeholder="单价"></el-input>
+            <el-input :disabled="getDisable(scope.row)" v-model="scope.row.price" placeholder="单价"></el-input>
           </template>
         </el-table-column>
         <el-table-column prop="amount" label="金额">
           <template slot-scope="scope">
-            <el-input v-model="scope.row.amount" placeholder="金额"></el-input>
+            <el-input :disabled="getDisable(scope.row)" v-model="scope.row.amount" placeholder="金额"></el-input>
           </template>
         </el-table-column>
         <el-table-column prop="note" label="备注">
           <template slot-scope="scope">
-            <el-input v-model="scope.row.note" placeholder="备注"></el-input>
+            <el-input :disabled="getDisable(scope.row)" v-model="scope.row.note" placeholder="备注"></el-input>
           </template>
         </el-table-column>
         <el-table-column prop="specification" label="规格">
           <template slot-scope="scope">
             <span>{{scope.row.specification}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column fixed="right" label="操作" width="50">
+          <template slot-scope="scope">
+            <el-button
+              :disabled="getDisable(scope.row)"
+              @click.native.prevent="deleteRow(scope.row, scope.$index)"
+              type="text"
+              size="small"
+            >移除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -171,10 +200,10 @@
           <el-button @click="save()">保存草稿</el-button>
         </el-col>
         <el-col :span="3">
-          <el-button @click="verifyOrderForm()">审核过账</el-button>
+          <el-button @click="verifyOrderForm">审核过账</el-button>
         </el-col>
         <el-col :span="3">
-          <el-button @click="showPrintDialog()">打印</el-button>
+          <el-button @click="showPrintDialog">打印</el-button>
         </el-col>
       </el-row>
     </div>
@@ -249,42 +278,14 @@ export default {
     "print-dialog": PrintDialog
   },
 
+  props: {
+    "orderFormData": {
+      type: Object,
+    }
+  },
+
   data () {
     return {
-      orderFormData: {
-        id: null,
-        type: 1,
-        status: 1,// 用来判断是草稿还是已经审核过的
-        creatUser: { id: null, name: "llh" }, //由谁创建
-        verifyUser: { id: null, name: "" }, //由谁审核过账
-        createDate: new Date(),
-        branch: { id: null, name: "" },
-        company: { id: null, name: "222", contactPerson: "llh", contactPhone: "15123232323" },
-        employee: { id: null, name: "llh" },
-        department: { id: null, name: "" },
-        depot: { id: null, name: "" },
-        summary: '',
-
-        actionType: Tool.actionType.add,
-
-        products: [
-          {
-            product: {},
-            unit: {},
-            stock: 0, //库存
-            count: 0,//数量
-            price: 0,//单价
-            amount: 0,//总价 交互有 不存
-            note: '',//备注
-            actionType: Tool.actionType.add
-          }
-        ],
-
-        account: { id: null, name: "" },
-        money: 0, // 收款
-        wipe: 0, // 抹零
-      },
-
       prices: [],
       defaultPrice: "",
       scopeValue: {},
@@ -416,6 +417,28 @@ export default {
       this.accountDialogVisiable = false;
     },
 
+
+    tableRowClassName ({ row }) {
+      if (row.actionType == Tool.actionType.delete) {
+        return 'warning-row';
+      }
+
+      return '';
+    },
+
+    deleteRow (row, index) {
+      if (row.actionType == Tool.actionType.add) {
+        this.orderFormData.products.splice(index, 1);
+      }
+      else {
+        row.actionType = Tool.actionType.delete;
+      }
+    },
+
+    getDisable (row) {
+      return row.actionType == Tool.actionType.delete;
+    },
+
     showPrintDialog () {
       this.printDialogVisiable = true;
     },
@@ -440,11 +463,55 @@ export default {
       });
     },
   },
+
+  created: function () {
+    console.log("====== this  ", this.orderFormData);
+
+    if (!this.orderFormData) {
+      this.orderFormData = {
+        id: null,
+        type: 1,
+        status: 1,// 用来判断是草稿还是已经审核过的
+        creatUser: { id: null, name: "llh" }, //由谁创建
+        verifyUser: { id: null, name: "" }, //由谁审核过账
+        createDate: new Date(),
+        branch: { id: null, name: "" },
+        company: { id: null, name: "222", contactPerson: "llh", contactPhone: "15123232323" },
+        employee: { id: null, name: "llh" },
+        department: { id: null, name: "" },
+        depot: { id: null, name: "" },
+        summary: '',
+
+        actionType: Tool.actionType.add,
+
+        products: [
+          {
+            product: {},
+            unit: {},
+            stock: 0, //库存
+            count: 0,//数量
+            price: 0,//单价
+            amount: 0,//总价 交互有 不存
+            note: "",//备注
+            actionType: Tool.actionType.add
+          }
+        ],
+
+        account: { id: null, name: "" },
+        money: 0, // 收款
+        wipe: 0, // 抹零
+      };
+    }
+  }
 }
 </script>
 
 <style>
 .inputBlock {
   padding-left: 10px;
+}
+
+.el-table .warning-row {
+  background: oldlace;
 }
 </style>

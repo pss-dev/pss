@@ -7,7 +7,6 @@
       :tableData="tableData"
       @handleCurrentChange="handleCurrentChange"
       @getChildData="getChildData"
-      @pageChange="pageChange"
     ></base-info-table>
 
     <base-info-footer

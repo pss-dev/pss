@@ -6,67 +6,34 @@
     :visible.sync="dialogVisible"
     :before-close="handleClose"
   >
-    <el-tabs v-model="activeName">
-      <el-tab-pane label="基本资料" name="first">
-        <el-form :model="employeeData" ref="employeeData" :rules="rules" class="demo-ruleForm">
-          <el-form-item label="员工姓名" :label-width="formLabelWidth">
-            <el-input v-model="employeeData.name" autocomplete="off"></el-input>
-          </el-form-item>
-          <el-form-item label="账号" :label-width="formLabelWidth">
-            <el-input v-model="employeeData.account" autocomplete="off"></el-input>
-          </el-form-item>
-          <el-form-item label="密码" :label-width="formLabelWidth">
-            <el-input v-model="employeeData.password" autocomplete="off"></el-input>
-          </el-form-item>
-          <el-form-item label="分支机构" :label-width="formLabelWidth">
-            <el-input readonly v-model="employeeData.branch.name" autocomplete="off">
-              <el-button
-                size="small"
-                @click="showBranchDialog()"
-                slot="append"
-                icon="el-icon-search"
-              ></el-button>
-            </el-input>
-          </el-form-item>
-          <el-form-item label="部门" :label-width="formLabelWidth">
-            <el-input readonly v-model="employeeData.department.name" autocomplete="off">
-              <el-button
-                size="small"
-                @click="showDepartmentDialog()"
-                slot="append"
-                icon="el-icon-search"
-              ></el-button>
-            </el-input>
-          </el-form-item>
-        </el-form>
-      </el-tab-pane>
-      <el-tab-pane label="权限" name="second">
-        <el-table :data="rules" height="400" style="width: 100%" border>
-          <el-table-column prop="name">
-            <template slot-scope="scope">
-              <span>{{scope.row.name}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column prop="read" label="读">
-            <template slot-scope="scope">
-              <el-checkbox v-model="scope.row.read"></el-checkbox>
-            </template>
-          </el-table-column>
-          <el-table-column prop="write" label="写">
-            <template slot-scope="scope">
-              <el-checkbox v-model="scope.row.write"></el-checkbox>
-            </template>
-          </el-table-column>
-          <el-table-column prop="delete" label="删">
-            <template slot-scope="scope">
-              <el-checkbox v-model="scope.row.delete"></el-checkbox>
-            </template>
-          </el-table-column>
-        </el-table>
-      </el-tab-pane>
-      <el-button @click="closeDialog">取 消</el-button>
-      <el-button type="primary" @click="submitData">确 定</el-button>
-    </el-tabs>
+    <el-form :model="employeeData" ref="employeeData" :rules="rules" class="demo-ruleForm">
+      <el-form-item label="员工姓名" :label-width="formLabelWidth">
+        <el-input v-model="employeeData.name" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="账号" :label-width="formLabelWidth">
+        <el-input v-model="employeeData.account" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="密码" :label-width="formLabelWidth">
+        <el-input v-model="employeeData.password" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="分支机构" :label-width="formLabelWidth">
+        <el-input readonly v-model="employeeData.branch.name" autocomplete="off">
+          <el-button size="small" @click="showBranchDialog()" slot="append" icon="el-icon-search"></el-button>
+        </el-input>
+      </el-form-item>
+      <el-form-item label="部门" :label-width="formLabelWidth">
+        <el-input readonly v-model="employeeData.department.name" autocomplete="off">
+          <el-button
+            size="small"
+            @click="showDepartmentDialog()"
+            slot="append"
+            icon="el-icon-search"
+          ></el-button>
+        </el-input>
+      </el-form-item>
+    </el-form>
+    <el-button @click="closeDialog">取 消</el-button>
+    <el-button type="primary" @click="submitData">确 定</el-button>
     <branch-search-dialog
       v-if="branchDialogVisible"
       @closeDialog="closeBranchDialog"
@@ -109,39 +76,6 @@ export default {
       activeName: 'first',
       formRules: {
       },
-
-      rules: [
-        {
-          name: '基本信息',
-          read: false,
-          write: false,
-          delete: false,
-        },
-        {
-          name: '员工信息',
-          read: false,
-          write: false,
-          delete: false,
-        },
-        {
-          name: '单据',
-          read: false,
-          write: false,
-          delete: false,
-        },
-        {
-          name: '营收',
-          read: false,
-          write: false,
-          delete: false,
-        },
-        {
-          name: '日志',
-          read: false,
-          write: false,
-          delete: false,
-        }
-      ]
     }
   },
 

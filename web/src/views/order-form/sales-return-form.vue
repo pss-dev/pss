@@ -1,6 +1,6 @@
 <template>
   <div>
-    <order-form :orderFormData="data"></order-form>
+    <order-form></order-form>
   </div>
 </template>
 
@@ -9,7 +9,7 @@
 import OrderForm from "@/views/order-form/order-form"
 
 export default {
-  name: "sales-form",
+  name: "return-form",
 
   components: {
     "order-form": OrderForm,

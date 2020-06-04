@@ -26,14 +26,14 @@
     </el-menu>
     <el-tabs v-model="editableTabsValue" type="card" @tab-remove="removeTab">
       <el-tab-pane
-        :key="item.name"
         v-for="item in editableTabs"
+        :key="item.name"
         :label="item.title"
         :closable="!item.discloseable"
         :name="item.name"
       >
         <keep-alive>
-          <component :is="item.name"></component>
+          <component :is="item.componentName" :data="item.data" @openOrderForm="addOrderForm"></component>
         </keep-alive>
       </el-tab-pane>
     </el-tabs>
@@ -86,11 +86,16 @@ let orderManageMenuArr = [
     value: "SalesForm"
   },
   {
-    label: "退货单",
-    value: "ReturnForm"
+    label: "入库退货单",
+    value: "PurchaseReturnForm"
   },
   {
-    label: "单据查询"
+    label: "销售退货单",
+    value: "SalesReturnForm"
+  },
+  {
+    label: "单据查询",
+    value: "FormSearch"
   }
 ];
 
@@ -169,9 +174,14 @@ import Supplier from "@/views/base-info/company-info/supplier-info";
 import Department from "@/views/base-info/department-info/department-info";
 import Branch from "@/views/base-info/branch-info/branch-info";
 import PurchaseForm from "@/views/order-form/purchase-form";
-import ReturnForm from "@/views/order-form/return-form";
+import PurchaseReturnForm from "@/views/order-form/purchase-return-form";
+import SalesReturnForm from "@/views/order-form/sales-return-form";
 import SalesForm from "@/views/order-form/sales-form";
+import FormSearch from "@/views/order-form/form-search";
 import Log from "@/views/statistics/log/log";
+
+import Tool from '@/views/constant/tool.js'
+
 export default {
   components: {
     Product,
@@ -186,8 +196,10 @@ export default {
     Department,
     Branch,
     PurchaseForm,
-    ReturnForm,
+    PurchaseReturnForm,
+    SalesReturnForm,
     SalesForm,
+    FormSearch,
     Log
   },
   data () {
@@ -202,21 +214,20 @@ export default {
     handleSelect (key, keyPath) {
       console.log(key, keyPath);
     },
+
     judgeIsAdd (tabName) {
       return this.editableTabs.findIndex(ele => ele.name === tabName) < 0;
     },
+
     openTab (item) {
-      if (this.judgeIsAdd(item.value)) {
-        this.addTab(item);
-      }
-      else {
-        this.editableTabsValue = item.value;
-      }
+      this.addTab(item);
     },
+
     handleClick (tab, event) {
       console.log(tab, event);
     },
-    addTab ({ label, value }) {
+
+    addTab ({ label, value }, data) {
       if (!label || !value) {
         this.$message({
           message: `名字为${label}，组件名为${value}tab，名字和组件名都不能为空！`,
@@ -224,12 +235,21 @@ export default {
         });
         return;
       }
-      this.editableTabs.push({
+
+      let name = this.getNextComponentName(value);
+
+      let val = {
         title: label,
-        name: value,
-      });
-      this.editableTabsValue = value;
+        name: name,
+        componentName: value,
+      }
+
+      val.data = data;
+
+      this.editableTabs.push(val);
+      this.editableTabsValue = name;
     },
+
     removeTab (targetName) {
       let tabs = this.editableTabs;
       let activeName = this.editableTabsValue;
@@ -246,6 +266,61 @@ export default {
 
       this.editableTabsValue = activeName;
       this.editableTabs = tabs.filter(tab => tab.name !== targetName);
+    },
+
+    getNextComponentName (name) {
+      let sameComponents = this.editableTabs.filter(tab => tab.name.indexOf(name) == 0);
+
+      if (sameComponents.length < 1) {
+        return name + "0";
+      }
+
+      let maxNumber = parseInt(sameComponents[0].name.substr(name.length));
+
+      sameComponents.forEach((value) => {
+        let number = parseInt(value.name.substr(name.length));
+
+        if (number > maxNumber) {
+          maxNumber = number;
+        }
+      });
+
+      maxNumber += 1;
+
+      return name + maxNumber;
+    },
+
+    addOrderForm (orderForm) {
+      let newTab = {};
+
+      switch (orderForm.type) {
+        case Tool.orderFormType.purchaseForm:
+          newTab = {
+            label: "进货单",
+            value: "PurchaseForm"
+          }
+          break;
+        case Tool.orderFormType.salesForm:
+          newTab = {
+            label: "销售单",
+            value: "SalesForm"
+          };
+          break;
+        case Tool.orderFormType.purchaseReturn:
+          newTab = {
+            label: "入库退货单",
+            value: "PurchaseReturnForm"
+          };
+          break;
+        case Tool.orderFormType.salesReturn:
+          newTab = {
+            label: "销售退货单",
+            value: "SalesReturnForm"
+          };
+          break;
+      }
+
+      this.addTab(newTab, orderForm);
     }
   },
   created () {
