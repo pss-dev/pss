@@ -13,6 +13,7 @@
     </el-table>
 
     <el-pagination
+      class="pagination"
       @size-change="handleSizeChange"
       @current-change="handlePageChange"
       :small="true"
@@ -73,5 +74,8 @@ export default {
 <style>
 .c1 {
   width: 200px;
+}
+.pagination {
+  margin-top: 5px;
 }
 </style>

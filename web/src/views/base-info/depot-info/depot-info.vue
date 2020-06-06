@@ -1,26 +1,32 @@
 <template>
   <div>
-    <base-info-header :paths="getPathsLabel()" @showTypeChange="showTypeChange"></base-info-header>
-
-    <base-info-table
-      :titles="titData"
-      :tableData="tableData"
-      @handleCurrentChange="handleCurrentChange"
-      @getChildData="getChildData"
-      @pageChange="pageChange"
-    ></base-info-table>
-
-    <base-info-footer
-      :totalSize="totalSize"
-      :currentPage="currentPage"
-      :selectedInfoInvalid="isSelectedInfoInvalid()"
-      :previousDisable="!hasFatherInfo()"
-      @newInfo="newInfo"
-      @copyNew="copyNew"
-      @edit="edit"
-      @deleteInfo="deleteInfo"
-      @previous="previous"
-    ></base-info-footer>
+    <el-container>
+      <el-header :height="30">
+        <base-info-header :paths="getPathsLabel()" @showTypeChange="showTypeChange"></base-info-header>
+      </el-header>
+      <el-main>
+        <base-info-table
+          :titles="titData"
+          :tableData="tableData"
+          @handleCurrentChange="handleCurrentChange"
+          @getChildData="getChildData"
+          @pageChange="pageChange"
+        ></base-info-table>
+      </el-main>
+      <el-footer>
+        <base-info-footer
+          :totalSize="totalSize"
+          :currentPage="currentPage"
+          :selectedInfoInvalid="isSelectedInfoInvalid()"
+          :previousDisable="!hasFatherInfo()"
+          @newInfo="newInfo"
+          @copyNew="copyNew"
+          @edit="edit"
+          @deleteInfo="deleteInfo"
+          @previous="previous"
+        ></base-info-footer>
+      </el-footer>
+    </el-container>
 
     <depot-info-dialog
       @closeDialog="closeDialog"

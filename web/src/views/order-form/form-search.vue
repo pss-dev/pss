@@ -1,117 +1,122 @@
 <template>
   <div>
-    <div>
-      <el-row>
-        <el-col :span="6">
-          <div>
-            <el-date-picker
-              type="date"
-              value-format="yyyy-MM-dd"
-              v-model="searchModel.startDate"
-              placeholder="开始日期"
-            ></el-date-picker>
-          </div>
-        </el-col>
-        <el-col :span="6">
-          <div>
-            <el-date-picker
-              type="date"
-              value-format="yyyy-MM-dd"
-              v-model="searchModel.endDate"
-              placeholder="结束日期"
-            ></el-date-picker>
-          </div>
-        </el-col>
-        <el-col :span="6">
-          <el-select v-model="searchModel.orderFormType" placeholder="单据类型">
-            <el-option
-              v-for="item in types"
-              :key="item.value"
-              :label="item.name"
-              :value="item.value"
-            ></el-option>
-          </el-select>
-        </el-col>
-        <el-col :span="3">
-          <el-button @click="search">查询</el-button>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="6">
-          <div class="inputBlock">
-            <el-input readonly placeholder="分支机构" v-model="searchModel.branch.name">
-              <el-button size="small" @click="showBranchDialog" slot="append" icon="el-icon-search"></el-button>
-            </el-input>
-          </div>
-        </el-col>
-        <el-col :span="6">
-          <div class="inputBlock">
-            <el-input readonly placeholder="来往单位">
-              <el-button
-                size="small"
-                @click="showCompanyDialog"
-                slot="append"
-                icon="el-icon-search"
-              ></el-button>
-            </el-input>
-          </div>
-        </el-col>
-      </el-row>
+    <el-container>
+      <el-header :height="30">
+        <el-card shadow="never">
+          <el-row class="el-row-bottom-20" :gutter="20">
+            <el-col :span="12">
+              <el-date-picker
+                v-model="orderFormDatas.createDate"
+                type="daterange"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+              ></el-date-picker>
+            </el-col>
+            <el-col :span="6">
+              <el-select v-model="searchModel.orderFormType" placeholder="单据类型">
+                <el-option
+                  v-for="item in types"
+                  :key="item.value"
+                  :label="item.name"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
+            </el-col>
+            <el-col :span="3">
+              <el-button @click="search">查询</el-button>
+            </el-col>
+          </el-row>
+          <el-row class="el-row-bottom-20" :gutter="20">
+            <el-col :span="6">
+              <div class="inputBlock">
+                <el-input readonly placeholder="分支机构" v-model="searchModel.branch.name">
+                  <el-button
+                    size="small"
+                    @click="showBranchDialog"
+                    slot="append"
+                    icon="el-icon-search"
+                  ></el-button>
+                </el-input>
+              </div>
+            </el-col>
+            <el-col :span="6">
+              <div class="inputBlock">
+                <el-input readonly placeholder="来往单位">
+                  <el-button
+                    size="small"
+                    @click="showCompanyDialog"
+                    slot="append"
+                    icon="el-icon-search"
+                  ></el-button>
+                </el-input>
+              </div>
+            </el-col>
+          </el-row>
 
-      <el-row>
-        <el-col :span="6">
-          <div class="inputBlock">
-            <el-input readonly placeholder="经手人">
-              <el-button
-                size="small"
-                @click="showDepartmentDialog"
-                slot="append"
-                icon="el-icon-search"
-              ></el-button>
-            </el-input>
-          </div>
-        </el-col>
-        <el-col :span="6">
-          <div class="inputBlock">
-            <el-input readonly placeholder="部门">
-              <el-button
-                size="small"
-                @click="showDepartmentDialog"
-                slot="append"
-                icon="el-icon-search"
-              ></el-button>
-            </el-input>
-          </div>
-        </el-col>
-        <el-col :span="6">
-          <div class="inputBlock">
-            <el-input readonly placeholder="仓库">
-              <el-button size="small" @click="showDepotDialog" slot="append" icon="el-icon-search"></el-button>
-            </el-input>
-          </div>
-        </el-col>
-      </el-row>
-    </div>
-
-    <div>
-      <base-info-table
-        :titles="titData"
-        :tableData="orderFormDatas"
-        @handleCurrentChange="handleCurrentChange"
-        @getChildData="openOrderForm"
-      ></base-info-table>
-    </div>
-
-    <div>
-      <el-row>
-        <el-col :span="3">
-          <el-button @click="openOrderForm">打开单据</el-button>
-        </el-col>
-        <el-col :span="3">
-          <el-button @click="deleteOrderForm">删除单据</el-button>
-        </el-col>
-      </el-row>
-    </div>
+          <el-row :gutter="20">
+            <el-col :span="6">
+              <div class="inputBlock">
+                <el-input readonly placeholder="经手人">
+                  <el-button
+                    size="small"
+                    @click="showDepartmentDialog"
+                    slot="append"
+                    icon="el-icon-search"
+                  ></el-button>
+                </el-input>
+              </div>
+            </el-col>
+            <el-col :span="6">
+              <div class="inputBlock">
+                <el-input readonly placeholder="部门">
+                  <el-button
+                    size="small"
+                    @click="showDepartmentDialog"
+                    slot="append"
+                    icon="el-icon-search"
+                  ></el-button>
+                </el-input>
+              </div>
+            </el-col>
+            <el-col :span="6">
+              <div class="inputBlock">
+                <el-input readonly placeholder="仓库">
+                  <el-button
+                    size="small"
+                    @click="showDepotDialog"
+                    slot="append"
+                    icon="el-icon-search"
+                  ></el-button>
+                </el-input>
+              </div>
+            </el-col>
+          </el-row>
+        </el-card>
+      </el-header>
+      <el-main>
+        <div>
+          <base-info-table
+            :titles="titData"
+            :tableData="orderFormDatas"
+            @handleCurrentChange="handleCurrentChange"
+            @getChildData="openOrderForm"
+          ></base-info-table>
+        </div>
+      </el-main>
+      <el-footer>
+        <div>
+          <el-row>
+            <el-col :span="3">
+              <el-button @click="openOrderForm">打开单据</el-button>
+            </el-col>
+            <el-col :span="3">
+              <el-button @click="deleteOrderForm">删除单据</el-button>
+            </el-col>
+          </el-row>
+        </div>
+      </el-footer>
+    </el-container>
 
     <branch-search-dialog
       v-if="branchDialogVisiable"
@@ -195,7 +200,7 @@ export default {
         id: null,
         type: Tool.orderFormType.purchaseForm,
         status: 1,// 用来判断是草稿还是已经审核过的
-        createDate: new Date('2019/5/1'),
+        createDate: "",
         company: { name: "aaa" },
         employee: { name: "aaa" },
       }],
@@ -380,4 +385,7 @@ export default {
 </script>
 
 <style>
+.el-row-bottom-20 {
+  margin-bottom: 20px;
+}
 </style>

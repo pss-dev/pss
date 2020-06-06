@@ -1,5 +1,5 @@
 <template>
-  <el-container>
+  <div>
     <el-button v-if="newInfoVisiable" @click="newInfo" size="small">空白新增</el-button>
     <el-button
       v-if="copyNewVisiable"
@@ -22,7 +22,7 @@
       :disabled="previousDisable"
     >上一层</el-button>
     <el-button v-if="nextVisiable" @click="next" size="small" :disabled="selectedInfoInvalid">下一层</el-button>
-  </el-container>
+  </div>
 </template>
 
 <script>

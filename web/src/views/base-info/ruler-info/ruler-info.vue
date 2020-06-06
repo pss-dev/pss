@@ -1,24 +1,30 @@
 <template>
   <div>
-    <base-info-header :paths="getPathsLabel()" :showTypeVisiable="false"></base-info-header>
-
-    <base-info-table
-      :titles="titData"
-      :tableData="tableData"
-      @handleCurrentChange="handleCurrentChange"
-      @pageChange="pageChange"
-    ></base-info-table>
-
-    <base-info-footer
-      :totalSize="totalSize"
-      :currentPage="currentPage"
-      :selectedInfoInvalid="isSelectedInfoInvalid()"
-      :previousVisiable="false"
-      :nextVisiable="false"
-      @newInfo="newInfo"
-      @copyNew="copyNew"
-      @deleteInfo="deleteInfo"
-    ></base-info-footer>
+    <el-container>
+      <el-header :height="30">
+        <base-info-header :paths="getPathsLabel()" :showTypeVisiable="false"></base-info-header>
+      </el-header>
+      <el-main>
+        <base-info-table
+          :titles="titData"
+          :tableData="tableData"
+          @handleCurrentChange="handleCurrentChange"
+          @pageChange="pageChange"
+        ></base-info-table>
+      </el-main>
+      <el-footer>
+        <base-info-footer
+          :totalSize="totalSize"
+          :currentPage="currentPage"
+          :selectedInfoInvalid="isSelectedInfoInvalid()"
+          :previousVisiable="false"
+          :nextVisiable="false"
+          @newInfo="newInfo"
+          @copyNew="copyNew"
+          @deleteInfo="deleteInfo"
+        ></base-info-footer>
+      </el-footer>
+    </el-container>
 
     <ruler-info-dialog
       @closeDialog="closeDialog"

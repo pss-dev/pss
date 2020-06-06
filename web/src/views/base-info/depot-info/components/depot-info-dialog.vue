@@ -16,7 +16,7 @@
       <el-form-item label="名称">
         <el-input v-model="depotData.name" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item label="分支" :label-width="formLabelWidth">
+      <el-form-item label="分支">
         <el-input readonly v-model="depotData.branch.name" autocomplete="off">
           <el-button size="small" @click="showBranchDialog()" slot="append" icon="el-icon-search"></el-button>
         </el-input>

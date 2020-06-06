@@ -1,24 +1,27 @@
 <template>
-  <div>
-    <el-row>
-      <el-col :span="6">
-        <div>
-          <el-date-picker type="date" v-model="startDate" placeholder="选择日期"></el-date-picker>
-        </div>
-      </el-col>
-      <el-col :span="6">
-        <div>
-          <el-date-picker type="date" v-model="endDate" placeholder="选择日期"></el-date-picker>
-        </div>
-      </el-col>
-      <el-col :span="6">
-        <div>
-          <el-button size="small" @click="searchLogData">查询</el-button>
-        </div>
-      </el-col>
-    </el-row>
-    <base-info-table :titles="titData" :tableData="tableData"></base-info-table>
-  </div>
+  <el-container>
+    <el-header :height="30">
+      <el-row>
+        <el-col :span="8">
+          <el-date-picker
+            v-model="dateRangeValue"
+            type="daterange"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+          ></el-date-picker>
+        </el-col>
+        <el-col :span="4">
+          <div>
+            <el-button @click="searchLogData">查询</el-button>
+          </div>
+        </el-col>
+      </el-row>
+    </el-header>
+    <el-main>
+      <base-info-table :titles="titData" :tableData="tableData"></base-info-table>
+    </el-main>
+  </el-container>
 </template>
 
 <script>
@@ -37,8 +40,7 @@ export default {
 
   data () {
     return {
-      startDate: new Date(),
-      endDate: new Date(),
+      dateRangeValue: "",
       titData:
         [{ prop: "date", label: "时间" },
         { prop: "employee", label: "员工" },
@@ -69,4 +71,7 @@ export default {
 </script>
 
 <style>
+.search-row {
+  margin-bottom: 5px;
+}
 </style>

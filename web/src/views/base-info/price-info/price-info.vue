@@ -1,26 +1,30 @@
 <template>
   <div>
-    <base-info-header :paths="getPathsLabel()" :showTypeVisiable="false"></base-info-header>
-
-    <base-info-table
-      :titles="titData"
-      :tableData="tableData"
-      @handleCurrentChange="handleCurrentChange"
-      @pageChange="pageChange"
-    ></base-info-table>
-
-    <base-info-footer
-      :totalSize="totalSize"
-      :currentPage="currentPage"
-      :selectedInfoInvalid="isSelectedInfoInvalid()"
-      :newInfoVisiable="true"
-      :copyNewVisiable="false"
-      :deleteInfoVisiable="false"
-      :previousVisiable="false"
-      :nextVisiable="false"
-      @newInfo="newInfo"
-      @edit="edit"
-    ></base-info-footer>
+    <el-container>
+      <el-header :height="30"></el-header>
+      <el-main>
+        <base-info-table
+          :titles="titData"
+          :tableData="tableData"
+          @handleCurrentChange="handleCurrentChange"
+          @pageChange="pageChange"
+        ></base-info-table>
+      </el-main>
+      <el-footer>
+        <base-info-footer
+          :totalSize="totalSize"
+          :currentPage="currentPage"
+          :selectedInfoInvalid="isSelectedInfoInvalid()"
+          :newInfoVisiable="true"
+          :copyNewVisiable="false"
+          :deleteInfoVisiable="false"
+          :previousVisiable="false"
+          :nextVisiable="false"
+          @newInfo="newInfo"
+          @edit="edit"
+        ></base-info-footer>
+      </el-footer>
+    </el-container>
 
     <price-info-dialog
       @closeDialog="closeDialog"
@@ -33,7 +37,6 @@
 </template>
 
 <script>
-import BaseInfoHeader from "../components/base-info-header.vue"
 import BaseInfoTabler from "../components/base-info-table.vue"
 import BaseInfoFooter from "../components/base-info-footer.vue"
 import BseInfo from '../mixIns/base-info'
@@ -45,7 +48,6 @@ export default {
   name: "priceInfo",
   mixins: [BseInfo],
   components: {
-    "base-info-header": BaseInfoHeader,
     "base-info-table": BaseInfoTabler,
     "base-info-footer": BaseInfoFooter,
     "price-info-dialog": PriceInfoDialog

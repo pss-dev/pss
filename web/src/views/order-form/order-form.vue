@@ -1,212 +1,261 @@
 <template>
   <div>
-    <div>
-      <el-row>
-        <el-col :span="6">
-          <div>
-            <el-date-picker
-              type="date"
-              value-format="yyyy-MM-dd"
-              v-model="orderFormData.createDate"
-              placeholder="选择日期"
-            ></el-date-picker>
-          </div>
-        </el-col>
-        <el-col :span="6">
-          <div class="inputBlock">
-            <el-input readonly placeholder="分支机构" v-model="orderFormData.branch.name">
-              <el-button size="small" @click="showBranchDialog" slot="append" icon="el-icon-search"></el-button>
-            </el-input>
-          </div>
-        </el-col>
-        <el-col :span="6">
-          <div class="inputBlock">
-            <el-input readonly placeholder="来往单位">
-              <el-button
-                size="small"
-                @click="showCompanyDialog"
-                slot="append"
-                icon="el-icon-search"
-              ></el-button>
-            </el-input>
-          </div>
-        </el-col>
-      </el-row>
+    <el-container>
+      <el-header :height="30">
+        <el-card shadow="never">
+          <el-row :gutter="20" class="el-row-bottom-20">
+            <el-col :span="6">
+              <div class="date-picker-item">
+                <el-date-picker
+                  class="order-form-item"
+                  type="date"
+                  value-format="yyyy-MM-dd"
+                  v-model="orderFormData.createDate"
+                  placeholder="选择日期"
+                ></el-date-picker>
+              </div>
+            </el-col>
+            <el-col :span="6">
+              <div class="order-form-item">
+                <el-input readonly placeholder="分支机构" v-model="orderFormData.branch.name">
+                  <el-button
+                    size="small"
+                    @click="showBranchDialog"
+                    slot="append"
+                    icon="el-icon-search"
+                  ></el-button>
+                </el-input>
+              </div>
+            </el-col>
+            <el-col :span="6">
+              <div class="order-form-item">
+                <el-input readonly placeholder="来往单位">
+                  <el-button
+                    size="small"
+                    @click="showCompanyDialog"
+                    slot="append"
+                    icon="el-icon-search"
+                  ></el-button>
+                </el-input>
+              </div>
+            </el-col>
+            <el-col :span="6">
+              <div class="order-form-item">
+                <el-input readonly placeholder="经手人">
+                  <el-button
+                    size="small"
+                    @click="showDepartmentDialog"
+                    slot="append"
+                    icon="el-icon-search"
+                  ></el-button>
+                </el-input>
+              </div>
+            </el-col>
+          </el-row>
 
-      <el-row>
-        <el-col :span="6">
-          <div class="inputBlock">
-            <el-input readonly placeholder="经手人">
-              <el-button
-                size="small"
-                @click="showDepartmentDialog"
-                slot="append"
-                icon="el-icon-search"
-              ></el-button>
-            </el-input>
-          </div>
-        </el-col>
-        <el-col :span="6">
-          <div class="inputBlock">
-            <el-input readonly placeholder="部门">
-              <el-button
-                size="small"
-                @click="showDepartmentDialog"
-                slot="append"
-                icon="el-icon-search"
-              ></el-button>
-            </el-input>
-          </div>
-        </el-col>
-        <el-col :span="6">
-          <div class="inputBlock">
-            <el-input readonly placeholder="仓库">
-              <el-button size="small" @click="showDepotDialog" slot="append" icon="el-icon-search"></el-button>
-            </el-input>
-          </div>
-        </el-col>
-      </el-row>
-    </div>
+          <el-row :gutter="20" class="el-row-second">
+            <el-col :span="6">
+              <div class="order-form-item">
+                <el-input readonly placeholder="部门">
+                  <el-button
+                    size="small"
+                    @click="showDepartmentDialog"
+                    slot="append"
+                    icon="el-icon-search"
+                  ></el-button>
+                </el-input>
+              </div>
+            </el-col>
+            <el-col :span="6">
+              <div class="order-form-item">
+                <el-input readonly placeholder="仓库">
+                  <el-button
+                    size="small"
+                    @click="showDepotDialog"
+                    slot="append"
+                    icon="el-icon-search"
+                  ></el-button>
+                </el-input>
+              </div>
+            </el-col>
+            <el-col :span="12">
+              <div>
+                <el-input
+                  type="textarea"
+                  maxlength="30"
+                  placeholder="摘要"
+                  autosize
+                  v-model="orderFormData.summary"
+                ></el-input>
+              </div>
+            </el-col>
+          </el-row>
+        </el-card>
+      </el-header>
+      <el-main>
+        <div>
+          <el-row class="el-row-third">
+            <el-col class="add-product-button" :span="12">
+              <el-button @click="showProductSelectDialog(null)">添加商品</el-button>
+            </el-col>
+            <el-col class="price-select" :span="12">
+              <el-select v-model="defaultPrice" placeholder="默认价格">
+                <el-option
+                  v-for="item in prices"
+                  :key="item.id"
+                  :label="item.label"
+                  :value="item.id"
+                ></el-option>
+              </el-select>
+            </el-col>
+          </el-row>
+        </div>
 
-    <div>
-      <el-row>
-        <el-col :span="6">
-          <el-button size="small" @click="showProductSelectDialog(null)">添加商品</el-button>
-        </el-col>
-        <el-col :span="6">
-          <el-select v-model="defaultPrice" placeholder="默认价格">
-            <el-option v-for="item in prices" :key="item.id" :label="item.label" :value="item.id"></el-option>
-          </el-select>
-        </el-col>
-      </el-row>
-    </div>
-
-    <div>
-      <el-table
-        :data="orderFormData.products"
-        height="400"
-        style="width: 100%"
-        :row-class-name="tableRowClassName"
-        border
-        show-summary
-      >
-        <el-table-column type="index" label="行号" width="50"></el-table-column>
-        <el-table-column prop="product.identifier" label="商品" width="130">
-          <template slot-scope="scope">
-            <el-input
-              :disabled="getDisable(scope.row)"
-              readonly
-              v-model="scope.row.product.identifier"
-              placeholder="商品选择"
-            >
-              <el-button
-                size="small"
-                :disabled="getDisable(scope.row)"
-                @click="showProductSelectDialog(scope)"
-                slot="append"
-                icon="el-icon-search"
-              ></el-button>
-            </el-input>
-          </template>
-        </el-table-column>
-        <el-table-column prop="productName" label="商品名称">
-          <template slot-scope="scope">
-            <span>{{scope.row.product.name}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="product.unit.name" label="单位">
-          <template slot-scope="scope">
-            <el-input
-              :disabled="getDisable(scope.row)"
-              readonly
-              v-model="scope.row.productUnit"
-              placeholder="单位选择"
-            >
-              <el-button
-                size="small"
-                :disabled="getDisable(scope.row)"
-                @click="showProductUnitSelectDialog(scope)"
-                slot="append"
-                icon="el-icon-search"
-              ></el-button>
-            </el-input>
-          </template>
-        </el-table-column>
-        <el-table-column prop="stock" label="账面库存">
-          <template slot-scope="scope">
-            <span>{{scope.row.stock}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="count" label="数量">
-          <template slot-scope="scope">
-            <el-input :disabled="getDisable(scope.row)" v-model="scope.row.count" placeholder="数量"></el-input>
-          </template>
-        </el-table-column>
-        <el-table-column prop="price" label="单价">
-          <template slot-scope="scope">
-            <el-input :disabled="getDisable(scope.row)" v-model="scope.row.price" placeholder="单价"></el-input>
-          </template>
-        </el-table-column>
-        <el-table-column prop="amount" label="金额">
-          <template slot-scope="scope">
-            <el-input :disabled="getDisable(scope.row)" v-model="scope.row.amount" placeholder="金额"></el-input>
-          </template>
-        </el-table-column>
-        <el-table-column prop="note" label="备注">
-          <template slot-scope="scope">
-            <el-input :disabled="getDisable(scope.row)" v-model="scope.row.note" placeholder="备注"></el-input>
-          </template>
-        </el-table-column>
-        <el-table-column prop="specification" label="规格">
-          <template slot-scope="scope">
-            <span>{{scope.row.specification}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column fixed="right" label="操作" width="50">
-          <template slot-scope="scope">
-            <el-button
-              :disabled="getDisable(scope.row)"
-              @click.native.prevent="deleteRow(scope.row, scope.$index)"
-              type="text"
-              size="small"
-            >移除</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-    </div>
-
-    <div>
-      <el-row>
-        <el-col :span="3">
-          <el-input placeholder="账户选择">
-            <el-button
-              size="small"
-              slot="append"
-              icon="el-icon-search"
-              @click="showAccountDialog()"
-            ></el-button>
-          </el-input>
-        </el-col>
-        <el-col :span="3">
-          <el-input placeholder="收款金额"></el-input>
-        </el-col>
-        <el-col :span="3">
-          <el-input placeholder="抹零金额"></el-input>
-        </el-col>
-        <el-col :span="3">
-          <el-input readonly placeholder="抹零后金额"></el-input>
-        </el-col>
-        <el-col :span="3">
-          <el-button @click="save()">保存草稿</el-button>
-        </el-col>
-        <el-col :span="3">
-          <el-button @click="verifyOrderForm">审核过账</el-button>
-        </el-col>
-        <el-col :span="3">
-          <el-button @click="showPrintDialog">打印</el-button>
-        </el-col>
-      </el-row>
-    </div>
+        <div>
+          <el-table
+            :data="orderFormData.products"
+            height="400"
+            style="width: 100%"
+            :row-class-name="tableRowClassName"
+            border
+            show-summary
+          >
+            <el-table-column type="index" label="行号" width="50"></el-table-column>
+            <el-table-column prop="product.identifier" label="商品" width="130">
+              <template slot-scope="scope">
+                <el-input
+                  :disabled="getDisable(scope.row)"
+                  readonly
+                  v-model="scope.row.product.identifier"
+                  placeholder="商品选择"
+                >
+                  <el-button
+                    size="small"
+                    :disabled="getDisable(scope.row)"
+                    @click="showProductSelectDialog(scope)"
+                    slot="append"
+                    icon="el-icon-search"
+                  ></el-button>
+                </el-input>
+              </template>
+            </el-table-column>
+            <el-table-column prop="productName" label="商品名称">
+              <template slot-scope="scope">
+                <span>{{scope.row.product.name}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column prop="product.unit.name" label="单位">
+              <template slot-scope="scope">
+                <el-input
+                  :disabled="getDisable(scope.row)"
+                  readonly
+                  v-model="scope.row.productUnit"
+                  placeholder="单位选择"
+                >
+                  <el-button
+                    size="small"
+                    :disabled="getDisable(scope.row)"
+                    @click="showProductUnitSelectDialog(scope)"
+                    slot="append"
+                    icon="el-icon-search"
+                  ></el-button>
+                </el-input>
+              </template>
+            </el-table-column>
+            <el-table-column prop="stock" label="账面库存">
+              <template slot-scope="scope">
+                <span>{{scope.row.stock}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column prop="count" label="数量">
+              <template slot-scope="scope">
+                <el-input
+                  :disabled="getDisable(scope.row)"
+                  v-model="scope.row.count"
+                  placeholder="数量"
+                ></el-input>
+              </template>
+            </el-table-column>
+            <el-table-column prop="price" label="单价">
+              <template slot-scope="scope">
+                <el-input
+                  :disabled="getDisable(scope.row)"
+                  v-model="scope.row.price"
+                  placeholder="单价"
+                ></el-input>
+              </template>
+            </el-table-column>
+            <el-table-column prop="amount" label="金额">
+              <template slot-scope="scope">
+                <el-input
+                  :disabled="getDisable(scope.row)"
+                  v-model="scope.row.amount"
+                  placeholder="金额"
+                ></el-input>
+              </template>
+            </el-table-column>
+            <el-table-column prop="note" label="备注">
+              <template slot-scope="scope">
+                <el-input
+                  :disabled="getDisable(scope.row)"
+                  v-model="scope.row.note"
+                  placeholder="备注"
+                ></el-input>
+              </template>
+            </el-table-column>
+            <el-table-column prop="specification" label="规格">
+              <template slot-scope="scope">
+                <span>{{scope.row.specification}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column fixed="right" label="操作" width="50">
+              <template slot-scope="scope">
+                <el-button
+                  :disabled="getDisable(scope.row)"
+                  @click.native.prevent="deleteRow(scope.row, scope.$index)"
+                  type="text"
+                  size="small"
+                >移除</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+      </el-main>
+      <el-footer>
+        <div>
+          <el-row>
+            <el-col :span="3">
+              <el-input placeholder="账户选择">
+                <el-button
+                  size="small"
+                  slot="append"
+                  icon="el-icon-search"
+                  @click="showAccountDialog()"
+                ></el-button>
+              </el-input>
+            </el-col>
+            <el-col :span="3">
+              <el-input placeholder="收款金额"></el-input>
+            </el-col>
+            <el-col :span="3">
+              <el-input placeholder="抹零金额"></el-input>
+            </el-col>
+            <el-col :span="3">
+              <el-input readonly placeholder="抹零后金额"></el-input>
+            </el-col>
+            <el-col :span="3">
+              <el-button @click="save()">保存草稿</el-button>
+            </el-col>
+            <el-col :span="3">
+              <el-button @click="verifyOrderForm">审核过账</el-button>
+            </el-col>
+            <el-col :span="3">
+              <el-button @click="showPrintDialog">打印</el-button>
+            </el-col>
+          </el-row>
+        </div>
+      </el-footer>
+    </el-container>
 
     <branch-search-dialog
       v-if="branchDialogVisiable"
@@ -507,8 +556,28 @@ export default {
 </script>
 
 <style>
-.inputBlock {
-  padding-left: 10px;
+.el-row-bottom-20 {
+  margin-bottom: 20px;
+}
+
+.el-row-third {
+  margin-bottom: 5px;
+}
+
+.order-form-item {
+  width: 220px;
+}
+
+.date-picker-item {
+  text-align: left;
+}
+
+.add-product-button {
+  text-align: left;
+}
+
+.price-select {
+  text-align: right;
 }
 
 .el-table .warning-row {
