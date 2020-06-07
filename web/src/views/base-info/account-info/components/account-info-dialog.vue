@@ -6,17 +6,23 @@
     :visible.sync="dialogVisible"
     :before-close="handleClose"
   >
-    <el-form :model="accountData" ref="accountData" :rules="rules" class="demo-ruleForm">
-      <el-form-item label="账户名称" :label-width="formLabelWidth">
+    <el-form
+      :model="accountData"
+      ref="accountData"
+      :rules="rules"
+      label-width="100px"
+      class="demo-ruleForm"
+    >
+      <el-form-item label="账户名称" prop="name">
         <el-input v-model="accountData.name" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item label="开户行" :label-width="formLabelWidth">
+      <el-form-item label="开户行" prop="bank">
         <el-input v-model="accountData.bank" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item label="持卡人" :label-width="formLabelWidth">
+      <el-form-item label="持卡人" prop="cardholder">
         <el-input v-model="accountData.cardholder" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item label="卡号" :label-width="formLabelWidth">
+      <el-form-item label="卡号" prop="account">
         <el-input v-model="accountData.account" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item>
@@ -30,11 +36,22 @@
 <script>
 export default {
   name: "accountInfoDialog",
+  props: {
+    "title": {
+      type: String
+    },
+    "accountData": {
+      type: Object
+    },
+  },
+
   data () {
     return {
       dialogVisible: true,
-      formLabelWidth: '120px',
       rules: {
+        name: [
+          { required: true, message: '请输入账户名称', trigger: 'blur' }
+        ]
       },
     }
   },
@@ -60,8 +77,6 @@ export default {
       });
     }
   },
-
-  props: ["title", "accountData"],
 
   created: function () {
   }

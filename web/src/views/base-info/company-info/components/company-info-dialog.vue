@@ -6,20 +6,26 @@
     :visible.sync="dialogVisible"
     :before-close="handleClose"
   >
-    <el-form :model="companyData" ref="companyData" :rules="rules" class="demo-ruleForm">
-      <el-form-item label="名称" :label-width="formLabelWidth">
+    <el-form
+      :model="companyData"
+      ref="companyData"
+      :rules="rules"
+      label-width="100px"
+      class="demo-ruleForm"
+    >
+      <el-form-item label="名称" prop="name">
         <el-input v-model="companyData.name" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item label="拼音码" :label-width="formLabelWidth">
+      <el-form-item label="拼音码" prop="initials">
         <el-input v-model="companyData.initials" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item label="地址" :label-width="formLabelWidth">
+      <el-form-item label="地址" prop="address">
         <el-input v-model="companyData.address" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item label="联系人" :label-width="formLabelWidth">
+      <el-form-item label="联系人" prop="contactPerson">
         <el-input v-model="companyData.contactPerson" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item label="联系人电话" :label-width="formLabelWidth">
+      <el-form-item label="联系人电话" prop="contactPhone">
         <el-input v-model="companyData.contactPhone" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item>
@@ -46,10 +52,9 @@ export default {
   data () {
     return {
       dialogVisible: true,
-      formLabelWidth: '120px',
       rules: {
-        id: [
-          { required: true, message: '请输编号', trigger: 'blur' }
+        name: [
+          { required: true, message: '请入名称', trigger: 'blur' }
         ]
       },
     }

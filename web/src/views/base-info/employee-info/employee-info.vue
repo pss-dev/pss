@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-container>
-      <el-header :height="30">
+      <el-header height="30">
         <base-info-header :paths="getPathsLabel()" :showTypeVisiable="false"></base-info-header>
       </el-header>
       <el-main>

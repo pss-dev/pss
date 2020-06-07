@@ -6,11 +6,17 @@
     :visible.sync="dialogVisible"
     :before-close="handleClose"
   >
-    <el-form :model="unitData" ref="unitData" :rules="rules" class="demo-ruleForm">
-      <el-form-item label="单位名称" :label-width="formLabelWidth">
+    <el-form
+      :model="unitData"
+      ref="unitData"
+      :rules="rules"
+      label-width="100px"
+      class="demo-ruleForm"
+    >
+      <el-form-item label="单位名称" prop="name">
         <el-input v-model="unitData.name" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item label="备注" :label-width="formLabelWidth">
+      <el-form-item label="备注" prop="note">
         <el-input v-model="unitData.note" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item>
@@ -37,10 +43,9 @@ export default {
   data () {
     return {
       dialogVisible: true,
-      formLabelWidth: '120px',
       rules: {
-        id: [
-          { required: true, message: '请输单位编号', trigger: 'blur' }
+        name: [
+          { required: true, message: '请输单位名称', trigger: 'blur' }
         ]
       },
     }

@@ -13,10 +13,10 @@
       label-width="100px"
       class="demo-dynamic"
     >
-      <el-form-item label="分支名称">
+      <el-form-item label="分支名称" prop="name">
         <el-input v-model="branchData.name" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item label="客户">
+      <el-form-item label="客户" prop="customer">
         <el-input readonly v-model="branchData.customer.name" autocomplete="off">
           <el-button
             size="small"
@@ -26,7 +26,7 @@
           ></el-button>
         </el-input>
       </el-form-item>
-      <el-form-item label="供货商">
+      <el-form-item label="供货商" prop="supplier">
         <el-input readonly v-model="branchData.supplier.name" autocomplete="off">
           <el-button
             size="small"
@@ -36,7 +36,7 @@
           ></el-button>
         </el-input>
       </el-form-item>
-      <el-form-item label="拼音码">
+      <el-form-item label="拼音码" prop="initials">
         <el-input v-model="branchData.initials" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item>
@@ -75,10 +75,9 @@ export default {
       dialogVisible: true,
       companydialogVisible: false,
       isCustomer: true,
-      formLabelWidth: '120px',
       rules: {
-        id: [
-          { required: true, message: '请输分支编号', trigger: 'blur' }
+        name: [
+          { required: true, message: '请输入名称', trigger: 'blur' }
         ]
       },
     }

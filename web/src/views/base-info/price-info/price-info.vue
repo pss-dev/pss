@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-container>
-      <el-header :height="30"></el-header>
+      <el-header height="30"></el-header>
       <el-main>
         <base-info-table
           :titles="titData"
@@ -15,7 +15,7 @@
           :totalSize="totalSize"
           :currentPage="currentPage"
           :selectedInfoInvalid="isSelectedInfoInvalid()"
-          :newInfoVisiable="true"
+          :newInfoVisiable="false"
           :copyNewVisiable="false"
           :deleteInfoVisiable="false"
           :previousVisiable="false"

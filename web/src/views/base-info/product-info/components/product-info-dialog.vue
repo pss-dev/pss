@@ -8,23 +8,29 @@
   >
     <el-tabs v-model="activeName">
       <el-tab-pane label="基本资料" name="first">
-        <el-form :model="productData" ref="productData" :rules="rules" class="demo-ruleForm">
-          <el-form-item label="编号" :label-width="formLabelWidth">
+        <el-form
+          :model="productData"
+          ref="productData"
+          :rules="rules"
+          label-width="100px"
+          class="demo-ruleForm"
+        >
+          <el-form-item label="编号" prop="identifier">
             <el-input v-model="productData.identifier" autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item label="名称" :label-width="formLabelWidth">
+          <el-form-item label="名称" prop="name">
             <el-input v-model="productData.name" autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item label="拼音码" :label-width="formLabelWidth">
+          <el-form-item label="拼音码" prop="initials">
             <el-input v-model="productData.initials" autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item label="规格" :label-width="formLabelWidth">
+          <el-form-item label="规格" prop="specification">
             <el-input v-model="productData.specification" autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item label="型号" :label-width="formLabelWidth">
+          <el-form-item label="型号" prop="type">
             <el-input v-model="productData.type" autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item label="产地" :label-width="formLabelWidth">
+          <el-form-item label="产地" prop="address">
             <el-input v-model="productData.address" autocomplete="off"></el-input>
           </el-form-item>
         </el-form>
@@ -174,7 +180,6 @@ export default {
       dialogVisible: true,
       unitdialogVisible: false,
       activeName: 'first',
-      formLabelWidth: '120px',
       selectUnitData: {},
       priceTitles: [{ prop: "prices[0]", label: this.priceData[0].label },
       { prop: "prices[1]", label: this.priceData[1].label },
@@ -187,8 +192,11 @@ export default {
       { prop: "prices[8]", label: this.priceData[8].label },
       { prop: "prices[9]", label: this.priceData[9].label }],
       rules: {
-        id: [
-          { required: true, message: '请输单位编号', trigger: 'blur' }
+        dientifier: [
+          { required: true, message: '请输商品编号', trigger: 'blur' }
+        ],
+        name: [
+          { required: true, message: '请输商品名称', trigger: 'blur' }
         ]
       },
 

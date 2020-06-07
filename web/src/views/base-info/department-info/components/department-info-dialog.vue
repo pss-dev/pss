@@ -6,11 +6,17 @@
     :visible.sync="dialogVisible"
     :before-close="handleClose"
   >
-    <el-form :model="departmentData" ref="departmentData" :rules="rules" class="demo-ruleForm">
-      <el-form-item label="部门名称" :label-width="formLabelWidth">
+    <el-form
+      :model="departmentData"
+      ref="departmentData"
+      :rules="rules"
+      label-width="100px"
+      class="demo-ruleForm"
+    >
+      <el-form-item label="部门名称" prop="name">
         <el-input v-model="departmentData.name" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item label="拼音码" :label-width="formLabelWidth">
+      <el-form-item label="拼音码" prop="initials">
         <el-input v-model="departmentData.initials" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item>
@@ -37,10 +43,9 @@ export default {
   data () {
     return {
       dialogVisible: true,
-      formLabelWidth: '120px',
       rules: {
-        id: [
-          { required: true, message: '请输部门编号', trigger: 'blur' }
+        name: [
+          { required: true, message: '请输部门名称', trigger: 'blur' }
         ]
       },
     }

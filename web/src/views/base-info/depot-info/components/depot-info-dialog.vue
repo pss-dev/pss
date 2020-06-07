@@ -13,15 +13,15 @@
       label-width="100px"
       class="demo-dynamic"
     >
-      <el-form-item label="名称">
+      <el-form-item label="名称" prop="name">
         <el-input v-model="depotData.name" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item label="分支">
+      <el-form-item label="分支" prop="branch">
         <el-input readonly v-model="depotData.branch.name" autocomplete="off">
           <el-button size="small" @click="showBranchDialog()" slot="append" icon="el-icon-search"></el-button>
         </el-input>
       </el-form-item>
-      <el-form-item label="拼音码">
+      <el-form-item label="拼音码" prop="initials">
         <el-input v-model="depotData.initials" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item>
@@ -59,10 +59,12 @@ export default {
     return {
       dialogVisible: true,
       branchDialogVisible: false,
-      formLabelWidth: '120px',
       rules: {
-        id: [
-          { required: true, message: '请输仓库编号', trigger: 'blur' }
+        name: [
+          { required: true, message: '请输仓库名称', trigger: 'blur' }
+        ],
+        branch: [
+          { required: true, message: '请选择分支机构', trigger: 'blur' }
         ]
       },
     }

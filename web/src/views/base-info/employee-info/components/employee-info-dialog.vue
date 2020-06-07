@@ -6,22 +6,28 @@
     :visible.sync="dialogVisible"
     :before-close="handleClose"
   >
-    <el-form :model="employeeData" ref="employeeData" :rules="rules" class="demo-ruleForm">
-      <el-form-item label="员工姓名" :label-width="formLabelWidth">
+    <el-form
+      :model="employeeData"
+      ref="employeeData"
+      :rules="rules"
+      label-width="100px"
+      class="demo-ruleForm"
+    >
+      <el-form-item label="员工姓名" prop="name">
         <el-input v-model="employeeData.name" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item label="账号" :label-width="formLabelWidth">
+      <el-form-item label="账号" prop="account">
         <el-input v-model="employeeData.account" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item label="密码" :label-width="formLabelWidth">
+      <el-form-item label="密码" prop="password">
         <el-input v-model="employeeData.password" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item label="分支机构" :label-width="formLabelWidth">
+      <el-form-item label="分支机构" prop="branch">
         <el-input readonly v-model="employeeData.branch.name" autocomplete="off">
           <el-button size="small" @click="showBranchDialog()" slot="append" icon="el-icon-search"></el-button>
         </el-input>
       </el-form-item>
-      <el-form-item label="部门" :label-width="formLabelWidth">
+      <el-form-item label="部门" prop="department">
         <el-input readonly v-model="employeeData.department.name" autocomplete="off">
           <el-button
             size="small"
@@ -72,9 +78,17 @@ export default {
       dialogVisible: true,
       branchDialogVisible: false,
       departmentDialogVisible: false,
-      formLabelWidth: '120px',
       activeName: 'first',
-      formRules: {
+      rules: {
+        name: [
+          { required: true, message: '请输员工姓名', trigger: 'blur' }
+        ],
+        branch: [
+          { required: true, message: '请选择分支机构', trigger: 'blur' }
+        ],
+        department: [
+          { required: true, message: '请选择所属部门', trigger: 'blur' }
+        ]
       },
     }
   },

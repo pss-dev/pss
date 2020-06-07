@@ -6,11 +6,17 @@
     :visible.sync="dialogVisible"
     :before-close="handleClose"
   >
-    <el-form :model="priceData" ref="priceData" :rules="rules" class="demo-ruleForm">
-      <el-form-item label="名称" prop="name" :label-width="formLabelWidth">
+    <el-form
+      :model="priceData"
+      ref="priceData"
+      :rules="rules"
+      label-width="100px"
+      class="demo-ruleForm"
+    >
+      <el-form-item label="名称" prop="name">
         <el-input v-model="priceData.name" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item label="显示名称" prop="label" :label-width="formLabelWidth">
+      <el-form-item label="显示名称" prop="label">
         <el-input v-model="priceData.label" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item>
@@ -27,7 +33,6 @@ export default {
   data () {
     return {
       dialogVisible: true,
-      formLabelWidth: '120px',
       rules: {
         label: [
           { required: true, message: '请输价格名称', trigger: 'blur' }
