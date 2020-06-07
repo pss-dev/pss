@@ -12,8 +12,10 @@ public class Account {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Integer id;
   private String name;
-  private Integer money;
-  private Integer fatherId;
+  private String bank;
+  private String cardholder;
+  private String account;
+  private Account parent;
 
   public Integer getId() {
     return id;
@@ -31,20 +33,36 @@ public class Account {
     this.name = name;
   }
 
-  public Integer getMoney() {
-    return money;
+  public String getCardholder() {
+    return cardholder;
   }
 
-  public void setMoney(Integer money) {
-    this.money = money;
+  public void setCardholder(String cardholder) {
+    this.cardholder = cardholder;
   }
 
-  public Integer getFatherId() {
-    return fatherId;
+  public String getAccount() {
+    return account;
   }
 
-  public void setFatherId(Integer fatherId) {
-    this.fatherId = fatherId;
+  public void setAccount(String account) {
+    this.account = account;
+  }
+
+  public String getBank() {
+    return bank;
+  }
+
+  public void setBank(String bank) {
+    this.bank = bank;
+  }
+
+  public Account getParent() {
+    return parent;
+  }
+
+  public void setParent(Account parent) {
+    this.parent = parent;
   }
 
   @Override
@@ -59,13 +77,14 @@ public class Account {
 
     Account account = (Account) o;
 
-    return Objects.equals(id, account.id) && Objects.equals(name, account.name) && Objects.equals(money, account.money)
-        && Objects.equals(fatherId, account.fatherId);
+    return Objects.equals(id, account.id) && Objects.equals(name, account.name) && Objects.equals(bank, account.bank)
+        && Objects.equals(cardholder, account.cardholder) && Objects.equals(account, account.account)
+        && Objects.equals(parent, account.parent);
   }
 
   @Override
   public String toString() {
-    return "Company{" + "id='" + id + '\'' + ", name='" + name + '\'' + ", money='" + money + '\'' + ", fatherId='"
-        + fatherId + '}';
+    return "Company{" + "id='" + id + '\'' + ", name='" + name + '\'' + ", bank='" + bank + '\'' + ", cardholder='"
+        + cardholder + '\'' + ", account='" + account + '\'' + ", parent='" + parent.getName() + '}';
   }
 }

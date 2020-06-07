@@ -39,6 +39,8 @@ export default {
       title: "仓库机构查询",
 
       titleData: [{ prop: "name", label: "名称" }],
+
+      tableData: [],
     }
   },
 

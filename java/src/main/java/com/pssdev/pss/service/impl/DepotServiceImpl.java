@@ -18,8 +18,8 @@ public class DepotServiceImpl implements DepotService {
   @Override
   @Transactional
   public void insertDepot(Depot Depot) throws Exception {
-    if (!StringUtils.isEmpty(Depot.getFatherId())) {
-      Depot father = DepotDao.get(Depot.getFatherId());
+    if (!StringUtils.isEmpty(Depot.getParent())) {
+      Depot father = DepotDao.get(Depot.getParent().getId());
 
       if (father == null) {
         throw new Exception("找不所属仓库");
@@ -48,7 +48,7 @@ public class DepotServiceImpl implements DepotService {
       throw new Exception("仓库不存在");
     } else {
       oldDepot.setName(depot.getName());
-      oldDepot.setBranch(depot.getBranch());
+      // oldDepot.setBranch(depot.getBranch());
       oldDepot.setInitials(depot.getInitials());
       DepotDao.update(oldDepot);
     }

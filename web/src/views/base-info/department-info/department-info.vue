@@ -99,6 +99,7 @@ export default {
     },
 
     submitData (departmentData) {
+      console.log("======departmentData  ", departmentData);
       let getInfoParams = this.getParameterForNewTable(this.getParentID());
 
       if (this.addInfo) {

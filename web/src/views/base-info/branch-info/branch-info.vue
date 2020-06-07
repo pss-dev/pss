@@ -103,16 +103,17 @@ export default {
     },
 
     submitData (branchData) {
+      console.log("====== branchData ", branchData);
       var getInfoParams = this.getParameterForNewTable(this.getParentID());
 
       if (this.addInfo) {
-        branchInfoApi.addbranchInfo(branchData).then(
+        branchInfoApi.addBranchInfo(branchData).then(
           () => {
             this.getBranchInfo(getInfoParams);
           });
       }
       else {
-        branchInfoApi.modifybranchInfo(branchData).then(
+        branchInfoApi.modifyBranchInfo(branchData).then(
           () => {
             this.getBranchInfo(getInfoParams);
           });
@@ -121,7 +122,7 @@ export default {
 
     deleteInfo () {
       branchInfoApi
-        .deletebranchInfo(this.selectedInfo)
+        .deleteBranchInfo(this.selectedInfo)
         .then(() => {
           var params = this.getParameterForNewTable(this.getParentID());
 

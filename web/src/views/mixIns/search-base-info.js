@@ -2,7 +2,6 @@ export default {
   data () {
     return {
       selectedInfo: null,
-      tableData: [],
 
       dialogVisible: true,
 

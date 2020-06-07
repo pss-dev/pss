@@ -192,7 +192,7 @@ export default {
       { prop: "prices[8]", label: this.priceData[8].label },
       { prop: "prices[9]", label: this.priceData[9].label }],
       rules: {
-        dientifier: [
+        identifier: [
           { required: true, message: '请输商品编号', trigger: 'blur' }
         ],
         name: [

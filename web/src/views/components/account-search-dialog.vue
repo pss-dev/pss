@@ -42,6 +42,8 @@ export default {
         { prop: "id", label: "编号" },
         { prop: "name", label: "名称" },
         { prop: "balance", label: "余额" }],
+
+      tableData: [],
     }
   },
 

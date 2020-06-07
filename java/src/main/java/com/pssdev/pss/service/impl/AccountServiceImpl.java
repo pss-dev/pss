@@ -18,8 +18,8 @@ public class AccountServiceImpl implements AccountService {
   @Override
   @Transactional
   public void insertAccount(Account account) throws Exception {
-    if (!StringUtils.isEmpty(account.getFatherId())) {
-      Account father = accountDao.get(account.getFatherId());
+    if (!StringUtils.isEmpty(account.getParent())) {
+      Account father = accountDao.get(account.getParent().getId());
 
       if (father == null) {
         throw new Exception("找不到所属账户");
@@ -48,7 +48,9 @@ public class AccountServiceImpl implements AccountService {
       throw new Exception("账户不存在");
     } else {
       oldAccount.setName(account.getName());
-      oldAccount.setMoney(account.getMoney());
+      oldAccount.setBank(account.getBank());
+      oldAccount.setCardholder(account.getCardholder());
+      oldAccount.setParent(account.getParent());
       accountDao.update(oldAccount);
     }
   }

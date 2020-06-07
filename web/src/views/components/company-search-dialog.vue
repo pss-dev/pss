@@ -40,6 +40,8 @@ export default {
       title: "来往单位查询",
 
       titleData: [{ prop: "name", label: "名称" }],
+
+      tableData: [],
     }
   },
 

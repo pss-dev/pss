@@ -12,9 +12,9 @@ public class Depot {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Integer id;
   private String name;
-  private Integer branch;
+  private Branch branch;
   private String initials;
-  private Integer fatherId;
+  private Depot parent;
 
   public Integer getId() {
     return id;
@@ -32,11 +32,11 @@ public class Depot {
     this.name = name;
   }
 
-  public Integer getBranch() {
+  public Branch getBranch() {
     return branch;
   }
 
-  public void setBranch(Integer branch) {
+  public void setBranch(Branch branch) {
     this.branch = branch;
   }
 
@@ -48,12 +48,12 @@ public class Depot {
     this.initials = initials;
   }
 
-  public Integer getFatherId() {
-    return fatherId;
+  public Depot getParent() {
+    return parent;
   }
 
-  public void setFatherId(Integer fatherId) {
-    this.fatherId = fatherId;
+  public void setParent(Depot parent) {
+    this.parent = parent;
   }
 
   @Override
@@ -69,12 +69,12 @@ public class Depot {
     Depot depot = (Depot) o;
 
     return Objects.equals(id, depot.id) && Objects.equals(name, depot.name) && Objects.equals(initials, depot.initials)
-        && Objects.equals(branch, depot.branch) && Objects.equals(fatherId, depot.fatherId);
+        && Objects.equals(branch, depot.branch) && Objects.equals(parent, depot.parent);
   }
 
   @Override
   public String toString() {
     return "Company{" + "id='" + id + '\'' + ", name='" + name + '\'' + ", initials='" + initials + '\'' + ", branch='"
-        + branch + '\'' + ", fatherId='" + fatherId + '\'' + '}';
+        + branch + '\'' + ", parent='" + parent.getName() + '\'' + '}';
   }
 }

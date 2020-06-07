@@ -39,6 +39,8 @@ export default {
       dialogTitle: "部门查询",
 
       titleData: [{ prop: "name", label: "名称" }],
+
+      tableData: [],
     }
   },
 

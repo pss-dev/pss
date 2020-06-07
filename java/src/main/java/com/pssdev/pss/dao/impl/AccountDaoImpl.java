@@ -11,7 +11,7 @@ public class AccountDaoImpl extends BaseDao<Account, Integer> implements Account
 
   @Override
   public List<Account> getAccounts(Integer fatherId) {
-    return getSession().createQuery("from Account c where c.fatherId = " + fatherId).list();
+    return getSession().createQuery("from Account c where c.parent.id = " + fatherId).list();
   }
 
   @Override

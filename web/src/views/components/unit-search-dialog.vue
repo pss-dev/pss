@@ -5,6 +5,7 @@
     :title="title"
     :visible.sync="dialogVisible"
     :before-close="handleClose"
+    append-to-body
   >
     <search-base
       :titles="titleData"
