@@ -1,9 +1,6 @@
 package com.pssdev.pss.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
@@ -15,6 +12,8 @@ public class Account {
   private String bank;
   private String cardholder;
   private String account;
+  @JoinColumn(name = "father_id")
+  @ManyToOne(targetEntity = Account.class)
   private Account parent;
 
   public Integer getId() {

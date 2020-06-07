@@ -1,9 +1,6 @@
 package com.pssdev.pss.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
@@ -12,8 +9,12 @@ public class Depot {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Integer id;
   private String name;
+  @JoinColumn(name = "branch_id")
+  @ManyToOne(targetEntity = Branch.class)
   private Branch branch;
   private String initials;
+  @JoinColumn(name = "father_id")
+  @ManyToOne(targetEntity = Depot.class)
   private Depot parent;
 
   public Integer getId() {
