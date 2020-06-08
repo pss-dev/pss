@@ -33,6 +33,9 @@ public class DepartmentServiceImpl implements DepartmentService {
     if (parentId == null) {
       return departmentDao.getAll();
     }
+    else if(TOP_FLAG1.equals(parentId) || TOP_FLAG2.equals(parentId)) {
+      return departmentDao.getTop();
+    }
 
     Department department = departmentDao.get(parentId);
 
@@ -41,6 +44,13 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     return null;
+  }
+
+  @Transactional(readOnly = true)
+  @Cacheable(key = "'deptAll-1'")
+  @Override
+  public List<Department> getTop() {
+    return departmentDao.getTop();
   }
 
   @Transactional(readOnly = true)

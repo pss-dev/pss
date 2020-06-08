@@ -4,7 +4,7 @@ import com.pssdev.pss.entity.Department;
 
 import java.util.List;
 
-public interface DepartmentService {
+public interface DepartmentService extends TreeStructureService<Department> {
   /**
    * get department by id
    */
@@ -12,7 +12,7 @@ public interface DepartmentService {
 
   /**
    * get department by id
-   * 
+   *
    * @param parentId if null get all dept, else get specified dept.
    */
   List<Department> getDepartments(Integer parentId);
@@ -24,7 +24,7 @@ public interface DepartmentService {
 
   /**
    * insert a department
-   * 
+   *
    * @return new department id.
    */
   int insertDepartment(Department dept);

@@ -97,9 +97,18 @@ public class DepartmentServiceTests {
     Assertions.assertTrue(childIds.contains(cid2), "Missing child 2");
   }
 
+  @Test
+  @Order(6)
+  public void testGetTop() {
+    List<Department> departments = departmentService.getDepartments(-1);
+
+    departments.stream()
+       .forEach(dept -> Assertions.assertNull(dept.getParent(), "Top Parent is not null."));
+  }
+
    @ParameterizedTest
    @ValueSource(ints = { 2 })
-   @Order(6)
+   @Order(7)
    public void testDeleteDepartment(int id) {
      Department dept = departmentService.getDepartment(id);
      List<Department> children = dept.getChildren();

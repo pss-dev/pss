@@ -27,7 +27,7 @@ public class Department implements Serializable {
 
    @ApiModelProperty("父部门")
    @ManyToOne
-   @JoinColumn(name = "parent_id")
+   @JoinColumn(name = "father_id")
    private Department parent;
 
    @ApiModelProperty("子部门")
