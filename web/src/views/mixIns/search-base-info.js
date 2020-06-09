@@ -7,8 +7,9 @@ export default {
 
       totalSize: 1,
       currentPage: 1,
+      showDatasAsTree: true,
 
-      fatherID: "",
+      parent: null,
       paths: [], // for previous
     }
   },
@@ -34,10 +35,13 @@ export default {
       return this.paths.length > 0;
     },
 
-    getParameterForNewTable (tableID) {
-      var params = {
-        id: tableID
-      };
+    getParameterForNewTable (fatherID) {
+      var params = {};
+
+      if (fatherID) {
+        params.fatherID = fatherID;
+      }
+
 
       return params;
     },
@@ -52,8 +56,8 @@ export default {
 
     addPaths () {
       this.paths.push({
-        tableID: this.fatherID,
-        currentPage: this.currentPage
+        parent: this.parent,
+        page: this.currentPage
       });
     },
 
@@ -62,6 +66,24 @@ export default {
         this.tableData = res;
         this.totalSize = res.length;
       }
+    },
+
+    getParentID () {
+      return this.getParentID0(this.parent);
+    },
+
+    getParentID0 (parent) {
+      if (parent) {
+        return parent.id;
+      }
+
+      return this.showDatasAsTree ? -1 : null;
+    },
+
+    setPerviousInfo () {
+      let previousInfo = this.paths.pop();
+      this.currentPage = previousInfo.page;
+      this.parent = previousInfo.parent;
     }
   }
 }

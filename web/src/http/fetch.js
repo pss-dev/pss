@@ -47,7 +47,7 @@ export function tryHideFullScreenLoading () {
 }
 
 service.interceptors.request.use(config => {
-  showFullScreenLoading();
+  //showFullScreenLoading();
   return config;
 }, error => {
   errorNotice({ error })
@@ -59,7 +59,7 @@ service.interceptors.response.use(response => {
   // if (code !== '000000') {
   //   errorNotice({error: response.data.msg})
   // }
-  tryHideFullScreenLoading();
+  //tryHideFullScreenLoading();
   return response
 }, error => {
   errorNotice(error)

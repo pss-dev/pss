@@ -9,6 +9,9 @@
   >
     <div ref="print" id="print">
       <el-row :gutter="20">
+        <el-col class="form-title" :span="24">谢谢使用</el-col>
+      </el-row>
+      <el-row :gutter="20">
         <el-col :span="4">客户姓名：</el-col>
         <el-col :span="4">{{orderFormData.company.name}}</el-col>
         <el-col :span="4">发货仓库：</el-col>
@@ -83,6 +86,34 @@
 </template>
 
 <script>
+function smalltoBIG (n) {
+  var fraction = ['角', '分'];
+  var digit = ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖'];
+  var unit = [
+    ['元', '万', '亿'],
+    ['', '拾', '佰', '仟']
+  ];
+  var head = n < 0 ? '欠' : '';
+  n = Math.abs(n);
+
+  var s = '';
+
+  for (var k = 0; k < fraction.length; k++) {
+    s += (digit[Math.floor(n * 10 * Math.pow(10, k)) % 10] + fraction[k]).replace(/零./, '');
+  }
+  s = s || '整';
+  n = Math.floor(n);
+
+  for (var i = 0; i < unit[0].length && n > 0; i++) {
+    var p = '';
+    for (var j = 0; j < unit[1].length && n > 0; j++) {
+      p = digit[n % 10] + unit[1][j] + p;
+      n = Math.floor(n / 10);
+    }
+    s = p.replace(/(零.)*零$/, '').replace(/^$/, '零') + unit[0][i] + s;
+  }
+  return head + s.replace(/(零.)*零元/, '元').replace(/(零.)+/g, '零').replace(/^整$/, '零元整');
+}
 
 export default {
   name: "printDialog",
@@ -95,6 +126,7 @@ export default {
   data () {
     return {
       dialogVisible: true,
+      title: "打印预览",
 
       titles:
         [{ prop: "product.identifer", label: "商品编号" },
@@ -109,6 +141,7 @@ export default {
 
   methods: {
     handleClose () {
+      console.log("===== ", smalltoBIG(500898.1));
       this.$emit('closeDialog')
     },
   }
@@ -119,5 +152,10 @@ export default {
 <style>
 .print-table {
   border: 1px solid #ebeef5;
+}
+.form-title {
+  text-align: center;
+  font: 2em sans-serif;
+  margin-bottom: 5px;
 }
 </style>

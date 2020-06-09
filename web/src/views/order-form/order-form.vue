@@ -1,8 +1,12 @@
 <template>
   <div>
     <el-container>
-      <el-header :height="30">
+      <el-header height="30">
         <el-card shadow="never">
+          <div slot="header" class="card-header">
+            <span>创建者: {{orderFormData.creatUser.name}}</span>
+            <span class="verify-user">审核者: {{orderFormData.verifyUser.name}}</span>
+          </div>
           <el-row :gutter="20" class="el-row-bottom-20">
             <el-col :span="6">
               <div class="date-picker-item">
@@ -29,7 +33,7 @@
             </el-col>
             <el-col :span="6">
               <div class="order-form-item">
-                <el-input readonly placeholder="来往单位">
+                <el-input readonly placeholder="来往单位" v-model="orderFormData.company.name">
                   <el-button
                     size="small"
                     @click="showCompanyDialog"
@@ -41,7 +45,7 @@
             </el-col>
             <el-col :span="6">
               <div class="order-form-item">
-                <el-input readonly placeholder="经手人">
+                <el-input readonly placeholder="经手人" v-model="orderFormData.employee.name">
                   <el-button
                     size="small"
                     @click="showDepartmentDialog"
@@ -56,7 +60,7 @@
           <el-row :gutter="20" class="el-row-second">
             <el-col :span="6">
               <div class="order-form-item">
-                <el-input readonly placeholder="部门">
+                <el-input readonly placeholder="部门" v-model="orderFormData.department.name">
                   <el-button
                     size="small"
                     @click="showDepartmentDialog"
@@ -68,7 +72,7 @@
             </el-col>
             <el-col :span="6">
               <div class="order-form-item">
-                <el-input readonly placeholder="仓库">
+                <el-input readonly placeholder="仓库" v-model="orderFormData.depot.name">
                   <el-button
                     size="small"
                     @click="showDepotDialog"
@@ -149,7 +153,7 @@
                 <el-input
                   :disabled="getDisable(scope.row)"
                   readonly
-                  v-model="scope.row.productUnit"
+                  v-model="scope.row.unit.name"
                   placeholder="单位选择"
                 >
                   <el-button
@@ -171,6 +175,7 @@
               <template slot-scope="scope">
                 <el-input
                   :disabled="getDisable(scope.row)"
+                  @change="countChange(scope.row)"
                   v-model="scope.row.count"
                   placeholder="数量"
                 ></el-input>
@@ -180,6 +185,7 @@
               <template slot-scope="scope">
                 <el-input
                   :disabled="getDisable(scope.row)"
+                  @change="priceChange(scope.row)"
                   v-model="scope.row.price"
                   placeholder="单价"
                 ></el-input>
@@ -189,6 +195,7 @@
               <template slot-scope="scope">
                 <el-input
                   :disabled="getDisable(scope.row)"
+                  @change="amountChange(scope.row)"
                   v-model="scope.row.amount"
                   placeholder="金额"
                 ></el-input>
@@ -225,7 +232,7 @@
         <div>
           <el-row>
             <el-col :span="3">
-              <el-input placeholder="账户选择">
+              <el-input placeholder="账户选择" v-model="orderFormData.account.name">
                 <el-button
                   size="small"
                   slot="append"
@@ -235,13 +242,13 @@
               </el-input>
             </el-col>
             <el-col :span="3">
-              <el-input placeholder="收款金额"></el-input>
+              <el-input placeholder="收款金额" v-model="orderFormData.money" @change="moneyChange"></el-input>
             </el-col>
             <el-col :span="3">
-              <el-input placeholder="抹零金额"></el-input>
+              <el-input placeholder="抹零金额" v-model="orderFormData.wipe" @change="moneyChange"></el-input>
             </el-col>
             <el-col :span="3">
-              <el-input readonly placeholder="抹零后金额"></el-input>
+              <el-input readonly placeholder="抹零后金额" v-model="afterWipe"></el-input>
             </el-col>
             <el-col :span="3">
               <el-button @click="save()">保存草稿</el-button>
@@ -282,11 +289,11 @@
       @submitData="submitProductData"
       @closeDialog="closeProductDialog"
     ></product-search-dialog>
-    <product-unit-search-dialog
+    <unit-search-dialog
       v-if="productUnitDialogVisiable"
       @submitData="submitProductUnitData"
       @closeDialog="closeProductUnitDialog"
-    ></product-unit-search-dialog>
+    ></unit-search-dialog>
     <account-search-dialog
       v-if="accountDialogVisiable"
       @submitData="submitAccountData"
@@ -306,7 +313,7 @@ import BranchSearchDialog from "../components/branch-search-dialog.vue"
 import CompanySearchDialog from "../components/company-search-dialog.vue"
 import DepotSearchDialog from "../components/depot-search-dialog.vue"
 import ProductSearchDialog from "../components/product-search-dialog.vue"
-import ProductUnitSearchDialog from "../components/product-unit-search-dialog.vue"
+import UnitSearchDialog from "../components/unit-search-dialog.vue"
 import AccountSearchDialog from "../components/account-search-dialog.vue"
 import PrintDialog from "./components/order-form-print-dialog"
 
@@ -322,13 +329,13 @@ export default {
     "company-search-dialog": CompanySearchDialog,
     "depot-search-dialog": DepotSearchDialog,
     "product-search-dialog": ProductSearchDialog,
-    "product-unit-search-dialog": ProductUnitSearchDialog,
+    "unit-search-dialog": UnitSearchDialog,
     "account-search-dialog": AccountSearchDialog,
     "print-dialog": PrintDialog
   },
 
   props: {
-    "orderFormData": {
+    "orderFormDataValue": {
       type: Object,
     }
   },
@@ -338,6 +345,42 @@ export default {
       prices: [],
       defaultPrice: "",
       scopeValue: {},
+
+      orderFormData: {
+        id: null,
+        type: 1,
+        status: 1,// 用来判断是草稿还是已经审核过的
+        creatUser: { id: null, name: "llh" }, //由谁创建
+        verifyUser: { id: null, name: "vip" }, //由谁审核过账
+        createDate: new Date(),
+        branch: { id: null, name: "branch name" },
+        company: { id: null, name: "company name", contactPerson: "llh", contactPhone: "15123232323" },
+        employee: { id: null, name: "llh" },
+        department: { id: null, name: "department name" },
+        depot: { id: null, name: "depot name" },
+        summary: 'asdasdasd',
+
+        actionType: Tool.actionType.add,
+
+        products: [
+          {
+            product: { id: null, identifier: "identifier", name: "product name" },
+            unit: { id: null, name: "个", crate: 2 },
+            stock: 99, //库存
+            count: 0,//数量
+            price: 0,//单价
+            amount: 0,//总价 交互有 不存
+            note: "",//备注
+            actionType: Tool.actionType.add
+          }
+        ],
+
+        account: { id: null, name: "中国建设很行" },
+        money: 0, // 收款
+        wipe: 0, // 抹零
+      },
+
+      afterWipe: 0,
 
       departmentDialogVisiable: false,
       branchDialogVisiable: false,
@@ -511,46 +554,34 @@ export default {
         console.log(res);
       });
     },
+
+    amountChange (row) {
+      if (row.count != 0) {
+        row.price = row.amount / row.count;
+      }
+    },
+
+    countChange (row) {
+      row.amount = row.price * row.count;
+    },
+
+    priceChange (row) {
+      row.amount = row.price * row.count;
+    },
+
+    moneyChange () {
+      this.afterWipe = this.orderFormData.money - this.orderFormData.wipe;
+    }
   },
 
   created: function () {
     console.log("====== this  ", this.orderFormData);
 
-    if (!this.orderFormData) {
-      this.orderFormData = {
-        id: null,
-        type: 1,
-        status: 1,// 用来判断是草稿还是已经审核过的
-        creatUser: { id: null, name: "llh" }, //由谁创建
-        verifyUser: { id: null, name: "" }, //由谁审核过账
-        createDate: new Date(),
-        branch: { id: null, name: "" },
-        company: { id: null, name: "222", contactPerson: "llh", contactPhone: "15123232323" },
-        employee: { id: null, name: "llh" },
-        department: { id: null, name: "" },
-        depot: { id: null, name: "" },
-        summary: '',
-
-        actionType: Tool.actionType.add,
-
-        products: [
-          {
-            product: {},
-            unit: {},
-            stock: 0, //库存
-            count: 0,//数量
-            price: 0,//单价
-            amount: 0,//总价 交互有 不存
-            note: "",//备注
-            actionType: Tool.actionType.add
-          }
-        ],
-
-        account: { id: null, name: "" },
-        money: 0, // 收款
-        wipe: 0, // 抹零
-      };
+    if (this.orderFormDataValue) {
+      this.orderFormData = this.orderFormDataValue;
     }
+
+    this.afterWipe = this.orderFormData.money - this.orderFormData.wipe;
   }
 }
 </script>
@@ -582,5 +613,13 @@ export default {
 
 .el-table .warning-row {
   background: oldlace;
+}
+
+.card-header {
+  text-align: left;
+}
+
+.verify-user {
+  margin-left: 10px;
 }
 </style>

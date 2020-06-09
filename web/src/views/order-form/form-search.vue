@@ -143,11 +143,11 @@
       @submitData="submitProductData"
       @closeDialog="closeProductDialog"
     ></product-search-dialog>
-    <product-unit-search-dialog
+    <unit-search-dialog
       v-if="productUnitDialogVisiable"
       @submitData="submitProductUnitData"
       @closeDialog="closeProductUnitDialog"
-    ></product-unit-search-dialog>
+    ></unit-search-dialog>
     <account-search-dialog
       v-if="accountDialogVisiable"
       @submitData="submitAccountData"
@@ -162,7 +162,7 @@ import BranchSearchDialog from "../components/branch-search-dialog.vue"
 import CompanySearchDialog from "../components/company-search-dialog.vue"
 import DepotSearchDialog from "../components/depot-search-dialog.vue"
 import ProductSearchDialog from "../components/product-search-dialog.vue"
-import ProductUnitSearchDialog from "../components/product-unit-search-dialog.vue"
+import UnitSearchDialog from "../components/unit-search-dialog.vue"
 import AccountSearchDialog from "../components/account-search-dialog.vue"
 import BaseInfoTable from "@/views/base-info/components/base-info-table.vue"
 
@@ -178,7 +178,7 @@ export default {
     "company-search-dialog": CompanySearchDialog,
     "depot-search-dialog": DepotSearchDialog,
     "product-search-dialog": ProductSearchDialog,
-    "product-unit-search-dialog": ProductUnitSearchDialog,
+    "unit-search-dialog": UnitSearchDialog,
     "account-search-dialog": AccountSearchDialog,
     "base-info-table": BaseInfoTable
   },

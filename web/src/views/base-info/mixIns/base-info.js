@@ -55,11 +55,11 @@ export default {
       this.showDialog = false;
     },
 
-    getParameterForNewTable (tableID) {
+    getParameterForNewTable (fatherID) {
       var params = {};
 
-      if (tableID) {
-        params.fatherID = tableID;
+      if (fatherID) {
+        params.fatherID = fatherID;
       }
 
 
@@ -128,6 +128,12 @@ export default {
       this.parent = null;
 
       this.loadData();
+    },
+
+    setPerviousInfo () {
+      let previousInfo = this.paths.pop();
+      this.currentPage = previousInfo.page;
+      this.parent = previousInfo.parent;
     }
   }
 }

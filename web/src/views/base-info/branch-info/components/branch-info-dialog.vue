@@ -47,13 +47,14 @@
     <company-search-dialog
       @closeDialog="closeCompanyDialog"
       @submitData="submitCompanyData"
+      :companyType="companyType"
       v-if="companydialogVisible"
     ></company-search-dialog>
   </el-dialog>
 </template>
 
 <script>
-import CompanySearchDialog from "../../../components/company-search-dialog"
+import CompanySearchDialog from "../../../components/company-search-dialog.vue"
 
 export default {
   name: "branchInfoDialog",
@@ -75,6 +76,7 @@ export default {
       dialogVisible: true,
       companydialogVisible: false,
       isCustomer: true,
+      companyType: 0,
       rules: {
         name: [
           { required: true, message: '请输入名称', trigger: 'blur' }
@@ -106,6 +108,15 @@ export default {
 
     showCompanyDialog (type) {
       this.isCustomer = type;
+
+      if (this.isCustomer) {
+        this.companyType = 0;
+      }
+      else {
+        this.companyType = 1;
+      }
+
+
       this.companydialogVisible = true;
     },
 

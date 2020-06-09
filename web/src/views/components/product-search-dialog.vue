@@ -54,7 +54,7 @@ export default {
       this.getProductInfo(param).then(() => {
         this.addPaths();
         this.resetCurrentPage();
-        this.fatherID = value.id;
+        this.parent = value;
       });
     },
 
@@ -64,12 +64,10 @@ export default {
       }
 
       var previousInfo = this.paths[this.paths.length - 1];
-      var previousParams = this.getParameterForNewTable(previousInfo.id);
+      var previousParams = this.getParameterForNewTable(this.getParentID0(previousInfo.parent));
 
       this.getProductInfo(previousParams).then(() => {
-        this.paths.pop();
-        this.currentPage = previousInfo.page;
-        this.fatherID = previousInfo.id;
+        this.setPerviousInfo();
       });
     },
 
@@ -82,9 +80,7 @@ export default {
   },
 
   created: function () {
-    var params = {
-      id: this.fatherID,
-    };
+    var params = this.getParameterForNewTable(this.getParentID());
 
     this.getProductInfo(params);
   }

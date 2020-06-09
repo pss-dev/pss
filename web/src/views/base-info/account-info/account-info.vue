@@ -144,9 +144,7 @@ export default {
       var previousParams = this.getParameterForNewTable(this.getParentID0(previousInfo.parent));
 
       this.getAccountInfo(previousParams).then(() => {
-        this.paths.pop();
-        this.currentPage = previousInfo.page;
-        this.parent = previousInfo.parent;
+        this.setPerviousInfo();
       });
     },
 

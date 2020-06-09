@@ -35,6 +35,13 @@ export default {
     "search-base": searchBase
   },
 
+  props: {
+    "companyType": {
+      type: Number,
+      default: 0 // customer or supplier
+    }
+  },
+
   data () {
     return {
       title: "来往单位查询",
@@ -52,7 +59,7 @@ export default {
       this.getCompanyInfo(param).then(() => {
         this.addPaths();
         this.resetCurrentPage();
-        this.fatherID = value.id;
+        this.parent = value;
       });
     },
 
@@ -62,16 +69,15 @@ export default {
       }
 
       var previousInfo = this.paths[this.paths.length - 1];
-      var previousParams = this.getParameterForNewTable(previousInfo.id);
+      var previousParams = this.getParameterForNewTable(this.getParentID0(previousInfo.parent));
 
       this.getCompanyInfo(previousParams).then(() => {
-        this.paths.pop();
-        this.currentPage = previousInfo.page;
-        this.fatherID = previousInfo.id;
+        this.setPerviousInfo();
       });
     },
 
     getCompanyInfo (params) {
+      params.type = this.companyType;
       return companyInfoApi.getCompanyInfo(params).then(
         (res) => {
           this.setResponseResult(res.data);
@@ -80,9 +86,7 @@ export default {
   },
 
   created: function () {
-    var params = {
-      id: this.fatherID,
-    };
+    var params = this.getParameterForNewTable(this.getParentID());
 
     this.getCompanyInfo(params);
   }

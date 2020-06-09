@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import productUnitInfoApi from "../../api/productUnit-info-api/productUnitInfoApi.js"
+import UnitInfoApi from "../../api/unit-info-api/unitInfoApi.js"
 import searchBase from "./search-base.vue"
 import searchBseInfo from '../mixIns/search-base-info'
 
@@ -52,8 +52,31 @@ export default {
   },
 
   methods: {
-    getProductUnitInfo (params) {
-      return productUnitInfoApi.getProductUnitInfo(params).then(
+    getChildData (value) {
+      var param = this.getParameterForNewTable(value.id);
+
+      this.getUnitInfo(param).then(() => {
+        this.addPaths();
+        this.resetCurrentPage();
+        this.parent = value;
+      });
+    },
+
+    previous () {
+      if (this.paths.length < 1) {
+        return;
+      }
+
+      var previousInfo = this.paths[this.paths.length - 1];
+      var previousParams = this.getParameterForNewTable(this.getParentID0(previousInfo.parent));
+
+      this.getUnitInfo(previousParams).then(() => {
+        this.setPerviousInfo();
+      });
+    },
+
+    getUnitInfo (params) {
+      return UnitInfoApi.getUnitInfo(params).then(
         (res) => {
           this.setResponseResult(res.data);
         });
@@ -62,11 +85,9 @@ export default {
 
   created: function () {
     if (!this.tableData) {
-      var params = {
-        id: this.fatherID,
-      };
+      var params = this.getParameterForNewTable(this.getParentID());
 
-      this.getProductUnitInfo(params);
+      this.getUnitInfo(params);
     }
   }
 
