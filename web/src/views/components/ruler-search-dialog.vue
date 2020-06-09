@@ -22,12 +22,12 @@
 </template>
 
 <script>
-import UnitInfoApi from "../../api/unit-info-api/unitInfoApi.js"
+import RulerInfoApi from "../../api/ruler-info-api/rulerInfoApi.js"
 import searchBase from "./search-base.vue"
 import searchBseInfo from '../mixIns/search-base-info'
 
 export default {
-  name: "unitSearchDialog",
+  name: "rulerSearchDialog",
   mixins: [searchBseInfo],
   components: {
     "search-base": searchBase
@@ -41,11 +41,10 @@ export default {
 
   data () {
     return {
-      title: "单位信息查询",
+      title: "权限查询",
 
       titleData: [
-        { prop: "name", label: "名称" },
-        { prop: "note", label: "备注" }],
+        { prop: "name", label: "名称" }],
 
       selectedInfo: null,
     }
@@ -55,7 +54,7 @@ export default {
     getChildData (value) {
       var param = this.getParameterForNewTable(value.id);
 
-      this.getUnitInfo(param).then(() => {
+      this.getRulerInfo(param).then(() => {
         this.addPaths();
         this.resetCurrentPage();
         this.parent = value;
@@ -70,13 +69,13 @@ export default {
       var previousInfo = this.paths[this.paths.length - 1];
       var previousParams = this.getParameterForNewTable(this.getParentID0(previousInfo.parent));
 
-      this.getUnitInfo(previousParams).then(() => {
+      this.getRulerInfo(previousParams).then(() => {
         this.setPerviousInfo();
       });
     },
 
-    getUnitInfo (params) {
-      return UnitInfoApi.getUnitInfo(params).then(
+    getRulerInfo (params) {
+      return RulerInfoApi.getRulerInfo(params).then(
         (res) => {
           this.setResponseResult(res.data);
         });
@@ -87,7 +86,7 @@ export default {
     if (!this.tableData) {
       var params = this.getParameterForNewTable(this.getParentID());
 
-      this.getUnitInfo(params);
+      this.getRulerInfo(params);
     }
   }
 

@@ -22,12 +22,12 @@
 </template>
 
 <script>
-import UnitInfoApi from "../../api/unit-info-api/unitInfoApi.js"
+import EmployeeInfoApi from "../../api/employee-info-api/employeeInfoApi.js"
 import searchBase from "./search-base.vue"
 import searchBseInfo from '../mixIns/search-base-info'
 
 export default {
-  name: "unitSearchDialog",
+  name: "employeeSearchDialog",
   mixins: [searchBseInfo],
   components: {
     "search-base": searchBase
@@ -41,42 +41,20 @@ export default {
 
   data () {
     return {
-      title: "单位信息查询",
+      title: "员工信息查询",
 
-      titleData: [
-        { prop: "name", label: "名称" },
-        { prop: "note", label: "备注" }],
+      titData:
+        [{ prop: "name", label: "名称" },
+        { prop: "branch.name", label: "分支" },
+        { prop: "department.name", label: "部门" }],
 
       selectedInfo: null,
     }
   },
 
   methods: {
-    getChildData (value) {
-      var param = this.getParameterForNewTable(value.id);
-
-      this.getUnitInfo(param).then(() => {
-        this.addPaths();
-        this.resetCurrentPage();
-        this.parent = value;
-      });
-    },
-
-    previous () {
-      if (this.paths.length < 1) {
-        return;
-      }
-
-      var previousInfo = this.paths[this.paths.length - 1];
-      var previousParams = this.getParameterForNewTable(this.getParentID0(previousInfo.parent));
-
-      this.getUnitInfo(previousParams).then(() => {
-        this.setPerviousInfo();
-      });
-    },
-
-    getUnitInfo (params) {
-      return UnitInfoApi.getUnitInfo(params).then(
+    geEmployeeInfo (params) {
+      return EmployeeInfoApi.geEmployeeInfo(params).then(
         (res) => {
           this.setResponseResult(res.data);
         });
@@ -87,7 +65,7 @@ export default {
     if (!this.tableData) {
       var params = this.getParameterForNewTable(this.getParentID());
 
-      this.getUnitInfo(params);
+      this.geEmployeeInfo(params);
     }
   }
 
