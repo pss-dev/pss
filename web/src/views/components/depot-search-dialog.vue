@@ -25,11 +25,12 @@
 <script>
 import depotInfoApi from "../../api/depot-info-api/depotInfoApi.js"
 import searchBase from "./search-base.vue"
-import searchBseInfo from '../mixIns/search-base-info'
+import searchBseInfo from '../mixIns/search-base-info.js'
+import tableBaseInfo from '../mixIns/table-base-info.js'
 
 export default {
   name: "depotInfo",
-  mixins: [searchBseInfo],
+  mixins: [searchBseInfo, tableBaseInfo],
   components: {
     "search-base": searchBase
   },

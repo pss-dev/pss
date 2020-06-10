@@ -7,6 +7,7 @@
     :before-close="handleClose"
   >
     <search-base
+      :paths="getPathsLabel()"
       :titles="titleData"
       :tableData="tableData"
       :previousDisable="!hasFatherInfo()"
@@ -14,6 +15,7 @@
       :totalSize="totalSize"
       :currentPage="currentPage"
       @handleCurrentChange="handleCurrentChange"
+      @pageSizeChange="pageSizeChange"
       @getChildData="getChildData"
       @previous="previous"
       @close="handleClose"
@@ -25,11 +27,12 @@
 <script>
 import accountInfoApi from "../../api/account-info-api/accountInfoApi.js"
 import searchBase from "./search-base.vue"
-import searchBseInfo from '../mixIns/search-base-info'
+import searchBseInfo from '../mixIns/search-base-info.js'
+import tableBaseInfo from '../mixIns/table-base-info.js'
 
 export default {
   name: "accountInfo",
-  mixins: [searchBseInfo],
+  mixins: [searchBseInfo, tableBaseInfo],
   components: {
     "search-base": searchBase
   },

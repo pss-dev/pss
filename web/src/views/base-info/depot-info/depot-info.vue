@@ -42,14 +42,16 @@
 import BaseInfoHeader from "../components/base-info-header.vue"
 import BaseInfoTabler from "../components/base-info-table.vue"
 import BaseInfoFooter from "../components/base-info-footer.vue"
-import BseInfo from '../mixIns/base-info'
 import DepotInfoDialog from "./components/depot-info-dialog.vue"
+
+import BseInfo from '../mixIns/base-info'
+import TableBaseInfo from '@/views/mixIns/table-base-info.js'
 
 import depotInfoApi from "../../../api/depot-info-api/depotInfoApi.js"
 
 export default {
   name: "depotInfo",
-  mixins: [BseInfo],
+  mixins: [BseInfo, TableBaseInfo],
   components: {
     "base-info-header": BaseInfoHeader,
     "base-info-table": BaseInfoTabler,

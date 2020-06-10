@@ -42,8 +42,10 @@
 import BaseInfoHeader from "../components/base-info-header.vue"
 import BaseInfoTabler from "../components/base-info-table.vue"
 import BaseInfoFooter from "../components/base-info-footer.vue"
-import BseInfo from '../mixIns/base-info'
 import ProductInfoDialog from "./components/product-info-dialog.vue"
+
+import BseInfo from '../mixIns/base-info'
+import TableBaseInfo from '@/views/mixIns/table-base-info.js'
 
 import productInfoApi from "../../../api/product-info-api/productInfoApi.js"
 import priceInfoApi from "../../../api/price-info-api/priceInfoApi.js"
@@ -52,7 +54,7 @@ import Tool from '@/views/constant/tool.js'
 
 export default {
   name: "productInfo",
-  mixins: [BseInfo],
+  mixins: [BseInfo, TableBaseInfo],
   components: {
     "base-info-header": BaseInfoHeader,
     "base-info-table": BaseInfoTabler,

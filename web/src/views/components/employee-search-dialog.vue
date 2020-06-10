@@ -14,6 +14,7 @@
       :nextDisable="isSelectedInfoValid()"
       :totalSize="totalSize"
       :currentPage="currentPage"
+      :tableHeaderVisiable="false"
       @handleCurrentChange="handleCurrentChange"
       @close="handleClose"
       @ok="handleSubmit"
@@ -24,31 +25,27 @@
 <script>
 import EmployeeInfoApi from "../../api/employee-info-api/employeeInfoApi.js"
 import searchBase from "./search-base.vue"
-import searchBseInfo from '../mixIns/search-base-info'
+import searchBseInfo from '../mixIns/search-base-info.js'
+import tableBaseInfo from '../mixIns/table-base-info.js'
 
 export default {
   name: "employeeSearchDialog",
-  mixins: [searchBseInfo],
+  mixins: [searchBseInfo, tableBaseInfo],
   components: {
     "search-base": searchBase
   },
 
   props: {
-    "tableData": {
-      type: Array
-    },
   },
 
   data () {
     return {
       title: "员工信息查询",
 
-      titData:
+      titleData:
         [{ prop: "name", label: "名称" },
         { prop: "branch.name", label: "分支" },
         { prop: "department.name", label: "部门" }],
-
-      selectedInfo: null,
     }
   },
 
@@ -62,11 +59,9 @@ export default {
   },
 
   created: function () {
-    if (!this.tableData) {
-      var params = this.getParameterForNewTable(this.getParentID());
+    var params = this.getParameterForNewTable(this.getParentID());
 
-      this.geEmployeeInfo(params);
-    }
+    this.geEmployeeInfo(params);
   }
 
 }

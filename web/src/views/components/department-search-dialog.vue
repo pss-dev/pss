@@ -7,6 +7,7 @@
     :before-close="handleClose"
   >
     <search-base
+      :paths="getPathsLabel()"
       :titles="titleData"
       :tableData="tableData"
       :previousDisable="!hasFatherInfo()"
@@ -14,9 +15,11 @@
       :totalSize="totalSize"
       :currentPage="currentPage"
       @handleCurrentChange="handleCurrentChange"
+      @pageSizeChange="pageSizeChange"
       @pageChange="pageChange"
       @getChildData="getChildData"
       @previous="previous"
+      @close="handleClose"
       @ok="handleSubmit"
     ></search-base>
   </el-dialog>
@@ -25,11 +28,12 @@
 <script>
 import departmentInfoApi from "../../api/department-info-api/departmentInfoApi.js"
 import searchBase from "./search-base.vue"
-import searchBseInfo from '../mixIns/search-base-info'
+import searchBseInfo from '../mixIns/search-base-info.js'
+import tableBaseInfo from '../mixIns/table-base-info.js'
 
 export default {
   name: "departmentInfo",
-  mixins: [searchBseInfo],
+  mixins: [searchBseInfo, tableBaseInfo],
   components: {
     "search-base": searchBase
   },

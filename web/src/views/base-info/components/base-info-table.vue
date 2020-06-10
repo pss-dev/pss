@@ -39,6 +39,10 @@ export default {
     "totalSize": {
       type: Number
     },
+    "pageSize": {
+      type: Number,
+      default: 30,
+    },
     "currentPage": {
       type: Number,
       default: 1,
@@ -47,7 +51,6 @@ export default {
 
   data () {
     return {
-      pageSize: 30,
     }
   },
 
@@ -65,7 +68,7 @@ export default {
     },
 
     handleSizeChange (value) {
-      this.pageSize = value;
+      this.$emit('pageSizeChange', value);
     },
   },
 }

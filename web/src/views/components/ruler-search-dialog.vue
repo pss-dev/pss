@@ -25,18 +25,16 @@
 import RulerInfoApi from "../../api/ruler-info-api/rulerInfoApi.js"
 import searchBase from "./search-base.vue"
 import searchBseInfo from '../mixIns/search-base-info'
+import tableBaseInfo from '../mixIns/table-base-info.js'
 
 export default {
   name: "rulerSearchDialog",
-  mixins: [searchBseInfo],
+  mixins: [searchBseInfo, tableBaseInfo],
   components: {
     "search-base": searchBase
   },
 
   props: {
-    "tableData": {
-      type: Array
-    },
   },
 
   data () {
@@ -45,8 +43,6 @@ export default {
 
       titleData: [
         { prop: "name", label: "名称" }],
-
-      selectedInfo: null,
     }
   },
 
@@ -83,11 +79,9 @@ export default {
   },
 
   created: function () {
-    if (!this.tableData) {
-      var params = this.getParameterForNewTable(this.getParentID());
+    var params = this.getParameterForNewTable(this.getParentID());
 
-      this.getRulerInfo(params);
-    }
+    this.getRulerInfo(params);
   }
 
 }

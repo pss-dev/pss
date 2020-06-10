@@ -27,10 +27,11 @@
 import branchInfoApi from "../../api/branch-info-api/branchInfoApi.js"
 import searchBase from "./search-base.vue"
 import searchBseInfo from '../mixIns/search-base-info'
+import tableBaseInfo from '../mixIns/table-base-info.js'
 
 export default {
   name: "branchInfo",
-  mixins: [searchBseInfo],
+  mixins: [searchBseInfo, tableBaseInfo],
   components: {
     "search-base": searchBase
   },

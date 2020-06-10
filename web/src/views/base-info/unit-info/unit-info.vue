@@ -42,13 +42,16 @@
 import baseInfoHeader from "../components/base-info-header.vue"
 import baseInfoTabler from "../components/base-info-table.vue"
 import baseInfoFooter from "../components/base-info-footer.vue"
-import bseInfo from '../mixIns/base-info'
 import unitInfoDialog from "./components/unit-info-dialog.vue"
+
+import BseInfo from '../mixIns/base-info'
+import TableBaseInfo from '@/views/mixIns/table-base-info.js'
+
 import unitInfoApi from "../../../api/unit-info-api/unitInfoApi.js"
 
 export default {
   name: "UnitInfo",
-  mixins: [bseInfo],
+  mixins: [BseInfo, TableBaseInfo],
   components: {
     "base-info-header": baseInfoHeader,
     "base-info-table": baseInfoTabler,

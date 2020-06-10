@@ -1,31 +1,17 @@
 <template class="c1">
   <el-container>
+    <el-header v-if="tableHeaderVisiable" height="30">
+      <base-info-header :paths="paths" @showTypeChange="showTypeChange"></base-info-header>
+    </el-header>
     <el-main>
-      <el-input v-model="search" size="mini" placeholder="输入关键字搜索" />
-
-      <el-table
-        :data="search ? tableData.filter(data =>
-      data.id.toLowerCase().includes(search.toLowerCase()) ||
-      data.name.toLowerCase().includes(search.toLowerCase())): 
-      tableData.slice((currentPage-1) * pageSize, currentPage * pageSize)"
-        border
-        highlight-current-row
-        @current-change="handleCurrentChange"
-        @row-dblclick="getChildData"
-        height="400"
-        style="width: 100%"
-      >
-        <el-table-column v-for="title in titles" v-bind="title" :key="title.prop" min-width="100px"></el-table-column>
-      </el-table>
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handlePageChange"
-        :small="true"
-        :current-page="currentPage"
-        :page-sizes="[30, 50, 100, 200]"
-        layout="sizes, jumper, prev, next, total"
-        :total="totalSize"
-      ></el-pagination>
+      <base-info-table
+        :titles="titles"
+        :tableData="tableData"
+        @handleCurrentChange="handleCurrentChange"
+        @getChildData="getChildData"
+        @pageChange="handlePageChange"
+        @pageSizeChange="handleSizeChange"
+      ></base-info-table>
     </el-main>
     <el-footer class="footer">
       <el-button @click="previous" size="small" :disabled="previousDisable">上一层</el-button>
@@ -37,8 +23,16 @@
 </template>
   
 <script>
+import BaseInfoHeader from "../base-info/components/base-info-header.vue"
+import BaseInfoTabler from "../base-info/components/base-info-table.vue"
+
 export default {
   name: "searchBase",
+
+  components: {
+    "base-info-header": BaseInfoHeader,
+    "base-info-table": BaseInfoTabler,
+  },
 
   props: {
     "titles": {
@@ -55,6 +49,10 @@ export default {
       type: Number,
       default: 1
     },
+    "tableHeaderVisiable": {
+      type: Boolean,
+      default: true,
+    },
     "previousDisable": {
       type: Boolean,
       default: true,
@@ -63,14 +61,16 @@ export default {
       type: Boolean,
       default: true,
     },
+    "paths": {
+      type: String,
+      default: ""
+    }
   },
 
 
   data () {
     return {
       search: '',
-
-      pageSize: 30,
     }
   },
 
@@ -84,7 +84,7 @@ export default {
     },
 
     handleSizeChange (value) {
-      this.pageSize = value;
+      this.$emit('pageSizeChange', value);
     },
 
     getChildData (value) {
@@ -102,6 +102,10 @@ export default {
     previous () {
       this.$emit('previous');
     },
+
+    showTypeChange () {
+      this.$emit('showTypeChange');
+    }
   },
 }
   </script>

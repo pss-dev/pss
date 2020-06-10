@@ -26,10 +26,11 @@
 import productInfoApi from "../../api/product-info-api/productInfoApi.js"
 import searchBase from "./search-base.vue"
 import searchBseInfo from '../mixIns/search-base-info'
+import tableBaseInfo from '../mixIns/table-base-info.js'
 
 export default {
   name: "productInfo",
-  mixins: [searchBseInfo],
+  mixins: [searchBseInfo, tableBaseInfo],
   components: {
     "search-base": searchBase
   },

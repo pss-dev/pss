@@ -1,10 +1,10 @@
 <template>
   <div>
     <el-row>
-      <el-col class="path-label-col" :span="18">
+      <el-col class="path-label-col" :span="16">
         <label class="path-label">{{this.paths}}</label>
       </el-col>
-      <el-col class="show-typ-col" v-if="showTypeVisiable" :span="6">
+      <el-col class="show-typ-col" v-if="showTypeVisiable" :span="8">
         <el-switch
           class="show-typ"
           v-model="showType"

@@ -48,7 +48,7 @@
                 <el-input readonly placeholder="经手人" v-model="orderFormData.employee.name">
                   <el-button
                     size="small"
-                    @click="showDepartmentDialog"
+                    @click="showEmployeeDialog"
                     slot="append"
                     icon="el-icon-search"
                   ></el-button>
@@ -274,6 +274,11 @@
       @submitData="submitCompanyData"
       @closeDialog="closeCompanyDialog"
     ></company-search-dialog>
+    <employee-search-dialog
+      v-if="employeeDialogVisiable"
+      @submitData="submitEmployeeData"
+      @closeDialog="closeEmployeeDialog"
+    ></employee-search-dialog>
     <department-search-dialog
       v-if="departmentDialogVisiable"
       @submitData="submitDepartmentData"
@@ -291,6 +296,7 @@
     ></product-search-dialog>
     <unit-search-dialog
       v-if="productUnitDialogVisiable"
+      :productInfo="scopeValue.product"
       @submitData="submitProductUnitData"
       @closeDialog="closeProductUnitDialog"
     ></unit-search-dialog>
@@ -311,6 +317,7 @@
 import DepartmentSearchDialog from "../components/department-search-dialog.vue"
 import BranchSearchDialog from "../components/branch-search-dialog.vue"
 import CompanySearchDialog from "../components/company-search-dialog.vue"
+import EmployeeSearchDialog from "../components/employee-search-dialog"
 import DepotSearchDialog from "../components/depot-search-dialog.vue"
 import ProductSearchDialog from "../components/product-search-dialog.vue"
 import UnitSearchDialog from "../components/unit-search-dialog.vue"
@@ -327,6 +334,7 @@ export default {
     "department-search-dialog": DepartmentSearchDialog,
     "branch-search-dialog": BranchSearchDialog,
     "company-search-dialog": CompanySearchDialog,
+    "employee-search-dialog": EmployeeSearchDialog,
     "depot-search-dialog": DepotSearchDialog,
     "product-search-dialog": ProductSearchDialog,
     "unit-search-dialog": UnitSearchDialog,

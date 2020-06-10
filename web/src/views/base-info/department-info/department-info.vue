@@ -42,14 +42,16 @@
 import BaseInfoHeader from "../components/base-info-header.vue"
 import BaseInfoTabler from "../components/base-info-table.vue"
 import BaseInfoFooter from "../components/base-info-footer.vue"
-import BseInfo from '../mixIns/base-info'
 import DepartmentInfoDialog from "./components/department-info-dialog.vue"
+
+import BseInfo from '../mixIns/base-info'
+import TableBaseInfo from '@/views/mixIns/table-base-info.js'
 
 import departmentInfoApi from "../../../api/department-info-api/departmentInfoApi.js"
 
 export default {
   name: "departmentInfo",
-  mixins: [BseInfo],
+  mixins: [BseInfo, TableBaseInfo],
   components: {
     "base-info-header": BaseInfoHeader,
     "base-info-table": BaseInfoTabler,

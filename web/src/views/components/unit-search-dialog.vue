@@ -25,17 +25,18 @@
 import UnitInfoApi from "../../api/unit-info-api/unitInfoApi.js"
 import searchBase from "./search-base.vue"
 import searchBseInfo from '../mixIns/search-base-info'
+import tableBaseInfo from '../mixIns/table-base-info.js'
 
 export default {
   name: "unitSearchDialog",
-  mixins: [searchBseInfo],
+  mixins: [searchBseInfo, tableBaseInfo],
   components: {
     "search-base": searchBase
   },
 
   props: {
-    "tableData": {
-      type: Array
+    "productInfo": {
+      type: Object
     },
   },
 
@@ -46,8 +47,6 @@ export default {
       titleData: [
         { prop: "name", label: "名称" },
         { prop: "note", label: "备注" }],
-
-      selectedInfo: null,
     }
   },
 
@@ -84,7 +83,10 @@ export default {
   },
 
   created: function () {
-    if (!this.tableData) {
+    if (!!this.productInfo && !!this.productInfo.units) {
+      this.tableData = this.productInfo.units;
+    }
+    else {
       var params = this.getParameterForNewTable(this.getParentID());
 
       this.getUnitInfo(params);

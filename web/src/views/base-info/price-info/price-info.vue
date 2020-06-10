@@ -39,14 +39,16 @@
 <script>
 import BaseInfoTabler from "../components/base-info-table.vue"
 import BaseInfoFooter from "../components/base-info-footer.vue"
-import BseInfo from '../mixIns/base-info'
 import PriceInfoDialog from "./components/price-info-dialog.vue"
+
+import BseInfo from '../mixIns/base-info'
+import TableBaseInfo from '@/views/mixIns/table-base-info.js'
 
 import priceInfoApi from "../../../api/price-info-api/priceInfoApi.js"
 
 export default {
   name: "priceInfo",
-  mixins: [BseInfo],
+  mixins: [BseInfo, TableBaseInfo],
   components: {
     "base-info-table": BaseInfoTabler,
     "base-info-footer": BaseInfoFooter,

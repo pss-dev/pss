@@ -27,10 +27,11 @@
 import companyInfoApi from "../../api/company-info-api/companyInfoApi.js"
 import searchBase from "./search-base.vue"
 import searchBseInfo from '../mixIns/search-base-info'
+import tableBaseInfo from '../mixIns/table-base-info.js'
 
 export default {
   name: "companyInfo",
-  mixins: [searchBseInfo],
+  mixins: [searchBseInfo, tableBaseInfo],
   components: {
     "search-base": searchBase
   },

@@ -120,7 +120,8 @@ let statisticsgMenuArr = [
     value: "Log"
   },
   {
-    label: "营收"
+    label: "营收",
+    value: "Revenue"
   }
 ];
 
@@ -179,6 +180,7 @@ import SalesReturnForm from "@/views/order-form/sales-return-form";
 import SalesForm from "@/views/order-form/sales-form";
 import FormSearch from "@/views/order-form/form-search";
 import Log from "@/views/statistics/log/log";
+import Revenue from "@/views/statistics/revenue/revenue"
 
 import Tool from '@/views/constant/tool.js'
 
@@ -200,7 +202,8 @@ export default {
     SalesReturnForm,
     SalesForm,
     FormSearch,
-    Log
+    Log,
+    Revenue
   },
   data () {
     return {
