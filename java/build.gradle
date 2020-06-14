@@ -37,6 +37,13 @@ dependencies {
    runtimeOnly 'com.h2database:h2'
    implementation 'com.alibaba:druid:1.1.18'
 
+   // security
+   implementation "org.apache.shiro:shiro-core:${shiroVersion}"
+   implementation "org.apache.shiro:shiro-ehcache:${shiroVersion}"
+   implementation "org.apache.shiro:shiro-web:${shiroVersion}"
+   implementation "org.apache.shiro:shiro-quartz:${shiroVersion}"
+   implementation "org.apache.shiro:shiro-spring:${shiroVersion}"
+
    // tools
    developmentOnly 'org.springframework.boot:spring-boot-devtools'
    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'

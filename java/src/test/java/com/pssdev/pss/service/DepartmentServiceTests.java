@@ -87,7 +87,7 @@ public class DepartmentServiceTests {
 
     LOGGER.info("Query parent dept again: {}", parentDept);
 
-    List<Department> children = parentDept.getChildren();
+    Set<Department> children = parentDept.getChildren();
 
     Assertions.assertFalse(children == null || children.size() < 1, "Query children error.");
 
@@ -111,7 +111,7 @@ public class DepartmentServiceTests {
    @Order(7)
    public void testDeleteDepartment(int id) {
      Department dept = departmentService.getDepartment(id);
-     List<Department> children = dept.getChildren();
+     Set<Department> children = dept.getChildren();
 
      if(children != null) {
        children.forEach(departmentService::deleteDepartment);
