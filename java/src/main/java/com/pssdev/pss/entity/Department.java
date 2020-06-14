@@ -7,7 +7,9 @@ import io.swagger.annotations.ApiModelProperty;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity(name = "t_dept")
 @ApiModel("部门信息实例")
@@ -33,7 +35,7 @@ public class Department implements Serializable {
    @ApiModelProperty("子部门")
    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
    @JsonIgnore
-   private List<Department> children = new ArrayList<>();
+   private Set<Department> children = new HashSet<>();
 
    public Department() {
    }
@@ -66,11 +68,11 @@ public class Department implements Serializable {
       this.initials = initials;
    }
 
-   public List<Department> getChildren() {
+   public Set<Department> getChildren() {
       return children;
    }
 
-   public void setChildren(List<Department> children) {
+   public void setChildren(Set<Department> children) {
       this.children = children;
    }
 

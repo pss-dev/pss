@@ -20,6 +20,7 @@ allprojects {
       ext {
          jupiterVersion = '5.6.2'
          swaggerVersion = "2.9.2"
+         shiroVersion = "1.5.3"
 
          // all projects variable
          productionBuild = project.hasProperty('buildenv') && project.property('buildenv') == 'prod'

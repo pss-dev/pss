@@ -21,9 +21,9 @@ public class Company {
    @JoinColumn(name = "father_id")
    @ManyToOne(targetEntity = Company.class)
    private Company parent;
-   @JoinColumn(name = "father_id")
+   @JoinColumn(name = "ather_id")
    @OneToMany(targetEntity = Company.class, fetch = FetchType.EAGER)
-   private List<Company> children;
+   private Set<Company> children;
 
    public Integer getId() {
       return id;
@@ -90,11 +90,11 @@ public class Company {
    }
 
    @JsonIgnore
-   public List<Company> getChildren() {
+   public Set<Company> getChildren() {
       return children;
    }
 
-   public void setChildren(List<Company> children) {
+   public void setChildren(Set<Company> children) {
       this.children = children;
    }
 

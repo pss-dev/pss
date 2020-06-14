@@ -8,6 +8,7 @@ import org.springframework.cache.annotation.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service("departmentService")
@@ -40,7 +41,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     Department department = departmentDao.get(parentId);
 
     if (department != null) {
-      return department.getChildren();
+      return new ArrayList<>(department.getChildren() );
     }
 
     return null;
