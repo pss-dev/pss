@@ -144,6 +144,7 @@ export default {
       return unitInfoApi.getUnitInfo(params).then(
         (res) => {
           this.setResponseResult(res.data);
+          this.closeDialog();
         });
     },
 

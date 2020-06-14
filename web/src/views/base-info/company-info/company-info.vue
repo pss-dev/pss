@@ -163,6 +163,7 @@ export default {
         (res) => {
           console.log("=========rrrrr ", res);
           this.setResponseResult(res.data);
+          this.closeDialog();
         });
     },
 

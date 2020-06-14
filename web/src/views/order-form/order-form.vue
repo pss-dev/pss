@@ -103,7 +103,7 @@
               <el-button @click="showProductSelectDialog(null)">添加商品</el-button>
             </el-col>
             <el-col class="price-select" :span="12">
-              <el-select v-model="defaultPrice" placeholder="默认价格">
+              <el-select v-model="defaultPriceID" placeholder="默认价格">
                 <el-option
                   v-for="item in prices"
                   :key="item.id"
@@ -325,6 +325,7 @@ import AccountSearchDialog from "../components/account-search-dialog.vue"
 import PrintDialog from "./components/order-form-print-dialog"
 
 import orderFormApi from "../../api/order-form-api/orderFormApi.js"
+import PriceInfoApi from "../../api/price-info-api/priceInfoApi.js"
 import Tool from '@/views/constant/tool.js'
 
 export default {
@@ -351,7 +352,7 @@ export default {
   data () {
     return {
       prices: [],
-      defaultPrice: "",
+      defaultPriceID: -1,
       scopeValue: {},
 
       orderFormData: {
@@ -483,9 +484,31 @@ export default {
     },
 
     submitProductData (productValue) {
-      this.scopeValue.productID = productValue.id;
+      this.scopeValue.product = productValue;
+      this.setPrice();
 
       this.productDialogVisiable = false;
+    },
+
+    setPrice () {
+      let pricesValue = [];
+
+      //get units
+      this.scopeValue.product.units.forEach((value) => {
+        console.log("=====setPrice ", this.scopeValue.unit.id, value);
+        if (this.scopeValue.unit.id == value.unit.id) {
+          pricesValue = value.prices;
+        }
+      });
+
+      //get price value
+
+      console.log("=====pricesValue ", pricesValue);
+      pricesValue.forEach((value) => {
+        if (value.price.id == this.defaultPriceID) {
+          this.scopeValue.price = value.value;
+        }
+      });
     },
 
     showProductUnitSelectDialog (scope) {
@@ -498,7 +521,8 @@ export default {
     },
 
     submitProductUnitData (productUnitValue) {
-      this.scopeValue.product.Unit = productUnitValue;
+      this.scopeValue.unit = productUnitValue;
+      this.setPrice();
 
       this.productUnitDialogVisiable = false;
     },
@@ -516,7 +540,6 @@ export default {
 
       this.accountDialogVisiable = false;
     },
-
 
     tableRowClassName ({ row }) {
       if (row.actionType == Tool.actionType.delete) {
@@ -579,6 +602,17 @@ export default {
 
     moneyChange () {
       this.afterWipe = this.orderFormData.money - this.orderFormData.wipe;
+    },
+
+    getPricesData () {
+      PriceInfoApi.getPriceInfo().then((res) => {
+        console.log("========getPricesData  ", res);
+        this.prices = res.data;
+
+        if (this.prices.length > 0) {
+          this.defaultPriceID = this.prices[0].id;
+        }
+      });
     }
   },
 
@@ -590,6 +624,8 @@ export default {
     }
 
     this.afterWipe = this.orderFormData.money - this.orderFormData.wipe;
+
+    this.getPricesData();
   }
 }
 </script>

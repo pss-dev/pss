@@ -83,8 +83,13 @@ export default {
   },
 
   created: function () {
+    console.log("=======created  ", this.productInfo);
     if (!!this.productInfo && !!this.productInfo.units) {
-      this.tableData = this.productInfo.units;
+      console.log("=======tableData  ");
+
+      this.productInfo.units.forEach((value) => {
+        this.tableData.push(value.unit);
+      });
     }
     else {
       var params = this.getParameterForNewTable(this.getParentID());

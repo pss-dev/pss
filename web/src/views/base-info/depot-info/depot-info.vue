@@ -146,6 +146,7 @@ export default {
       return depotInfoApi.getDepotInfo(params).then(
         (res) => {
           this.setResponseResult(res.data);
+          this.closeDialog();
         });
     },
 

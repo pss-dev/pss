@@ -121,6 +121,7 @@ export default {
       RulerInfoApi.getRulerInfo(params).then(
         (res) => {
           this.setResponseResult(res.data);
+          this.closeDialog();
         });
     },
   },

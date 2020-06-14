@@ -145,6 +145,7 @@ export default {
       return departmentInfoApi.getDepartmentInfo(params).then(
         (res) => {
           this.setResponseResult(res.data);
+          this.closeDialog();
         });
     },
 

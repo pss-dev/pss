@@ -124,6 +124,7 @@ export default {
       employeeInfoApi.getEmployeeInfo(params).then(
         (res) => {
           this.setResponseResult(res.data);
+          this.closeDialog();
         });
     },
   },

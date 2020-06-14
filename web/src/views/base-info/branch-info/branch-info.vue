@@ -149,6 +149,7 @@ export default {
       return branchInfoApi.getBranchInfo(params).then(
         (res) => {
           this.setResponseResult(res.data);
+          this.closeDialog();
         });
     },
 

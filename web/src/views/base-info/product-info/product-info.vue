@@ -175,6 +175,7 @@ export default {
         (res) => {
           console.log("=======getProductInfo  ", res);
           this.setResponseResult(res.data);
+          this.closeDialog();
         });
     },
 

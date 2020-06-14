@@ -11,6 +11,7 @@ export default {
     },
 
     handleSubmit () {
+      console.log("============  ", this.selectedInfo);
       this.$emit('submitData', this.selectedInfo)
     },
 

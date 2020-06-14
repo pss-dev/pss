@@ -154,6 +154,7 @@ export default {
       return accountInfoApi.getAccountInfo(params).then(
         (res) => {
           this.setResponseResult(res.data);
+          this.closeDialog();
         });
     },
 

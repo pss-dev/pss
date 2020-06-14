@@ -100,6 +100,7 @@ export default {
       priceInfoApi.getPriceInfo().then(
         (res) => {
           this.setResponseResult(res.data);
+          this.closeDialog();
         });
     },
   },
