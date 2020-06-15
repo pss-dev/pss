@@ -21,7 +21,7 @@ public class Company {
    @JoinColumn(name = "father_id")
    @ManyToOne(targetEntity = Company.class)
    private Company parent;
-   @JoinColumn(name = "ather_id")
+   @JoinColumn(name = "father_id")
    @OneToMany(targetEntity = Company.class, fetch = FetchType.EAGER)
    private Set<Company> children;
 
