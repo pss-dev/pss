@@ -18,7 +18,8 @@ public class Branch implements Serializable {
     private String customer;
     private String supplier;
     private String initials;
-    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "parent_id")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Branch> children = new HashSet<>();
     @ManyToOne
     @JoinColumn(name = "parent_id")

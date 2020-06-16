@@ -13,10 +13,10 @@ public class OrderForm {
    private int type;
    @ManyToOne(targetEntity = User.class)
    @JoinColumn(name = "creatUser_id")
-   private User creatUser; // Todo replace user;
+   private User creatUser;
    @ManyToOne(targetEntity = User.class)
    @JoinColumn(name = "verifyUser_id")
-   private User verifyUser; // Todo replace user;
+   private User verifyUser;
    private Date createDate;
    @JoinColumn(name = "branch_id")
    @ManyToOne(targetEntity = Branch.class)
