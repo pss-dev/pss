@@ -18,15 +18,16 @@
           :currentPage="currentPage"
           :selectedInfoInvalid="isSelectedInfoInvalid()"
           :previousDisable="!hasFatherInfo()"
+          :isProduct="true"
           @newInfo="newInfo"
           @copyNew="copyNew"
           @edit="edit"
           @deleteInfo="deleteInfo"
           @previous="previous"
+          @stopPurchase="stopPurchase"
         ></base-info-footer>
       </el-footer>
     </el-container>
-
     <product-info-dialog
       @closeDialog="closeDialog"
       @submitData="submitData"
@@ -44,7 +45,7 @@ import BaseInfoTabler from "../components/base-info-table.vue"
 import BaseInfoFooter from "../components/base-info-footer.vue"
 import ProductInfoDialog from "./components/product-info-dialog.vue"
 
-import BseInfo from '../mixIns/base-info'
+import BseInfo from '../mixIns/base-info.js'
 import TableBaseInfo from '@/views/mixIns/table-base-info.js'
 
 import productInfoApi from "../../../api/product-info-api/productInfoApi.js"
@@ -71,6 +72,10 @@ export default {
   },
 
   methods: {
+    isSelectedLeaf () {
+      return this.selectedInfo != null && this.selectedInfo.haveChildren == false;
+    },
+
     getChildData (value) {
       var param = this.getParameterForNewTable(value.id);
 
@@ -106,9 +111,7 @@ export default {
         specification: '',
         type: '',
         address: '',
-        used: '',
-        stopPurchase: '',
-        stop: '',
+        stopPurchase: false,
         sellDefaultUnit: {},
         purchaseDefaultUnit: {},
         actionType: Tool.actionType.add,
@@ -170,6 +173,24 @@ export default {
       });
     },
 
+    stopPurchase () {
+      this.selectedInfo.actionType = Tool.actionType.update,
+        this.selectedInfo.stopPurchase = true;
+
+      var getInfoParams = this.getParameterForNewTable(this.getParentID());
+
+      productInfoApi.modifyProductInfo(this.selectedInfo).then(
+        () => {
+          this.getProductInfo(getInfoParams);
+        });
+    },
+
+    stopUse () {
+      productInfoApi.stopUse().then(() => {
+        this.setPerviousInfo();
+      });
+    },
+
     getProductInfo (params) {
       return productInfoApi.getProductInfo(params).then(
         (res) => {
@@ -202,26 +223,14 @@ export default {
     this.loadData();
     this.getPriceInfo();
 
-    if (this.tableData && this.tableData.length > 0) {
-      this.titData =
-        [{ prop: "identifier", label: "编号" },
-        { prop: "name", label: "名称" },
-        { prop: "specification", label: "规格" },
-        { prop: "type", label: "型号" },
-        { prop: "units[0].prices[0].price.id", label: this.priceData[0].label },
-        { prop: "units[0].prices[1].price.id", label: this.priceData[1].label },
-        { prop: "units[0].prices[4].price.id", label: this.priceData[4].label },
-        { prop: "units[0].prices[5].price.id", label: this.priceData[5].label },
-        { prop: "stopPurchase", label: "停止采购" }];
-    }
-    else {
-      this.titData =
-        [{ prop: "identifier", label: "编号" },
-        { prop: "name", label: "名称" },
-        { prop: "specification", label: "规格" },
-        { prop: "type", label: "型号" }];
-    }
+    this.titData =
+      [{ prop: "identifier", label: "编号" },
+      { prop: "name", label: "名称" },
+      { prop: "specification", label: "规格" },
+      { prop: "type", label: "型号" },
+      { prop: "stopPurchase", label: "停止采购" }];
   }
+
 }
 </script>
 

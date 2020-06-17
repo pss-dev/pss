@@ -11,14 +11,19 @@ export default {
     },
 
     handleSubmit () {
-      console.log("============  ", this.selectedInfo);
-      this.$emit('submitData', this.selectedInfo)
+      if (!!this.selectedInfo || this.selectedInfo.haveChildren != false) {
+        this.getChildData(this.selectedInfo);
+      }
+      else {
+        this.$emit('submitData', this.selectedInfo);
+      }
     },
 
     setResponseResult (res) {
       if (res) {
         this.tableData = res;
         this.totalSize = res.length;
+        this.selectedInfo = null;
       }
     },
   }

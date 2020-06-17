@@ -22,6 +22,7 @@
       :disabled="previousDisable"
     >上一层</el-button>
     <el-button v-if="nextVisiable" @click="next" size="small" :disabled="selectedInfoInvalid">下一层</el-button>
+    <el-button v-if="isProduct" @click="next" size="small" :disabled="!isSelectedleaf">停止采购</el-button>
   </div>
 </template>
 
@@ -33,6 +34,9 @@ export default {
     "selectedInfoInvalid": {
       type: Boolean,
       default: true
+    },
+    "isSelectedleaf": {
+      type: Boolean,
     },
     "previousDisable": {
       type: Boolean,
@@ -57,6 +61,10 @@ export default {
     "nextVisiable": {
       type: Boolean,
       default: true
+    },
+    "isProduct": {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -88,7 +96,11 @@ export default {
 
     next () {
       this.$emit('next');
-    }
+    },
+
+    stopPurchase () {
+      this.$emit('stopPurchase');
+    },
   },
 }
 </script>
