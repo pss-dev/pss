@@ -42,7 +42,7 @@
             v-for="item in productData.units"
             :key="item.unit.id"
             :label="item.unit.name"
-            :value="item.unit.id"
+            :value="item.unit"
           ></el-option>
         </el-select>
         <label>默认销售单位</label>
@@ -51,7 +51,7 @@
             v-for="item in productData.units"
             :key="item.unit.id"
             :label="item.unit.name"
-            :value="item.unit.id"
+            :value="item.unit"
           ></el-option>
         </el-select>
 
