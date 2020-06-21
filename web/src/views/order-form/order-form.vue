@@ -381,6 +381,26 @@ export default {
             amount: 0,//总价 交互有 不存
             note: "",//备注
             actionType: Tool.actionType.add
+          },
+          {
+            product: { id: null, identifier: "identifier", name: "product name" },
+            unit: { id: null, name: "个", crate: 2 },
+            stock: 99, //库存
+            count: 0,//数量
+            price: 0,//单价
+            amount: 0,//总价 交互有 不存
+            note: "",//备注
+            actionType: Tool.actionType.add
+          },
+          {
+            product: { id: null, identifier: "identifier", name: "product name" },
+            unit: { id: null, name: "个", crate: 2 },
+            stock: 99, //库存
+            count: 0,//数量
+            price: 0,//单价
+            amount: 0,//总价 交互有 不存
+            note: "",//备注
+            actionType: Tool.actionType.add
           }
         ],
 

@@ -148,6 +148,7 @@ export default {
     getBranchInfo (params) {
       return branchInfoApi.getBranchInfo(params).then(
         (res) => {
+          console.log("========res ", res);
           this.setResponseResult(res.data);
           this.closeDialog();
         });

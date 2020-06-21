@@ -11,7 +11,7 @@ export default {
     },
 
     handleSubmit () {
-      if (!!this.selectedInfo || this.selectedInfo.haveChildren != false) {
+      if (this.selectedInfo && this.selectedInfo.haveChildren == true) {
         this.getChildData(this.selectedInfo);
       }
       else {
