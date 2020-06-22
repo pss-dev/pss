@@ -100,7 +100,7 @@
         <div>
           <el-row class="el-row-third">
             <el-col class="add-product-button" :span="12">
-              <el-button @click="showProductSelectDialog(null)">添加商品</el-button>
+              <el-button :disabled="verified()" @click="showProductSelectDialog(null)">添加商品</el-button>
             </el-col>
             <el-col class="price-select" :span="12">
               <el-select v-model="defaultPriceID" placeholder="默认价格">
@@ -227,9 +227,7 @@
             </el-table-column>
           </el-table>
         </div>
-      </el-main>
-      <el-footer>
-        <div>
+        <div class="account-pane">
           <el-row>
             <el-col :span="3">
               <el-input placeholder="账户选择" v-model="orderFormData.account.name">
@@ -242,19 +240,34 @@
               </el-input>
             </el-col>
             <el-col :span="3">
-              <el-input placeholder="收款金额" v-model="orderFormData.money" @change="moneyChange"></el-input>
+              <label class="account-label">收款金额：</label>
+            </el-col>
+            <el-col :span="3">
+              <el-input placeholder="收款金额" v-model="orderFormData.money"></el-input>
+            </el-col>
+            <el-col :span="3">
+              <label class="account-label">抹零金额：</label>
             </el-col>
             <el-col :span="3">
               <el-input placeholder="抹零金额" v-model="orderFormData.wipe" @change="moneyChange"></el-input>
             </el-col>
             <el-col :span="3">
+              <label class="account-label">抹零后金额：</label>
+            </el-col>
+            <el-col :span="3">
               <el-input readonly placeholder="抹零后金额" v-model="afterWipe"></el-input>
             </el-col>
+          </el-row>
+        </div>
+      </el-main>
+      <el-footer>
+        <div>
+          <el-row>
             <el-col :span="3">
-              <el-button @click="save()">保存草稿</el-button>
+              <el-button :disabled="verified()" @click="save()">保存草稿</el-button>
             </el-col>
             <el-col :span="3">
-              <el-button @click="verifyOrderForm">审核过账</el-button>
+              <el-button :disabled="verified()" @click="verifyOrderForm">审核过账</el-button>
             </el-col>
             <el-col :span="3">
               <el-button @click="showPrintDialog">打印</el-button>
@@ -308,6 +321,8 @@
     <print-dialog
       v-if="printDialogVisiable"
       :orderFormData="orderFormData"
+      :amountMoney="getAmountMoney()"
+      :afterWipe="afterWipe"
       @closeDialog="closePrintDialog"
     ></print-dialog>
   </div>
@@ -379,7 +394,7 @@ export default {
             count: 0,//数量
             price: 0,//单价
             amount: 0,//总价 交互有 不存
-            note: "",//备注
+            note: "1233123123123123123",//备注
             actionType: Tool.actionType.add
           },
           {
@@ -389,7 +404,7 @@ export default {
             count: 0,//数量
             price: 0,//单价
             amount: 0,//总价 交互有 不存
-            note: "",//备注
+            note: "123",//备注
             actionType: Tool.actionType.add
           },
           {
@@ -621,7 +636,7 @@ export default {
     },
 
     moneyChange () {
-      this.afterWipe = this.orderFormData.money - this.orderFormData.wipe;
+      this.afterWipe = this.getAmountMoney() - this.orderFormData.wipe;
     },
 
     getPricesData () {
@@ -633,6 +648,21 @@ export default {
           this.defaultPriceID = this.prices[0].id;
         }
       });
+    },
+
+    verified () {
+      return this.orderFormData.status == 1;
+    },
+
+    getAmountMoney () {
+      let amount = 0;
+
+      this.orderFormData.products.forEach((product) => {
+        console.log("===== product.amount ", product.amount);
+        amount += parseInt(product.amount);
+      });
+      console.log("=========amount  ", amount);
+      return amount;
     }
   },
 
@@ -643,7 +673,7 @@ export default {
       this.orderFormData = this.orderFormDataValue;
     }
 
-    this.afterWipe = this.orderFormData.money - this.orderFormData.wipe;
+    this.afterWipe = this.getAmountMoney() - this.orderFormData.wipe;
 
     this.getPricesData();
   }
@@ -685,5 +715,14 @@ export default {
 
 .verify-user {
   margin-left: 10px;
+}
+
+.account-pane {
+  margin-top: 10px;
+}
+
+.account-label {
+  height: 40px;
+  line-height: 40px;
 }
 </style>

@@ -36,26 +36,42 @@
         </el-form>
       </el-tab-pane>
       <el-tab-pane label="单位" name="second">
-        <label>默认收购单位</label>
-        <el-select v-model="productData.purchaseDefaultUnit" placeholder="请选择">
-          <el-option
-            v-for="item in productData.units"
-            :key="item.unit.id"
-            :label="item.unit.name"
-            :value="item.unit"
-          ></el-option>
-        </el-select>
-        <label>默认销售单位</label>
-        <el-select v-model="productData.sellDefaultUnit" placeholder="请选择">
-          <el-option
-            v-for="item in productData.units"
-            :key="item.unit.id"
-            :label="item.unit.name"
-            :value="item.unit"
-          ></el-option>
-        </el-select>
+        <el-card class="unit-card" shadow="never">
+          <el-row>
+            <el-col :span="6">
+              <div class="default-unit-label">默认收购单位：</div>
+            </el-col>
+            <el-col :span="6">
+              <el-select size="small" v-model="productData.purchaseDefaultUnit" placeholder="请选择">
+                <el-option
+                  v-for="item in productData.units"
+                  :key="item.unit.id"
+                  :label="item.unit.name"
+                  :value="item.unit"
+                ></el-option>
+              </el-select>
+            </el-col>
+            <el-col :span="6">
+              <div class="default-unit-label">默认销售单位：</div>
+            </el-col>
+            <el-col :span="6">
+              <el-select size="small" v-model="productData.sellDefaultUnit" placeholder="请选择">
+                <el-option
+                  v-for="item in productData.units"
+                  :key="item.unit.id"
+                  :label="item.unit.name"
+                  :value="item.unit"
+                ></el-option>
+              </el-select>
+            </el-col>
+          </el-row>
+        </el-card>
 
-        <el-button @click="addUnit">添加单位</el-button>
+        <el-row>
+          <el-col :span="24" class="add-unit-button">
+            <el-button size="small" @click="addUnit">添加单位</el-button>
+          </el-col>
+        </el-row>
 
         <el-table :data="productData.units" height="400" style="width: 100%" border>
           <el-table-column prop="default" label="默认基本单位">
@@ -63,7 +79,7 @@
               <span>{{scope.row.default}}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="unitID" label="名称" width="130">
+          <el-table-column prop="unitID" label="单位" width="130">
             <template slot-scope="scope">
               <el-input readonly v-model="scope.row.unit.name" placeholder="名称">
                 <el-button
@@ -86,54 +102,24 @@
             </template>
           </el-table-column>
 
-          <el-table-column prop="priceData[0]" :label="priceData[0].label">
+          <el-table-column
+            v-for="(title, index) in priceTitles"
+            v-bind="title"
+            :key="title.prop"
+            min-width="100px"
+          >
             <template slot-scope="scope">
-              <el-input v-model="scope.row.prices[0].value"></el-input>
+              <el-input v-model="scope.row.prices[index].value"></el-input>
             </template>
           </el-table-column>
-          <el-table-column prop="priceData[1]" :label="priceData[1].label">
+          <el-table-column fixed="right" label="操作" width="50">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.prices[1].value"></el-input>
-            </template>
-          </el-table-column>
-          <el-table-column prop="priceData[2]" :label="priceData[2].label">
-            <template slot-scope="scope">
-              <el-input v-model="scope.row.prices[2].value"></el-input>
-            </template>
-          </el-table-column>
-          <el-table-column prop="priceData[3]" :label="priceData[3].label">
-            <template slot-scope="scope">
-              <el-input v-model="scope.row.prices[3].value"></el-input>
-            </template>
-          </el-table-column>
-          <el-table-column prop="priceData[4]" :label="priceData[4].label">
-            <template slot-scope="scope">
-              <el-input v-model="scope.row.prices[4].value"></el-input>
-            </template>
-          </el-table-column>
-          <el-table-column prop="priceData[5]" :label="priceData[5].label">
-            <template slot-scope="scope">
-              <el-input v-model="scope.row.prices[5].value"></el-input>
-            </template>
-          </el-table-column>
-          <el-table-column prop="priceData[6]" :label="priceData[6].label">
-            <template slot-scope="scope">
-              <el-input v-model="scope.row.prices[6].value"></el-input>
-            </template>
-          </el-table-column>
-          <el-table-column prop="priceData[7]" :label="priceData[7].label">
-            <template slot-scope="scope">
-              <el-input v-model="scope.row.prices[7].value"></el-input>
-            </template>
-          </el-table-column>
-          <el-table-column prop="priceData[8]" :label="priceData[8].label">
-            <template slot-scope="scope">
-              <el-input v-model="scope.row.prices[8].value"></el-input>
-            </template>
-          </el-table-column>
-          <el-table-column prop="priceData[9]" :label="priceData[9].label">
-            <template slot-scope="scope">
-              <el-input v-model="scope.row.prices[9].value"></el-input>
+              <el-button
+                :disabled="getDisable(scope.row)"
+                @click.native.prevent="deleteRow(scope.row, scope.$index)"
+                type="text"
+                size="small"
+              >移除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -232,7 +218,7 @@ export default {
         pricesValue.push({ price: value, value: 0 });
       });
       console.log("======addUnit ", Tool);
-      let emptyUnit = {
+      let emptyUnitPrice = {
         unit: { id: null, name: '' },
         crate: 1,
         default: false,
@@ -240,7 +226,7 @@ export default {
         prices: pricesValue
       };
 
-      this.productData.units.push(emptyUnit);
+      this.productData.units.push(emptyUnitPrice);
     },
 
     closeUnitDialog () {
@@ -257,6 +243,15 @@ export default {
     },
 
     submitData () {
+      if (!this.unitsValid()) {
+        this.$message({
+          message: `有无效的单位，请删除或者修改之后再确定！`,
+          showClose: true
+        });
+
+        return;
+      }
+
       this.$refs['productData'].validate((valid) => {
         if (valid) {
           this.$emit("submitData", this.productData);
@@ -277,7 +272,29 @@ export default {
         this.unitTableData = res.data;
         console.log("======getProductUnitData  ", res);
       });
-    }
+    },
+
+    unitsValid () {
+      let valid = true;
+
+      this.productData.units.forEach((unitPrice) => {
+        if (unitPrice.unit.id == null) {
+          valid = false;
+        }
+      });
+
+      return valid;
+    },
+
+    getDisable (row) {
+      return this.productData.units.length <= 1 || row.actionType != Tool.actionType.add || row.default == true;
+    },
+
+    deleteRow (row, index) {
+      if (row.actionType == Tool.actionType.add) {
+        this.productData.units.splice(index, 1);
+      }
+    },
   },
 
   created: function () {
@@ -290,5 +307,19 @@ export default {
 <style>
 .table-column {
   min-width: 100px;
+}
+
+.default-unit-label {
+  height: 32px;
+  line-height: 32px;
+}
+
+.add-unit-button {
+  text-align: right;
+  margin-bottom: 5px;
+}
+
+.unit-card {
+  margin-bottom: 10px;
 }
 </style>

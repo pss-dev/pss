@@ -3,7 +3,7 @@
     <el-container>
       <el-main>
         <el-card>
-          <el-row>
+          <el-row class="el-row-bottom-20">
             <el-col :span="8">
               <el-date-picker
                 v-model="dateRangeValue"
@@ -19,11 +19,8 @@
               </div>
             </el-col>
           </el-row>
-          <el-row>
-            <el-col :span="12">入库结算：</el-col>
-            <el-col :span="12">销售结算：</el-col>
-          </el-row>
-          <el-row>
+          <el-row class="el-row-bottom-20">
+            <el-col :span="4">入库结算：</el-col>
             <el-col :span="4">销售结算：</el-col>
           </el-row>
         </el-card>
@@ -76,7 +73,7 @@ export default {
 </script>
 
 <style>
-.search-row {
-  margin-bottom: 5px;
+.el-row-bottom-20 {
+  margin-bottom: 20px;
 }
 </style>

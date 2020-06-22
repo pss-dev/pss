@@ -1,8 +1,8 @@
 <template>
   <el-container>
-    <el-header :height="30">
+    <el-header height="30">
       <el-row>
-        <el-col :span="8">
+        <el-col :span="6">
           <el-date-picker
             v-model="dateRangeValue"
             type="daterange"
@@ -13,7 +13,7 @@
         </el-col>
         <el-col :span="4">
           <div>
-            <el-button @click="searchLogData">查询</el-button>
+            <el-button :disabled="isDateRangeValueInvalid()" @click="searchLogData">查询</el-button>
           </div>
         </el-col>
       </el-row>
@@ -40,7 +40,7 @@ export default {
 
   data () {
     return {
-      dateRangeValue: "",
+      dateRangeValue: null,
       titData:
         [{ prop: "date", label: "时间" },
         { prop: "employee", label: "员工" },
@@ -53,8 +53,7 @@ export default {
   methods: {
     searchLogData () {
       var params = {
-        startDate: this.startDate,
-        endDate: this.endDate
+        dateRangeValue: this.dateRangeValue
       };
       console.log("====== searchLogData ", params);
 
@@ -62,7 +61,11 @@ export default {
         console.log(res);
         this.tableData = res;
       });
-    }
+    },
+
+    isDateRangeValueInvalid () {
+      return this.dateRangeValue == null;
+    },
   },
 
   created: function () {

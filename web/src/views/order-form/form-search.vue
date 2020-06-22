@@ -1,10 +1,10 @@
 <template>
   <div>
     <el-container>
-      <el-header :height="30">
+      <el-header height="30">
         <el-card shadow="never">
           <el-row class="el-row-bottom-20" :gutter="20">
-            <el-col :span="12">
+            <el-col :span="6">
               <el-date-picker
                 v-model="orderFormDatas.createDate"
                 type="daterange"
@@ -23,7 +23,7 @@
                 ></el-option>
               </el-select>
             </el-col>
-            <el-col :span="3">
+            <el-col :span="2">
               <el-button @click="search">查询</el-button>
             </el-col>
           </el-row>
@@ -108,10 +108,10 @@
         <div>
           <el-row>
             <el-col :span="3">
-              <el-button @click="openOrderForm">打开单据</el-button>
+              <el-button :disabled="isSelectedInfoInvalid()" @click="openOrderForm">打开单据</el-button>
             </el-col>
             <el-col :span="3">
-              <el-button @click="deleteOrderForm">删除单据</el-button>
+              <el-button :disabled="isSelectedInfoInvalid()" @click="deleteOrderForm">删除单据</el-button>
             </el-col>
           </el-row>
         </div>
@@ -375,7 +375,11 @@ export default {
 
     deleteOrderForm () {
 
-    }
+    },
+
+    isSelectedInfoInvalid () {
+      return this.selectedInfo == null;
+    },
   },
 
   created: function () {
