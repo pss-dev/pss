@@ -1,5 +1,6 @@
 package com.pssdev.pss.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 
 import javax.persistence.*;
@@ -22,11 +23,12 @@ public class Branch implements Serializable {
   @OneToOne(targetEntity = Company.class)
   private Company supplier;
   private String initials;
-  @JoinColumn(name = "parent_id")
-  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+
+  @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  @JsonIgnore
   private Set<Branch> children = new HashSet<>();
   @ManyToOne
-  @JoinColumn(name = "parent_id")
+  @JoinColumn(name = "father_id")
   private Branch parent;
 
   public Branch() {
