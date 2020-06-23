@@ -1,11 +1,10 @@
 import baseApi from '../baseApi.js'
 import fetch from '@/http/fetch'
 
-function getRoleInfo (params) {
+function getRoleInfo () {
   return fetch({
     url: baseApi.baseApi('role'),
     method: 'get',
-    params
   })
 }
 

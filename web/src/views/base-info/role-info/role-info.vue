@@ -17,7 +17,7 @@
           <el-footer>
             <el-row>
               <el-col :span="12">
-                <el-button @click="newInfo">添加</el-button>
+                <el-button @click="newRole">添加</el-button>
               </el-col>
               <el-col :span="12">
                 <el-button>删除</el-button>
@@ -49,14 +49,17 @@
               </el-aside>
               <el-main>
                 <el-card>
-                  <el-checkbox @change="readChange" v-model="readChecked">读</el-checkbox>
-                  <el-checkbox @change="writeChange" v-model="writeChecked">写</el-checkbox>
-                  <el-checkbox @change="deleteChange" v-model="deleteChecked">删</el-checkbox>
-                  <el-checkbox
-                    @change="verifyChange"
-                    v-model="verifyChecked"
-                    v-if="verifyVisiable"
-                  >审核</el-checkbox>
+                  <div v-if="selectedSourceValid()">
+                    <el-checkbox @change="readChange" v-model="readChecked">读</el-checkbox>
+                    <el-checkbox @change="writeChange" v-model="writeChecked">写</el-checkbox>
+                    <el-checkbox @change="deleteChange" v-model="deleteChecked">删</el-checkbox>
+                    <el-checkbox
+                      @change="verifyChange"
+                      v-model="verifyChecked"
+                      v-if="verifyVisiable"
+                    >审核</el-checkbox>
+                  </div>
+                  <div v-if="!selectedSourceValid()">请选择资源</div>
                 </el-card>
               </el-main>
             </el-container>
@@ -64,7 +67,7 @@
           <el-footer>
             <el-row>
               <el-col :span="4">
-                <el-button>保存</el-button>
+                <el-button @click="submitData">保存</el-button>
               </el-col>
             </el-row>
           </el-footer>
@@ -78,6 +81,7 @@
 import BseInfo from '../mixIns/base-info'
 import TableBaseInfo from '@/views/mixIns/table-base-info.js'
 import RuleTool from '@/views/constant/rule-tool.js'
+import Tool from '@/views/constant/tool.js'
 
 import RoleInfoApi from '../../../api/role-info-api/roleInfoApi'
 
@@ -97,121 +101,240 @@ export default {
       titData:
         [{ prop: "name", label: "名称" }],
 
-      tableData: [{ id: null, name: "role1" }],
+      tableData: [],
 
-      treeData: [{
-        label: '基本信息',
-        key: 0,
-        value: 0,
-        children: [{
-          label: '商品档案',
-          key: 1,
-          value: 0,
-        }]
-      }],
-      selectedSource: 0,
+      treeData: [
+        {
+          label: '基本信息',
+          key: RuleTool.source.baseInfo,
+          children: [{
+            label: '商品档案',
+            key: RuleTool.source.product,
+          },
+          {
+            label: '计量单位',
+            key: RuleTool.source.unit,
+          },
+          {
+            label: '价格名称',
+            key: RuleTool.source.price,
+          },
+          {
+            label: '来往单位',
+            key: RuleTool.source.company,
+          },
+          {
+            label: '仓库信息',
+            key: RuleTool.source.depot,
+          },
+          {
+            label: '部门',
+            key: RuleTool.source.department,
+          },
+          {
+            label: '分支机构',
+            key: RuleTool.source.branch,
+          },]
+        },
+        {
+          label: '单据',
+          key: RuleTool.source.orderForm,
+        },
+        {
+          label: '管理设置',
+          key: RuleTool.source.manage,
+          children: [{
+            label: '角色管理',
+            key: RuleTool.source.role,
+          },
+          {
+            label: '员工信息',
+            key: RuleTool.source.employee,
+          },
+          {
+            label: '账户信息',
+            key: RuleTool.source.account,
+          }]
+        },
+        {
+          label: '统计查询',
+          key: RuleTool.source.statistic,
+          children: [{
+            label: '日志',
+            key: RuleTool.source.log,
+          },
+          {
+            label: '营收',
+            key: RuleTool.source.revenue,
+          }]
+        },
+      ],
+
+      selectedSource: -1,
+      selectedSourceRule: {},
 
       readChecked: false,
       writeChecked: false,
       deleteChecked: false,
       verifyChecked: false,
       verifyVisiable: false,
-
-
     }
   },
 
   methods: {
     handleCurrentChange (data) {
       this.selectedInfo = data;
-      console.log("========  handleCurrentChange ", data);
+      this.selectedSource = -1;
+      this.selectedSourceRule = {};
     },
 
-    newInfo () {
+    newRole () {
       let newRole = {
         id: null,
-        name: "新角色1"
+        name: "新角色1",
+        actionType: Tool.actionType.add,
+        rules: []
       };
 
       this.tableData.push(newRole);
       this.$refs["roleTable"].setCurrentRow(newRole);
-
     },
 
-    submitData (roleName) {
-      console.log("===== ", roleName);
-      this.closeDialog();
+    submitData () {
+      console.log("=====  submit ", this.selectedInfo);
+      RoleInfoApi.setRoleInfo(this.selectedInfo).then(
+        () => {
+          this.getRoleInfo();
+        });
     },
 
     deleteInfo () {
       RoleInfoApi
         .deleteRoleInfo(this.selectedInfo)
-        .then((res) => {
-          this.setResponseResult(res.data);
+        .then(() => {
+          this.getRoleInfo();
         });
     },
 
-    getRoleInfo (params) {
-      RoleInfoApi.getRoleInfo(params).then(
+    getRoleInfo () {
+      RoleInfoApi.getRoleInfo().then(
         (res) => {
           this.setResponseResult(res.data);
-          this.closeDialog();
+          this.handleCurrentChange(null);
         });
     },
 
     handleNodeClick (data) {
-      console.log("====== handleNodeClick ", data);
+      this.selectedSource = data.key;
+
+      let rules = this.selectedInfo.rules.filter(function (rule) {
+        return rule.source == data.key;
+      });
+
+      if (rules.length == 1) {
+        this.selectedSourceRule = rules[0];
+      }
+      else {
+        let rule = this.getNewRule(this.selectedSource);
+        this.selectedInfo.rules.push(rule);
+        this.selectedSourceRule = rule;
+      }
+
+      if (this.selectedSource == RuleTool.source.orderForm) {
+        this.verifyVisiable = true;
+      }
+      else {
+        this.verifyVisiable = false;
+      }
+
+      this.setRuleCheckBoxValue();
+
+      console.log("==handleNodeClick ", this.selectedInfo);
+    },
+
+    getNewRule (sourceValue) {
+      let rule = {
+        id: null,
+        source: sourceValue,
+        value: 0,
+        actionType: Tool.actionType.add,
+      };
+
+      return rule;
+    },
+
+    selectedSourceValid () {
+      return this.selectedSource != -1;
+    },
+
+    handleRuleChange () {
+      if (this.selectedSourceRule.actionType != Tool.actionType.add) {
+        this.selectedSourceRule.actionType = Tool.actionType.modify;
+      }
+    },
+
+    setRuleCheckBoxValue () {
+      this.readChecked = (this.selectedSourceRule.value & RuleTool.rule.read) != 0;
+      this.writeChecked = (this.selectedSourceRule.value & RuleTool.rule.write) != 0;
+      this.deleteChecked = (this.selectedSourceRule.value & RuleTool.rule.delete) != 0;
+      this.verifyChecked = (this.selectedSourceRule.value & RuleTool.rule.verify) != 0;
     },
 
     readChange (value) {
       if (value) {
-        this.selectedSource = this.selectedSource | RuleTool.rule.read;
+        this.selectedSourceRule.value = this.selectedSourceRule.value | RuleTool.rule.read;
       }
       else {
-        this.selectedSource = this.selectedSource & (~RuleTool.rule.read);
+        this.selectedSourceRule.value = this.selectedSourceRule.value & (~RuleTool.rule.read);
       }
 
-      console.log("======= this.selectedSource ", this.selectedSource);
+      this.handleRuleChange();
+
+      console.log("======= this.selectedSourceRule ", this.selectedSourceRule);
     },
 
     writeChange (value) {
       if (value) {
-        this.selectedSource = this.selectedSource | RuleTool.rule.write;
+        this.selectedSourceRule.value = this.selectedSourceRule.value | RuleTool.rule.write;
       }
       else {
-        this.selectedSource = this.selectedSource & (~RuleTool.rule.write);
+        this.selectedSourceRule.value = this.selectedSourceRule.value & (~RuleTool.rule.write);
       }
 
-      console.log("======= this.selectedSource ", this.selectedSource);
+      this.handleRuleChange();
+
+      console.log("======= this.selectedSourceRule ", this.selectedSourceRule);
     },
 
     deleteChange (value) {
       if (value) {
-        this.selectedSource = this.selectedSource | RuleTool.rule.delete;
+        this.selectedSourceRule.value = this.selectedSourceRule.value | RuleTool.rule.delete;
       }
       else {
-        this.selectedSource = this.selectedSource & (~RuleTool.rule.delete);
+        this.selectedSourceRule.value = this.selectedSourceRule.value & (~RuleTool.rule.delete);
       }
 
-      console.log("======= this.selectedSource ", this.selectedSource);
+      this.handleRuleChange();
+
+      console.log("======= this.selectedSourceRule ", this.selectedSourceRule);
     },
 
     verifyChange (value) {
       if (value) {
-        this.selectedSource = this.selectedSource | RuleTool.rule.verify;
+        this.selectedSourceRule.value = this.selectedSourceRule.value | RuleTool.rule.verify;
       }
       else {
-        this.selectedSource = this.selectedSource & (~RuleTool.rule.verify);
+        this.selectedSourceRule.value = this.selectedSourceRule.value & (~RuleTool.rule.verify);
       }
 
-      console.log("======= this.selectedSource ", this.selectedSource);
+      this.handleRuleChange();
+
+      console.log("======= this.selectedSourceRule ", this.selectedSourceRule);
     }
   },
 
   created: function () {
-    var params = this.getParameterForNewTable(this.getParentID());
-
-    this.getRoleInfo(params);
+    this.getRoleInfo();
   }
 }
 </script>
