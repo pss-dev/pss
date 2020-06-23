@@ -34,7 +34,7 @@
             <el-row class="role-name-pane">
               <el-col :span="3">角色名称：</el-col>
               <el-col :span="6">
-                <el-input v-model="selectedInfo.name"></el-input>
+                <el-input v-model="selectedInfo.name" @input="nameChange"></el-input>
               </el-col>
             </el-row>
           </el-header>
@@ -188,6 +188,12 @@ export default {
       this.selectedSourceRule = {};
     },
 
+    nameChange () {
+      if (this.selectedInfo.actionType != Tool.actionType.add) {
+        this.selectedInfo.actionType = Tool.actionType.update;
+      }
+    },
+
     newRole () {
       let newRole = {
         id: null,
@@ -269,7 +275,7 @@ export default {
 
     handleRuleChange () {
       if (this.selectedSourceRule.actionType != Tool.actionType.add) {
-        this.selectedSourceRule.actionType = Tool.actionType.modify;
+        this.selectedSourceRule.actionType = Tool.actionType.update;
       }
     },
 

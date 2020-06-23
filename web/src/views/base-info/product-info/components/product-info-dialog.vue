@@ -206,7 +206,7 @@ export default {
     unitInfoChange (row) {
       console.log("======= unitInfoChange ", row);
 
-      if (row.actionType == 0) {
+      if (row.actionType != Tool.actionType.add) {
         row.actionType = Tool.actionType.update;
       }
     },
