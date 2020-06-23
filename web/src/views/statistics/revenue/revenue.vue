@@ -42,7 +42,7 @@ export default {
 
   data () {
     return {
-      dateRangeValue: "",
+      dateRangeValue: [],
       titData:
         [{ prop: "date", label: "时间" },
         { prop: "employee", label: "员工" },
@@ -54,9 +54,13 @@ export default {
 
   methods: {
     searchLogData () {
+      if (this.dateRangeValue.length != 2) {
+        return;
+      }
+
       var params = {
-        startDate: this.startDate,
-        endDate: this.endDate
+        startDate: this.dateRangeValue[0],
+        endDate: this.dateRangeValue[1]
       };
       console.log("====== searchLogData ", params);
 

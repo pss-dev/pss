@@ -15,7 +15,7 @@
           <el-col :span="3">发货仓库：</el-col>
           <el-col :span="5">{{orderFormData.depot.name}}</el-col>
           <el-col :span="3">录单日期：</el-col>
-          <el-col :span="5">{{orderFormData.createDate.toDateString()}}</el-col>
+          <el-col :span="5">{{createDate}}</el-col>
         </el-row>
 
         <el-row :gutter="10">
@@ -67,7 +67,7 @@
           <el-col :span="3">经手人：</el-col>
           <el-col :span="5">{{orderFormData.employee.name}}</el-col>
           <el-col :span="3">打印日期：</el-col>
-          <el-col :span="5">{{(new Date()).toDateString()}}</el-col>
+          <el-col :span="5">{{printDate}}</el-col>
         </el-row>
         <el-row :gutter="10">
           <el-col :span="3">地址：</el-col>
@@ -157,7 +157,8 @@ export default {
       },
 
       bigMoney: '',
-      accountInfo: ''
+      accountInfo: '',
+      createDate: '',
     }
   },
 
@@ -182,12 +183,24 @@ export default {
       }
 
       return result;
+    },
+
+    getDateLabel (date) {
+      let year = date.getFullYear()
+      let month = date.getMonth() + 1
+      let day = date.getDate()
+      if (month < 10) month = '0' + month
+      if (day < 10) day = '0' + day
+
+      return year + '-' + month + '-' + day
     }
   },
 
   created: function () {
     this.bigMoney = smalltoBIG(this.amountMoney);
     this.accountInfo = this.getAccountInfo();
+    this.createDate = this.getDateLabel(this.orderFormData.createDate);
+    this.printDate = this.getDateLabel(new Date());
   }
 
 }

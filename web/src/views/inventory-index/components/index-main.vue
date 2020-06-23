@@ -102,7 +102,7 @@ let orderManageMenuArr = [
 let manageSettingMenuArr = [
   {
     label: "角色管理",
-    value: "Ruler"
+    value: "Role"
   },
   {
     label: "职员档案",
@@ -168,7 +168,7 @@ import Unit from "@/views/base-info/unit-info/unit-info";
 import Depot from "@/views/base-info/depot-info/depot-info";
 import Price from "@/views/base-info/price-info/price-info";
 import Employee from "@/views/base-info/employee-info/employee-info";
-import Ruler from "@/views/base-info/ruler-info/ruler-info";
+import Role from "@/views/base-info/role-info/role-info";
 import Account from "@/views/base-info/account-info/account-info";
 import Customer from "@/views/base-info/company-info/customer-info";
 import Supplier from "@/views/base-info/company-info/supplier-info";
@@ -191,7 +191,7 @@ export default {
     Depot,
     Price,
     Employee,
-    Ruler,
+    Role,
     Account,
     Customer,
     Supplier,

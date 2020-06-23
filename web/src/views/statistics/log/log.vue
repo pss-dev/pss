@@ -2,7 +2,7 @@
   <el-container>
     <el-header height="30">
       <el-row>
-        <el-col :span="6">
+        <el-col :span="8">
           <el-date-picker
             v-model="dateRangeValue"
             type="daterange"
@@ -12,9 +12,7 @@
           ></el-date-picker>
         </el-col>
         <el-col :span="4">
-          <div>
-            <el-button :disabled="isDateRangeValueInvalid()" @click="searchLogData">查询</el-button>
-          </div>
+          <el-button :disabled="isDateRangeValueInvalid()" @click="searchLogData">查询</el-button>
         </el-col>
       </el-row>
     </el-header>
@@ -52,8 +50,13 @@ export default {
 
   methods: {
     searchLogData () {
+      if (this.dateRangeValue.length != 2) {
+        return;
+      }
+
       var params = {
-        dateRangeValue: this.dateRangeValue
+        startDate: this.dateRangeValue[0],
+        endDate: this.dateRangeValue[1]
       };
       console.log("====== searchLogData ", params);
 

@@ -29,5 +29,10 @@ export default {
     salesForm: 2,
     purchaseReturn: 3,
     salesReturn: 4
+  },
+
+  orderFormStatus: {
+    draft: 1,
+    verify: 2,
   }
 }

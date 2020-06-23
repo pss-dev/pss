@@ -6,17 +6,28 @@
           <el-row class="el-row-bottom-20" :gutter="20">
             <el-col :span="6">
               <el-date-picker
-                v-model="orderFormDatas.createDate"
+                v-model="dateRange"
                 type="daterange"
                 range-separator="至"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期"
+                @change="dateRanegChange"
               ></el-date-picker>
             </el-col>
             <el-col :span="6">
               <el-select v-model="searchModel.orderFormType" placeholder="单据类型">
                 <el-option
                   v-for="item in types"
+                  :key="item.value"
+                  :label="item.name"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
+            </el-col>
+            <el-col :span="6">
+              <el-select v-model="searchModel.orderFormStatus" placeholder="单据状态">
+                <el-option
+                  v-for="item in status"
                   :key="item.value"
                   :label="item.name"
                   :value="item.value"
@@ -195,6 +206,7 @@ export default {
       ],
 
       selectedInfo: null,
+      dateRange: [],
 
       orderFormDatas: [{
         id: null,
@@ -207,8 +219,9 @@ export default {
 
       searchModel: {
         orderFormType: Tool.orderFormType.purchaseForm,
-        startDate: new Date(),
-        endDate: new Date(),
+        orderFormStatus: Tool.orderFormStatus.draft,
+        startDate: null,
+        endDate: null,
         branch: {},
         company: {},
         employee: {},
@@ -234,6 +247,14 @@ export default {
         value: Tool.orderFormType.salesReturn
       }],
 
+      status: [{
+        name: "草稿",
+        value: Tool.orderFormStatus.draft
+      }, {
+        name: "已审核",
+        value: Tool.orderFormStatus.verify
+      }],
+
       departmentDialogVisiable: false,
       branchDialogVisiable: false,
       companyDialogVisiable: false,
@@ -247,6 +268,13 @@ export default {
   },
 
   methods: {
+    dateRanegChange () {
+      if (this.dateRange.length == 2) {
+        this.searchModel.startDate = this.dateRange[0];
+        this.searchModel.endDate = this.dateRange[1];
+      }
+    },
+
     showBranchDialog () {
       this.branchDialogVisiable = true;
     },
@@ -362,7 +390,7 @@ export default {
     },
 
     search () {
-
+      console.log("======  search ", this.searchModel);
     },
 
     handleCurrentChange (value) {
