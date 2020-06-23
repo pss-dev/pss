@@ -49,10 +49,14 @@
               </el-aside>
               <el-main>
                 <el-card>
-                  <el-checkbox>读</el-checkbox>
-                  <el-checkbox>写</el-checkbox>
-                  <el-checkbox>删</el-checkbox>
-                  <el-checkbox>审核</el-checkbox>
+                  <el-checkbox @change="readChange" v-model="readChecked">读</el-checkbox>
+                  <el-checkbox @change="writeChange" v-model="writeChecked">写</el-checkbox>
+                  <el-checkbox @change="deleteChange" v-model="deleteChecked">删</el-checkbox>
+                  <el-checkbox
+                    @change="verifyChange"
+                    v-model="verifyChecked"
+                    v-if="verifyVisiable"
+                  >审核</el-checkbox>
                 </el-card>
               </el-main>
             </el-container>
@@ -73,6 +77,7 @@
 <script>
 import BseInfo from '../mixIns/base-info'
 import TableBaseInfo from '@/views/mixIns/table-base-info.js'
+import RuleTool from '@/views/constant/rule-tool.js'
 
 import RoleInfoApi from '../../../api/role-info-api/roleInfoApi'
 
@@ -104,6 +109,15 @@ export default {
           value: 0,
         }]
       }],
+      selectedSource: 0,
+
+      readChecked: false,
+      writeChecked: false,
+      deleteChecked: false,
+      verifyChecked: false,
+      verifyVisiable: false,
+
+
     }
   },
 
@@ -147,13 +161,57 @@ export default {
 
     handleNodeClick (data) {
       console.log("====== handleNodeClick ", data);
+    },
+
+    readChange (value) {
+      if (value) {
+        this.selectedSource = this.selectedSource | RuleTool.rule.read;
+      }
+      else {
+        this.selectedSource = this.selectedSource & (~RuleTool.rule.read);
+      }
+
+      console.log("======= this.selectedSource ", this.selectedSource);
+    },
+
+    writeChange (value) {
+      if (value) {
+        this.selectedSource = this.selectedSource | RuleTool.rule.write;
+      }
+      else {
+        this.selectedSource = this.selectedSource & (~RuleTool.rule.write);
+      }
+
+      console.log("======= this.selectedSource ", this.selectedSource);
+    },
+
+    deleteChange (value) {
+      if (value) {
+        this.selectedSource = this.selectedSource | RuleTool.rule.delete;
+      }
+      else {
+        this.selectedSource = this.selectedSource & (~RuleTool.rule.delete);
+      }
+
+      console.log("======= this.selectedSource ", this.selectedSource);
+    },
+
+    verifyChange (value) {
+      if (value) {
+        this.selectedSource = this.selectedSource | RuleTool.rule.verify;
+      }
+      else {
+        this.selectedSource = this.selectedSource & (~RuleTool.rule.verify);
+      }
+
+      console.log("======= this.selectedSource ", this.selectedSource);
     }
   },
 
   created: function () {
     var params = this.getParameterForNewTable(this.getParentID());
 
-    this.getroleInfo(params);
+    this.getRoleInfo(params);
   }
 }
 </script>

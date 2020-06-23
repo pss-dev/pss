@@ -270,8 +270,8 @@ export default {
   methods: {
     dateRanegChange () {
       if (this.dateRange.length == 2) {
-        this.searchModel.startDate = this.dateRange[0];
-        this.searchModel.endDate = this.dateRange[1];
+        this.searchModel.startDate = this.dateRange[0].getTime();
+        this.searchModel.endDate = this.dateRange[1].getTime();
       }
     },
 

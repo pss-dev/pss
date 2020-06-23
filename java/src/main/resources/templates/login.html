@@ -1,17 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Pss Login</title>
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="css/login.css" />
 </head>
+
 <body>
-  <form action="/api/1.0/login" method="post">
-    UserName: <input type="text" name="userName" >
-    <br/>
-    Password: <input type="password" name="password">
-    <br>
-    <input type="submit" value="Login">
-    <input type="reset" value="Reset">
-  </form>
+  <div class="container-fluid login-root">
+    <form action="/api/1.0/login" method="post">
+      <div class="card">
+        <div class="card-header" data-th-text="#{login.title}">
+          请登录
+        </div>
+        <div class="card-body">
+
+          <div id="userNameGroup" class="form-group">
+            <label class="required-field" for="userName" data-th-text="#{login.username.label}">用户名</label>
+            <input type="text" class="form-control form-control-danger" id="userName" name="userName" autofocus />
+            <div id="userNameError" class="form-control-feedback" style="display: none;"
+              data-th-text="#{login.username.required}">
+              Please enter your user name.
+            </div>
+          </div>
+          <div id="passwordGroup" class="form-group">
+            <label class="required-field" for="password" data-th-text="#{login.password.label}">密码</label>
+            <input type="password" class="form-control form-control-danger" id="password" name="password" />
+            <div id="passwordError" class="form-control-feedback" style="display: none;"
+              data-th-text="#{login.password.required}">
+              Please enter your password.
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <button type="submit" id="loginButton" class="btn btn-primary btn-block">
+            登录
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
 </body>
+
 </html>

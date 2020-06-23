@@ -55,8 +55,8 @@ export default {
       }
 
       var params = {
-        startDate: this.dateRangeValue[0],
-        endDate: this.dateRangeValue[1]
+        startDate: this.dateRangeValue[0].getTime(),
+        endDate: this.dateRangeValue[1].getTime()
       };
       console.log("====== searchLogData ", params);
 

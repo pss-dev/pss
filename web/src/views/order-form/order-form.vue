@@ -14,7 +14,8 @@
                   class="order-form-item"
                   type="date"
                   value-format="yyyy-MM-dd"
-                  v-model="orderFormData.createDate"
+                  v-model="createDate"
+                  @change="dateChange"
                   placeholder="选择日期"
                 ></el-date-picker>
               </div>
@@ -369,6 +370,7 @@ export default {
       prices: [],
       defaultPriceID: -1,
       scopeValue: {},
+      createDate: new Date(),
 
       orderFormData: {
         id: null,
@@ -376,7 +378,7 @@ export default {
         status: 1,// 用来判断是草稿还是已经审核过的
         creatUser: { id: null, name: "llh" }, //由谁创建
         verifyUser: { id: null, name: "vip" }, //由谁审核过账
-        createDate: new Date(),
+        createDate: (new Date()).getTime(),
         branch: { id: null, name: "branch name" },
         company: { id: null, name: "company name", contactPerson: "llh", contactPhone: "15123232323" },
         employee: { id: null, name: "llh" },
@@ -439,6 +441,11 @@ export default {
   },
 
   methods: {
+    dateChange (value) {
+      let date = new Date(value);
+      this.orderFormData.createDate = date.getTime();
+    },
+
     showBranchDialog () {
       this.branchDialogVisiable = true;
     },
@@ -674,6 +681,7 @@ export default {
     }
 
     this.afterWipe = this.getAmountMoney() - this.orderFormData.wipe;
+    this.createDate = new Date(this.orderFormData.createDate);
 
     this.getPricesData();
   }
