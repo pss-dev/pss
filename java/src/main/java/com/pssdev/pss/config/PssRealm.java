@@ -1,26 +1,41 @@
 package com.pssdev.pss.config;
 
-import com.pssdev.pss.entity.Employee;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import com.pssdev.pss.entity.*;
+import com.pssdev.pss.service.EmployeeService;
+import com.pssdev.pss.util.Tool;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Set;
 
 public class PssRealm extends AuthorizingRealm {
+
+  @Autowired
+  private EmployeeService employeeService;
+
   @Override
   protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
     // 获取用户名
     String username = (String) principals.getPrimaryPrincipal();
+
+    Employee emp = employeeService.getEmployeeByName(username);
+
     SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
     // 给该用户设置角色
-    authorizationInfo.setRoles(null);
-    // 给该用户设置权限
-    authorizationInfo.setStringPermissions(null);
+    Set<Role> roles = emp.getRoles();
+
+    for(Role role : roles) {
+      // 添加角色
+      authorizationInfo.addRole(role.getName());
+      // 添加权限
+      for(Permission permission: role.getPermissions()) {
+        authorizationInfo.addStringPermission(Tool.buildPermissionString(permission));
+      }
+    }
 
     return authorizationInfo;
   }
@@ -29,13 +44,14 @@ public class PssRealm extends AuthorizingRealm {
   protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
     String username = (String) token.getPrincipal();
 
-    Employee user = null; // Todo get user
-    if (user != null) {
-      SecurityUtils.getSubject().getSession().setAttribute("user", user);
-      AuthenticationInfo authcInfo = new SimpleAuthenticationInfo(user.getName(), user.getPassword(), "myRealm");
-      return authcInfo;
-    } else {
+    Employee emp = employeeService.getEmployeeByName(username);
+
+    if(emp == null) {
       return null;
     }
+
+    AuthenticationInfo authcInfo = new SimpleAuthenticationInfo(emp.getName(), emp.getPassword(), getName());
+
+    return authcInfo;
   }
 }

@@ -2,6 +2,7 @@ package com.pssdev.pss.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 public class Employee implements Serializable {
@@ -17,6 +18,16 @@ public class Employee implements Serializable {
   @JoinColumn(name = "department_id")
   @OneToOne(targetEntity = Department.class)
   private Department department;
+  @ManyToMany(targetEntity = Role.class)
+  private Set<Role> roles;
+
+  public Set<Role> getRoles() {
+    return roles;
+  }
+
+  public void setRoles(Set<Role> roles) {
+    this.roles = roles;
+  }
 
   public Integer getId() {
     return id;

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
   <meta charset="UTF-8">
@@ -32,6 +32,10 @@
               data-th-text="#{login.password.required}">
               Please enter your password.
             </div>
+          </div>
+          <div id="rememberMeGroup" class="form-group">
+            <input type="checkbox" id="rememberMe" name="rememberMe" />
+            <span class="required-field" for="rememberMe" data-th-text="#{login.rememberMe.label}">记住我</span>
           </div>
         </div>
         <div class="card-footer">

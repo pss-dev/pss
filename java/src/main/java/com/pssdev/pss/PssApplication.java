@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
    HibernateJpaAutoConfiguration.class,
    QuartzAutoConfiguration.class
 })
-@EnableTransactionManagement(proxyTargetClass = true)
+@EnableTransactionManagement()
 @EnableCaching
 public class PssApplication {
 

@@ -7,28 +7,35 @@ import java.util.List;
 public interface EmployeeService {
   /**
    * get user by id
-   * 
+   *
    * @return
    */
-  Employee getEmployee(Long id);
+  Employee getEmployee(Integer id);
+
+  /**
+   * get user by name
+   *
+   * @return
+   */
+  Employee getEmployeeByName(String name);
 
   /**
    * get all Users
-   * 
+   *
    * @return
    */
   List<Employee> getEmployees();
 
   /**
    * insert a user
-   * 
+   *
    * @param user
    */
   void insertEmployee(Employee user);
 
   /**
    * update user
-   * 
+   *
    * @param user
    */
   void updateEmployee(Employee user);
