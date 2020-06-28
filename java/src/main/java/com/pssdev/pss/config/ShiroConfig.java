@@ -75,7 +75,8 @@ public class ShiroConfig {
       filterChainMap.put("/logout", "logout");
 
       // authc 表示要进行身份认证
-      filterChainMap.put("/**", "authc");
+//      filterChainMap.put("/**", "authc");
+      filterChainMap.put("/**", "anon");
 
       // 设置 shiroFilterFactoryBean 的 FilterChainDefinitionMap
       shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainMap);
