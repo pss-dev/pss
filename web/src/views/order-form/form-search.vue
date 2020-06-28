@@ -390,7 +390,19 @@ export default {
     },
 
     search () {
-      console.log("======  search ", this.searchModel);
+      let searchModelData = {
+        orderFormType: this.searchModel.orderFormType,
+        orderFormStatus: this.searchModel.orderFormStatus,
+        startDate: this.searchModel.startDate,
+        endDate: this.searchModel.endDate,
+        branchID: this.searchModel.branch.id,
+        companyID: this.searchModel.company.id,
+        employeeID: this.searchModel.employee.id,
+        departmentID: this.searchModel.department.id,
+        depotID: this.searchModel.depot.id,
+        accountID: this.searchModel.account.id,
+      };
+      console.log("======  search ", searchModelData);
     },
 
     handleCurrentChange (value) {

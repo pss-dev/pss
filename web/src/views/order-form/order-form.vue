@@ -362,6 +362,9 @@ export default {
   props: {
     "orderFormDataValue": {
       type: Object,
+    },
+    "orderFormType": {
+      type: Number,
     }
   },
 
@@ -369,13 +372,13 @@ export default {
     return {
       prices: [],
       defaultPriceID: -1,
-      scopeValue: {},
+      scopeValue: null,
       createDate: new Date(),
 
       orderFormData: {
         id: null,
         type: 1,
-        status: 1,// 用来判断是草稿还是已经审核过的
+        status: 0,// 用来判断是草稿还是已经审核过的
         creatUser: { id: null, name: "llh" }, //由谁创建
         verifyUser: { id: null, name: "vip" }, //由谁审核过账
         createDate: (new Date()).getTime(),
@@ -518,7 +521,10 @@ export default {
 
     showProductSelectDialog (scope) {
       this.productDialogVisiable = true;
-      this.scopeValue = scope.row;
+
+      if (scope != null) {
+        this.scopeValue = scope.row;
+      }
     },
 
     closeProductDialog () {
@@ -526,7 +532,26 @@ export default {
     },
 
     submitProductData (productValue) {
-      this.scopeValue.product = productValue;
+      if (this.scopeValue != null) {
+        this.scopeValue.product = productValue;
+      }
+      else {
+        let defaultUnit = {};
+
+        if (this.orderFormType == Tool.orderFormType.purchaseForm ||
+          this.orderFormType == Tool.orderFormType.purchaseReturn) {
+          defaultUnit = productValue.purchaseDefaultUnit;
+        }
+        else {
+          defaultUnit = productValue.sellDefaultUnit;
+        }
+
+        let pvalue = { product: productValue, unit: defaultUnit };
+        console.log("======== pvalue ", pvalue);
+        this.orderFormData.products.push(pvalue);
+        this.scopeValue = pvalue;
+      }
+
       this.setPrice();
 
       this.productDialogVisiable = false;
@@ -537,7 +562,7 @@ export default {
 
       //get units
       this.scopeValue.product.units.forEach((value) => {
-        console.log("=====setPrice ", this.scopeValue.unit.id, value);
+        console.log("=====setPrice ", this.scopeValue, value);
         if (this.scopeValue.unit.id == value.unit.id) {
           pricesValue = value.prices;
         }

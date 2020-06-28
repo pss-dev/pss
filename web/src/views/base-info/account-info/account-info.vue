@@ -111,6 +111,7 @@ export default {
     },
 
     submitData (accountData) {
+      console.log("=========accountData ", accountData);
       var getInfoParams = this.getParameterForNewTable(this.getParentID());
 
       if (this.addInfo) {

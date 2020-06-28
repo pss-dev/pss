@@ -10,8 +10,9 @@
     <search-base
       :titles="titleData"
       :tableData="tableData"
-      :previousDisable="!hasFatherInfo()"
-      :nextDisable="isSelectedInfoValid()"
+      :tableHeaderVisiable="false"
+      :previousVisiable="false"
+      :nextVisiable="false"
       :totalSize="totalSize"
       :currentPage="currentPage"
       @handleCurrentChange="handleCurrentChange"
@@ -22,13 +23,13 @@
 </template>
 
 <script>
-import RulerInfoApi from "../../api/ruler-info-api/rulerInfoApi.js"
+import RoleInfoApi from "../../api/role-info-api/roleInfoApi.js"
 import searchBase from "./search-base.vue"
 import searchBseInfo from '../mixIns/search-base-info'
 import tableBaseInfo from '../mixIns/table-base-info.js'
 
 export default {
-  name: "rulerSearchDialog",
+  name: "roleSearchDialog",
   mixins: [searchBseInfo, tableBaseInfo],
   components: {
     "search-base": searchBase
@@ -50,7 +51,7 @@ export default {
     getChildData (value) {
       var param = this.getParameterForNewTable(value.id);
 
-      this.getRulerInfo(param).then(() => {
+      this.getRoleInfo(param).then(() => {
         this.addPaths();
         this.resetCurrentPage();
         this.parent = value;
@@ -65,13 +66,13 @@ export default {
       var previousInfo = this.paths[this.paths.length - 1];
       var previousParams = this.getParameterForNewTable(this.getParentID0(previousInfo.parent));
 
-      this.getRulerInfo(previousParams).then(() => {
+      this.getRoleInfo(previousParams).then(() => {
         this.setPerviousInfo();
       });
     },
 
-    getRulerInfo (params) {
-      return RulerInfoApi.getRulerInfo(params).then(
+    getRoleInfo (params) {
+      return RoleInfoApi.getRoleInfo(params).then(
         (res) => {
           this.setResponseResult(res.data);
         });
@@ -81,7 +82,7 @@ export default {
   created: function () {
     var params = this.getParameterForNewTable(this.getParentID());
 
-    this.getRulerInfo(params);
+    this.getRoleInfo(params);
   }
 
 }

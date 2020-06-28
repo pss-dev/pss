@@ -1,12 +1,13 @@
 <template>
   <div>
-    <order-form :orderFormData="data"></order-form>
+    <order-form :orderFormData="data" :orderFormType="getFormType()"></order-form>
   </div>
 </template>
 
 <script>
 
 import OrderForm from "@/views/order-form/order-form"
+import Tool from '@/views/constant/tool.js'
 
 export default {
   name: "return-form",
@@ -23,6 +24,9 @@ export default {
 
   data () {
     return {
+      getFormType () {
+        return Tool.orderFormType.purchaseReturn;
+      }
     }
   },
 

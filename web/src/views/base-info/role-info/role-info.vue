@@ -27,7 +27,7 @@
         </el-container>
         <div class="role-pane"></div>
       </el-aside>
-      <el-main>
+      <el-main class="rule-pane">
         <label v-if="isSelectedInfoInvalid()">please select a role</label>
         <el-container v-if="!isSelectedInfoInvalid()" class="source-container">
           <el-header>
@@ -365,7 +365,7 @@ export default {
   height: 32px;
 }
 
-.el-main {
+.rule-pane {
   padding-bottom: 0px;
 }
 </style>

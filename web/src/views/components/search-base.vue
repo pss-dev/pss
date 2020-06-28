@@ -14,8 +14,18 @@
       ></base-info-table>
     </el-main>
     <el-footer class="footer">
-      <el-button @click="previous" size="small" :disabled="previousDisable">上一层</el-button>
-      <el-button @click="getChildData" size="small" :disabled="previousDisable">下一层</el-button>
+      <el-button
+        v-if="previousVisiable"
+        @click="previous"
+        size="small"
+        :disabled="previousDisable"
+      >上一层</el-button>
+      <el-button
+        v-if="nextVisiable"
+        @click="getChildData"
+        size="small"
+        :disabled="previousDisable"
+      >下一层</el-button>
       <el-button @click="ok" size="small">确定</el-button>
       <el-button @click="close" size="small">关闭</el-button>
     </el-footer>
@@ -53,11 +63,19 @@ export default {
       type: Boolean,
       default: true,
     },
+    "previousVisiable": {
+      type: Boolean,
+      default: true,
+    },
     "previousDisable": {
       type: Boolean,
       default: true,
     },
     "nextDisable": {
+      type: Boolean,
+      default: true,
+    },
+    "nextVisiable": {
       type: Boolean,
       default: true,
     },
