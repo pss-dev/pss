@@ -1,19 +1,17 @@
 import baseApi from '../baseApi.js'
 import fetch from '@/http/fetch'
 
-function getEmployeeInfo (params) {
+function getEmployeeInfo () {
   return fetch({
     url: baseApi.baseApi('employee'),
     method: 'get',
-    params
   })
 }
 
-function addEmployeeInfo (params, data) {
+function addEmployeeInfo (data) {
   return fetch({
     url: baseApi.baseApi('employee'),
     method: 'post',
-    params,
     data
   })
 }

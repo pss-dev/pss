@@ -120,8 +120,8 @@ export default {
         });
     },
 
-    getEmployeeInfo (params) {
-      employeeInfoApi.getEmployeeInfo(params).then(
+    getEmployeeInfo () {
+      employeeInfoApi.getEmployeeInfo().then(
         (res) => {
           this.setResponseResult(res.data);
           this.closeDialog();
@@ -130,9 +130,7 @@ export default {
   },
 
   created: function () {
-    var params = this.getParameterForNewTable(this.getParentID());
-
-    this.getEmployeeInfo(params);
+    this.getEmployeeInfo();
   }
 }
 </script>

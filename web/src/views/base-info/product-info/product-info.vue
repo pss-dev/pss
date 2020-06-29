@@ -7,6 +7,7 @@
       <el-main>
         <base-info-table
           :titles="titData"
+          :booleanData="booleanData"
           :tableData="tableData"
           @handleCurrentChange="handleCurrentChange"
           @getChildData="getChildData"
@@ -19,11 +20,13 @@
           :selectedInfoInvalid="isSelectedInfoInvalid()"
           :previousDisable="!hasFatherInfo()"
           :isProduct="true"
+          :stopPurchaseDisable="getStopPurchaseStatus()"
           @newInfo="newInfo"
           @copyNew="copyNew"
           @edit="edit"
           @deleteInfo="deleteInfo"
           @previous="previous"
+          @next="getChildData"
           @stopPurchase="stopPurchase"
         ></base-info-footer>
       </el-footer>
@@ -82,7 +85,9 @@ export default {
       { prop: "name", label: "名称" },
       { prop: "specification", label: "规格" },
       { prop: "type", label: "型号" },
-      { prop: "stopPurchase", label: "停止采购" }]
+      ],
+
+      booleanData: { prop: "stopPurchase", label: "停止采购" }
     }
   },
 
@@ -92,6 +97,7 @@ export default {
     },
 
     getChildData (value) {
+      value = value == null ? this.selectedInfo : value;
       var param = this.getParameterForNewTable(value.id);
 
       this.getProductInfo(param).then(() => {
@@ -189,9 +195,9 @@ export default {
     },
 
     stopPurchase () {
-      this.selectedInfo.actionType = Tool.actionType.update,
-        this.selectedInfo.stopPurchase = true;
-
+      this.selectedInfo.actionType = Tool.actionType.update;
+      this.selectedInfo.stopPurchase = true;
+      console.log("======stopPurchase  ", this.selectedInfo);
       var getInfoParams = this.getParameterForNewTable(this.getParentID());
 
       productInfoApi.modifyProductInfo(this.selectedInfo).then(
@@ -200,10 +206,8 @@ export default {
         });
     },
 
-    stopUse () {
-      productInfoApi.stopUse().then(() => {
-        this.setPerviousInfo();
-      });
+    getStopPurchaseStatus () {
+      return this.selectedInfo && this.selectedInfo.stopPurchase == true;
     },
 
     getProductInfo (params) {

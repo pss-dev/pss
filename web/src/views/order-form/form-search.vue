@@ -53,7 +53,7 @@
             </el-col>
             <el-col :span="6">
               <div class="inputBlock">
-                <el-input readonly placeholder="来往单位">
+                <el-input readonly placeholder="来往单位" v-model="searchModel.company.name">
                   <el-button
                     size="small"
                     @click="showCompanyDialog"
@@ -68,7 +68,7 @@
           <el-row :gutter="20">
             <el-col :span="6">
               <div class="inputBlock">
-                <el-input readonly placeholder="经手人">
+                <el-input readonly placeholder="经手人" v-model="searchModel.employee.name">
                   <el-button
                     size="small"
                     @click="showDepartmentDialog"
@@ -80,7 +80,7 @@
             </el-col>
             <el-col :span="6">
               <div class="inputBlock">
-                <el-input readonly placeholder="部门">
+                <el-input readonly placeholder="部门" v-model="searchModel.department.name">
                   <el-button
                     size="small"
                     @click="showDepartmentDialog"
@@ -92,7 +92,7 @@
             </el-col>
             <el-col :span="6">
               <div class="inputBlock">
-                <el-input readonly placeholder="仓库">
+                <el-input readonly placeholder="仓库" v-model="searchModel.depot.name">
                   <el-button
                     size="small"
                     @click="showDepotDialog"
@@ -177,7 +177,7 @@ import UnitSearchDialog from "../components/unit-search-dialog.vue"
 import AccountSearchDialog from "../components/account-search-dialog.vue"
 import BaseInfoTable from "@/views/base-info/components/base-info-table.vue"
 
-//import orderFormApi from "../../api/order-form-api/orderFormApi.js"
+import orderFormApi from "../../api/order-form-api/orderFormApi.js"
 import Tool from '@/views/constant/tool.js'
 
 export default {
@@ -389,7 +389,7 @@ export default {
       this.accountDialogVisiable = false;
     },
 
-    search () {
+    getOrderForms () {
       let searchModelData = {
         orderFormType: this.searchModel.orderFormType,
         orderFormStatus: this.searchModel.orderFormStatus,
@@ -402,7 +402,12 @@ export default {
         depotID: this.searchModel.depot.id,
         accountID: this.searchModel.account.id,
       };
+
       console.log("======  search ", searchModelData);
+      return orderFormApi.getOrderFormInfo(searchModelData).then(
+        (res) => {
+          this.setResponseResult(res.data);
+        });
     },
 
     handleCurrentChange (value) {
@@ -414,7 +419,11 @@ export default {
     },
 
     deleteOrderForm () {
-
+      orderFormApi
+        .deleteOrderFormInfo(this.selectedInfo)
+        .then(() => {
+          this.getOrderForms();
+        });
     },
 
     isSelectedInfoInvalid () {

@@ -10,6 +10,13 @@
       style="width: 100%"
     >
       <el-table-column v-for="title in titles" v-bind="title" :key="title.prop" min-width="100px"></el-table-column>
+      <el-table-column
+        v-if="booleanData"
+        :prop="booleanData.prop"
+        :label="booleanData.label"
+        :formatter="formatBoolean"
+        min-width="100px"
+      ></el-table-column>
     </el-table>
 
     <el-pagination
@@ -32,6 +39,9 @@ export default {
   props: {
     "titles": {
       type: Array
+    },
+    "booleanData": {
+      type: Object
     },
     "tableData": {
       type: Array
@@ -69,6 +79,18 @@ export default {
 
     handleSizeChange (value) {
       this.$emit('pageSizeChange', value);
+    },
+
+    formatBoolean (row, column, cellValue) {
+      var ret = '';
+
+      if (cellValue) {
+        ret = "是"
+      } else {
+        ret = "否"
+      }
+
+      return ret;
     },
   },
 }

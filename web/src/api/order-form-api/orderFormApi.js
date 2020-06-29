@@ -1,11 +1,11 @@
 import baseApi from '../baseApi.js'
 import fetch from '@/http/fetch'
 
-function getOrderFormInfo (params) {
+function getOrderFormInfo (data) {
   return fetch({
-    url: baseApi.baseApi('orderForm'),
-    method: 'get',
-    params
+    url: baseApi.baseApi('orderForm/search'),
+    method: 'post',
+    data
   })
 }
 

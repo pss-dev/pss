@@ -21,8 +21,18 @@
       size="small"
       :disabled="previousDisable"
     >上一层</el-button>
-    <el-button v-if="nextVisiable" @click="next" size="small" :disabled="selectedInfoInvalid">下一层</el-button>
-    <el-button v-if="isProduct" @click="next" size="small" :disabled="!isSelectedleaf">停止采购</el-button>
+    <el-button
+      v-if="nextVisiable"
+      @click="next"
+      size="small"
+      :disabled="selectedInfoInvalid || stopPurchaseDisable"
+    >下一层</el-button>
+    <el-button
+      v-if="isProduct"
+      @click="stopPurchase"
+      size="small"
+      :disabled="!isSelectedleaf || stopPurchaseDisable"
+    >停止采购</el-button>
   </div>
 </template>
 
@@ -63,6 +73,10 @@ export default {
       default: true
     },
     "isProduct": {
+      type: Boolean,
+      default: false
+    },
+    "stopPurchaseDisable": {
       type: Boolean,
       default: false
     }

@@ -24,6 +24,7 @@
           @edit="edit"
           @deleteInfo="deleteInfo"
           @previous="previous"
+          @next="getChildData"
         ></base-info-footer>
       </el-footer>
     </el-container>
@@ -69,6 +70,7 @@ export default {
 
   methods: {
     getChildData (value) {
+      value = value == null ? this.selectedInfo : value;
       let param = this.getParameterForNewTable(value.id);
 
       this.getDepartmentInfo(param).then(() => {
