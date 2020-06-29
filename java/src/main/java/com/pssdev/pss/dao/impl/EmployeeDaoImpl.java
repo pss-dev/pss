@@ -23,6 +23,6 @@ public class EmployeeDaoImpl extends BaseDao<Employee, Integer> implements Emplo
     Root<Employee> root = query.from(getClazz());
     query.where(cb.equal(root.get("name"), name));
 
-    return session.createQuery(query).getSingleResult();
+    return session.createQuery(query).uniqueResultOptional().orElse(null);
   }
 }

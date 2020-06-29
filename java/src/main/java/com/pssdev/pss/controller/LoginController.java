@@ -56,6 +56,6 @@ public class LoginController {
       }
 
       // 登录成功跳转到 / 页面
-      return "/";
+      return "redirect:/";
    }
 }

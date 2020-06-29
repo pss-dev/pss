@@ -1,9 +1,10 @@
 package com.pssdev.pss.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-public class Permission {
+public class Permission implements Serializable {
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Integer id;

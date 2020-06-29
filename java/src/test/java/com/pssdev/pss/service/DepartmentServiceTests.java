@@ -22,7 +22,7 @@ public class DepartmentServiceTests {
   @Test
   @Order(1)
   public void testNonNull() {
-    Assertions.assertNotNull(departmentService, "Init Department Dao Error.");
+    Assertions.assertNotNull(departmentService, "Init Department Service Error.");
   }
 
   @Order(2)

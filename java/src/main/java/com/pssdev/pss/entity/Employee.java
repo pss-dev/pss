@@ -7,7 +7,7 @@ import java.util.Set;
 @Entity
 public class Employee implements Serializable {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
   private String name;
   private String account;
@@ -75,5 +75,14 @@ public class Employee implements Serializable {
 
   public void setDepartment(Department department) {
     this.department = department;
+  }
+
+  @Override
+  public String toString() {
+    return "Employee{" +
+       "id=" + id +
+       ", name='" + name + '\'' +
+       ", account='" + account + '\'' +
+       '}';
   }
 }
