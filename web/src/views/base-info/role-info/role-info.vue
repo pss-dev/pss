@@ -198,8 +198,7 @@ export default {
       let newRole = {
         id: null,
         name: "新角色1",
-        actionType: Tool.actionType.add,
-        rules: []
+        permissions: []
       };
 
       this.tableData.push(newRole);
@@ -208,10 +207,19 @@ export default {
 
     submitData () {
       console.log("=====  submit ", this.selectedInfo);
-      RoleInfoApi.setRoleInfo(this.selectedInfo).then(
-        () => {
-          this.getRoleInfo();
-        });
+      if (this.selectedInfo && this.selectedInfo.id != null) {
+        RoleInfoApi.setRoleInfo(this.selectedInfo).then(
+          () => {
+            //this.getRoleInfo();
+          });
+      }
+      else {
+        RoleInfoApi.addRoleInfo(this.selectedInfo).then(
+          () => {
+            //this.getRoleInfo();
+          });
+      }
+
     },
 
     deleteInfo () {
@@ -233,16 +241,16 @@ export default {
     handleNodeClick (data) {
       this.selectedSource = data.key;
 
-      let rules = this.selectedInfo.rules.filter(function (rule) {
+      let permissions = this.selectedInfo.permissions.filter(function (rule) {
         return rule.source == data.key;
       });
 
-      if (rules.length == 1) {
-        this.selectedSourceRule = rules[0];
+      if (permissions.length == 1) {
+        this.selectedSourceRule = permissions[0];
       }
       else {
         let rule = this.getNewRule(this.selectedSource);
-        this.selectedInfo.rules.push(rule);
+        this.selectedInfo.permissions.push(rule);
         this.selectedSourceRule = rule;
       }
 
@@ -262,8 +270,7 @@ export default {
       let rule = {
         id: null,
         source: sourceValue,
-        value: 0,
-        actionType: Tool.actionType.add,
+        operator: 0,
       };
 
       return rule;
@@ -280,18 +287,18 @@ export default {
     },
 
     setRuleCheckBoxValue () {
-      this.readChecked = (this.selectedSourceRule.value & RuleTool.rule.read) != 0;
-      this.writeChecked = (this.selectedSourceRule.value & RuleTool.rule.write) != 0;
-      this.deleteChecked = (this.selectedSourceRule.value & RuleTool.rule.delete) != 0;
-      this.verifyChecked = (this.selectedSourceRule.value & RuleTool.rule.verify) != 0;
+      this.readChecked = (this.selectedSourceRule.operator & RuleTool.rule.read) != 0;
+      this.writeChecked = (this.selectedSourceRule.operator & RuleTool.rule.write) != 0;
+      this.deleteChecked = (this.selectedSourceRule.operator & RuleTool.rule.delete) != 0;
+      this.verifyChecked = (this.selectedSourceRule.operator & RuleTool.rule.verify) != 0;
     },
 
     readChange (value) {
       if (value) {
-        this.selectedSourceRule.value = this.selectedSourceRule.value | RuleTool.rule.read;
+        this.selectedSourceRule.operator = this.selectedSourceRule.operator | RuleTool.rule.read;
       }
       else {
-        this.selectedSourceRule.value = this.selectedSourceRule.value & (~RuleTool.rule.read);
+        this.selectedSourceRule.operator = this.selectedSourceRule.operator & (~RuleTool.rule.read);
       }
 
       this.handleRuleChange();
@@ -301,10 +308,10 @@ export default {
 
     writeChange (value) {
       if (value) {
-        this.selectedSourceRule.value = this.selectedSourceRule.value | RuleTool.rule.write;
+        this.selectedSourceRule.operator = this.selectedSourceRule.operator | RuleTool.rule.write;
       }
       else {
-        this.selectedSourceRule.value = this.selectedSourceRule.value & (~RuleTool.rule.write);
+        this.selectedSourceRule.operator = this.selectedSourceRule.operator & (~RuleTool.rule.write);
       }
 
       this.handleRuleChange();
@@ -314,10 +321,10 @@ export default {
 
     deleteChange (value) {
       if (value) {
-        this.selectedSourceRule.value = this.selectedSourceRule.value | RuleTool.rule.delete;
+        this.selectedSourceRule.operator = this.selectedSourceRule.operator | RuleTool.rule.delete;
       }
       else {
-        this.selectedSourceRule.value = this.selectedSourceRule.value & (~RuleTool.rule.delete);
+        this.selectedSourceRule.operator = this.selectedSourceRule.operator & (~RuleTool.rule.delete);
       }
 
       this.handleRuleChange();
@@ -327,10 +334,10 @@ export default {
 
     verifyChange (value) {
       if (value) {
-        this.selectedSourceRule.value = this.selectedSourceRule.value | RuleTool.rule.verify;
+        this.selectedSourceRule.operator = this.selectedSourceRule.operator | RuleTool.rule.verify;
       }
       else {
-        this.selectedSourceRule.value = this.selectedSourceRule.value & (~RuleTool.rule.verify);
+        this.selectedSourceRule.operator = this.selectedSourceRule.operator & (~RuleTool.rule.verify);
       }
 
       this.handleRuleChange();

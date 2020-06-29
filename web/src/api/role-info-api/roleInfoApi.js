@@ -8,16 +8,15 @@ function getRoleInfo () {
   })
 }
 
-function addRoleInfo (params, data) {
+function addRoleInfo (data) {
   return fetch({
     url: baseApi.baseApi('role'),
     method: 'post',
-    params,
     data
   })
 }
 
-function modifyRoleInfo (data) {
+function setRoleInfo (data) {
   return fetch({
     url: baseApi.baseApi('role'),
     method: 'put',
@@ -36,6 +35,6 @@ function deleteRoleInfo (params) {
 export default {
   getRoleInfo,
   addRoleInfo,
-  modifyRoleInfo,
+  setRoleInfo,
   deleteRoleInfo
 }

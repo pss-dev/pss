@@ -4,8 +4,8 @@
       <el-header height="30">
         <el-card shadow="never">
           <div slot="header" class="card-header">
-            <span>创建者: {{orderFormData.creatUser.name}}</span>
-            <span class="verify-user">审核者: {{orderFormData.verifyUser.name}}</span>
+            <span>创建者: {{getCreateUserName()}}</span>
+            <span class="verify-user">审核者: {{getVerifyUserName()}}</span>
           </div>
           <el-row :gutter="20" class="el-row-bottom-20">
             <el-col :span="6">
@@ -22,7 +22,7 @@
             </el-col>
             <el-col :span="6">
               <div class="order-form-item">
-                <el-input readonly placeholder="分支机构" v-model="orderFormData.branch.name">
+                <el-input readonly placeholder="分支机构" :value="getBranchName()">
                   <el-button
                     size="small"
                     @click="showBranchDialog"
@@ -34,7 +34,7 @@
             </el-col>
             <el-col :span="6">
               <div class="order-form-item">
-                <el-input readonly placeholder="来往单位" v-model="orderFormData.company.name">
+                <el-input readonly placeholder="来往单位" :value="getCompanyName()">
                   <el-button
                     size="small"
                     @click="showCompanyDialog"
@@ -46,7 +46,7 @@
             </el-col>
             <el-col :span="6">
               <div class="order-form-item">
-                <el-input readonly placeholder="经手人" v-model="orderFormData.employee.name">
+                <el-input readonly placeholder="经手人" :value="getEmployeeName()">
                   <el-button
                     size="small"
                     @click="showEmployeeDialog"
@@ -61,7 +61,7 @@
           <el-row :gutter="20" class="el-row-second">
             <el-col :span="6">
               <div class="order-form-item">
-                <el-input readonly placeholder="部门" v-model="orderFormData.department.name">
+                <el-input readonly placeholder="部门" :value="getDepartmentName()">
                   <el-button
                     size="small"
                     @click="showDepartmentDialog"
@@ -73,7 +73,7 @@
             </el-col>
             <el-col :span="6">
               <div class="order-form-item">
-                <el-input readonly placeholder="仓库" v-model="orderFormData.depot.name">
+                <el-input readonly placeholder="仓库" :value="getDepotName()">
                   <el-button
                     size="small"
                     @click="showDepotDialog"
@@ -231,7 +231,7 @@
         <div class="account-pane">
           <el-row>
             <el-col :span="3">
-              <el-input placeholder="账户选择" v-model="orderFormData.account.name">
+              <el-input placeholder="账户选择" :value="getAccountName()">
                 <el-button
                   size="small"
                   slot="append"
@@ -379,52 +379,22 @@ export default {
         id: null,
         type: 1,
         status: 0,// 用来判断是草稿还是已经审核过的
-        creatUser: { id: null, name: "llh" }, //由谁创建
-        verifyUser: { id: null, name: "vip" }, //由谁审核过账
-        createDate: (new Date()).getTime(),
-        branch: { id: null, name: "branch name" },
-        company: { id: null, name: "company name", contactPerson: "llh", contactPhone: "15123232323" },
-        employee: { id: null, name: "llh" },
-        department: { id: null, name: "department name" },
-        depot: { id: null, name: "depot name" },
+        creatUser: null, //由谁创建
+        verifyUser: null, //由谁审核过账
+        createDate: new Date(),
+        branch: null,
+        company: null,
+        employee: null,
+        department: null,
+        depot: null,
         summary: 'asdasdasd',
 
         actionType: Tool.actionType.add,
 
         products: [
-          {
-            product: { id: null, identifier: "identifier", name: "product name" },
-            unit: { id: null, name: "个", crate: 2 },
-            stock: 99, //库存
-            count: 0,//数量
-            price: 0,//单价
-            amount: 0,//总价 交互有 不存
-            note: "1233123123123123123",//备注
-            actionType: Tool.actionType.add
-          },
-          {
-            product: { id: null, identifier: "identifier", name: "product name" },
-            unit: { id: null, name: "个", crate: 2 },
-            stock: 99, //库存
-            count: 0,//数量
-            price: 0,//单价
-            amount: 0,//总价 交互有 不存
-            note: "123",//备注
-            actionType: Tool.actionType.add
-          },
-          {
-            product: { id: null, identifier: "identifier", name: "product name" },
-            unit: { id: null, name: "个", crate: 2 },
-            stock: 99, //库存
-            count: 0,//数量
-            price: 0,//单价
-            amount: 0,//总价 交互有 不存
-            note: "",//备注
-            actionType: Tool.actionType.add
-          }
         ],
 
-        account: { id: null, name: "中国建设很行" },
+        account: null,
         money: 0, // 收款
         wipe: 0, // 抹零
       },
@@ -444,9 +414,40 @@ export default {
   },
 
   methods: {
+    getCreateUserName () {
+      return this.orderFormData.creatUser ? this.orderFormData.creatUser.name : "";
+    },
+
+    getVerifyUserName () {
+      return this.orderFormData.verifyUser ? this.orderFormData.verifyUser.name : "";
+    },
+
+    getBranchName () {
+      return this.orderFormData.branch ? this.orderFormData.branch.name : "";
+    },
+
+    getCompanyName () {
+      return this.orderFormData.company ? this.orderFormData.company.name : "";
+    },
+
+    getEmployeeName () {
+      return this.orderFormData.employee ? this.orderFormData.employee.name : "";
+    },
+
+    getDepartmentName () {
+      return this.orderFormData.department ? this.orderFormData.department.name : "";
+    },
+
+    getDepotName () {
+      return this.orderFormData.depot ? this.orderFormData.depot.name : "";
+    },
+
+    getAccountName () {
+      return this.orderFormData.account ? this.orderFormData.account.name : "";
+    },
+
     dateChange (value) {
-      let date = new Date(value);
-      this.orderFormData.createDate = date.getTime();
+      this.orderFormData.createDate = value;
     },
 
     showBranchDialog () {
@@ -569,7 +570,6 @@ export default {
       });
 
       //get price value
-
       console.log("=====pricesValue ", pricesValue);
       pricesValue.forEach((value) => {
         if (value.price.id == this.defaultPriceID) {
@@ -638,9 +638,17 @@ export default {
     },
 
     save () {
-      orderFormApi.saveOrderForm(this.orderFormData).then((res) => {
-        console.log(res);
-      });
+      if (this.orderFormData.actionType == Tool.actionType.add) {
+        orderFormApi.addOrderForm(this.orderFormData).then((res) => {
+          console.log(res);
+        });
+      }
+      else {
+        orderFormApi.saveOrderForm(this.orderFormData).then((res) => {
+          console.log(res);
+        });
+      }
+
     },
 
     verifyOrderForm () {

@@ -9,7 +9,15 @@ function getOrderFormInfo (data) {
   })
 }
 
-function saveOrderFormInfo (data) {
+function addOrderForm (data) {
+  return fetch({
+    url: baseApi.baseApi('orderForm'),
+    method: 'post',
+    data
+  })
+}
+
+function saveOrderForm (data) {
   return fetch({
     url: baseApi.baseApi('orderForm'),
     method: 'put',
@@ -35,7 +43,8 @@ function verifyOrderFormInfo (data) {
 
 export default {
   getOrderFormInfo,
-  saveOrderFormInfo,
+  addOrderForm,
+  saveOrderForm,
   deleteOrderFormInfo,
   verifyOrderFormInfo
 }

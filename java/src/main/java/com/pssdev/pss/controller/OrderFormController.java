@@ -14,23 +14,19 @@ public class OrderFormController {
   private OrderFormService orderFormService;
 
   @PostMapping("/orderForm")
-  public List<OrderForm> insertOrderForms(@RequestBody OrderForm orderForm) throws Exception {
+  public void insertOrderForms(@RequestBody OrderForm orderForm) throws Exception {
     orderFormService.insertOrderForm(orderForm);
-    return orderFormService.getOrderForms();
+    System.out.println("================== insertOrderForms ");
   }
 
   @DeleteMapping("/orderForm")
-  public List<OrderForm> deleteOrderForm(@RequestBody OrderForm orderForm) {
+  public void deleteOrderForm(@RequestBody OrderForm orderForm) {
     orderFormService.deleteOrderForm(orderForm);
-
-    return orderFormService.getOrderForms();
   }
 
   @PutMapping("/orderForm")
-  public List<OrderForm> modifyOrderForm(@RequestBody OrderForm orderForm) throws Exception {
+  public void modifyOrderForm(@RequestBody OrderForm orderForm) throws Exception {
     orderFormService.modifyOrderForm(orderForm);
-
-    return orderFormService.getOrderForms();
   }
 
   @GetMapping("/orderForm")
