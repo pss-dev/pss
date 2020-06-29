@@ -64,8 +64,8 @@ export default {
     return {
       titData:
         [{ prop: "name", label: "名称" },
-        { prop: "customer", label: "客户" },
-        { prop: "supplier", label: "供货商" },
+        { prop: "customers", label: "客户" },
+        { prop: "suppliers", label: "供货商" },
         { prop: "initials", label: "拼音码" }],
     }
   },
@@ -73,9 +73,9 @@ export default {
   methods: {
     getChildData (value) {
       value = value == null ? this.selectedInfo : value;
-      var param = this.getParameterForNewTable(value.id);
+      let param = this.getParameterForNewTable(value.id);
 
-      this.getbranchInfo(param).then(() => {
+      this.getBranchInfo(param).then(() => {
         this.addPaths();
         this.resetCurrentPage();
         this.parent = value;
@@ -88,11 +88,11 @@ export default {
     },
 
     newInfo () {
-      var emptyDialogData = {
+      let emptyDialogData = {
         id: null,
         name: '',
-        customer: { id: null, name: '' },
-        supplier: { id: null, name: '' },
+        customers: { id: null, name: '' },
+        suppliers: { id: null, name: '' },
         initials: '',
         parent: this.parent,
       };

@@ -3,7 +3,7 @@ import fetch from '@/http/fetch'
 
 function getBranchInfo (params) {
   return fetch({
-    url: baseApi.baseApi('/branch'),
+    url: baseApi.baseApi('branch'),
     method: 'get',
     params
   })
@@ -11,7 +11,7 @@ function getBranchInfo (params) {
 
 function addBranchInfo (data) {
   return fetch({
-    url: baseApi.baseApi('/branch'),
+    url: baseApi.baseApi('branch'),
     method: 'post',
     data
   })

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,8 +27,21 @@ public class BranchServiceImpl implements BranchService {
 
   @Transactional(readOnly = true)
   @Override
-  public List<Branch> getBranches() {
-    return branchDao.getAll();
+  public List<Branch> getBranches(Integer fatherID) {
+    if(fatherID == null) {
+      return branchDao.getAll();
+    }
+    else if(TOP_FLAG1.equals(fatherID) || TOP_FLAG2.equals(fatherID)) {
+      return branchDao.getTop();
+    }
+
+    Branch department = branchDao.get(fatherID);
+
+    if (department != null) {
+      return new ArrayList<>(department.getChildren() );
+    }
+
+    return null;
   }
 
   @Transactional

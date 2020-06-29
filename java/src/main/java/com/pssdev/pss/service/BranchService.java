@@ -16,8 +16,9 @@ public interface BranchService extends TreeStructureService<Branch> {
    * get all Branches
    *
    * @return
+   * @param fatherID
    */
-  List<Branch> getBranches();
+  List<Branch> getBranches(Integer fatherID);
 
   /**
    * insert a branch

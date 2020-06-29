@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.*;
 
-@Disabled("For build failed. Should be executed in order.")
+//@Disabled("For build failed. Should be executed in order.")
 @SpringBootTest
 public class BranchServiceTests {
   @Autowired
@@ -29,8 +29,24 @@ public class BranchServiceTests {
   }
 
   @Test
+  public void testInsertBranch2() {
+    Branch branch = new Branch();
+    branch.setName("branch1");
+    branch.setInitials("b1");
+    Integer id = branchService.insertBranch(branch);
+    LOGGER.info("insert branch id: " + id);
+  }
+
+  @Test
+  public void testGetTopBranch() {
+    int id = -1;
+    List<Branch> branches = branchService.getBranches(id);
+    LOGGER.info("Get top branch: " + branches);
+  }
+
+  @Test
   public void testGetBranches() {
-    List<Branch> branches = branchService.getBranches();
+    List<Branch> branches = branchService.getBranches(null);
 
     LOGGER.info("Query all branches: {}", branches);
 
@@ -41,6 +57,12 @@ public class BranchServiceTests {
   public void testUpdateBranch() {
     Integer fatherId = 1;
     Branch branch = branchService.getBranch(fatherId);
+
+    if(branch == null) {
+      LOGGER.info("Branch is not found! " + fatherId);
+      return;
+    }
+
     Set<Branch> children = new HashSet<>();
     Branch child1 = new Branch();
     child1.setName("child1");
@@ -60,7 +82,7 @@ public class BranchServiceTests {
 
   @RepeatedTest(value = 3, name = "Query 3 times to see sql display times.")
   public void testBranchCache() {
-    List<Branch> branches = branchService.getBranches();
+    List<Branch> branches = branchService.getBranches(null);
 
     LOGGER.info("Get All Departments: {}", branches);
 

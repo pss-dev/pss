@@ -14,6 +14,7 @@ import java.util.List;
 @RequestMapping("/api/1.0")
 @Api("分支控制器")
 public class BranchController {
+
   @Autowired
   public BranchController(BranchService branchService) {
     this.branchService = branchService;
@@ -21,14 +22,18 @@ public class BranchController {
 
   @GetMapping("/branch")
   @ApiOperation("获取指定分支集合")
-  public Branch getBranch(@ApiParam("上级分支 ID") @RequestParam Integer fatherID) {
-    return branchService.getBranch(fatherID);
+  public List<Branch> getBranch(
+     @ApiParam("上级分支 ID") @RequestParam(name = "fatherID", required = false) Integer fatherID)
+  {
+    List<Branch> branches = branchService.getBranches(fatherID);
+
+    return branches;
   }
 
   @GetMapping("/branches")
   @ApiOperation("获取所有分支信息")
   public List<Branch> getBranches() {
-    return branchService.getBranches();
+    return branchService.getBranches(null);
   }
 
   @PostMapping("/branch")

@@ -1,7 +1,9 @@
 package com.pssdev.pss.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModel;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,25 +13,29 @@ import java.util.stream.Collectors;
 
 @Entity(name = "t_branch")
 @ApiModel("分支信息")
+@JsonIgnoreProperties
 public class Branch implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
   private String name;
-  @JoinColumn(name = "customer_id")
-  @OneToOne(targetEntity = Company.class)
-  private Company customer;
-  @JoinColumn(name = "supplier_id")
-  @OneToOne(targetEntity = Company.class)
-  private Company supplier;
+
+  @Nullable
+  @ManyToMany(targetEntity = Company.class)
+  private Set<Company> customers;
+
+  @Nullable
+  @ManyToMany(targetEntity = Company.class)
+  private Set<Company> suppliers;
   private String initials;
+
+  @ManyToOne
+  @JoinColumn(name = "father_id")
+  private Branch parent;
 
   @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   @JsonIgnore
   private Set<Branch> children = new HashSet<>();
-  @ManyToOne
-  @JoinColumn(name = "father_id")
-  private Branch parent;
 
   public Branch() {
   }
@@ -54,20 +60,20 @@ public class Branch implements Serializable {
     this.name = name;
   }
 
-  public Company getCustomer() {
-    return customer;
+  public Set<Company> getCustomers() {
+    return customers;
   }
 
-  public void setCustomer(Company customer) {
-    this.customer = customer;
+  public void setCustomers(Set<Company> customers) {
+    this.customers = customers;
   }
 
-  public Company getSupplier() {
-    return supplier;
+  public Set<Company> getSuppliers() {
+    return suppliers;
   }
 
-  public void setSupplier(Company supplier) {
-    this.supplier = supplier;
+  public void setSuppliers(Set<Company> suppliers) {
+    this.suppliers = suppliers;
   }
 
   public String getInitials() {
@@ -96,8 +102,8 @@ public class Branch implements Serializable {
 
   @Override
   public String toString() {
-    return "Branch{" + "id=" + id + ", name='" + name + '\'' + ", customer='" + customer.getName() + '\''
-        + ", supplier='" + supplier.getName() + '\'' + ", initials='" + initials + '\'' + ", parent="
+    return "Branch{" + "id=" + id + ", name='" + name + '\''
+       + ", initials='" + initials + '\'' + ", parent="
         + (parent != null ? parent.id : null) + ", children=["
         + (children != null ? children.stream().map(d -> d.id + "").collect(Collectors.joining(",")) : null) + "]}";
   }
