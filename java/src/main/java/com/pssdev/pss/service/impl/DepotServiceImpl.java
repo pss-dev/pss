@@ -26,7 +26,7 @@ public class DepotServiceImpl implements DepotService {
       }
     }
 
-    if (DepotDao.get(Depot.getId()) != null) {
+    if (Depot.getId() != null && DepotDao.get(Depot.getId()) != null) {
       throw new Exception("仓库已经存在");
     }
 

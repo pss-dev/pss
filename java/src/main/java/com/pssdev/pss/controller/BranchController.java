@@ -23,8 +23,7 @@ public class BranchController {
   @GetMapping("/branch")
   @ApiOperation("获取指定分支集合")
   public List<Branch> getBranch(
-     @ApiParam("上级分支 ID") @RequestParam(name = "fatherID", required = false) Integer fatherID)
-  {
+      @ApiParam("上级分支 ID") @RequestParam(name = "fatherID", required = false) Integer fatherID) {
     List<Branch> branches = branchService.getBranches(fatherID);
 
     return branches;
@@ -50,7 +49,7 @@ public class BranchController {
 
   @DeleteMapping("/branch")
   @ApiOperation("删除分支信息")
-  public void deleteBranch(@ApiParam("分支 ID") @RequestParam Branch branch) {
+  public void deleteBranch(@ApiParam("分支信息") @RequestBody Branch branch) {
     branchService.deleteBranch(branch);
   }
 

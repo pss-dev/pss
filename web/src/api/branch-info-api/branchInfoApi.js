@@ -27,7 +27,7 @@ function modifyBranchInfo (data) {
 
 function deleteBranchInfo (data) {
   return fetch({
-    url: baseApi.baseApi('/branch'),
+    url: baseApi.baseApi('branch'),
     method: 'delete',
     data
   })
