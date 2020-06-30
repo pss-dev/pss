@@ -41,8 +41,8 @@ public class OrderForm {
   private double wipe;
   private int actionType;
   @ManyToMany(targetEntity = Product.class)
-  @JoinColumn(name = "product_id")
-  private Set<Product> products;
+  @JoinColumn(name = "order_product_id")
+  private Set<OrderFormProduct> products;
   private int status;
 
   public Long getId() {
@@ -165,11 +165,11 @@ public class OrderForm {
     this.actionType = actionType;
   }
 
-  public Set<Product> getProducts() {
+  public Set<OrderFormProduct> getProducts() {
     return products;
   }
 
-  public void setProducts(Set<Product> products) {
+  public void setProducts(Set<OrderFormProduct> products) {
     this.products = products;
   }
 
