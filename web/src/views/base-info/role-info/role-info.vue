@@ -233,6 +233,7 @@ export default {
     getRoleInfo () {
       RoleInfoApi.getRoleInfo().then(
         (res) => {
+          console.log("==========getRoleInfo  ", res);
           this.setResponseResult(res.data);
           this.handleCurrentChange(null);
         });

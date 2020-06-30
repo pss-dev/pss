@@ -652,11 +652,9 @@ export default {
     },
 
     verifyOrderForm () {
-      var params = {
-        id: this.orderFormData.id,
-      };
+      this.orderFormData.verified = true;
 
-      orderFormApi.verifyOrderForm(params).then((res) => {
+      orderFormApi.verifyOrderForm(this.orderFormData).then((res) => {
         console.log(res);
       });
     },
@@ -711,6 +709,9 @@ export default {
 
     if (this.orderFormDataValue) {
       this.orderFormData = this.orderFormDataValue;
+    }
+    else {
+      this.orderFormData.type = this.orderFormType;
     }
 
     this.afterWipe = this.getAmountMoney() - this.orderFormData.wipe;

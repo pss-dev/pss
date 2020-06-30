@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/1.0/")
 public class OrderFormController {
   @Autowired
   private OrderFormService orderFormService;
@@ -29,8 +30,14 @@ public class OrderFormController {
     orderFormService.modifyOrderForm(orderForm);
   }
 
+  @PutMapping("/orderForm/verify")
+  public void verifyOrderForm(@RequestBody OrderForm orderForm) throws Exception {
+    // check 'verify' perimission
+    orderFormService.modifyOrderForm(orderForm);
+  }
+
   @GetMapping("/orderForm")
-  public List<OrderForm> getProducts() {
+  public List<OrderForm> getOrderForms() {
     return orderFormService.getOrderForms();
   }
 

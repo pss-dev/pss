@@ -33,10 +33,10 @@ function deleteOrderFormInfo (data) {
   })
 }
 
-function verifyOrderFormInfo (data) {
+function verifyOrderForm (data) {
   return fetch({
     url: baseApi.baseApi('orderForm/verify'),
-    method: 'get',
+    method: 'put',
     data
   })
 }
@@ -46,5 +46,5 @@ export default {
   addOrderForm,
   saveOrderForm,
   deleteOrderFormInfo,
-  verifyOrderFormInfo
+  verifyOrderForm
 }
