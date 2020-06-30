@@ -64,8 +64,8 @@ export default {
     return {
       titData:
         [{ prop: "name", label: "名称" },
-        { prop: "customers", label: "客户" },
-        { prop: "suppliers", label: "供货商" },
+        { prop: "customer.name", label: "客户" },
+        { prop: "supplier.name", label: "供货商" },
         { prop: "initials", label: "拼音码" }],
     }
   },
@@ -91,8 +91,8 @@ export default {
       let emptyDialogData = {
         id: null,
         name: '',
-        customers: { id: null, name: '' },
-        suppliers: { id: null, name: '' },
+        customer: null,
+        supplier: null,
         initials: '',
         parent: this.parent,
       };

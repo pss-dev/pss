@@ -17,7 +17,7 @@
         <el-input v-model="branchData.name" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="客户" prop="customer">
-        <el-input readonly v-model="branchData.customer.name" autocomplete="off">
+        <el-input readonly :value="getCustomerName()" autocomplete="off">
           <el-button
             size="small"
             @click="showCompanyDialog(true)"
@@ -27,7 +27,7 @@
         </el-input>
       </el-form-item>
       <el-form-item label="供货商" prop="supplier">
-        <el-input readonly v-model="branchData.supplier.name" autocomplete="off">
+        <el-input readonly :value="getSupplierName()" autocomplete="off">
           <el-button
             size="small"
             @click="showCompanyDialog(false)"
@@ -93,6 +93,22 @@ export default {
 
     handleClose () {
       this.$emit('closeDialog')
+    },
+
+    getCustomerName () {
+      if (this.branchData && this.branchData.customer) {
+        return this.branchData.customer.name;
+      }
+
+      return "";
+    },
+
+    getSupplierName () {
+      if (this.branchData && this.branchData.supplier) {
+        return this.branchData.supplier.name;
+      }
+
+      return "";
     },
 
     submitData () {

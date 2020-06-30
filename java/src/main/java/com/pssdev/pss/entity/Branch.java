@@ -21,12 +21,12 @@ public class Branch implements Serializable {
   private String name;
 
   @Nullable
-  @ManyToMany(targetEntity = Company.class)
-  private Set<Company> customers;
+  @ManyToOne(targetEntity = Company.class)
+  private Company customer;
 
   @Nullable
-  @ManyToMany(targetEntity = Company.class)
-  private Set<Company> suppliers;
+  @ManyToOne(targetEntity = Company.class)
+  private Company supplier;
   private String initials;
 
   @ManyToOne
@@ -60,20 +60,20 @@ public class Branch implements Serializable {
     this.name = name;
   }
 
-  public Set<Company> getCustomers() {
-    return customers;
+  public Company getCustomer() {
+    return customer;
   }
 
-  public void setCustomers(Set<Company> customers) {
-    this.customers = customers;
+  public void setCustomer(Company customer) {
+    this.customer = customer;
   }
 
-  public Set<Company> getSuppliers() {
-    return suppliers;
+  public Company getSupplier() {
+    return supplier;
   }
 
-  public void setSuppliers(Set<Company> suppliers) {
-    this.suppliers = suppliers;
+  public void setSupplier(Company supplier) {
+    this.supplier = supplier;
   }
 
   public String getInitials() {
@@ -102,8 +102,7 @@ public class Branch implements Serializable {
 
   @Override
   public String toString() {
-    return "Branch{" + "id=" + id + ", name='" + name + '\''
-       + ", initials='" + initials + '\'' + ", parent="
+    return "Branch{" + "id=" + id + ", name='" + name + '\'' + ", initials='" + initials + '\'' + ", parent="
         + (parent != null ? parent.id : null) + ", children=["
         + (children != null ? children.stream().map(d -> d.id + "").collect(Collectors.joining(",")) : null) + "]}";
   }

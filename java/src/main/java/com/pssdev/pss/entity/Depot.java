@@ -1,18 +1,27 @@
 package com.pssdev.pss.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.swagger.annotations.ApiModel;
+import org.springframework.lang.Nullable;
+
 import javax.persistence.*;
 import java.util.Objects;
 
-@Entity
+@Entity(name = "t_depot")
+@ApiModel("仓库信息")
+@JsonIgnoreProperties
 public class Depot {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Integer id;
   private String name;
-  @JoinColumn(name = "branch_id")
+
+  @Nullable
   @ManyToOne(targetEntity = Branch.class)
   private Branch branch;
+
   private String initials;
+
   @JoinColumn(name = "father_id")
   @ManyToOne(targetEntity = Depot.class)
   private Depot parent;
