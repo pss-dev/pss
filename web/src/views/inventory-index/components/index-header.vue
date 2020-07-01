@@ -5,23 +5,18 @@
 				<span>进销存logo</span>
 				<span>进销存v0.1</span>
 			</div>
-			<div class="header-right" @click="logout()">登出</div>
+			<a class="header-right" href="/logout">登出</a>
 		</div>
 	</header>
 </template>
 
 <script>
-import securityInfo from "../../../api/common/securityInfo.js"
-
 export default {
 	name: "IndexHeader",
 	data() {
 		return {}
 	},
 	methods: {
-		logout() {
-			securityInfo.logout();
-		},
 	},
 }
 </script>
