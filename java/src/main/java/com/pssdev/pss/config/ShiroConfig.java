@@ -1,5 +1,7 @@
 package com.pssdev.pss.config;
 
+import org.apache.shiro.authc.credential.CredentialsMatcher;
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
@@ -82,6 +84,19 @@ public class ShiroConfig {
    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {
       AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
       authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
+
       return authorizationAttributeSourceAdvisor;
+   }
+
+   /**
+    * 密码加密.
+    */
+   @Bean
+   public CredentialsMatcher credentialsMatcher() {
+      HashedCredentialsMatcher credentialsMatcher
+         = new HashedCredentialsMatcher("MD5");
+      credentialsMatcher.setHashIterations(1024);
+
+      return credentialsMatcher;
    }
 }

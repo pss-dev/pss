@@ -1,6 +1,7 @@
 package com.pssdev.pss.util;
 
 import com.pssdev.pss.entity.Permission;
+import org.apache.shiro.crypto.hash.SimpleHash;
 
 public final class Tool {
 
@@ -36,7 +37,11 @@ public final class Tool {
          default:
             return "";
       }
+   }
 
+   public static String generatorPassword(String userName, String password) {
+      SimpleHash simpleHash = new SimpleHash("MD5", password, userName, 1024);
 
+      return simpleHash.toHex();
    }
 }

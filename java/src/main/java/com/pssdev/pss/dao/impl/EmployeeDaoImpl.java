@@ -21,7 +21,7 @@ public class EmployeeDaoImpl extends BaseDao<Employee, Integer> implements Emplo
     CriteriaBuilder cb = session.getCriteriaBuilder();
     CriteriaQuery<Employee> query = cb.createQuery(getClazz());
     Root<Employee> root = query.from(getClazz());
-    query.where(cb.equal(root.get("name"), name));
+    query.where(cb.equal(root.get("account"), name));
 
     return session.createQuery(query).uniqueResultOptional().orElse(null);
   }

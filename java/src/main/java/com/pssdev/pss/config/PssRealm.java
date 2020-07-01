@@ -4,10 +4,12 @@ import com.pssdev.pss.entity.*;
 import com.pssdev.pss.service.EmployeeService;
 import com.pssdev.pss.util.Tool;
 import org.apache.shiro.authc.*;
+import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
@@ -21,7 +23,8 @@ public class PssRealm extends AuthorizingRealm {
 
   @Autowired
   @Lazy // dependencies service must lazy loading for realm initialize.
-  public PssRealm(EmployeeService employeeService) {
+  public PssRealm(EmployeeService employeeService, CredentialsMatcher credentialsMatcher) {
+    super(credentialsMatcher);
     this.employeeService = employeeService;
   }
 
@@ -50,15 +53,18 @@ public class PssRealm extends AuthorizingRealm {
 
   @Override
   protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-    String username = (String) token.getPrincipal();
+    String userName = (String) token.getPrincipal();
 
-    Employee emp = employeeService.getEmployeeByName(username);
+    Employee emp = employeeService.getEmployeeByName(userName);
 
     if(emp == null) {
       return null;
     }
 
-    AuthenticationInfo authcInfo = new SimpleAuthenticationInfo(emp.getName(), emp.getPassword(), getName());
+    ByteSource credentialsSalt = ByteSource.Util.bytes(userName);
+
+    AuthenticationInfo authcInfo = new SimpleAuthenticationInfo(userName,
+       emp.getPassword(), credentialsSalt, getName());
 
     return authcInfo;
   }
