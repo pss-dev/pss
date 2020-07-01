@@ -1,13 +1,21 @@
 package com.pssdev.pss.controller;
 
+import com.pssdev.pss.entity.Employee;
+import com.pssdev.pss.service.EmployeeService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class SecurityController {
+
+   @Autowired
+   public SecurityController(EmployeeService employeeService) {
+      this.employeeService = employeeService;
+   }
 
    @GetMapping("/login")
    public String gotoLoginPage() {
@@ -59,10 +67,19 @@ public class SecurityController {
       return "redirect:/";
    }
 
-   @GetMapping("/api/1.0/logout")
-   public String logout() {
-      SecurityUtils.getSubject().logout();
+   @GetMapping("/api/1.0/principal")
+   @ResponseBody
+   public Employee logout() {
+      Subject subject = SecurityUtils.getSubject();
+      Object principal = subject.getPrincipal();
+      Employee employee = null;
 
-      return "redirect:/login";
+      if(principal != null) {
+         employee = employeeService.getEmployeeByName(principal.toString());
+      }
+
+      return employee;
    }
+
+   private final EmployeeService employeeService;
 }
