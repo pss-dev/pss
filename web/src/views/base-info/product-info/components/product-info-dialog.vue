@@ -42,7 +42,12 @@
               <div class="default-unit-label">默认收购单位：</div>
             </el-col>
             <el-col :span="6">
-              <el-select size="small" v-model="productData.purchaseDefaultUnit" placeholder="请选择">
+              <el-select
+                size="small"
+                v-model="productData.purchaseDefaultUnit"
+                value-key="id"
+                placeholder="请选择"
+              >
                 <el-option
                   v-for="item in productData.units"
                   :key="item.unit.id"
@@ -55,7 +60,12 @@
               <div class="default-unit-label">默认销售单位：</div>
             </el-col>
             <el-col :span="6">
-              <el-select size="small" v-model="productData.sellDefaultUnit" placeholder="请选择">
+              <el-select
+                size="small"
+                v-model="productData.sellDefaultUnit"
+                value-key="id"
+                placeholder="请选择"
+              >
                 <el-option
                   v-for="item in productData.units"
                   :key="item.unit.id"

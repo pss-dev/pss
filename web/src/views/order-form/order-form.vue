@@ -547,7 +547,16 @@ export default {
           defaultUnit = productValue.sellDefaultUnit;
         }
 
-        let pvalue = { product: productValue, unit: defaultUnit };
+        let pvalue = {
+          id: null,
+          product: productValue,
+          unit: defaultUnit,
+          count: 0,
+          price: 0,
+          amount: 0,
+          note: '',
+          actionType: Tool.actionType.add
+        };
         console.log("======== pvalue ", pvalue);
         this.orderFormData.products.push(pvalue);
         this.scopeValue = pvalue;

@@ -1,5 +1,8 @@
 package com.pssdev.pss.entity;
 
+import org.springframework.lang.Nullable;
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -11,39 +14,60 @@ public class OrderForm {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
   private int type;
+
+  @Nullable
   @ManyToOne(targetEntity = Employee.class)
   @JoinColumn(name = "creatUser_id")
   private Employee creatUser;
+
+  @Nullable
   @ManyToOne(targetEntity = Employee.class)
   @JoinColumn(name = "verifyUser_id")
   private Employee verifyUser;
   private Date createDate;
+
+  @Nullable
   @JoinColumn(name = "branch_id")
   @ManyToOne(targetEntity = Branch.class)
   private Branch branch;
+
+  @Nullable
   @ManyToOne(targetEntity = Company.class)
   @JoinColumn(name = "company_id")
   private Company company;
+
+  @Nullable
   @ManyToOne(targetEntity = Employee.class)
   @JoinColumn(name = "employee_id")
   private Employee employee; // Todo replace user;
+
+  @Nullable
   @ManyToOne(targetEntity = Department.class)
   @JoinColumn(name = "department_id")
   private Department department;
+
+  @Nullable
   @ManyToOne(targetEntity = Depot.class)
   @JoinColumn(name = "depot_id")
   private Depot depot;
   private String summary;
+
+  @Nullable
   @JoinColumn(name = "account_id")
   @ManyToOne(targetEntity = Account.class)
   private Account account;
   private double money;
   private double wipe;
-  private int actionType;
-  @ManyToMany(targetEntity = Product.class)
+
+  @Nullable
+  @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+  @ManyToMany(targetEntity = OrderFormProduct.class, fetch = FetchType.EAGER)
   @JoinColumn(name = "order_product_id")
   private Set<OrderFormProduct> products;
   private int status;
+
+  @Transient
+  private int actionType;
 
   public Long getId() {
     return id;

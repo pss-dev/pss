@@ -14,12 +14,14 @@ public class OrderFormProduct {
 
   @JoinColumn(name = "productUnit_id")
   @ManyToOne(targetEntity = ProductUnit.class)
-  private ProductUnit productUnit;
+  private ProductUnit unit;
 
   private int count;
-  private Long price;
-  private Long amount;
+  private double price;
+  private double amount;
   private String note;
+
+  @Transient
   private int actionType;
 
   public Long getId() {
@@ -38,12 +40,12 @@ public class OrderFormProduct {
     this.product = product;
   }
 
-  public ProductUnit getProductUnit() {
-    return productUnit;
+  public ProductUnit getUnit() {
+    return unit;
   }
 
-  public void setProductUnit(ProductUnit productUnit) {
-    this.productUnit = productUnit;
+  public void setUnit(ProductUnit unit) {
+    this.unit = unit;
   }
 
   public int getCount() {
@@ -54,19 +56,19 @@ public class OrderFormProduct {
     this.count = count;
   }
 
-  public Long getPrice() {
+  public double getPrice() {
     return price;
   }
 
-  public void setPrice(Long price) {
+  public void setPrice(double price) {
     this.price = price;
   }
 
-  public Long getAmount() {
+  public double getAmount() {
     return amount;
   }
 
-  public void setAmount(Long amount) {
+  public void setAmount(double amount) {
     this.amount = amount;
   }
 

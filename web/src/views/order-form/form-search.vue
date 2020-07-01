@@ -35,7 +35,7 @@
               </el-select>
             </el-col>
             <el-col :span="2">
-              <el-button @click="search">查询</el-button>
+              <el-button @click="getOrderForms">查询</el-button>
             </el-col>
           </el-row>
           <el-row class="el-row-bottom-20" :gutter="20">
@@ -404,10 +404,14 @@ export default {
       };
 
       console.log("======  search ", searchModelData);
-      return orderFormApi.getOrderFormInfo(searchModelData).then(
-        (res) => {
-          this.setResponseResult(res.data);
-        });
+      // return orderFormApi.getOrderFormInfo(searchModelData).then(
+      //   (res) => {
+      //     this.setResponseResult(res.data);
+      //   });
+
+      return orderFormApi.getOrderForms().then((res) => {
+        console.log("============= getOrderForms ", res);
+      });
     },
 
     handleCurrentChange (value) {

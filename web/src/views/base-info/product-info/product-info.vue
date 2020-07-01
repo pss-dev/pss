@@ -86,7 +86,6 @@ export default {
       { prop: "specification", label: "规格" },
       { prop: "type", label: "型号" },
       ],
-
       booleanData: { prop: "stopPurchase", label: "停止采购" }
     }
   },
@@ -133,8 +132,8 @@ export default {
         type: '',
         address: '',
         stopPurchase: false,
-        sellDefaultUnit: {},
-        purchaseDefaultUnit: {},
+        sellDefaultUnit: null,
+        purchaseDefaultUnit: null,
         actionType: Tool.actionType.add,
         parent: this.parent,
         units: [{
