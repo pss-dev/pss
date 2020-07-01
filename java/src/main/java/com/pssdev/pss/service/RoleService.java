@@ -2,6 +2,8 @@ package com.pssdev.pss.service;
 
 import com.pssdev.pss.entity.Role;
 
+import java.util.List;
+
 public interface RoleService {
    void insertRole(Role role) throws Exception;
 
@@ -10,4 +12,6 @@ public interface RoleService {
    void modifyRole(Role role) throws Exception;
 
    Role getRole(Integer id);
+
+   List<Role> getRoles();
 }

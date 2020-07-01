@@ -30,6 +30,6 @@ public class RoleController {
 
   @GetMapping("/role")
   public List<Role> getRoles() {
-    return null;
+    return roleService.getRoles();
   }
 }

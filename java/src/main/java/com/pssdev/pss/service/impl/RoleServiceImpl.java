@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service("roleService")
 public class RoleServiceImpl implements RoleService {
 
@@ -37,6 +39,11 @@ public class RoleServiceImpl implements RoleService {
    @Override
    public Role getRole(Integer id) {
       return roleDao.get(id);
+   }
+
+   @Override
+   public List<Role> getRoles() {
+      return roleDao.getAll();
    }
 
    private final RoleDao roleDao;
