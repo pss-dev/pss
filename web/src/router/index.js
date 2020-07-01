@@ -26,13 +26,6 @@ export default new VueRouter({
       component: Index
     },
     {
-      path: '/login',
-      meata: {
-        title: '登录页'
-      },
-      component: InventoryLogin
-    },
-    {
       path: '/dept',
       meata: {
         title: 'Department'

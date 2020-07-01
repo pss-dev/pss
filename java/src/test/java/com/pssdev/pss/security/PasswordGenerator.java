@@ -1,8 +1,10 @@
 package com.pssdev.pss.security;
 
 import com.pssdev.pss.util.Tool;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+@Disabled("Just generator password.")
 public class PasswordGenerator {
 
    @Test

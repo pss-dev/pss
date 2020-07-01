@@ -11,6 +11,8 @@
 </template>
 
 <script>
+import securityInfo from "../../../api/common/securityInfo.js"
+
 export default {
 	name: "IndexHeader",
 	data() {
@@ -18,8 +20,7 @@ export default {
 	},
 	methods: {
 		logout() {
-			// 清空token
-			this.$router.push("/login")
+			securityInfo.logout();
 		},
 	},
 }

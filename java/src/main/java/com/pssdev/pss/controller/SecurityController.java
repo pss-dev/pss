@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-public class LoginController {
+public class SecurityController {
 
    @GetMapping("/login")
    public String gotoLoginPage() {
@@ -57,5 +57,12 @@ public class LoginController {
 
       // 登录成功跳转到 / 页面
       return "redirect:/";
+   }
+
+   @GetMapping("/api/1.0/logout")
+   public String logout() {
+      SecurityUtils.getSubject().logout();
+
+      return "redirect:/login";
    }
 }

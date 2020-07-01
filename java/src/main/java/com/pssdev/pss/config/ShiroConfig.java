@@ -62,6 +62,7 @@ public class ShiroConfig {
       filterChainMap.put("/css/**", "anon");
       filterChainMap.put("/imgs/**", "anon");
       filterChainMap.put("/js/**", "anon");
+      filterChainMap.put("/assets/**", "anon");
       filterChainMap.put("/swagger-*/**", "anon");
       filterChainMap.put("/swagger-ui.html/**", "anon");
       // 登录 URL 放行
