@@ -50,8 +50,8 @@ export default {
   },
 
   methods: {
-    geEmployeeInfo (params) {
-      return EmployeeInfoApi.geEmployeeInfo(params).then(
+    getEmployeeInfo () {
+      return EmployeeInfoApi.getEmployeeInfo().then(
         (res) => {
           this.setResponseResult(res.data);
         });
@@ -59,9 +59,7 @@ export default {
   },
 
   created: function () {
-    var params = this.getParameterForNewTable(this.getParentID());
-
-    this.geEmployeeInfo(params);
+    this.getEmployeeInfo();
   }
 
 }

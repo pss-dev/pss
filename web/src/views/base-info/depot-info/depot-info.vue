@@ -64,7 +64,7 @@ export default {
     return {
       titData:
         [{ prop: "name", label: "名称" },
-        { prop: "branch", label: "分支机构" },
+        { prop: "branch.name", label: "分支机构" },
         { prop: "initials", label: "拼音码" }],
     }
   },

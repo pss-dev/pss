@@ -81,7 +81,7 @@
 import BseInfo from '../mixIns/base-info'
 import TableBaseInfo from '@/views/mixIns/table-base-info.js'
 import RuleTool from '@/views/constant/rule-tool.js'
-import Tool from '@/views/constant/tool.js'
+//import Tool from '@/views/constant/tool.js'
 
 import RoleInfoApi from '../../../api/role-info-api/roleInfoApi'
 
@@ -106,66 +106,66 @@ export default {
       treeData: [
         {
           label: '基本信息',
-          key: RuleTool.source.baseInfo,
+          key: RuleTool.resource.baseInfo,
           children: [{
             label: '商品档案',
-            key: RuleTool.source.product,
+            key: RuleTool.resource.product,
           },
           {
             label: '计量单位',
-            key: RuleTool.source.unit,
+            key: RuleTool.resource.unit,
           },
           {
             label: '价格名称',
-            key: RuleTool.source.price,
+            key: RuleTool.resource.price,
           },
           {
             label: '来往单位',
-            key: RuleTool.source.company,
+            key: RuleTool.resource.company,
           },
           {
             label: '仓库信息',
-            key: RuleTool.source.depot,
+            key: RuleTool.resource.depot,
           },
           {
             label: '部门',
-            key: RuleTool.source.department,
+            key: RuleTool.resource.department,
           },
           {
             label: '分支机构',
-            key: RuleTool.source.branch,
+            key: RuleTool.resource.branch,
           },]
         },
         {
           label: '单据',
-          key: RuleTool.source.orderForm,
+          key: RuleTool.resource.orderForm,
         },
         {
           label: '管理设置',
-          key: RuleTool.source.manage,
+          key: RuleTool.resource.manage,
           children: [{
             label: '角色管理',
-            key: RuleTool.source.role,
+            key: RuleTool.resource.role,
           },
           {
             label: '员工信息',
-            key: RuleTool.source.employee,
+            key: RuleTool.resource.employee,
           },
           {
             label: '账户信息',
-            key: RuleTool.source.account,
+            key: RuleTool.resource.account,
           }]
         },
         {
           label: '统计查询',
-          key: RuleTool.source.statistic,
+          key: RuleTool.resource.statistic,
           children: [{
             label: '日志',
-            key: RuleTool.source.log,
+            key: RuleTool.resource.log,
           },
           {
             label: '营收',
-            key: RuleTool.source.revenue,
+            key: RuleTool.resource.revenue,
           }]
         },
       ],
@@ -189,9 +189,9 @@ export default {
     },
 
     nameChange () {
-      if (this.selectedInfo.actionType != Tool.actionType.add) {
-        this.selectedInfo.actionType = Tool.actionType.update;
-      }
+      // if (this.selectedInfo.actionType != Tool.actionType.add) {
+      //   this.selectedInfo.actionType = Tool.actionType.update;
+      // }
     },
 
     newRole () {
@@ -210,13 +210,13 @@ export default {
       if (this.selectedInfo && this.selectedInfo.id != null) {
         RoleInfoApi.setRoleInfo(this.selectedInfo).then(
           () => {
-            //this.getRoleInfo();
+            this.getRoleInfo();
           });
       }
       else {
         RoleInfoApi.addRoleInfo(this.selectedInfo).then(
           () => {
-            //this.getRoleInfo();
+            this.getRoleInfo();
           });
       }
 
@@ -243,7 +243,7 @@ export default {
       this.selectedSource = data.key;
 
       let permissions = this.selectedInfo.permissions.filter(function (rule) {
-        return rule.source == data.key;
+        return rule.resource == data.key;
       });
 
       if (permissions.length == 1) {
@@ -255,7 +255,7 @@ export default {
         this.selectedSourceRule = rule;
       }
 
-      if (this.selectedSource == RuleTool.source.orderForm) {
+      if (this.selectedSource == RuleTool.resource.orderForm) {
         this.verifyVisiable = true;
       }
       else {
@@ -270,7 +270,7 @@ export default {
     getNewRule (sourceValue) {
       let rule = {
         id: null,
-        source: sourceValue,
+        resource: sourceValue,
         operator: 0,
       };
 
@@ -282,9 +282,9 @@ export default {
     },
 
     handleRuleChange () {
-      if (this.selectedSourceRule.actionType != Tool.actionType.add) {
-        this.selectedSourceRule.actionType = Tool.actionType.update;
-      }
+      // if (this.selectedSourceRule.actionType != Tool.actionType.add) {
+      //   this.selectedSourceRule.actionType = Tool.actionType.update;
+      // }
     },
 
     setRuleCheckBoxValue () {

@@ -11,7 +11,15 @@ public class DepotDaoImpl extends BaseDao<Depot, Integer> implements DepotDao {
 
   @Override
   public List<Depot> getDepots(Integer fatherId) {
-    return getSession().createQuery("from Depot c where c.parent.id = " + fatherId).list();
+    String hql = "from Depot d ";
+
+    if (fatherId == -1) {
+      hql += "where d.parent is null";
+    } else {
+      hql += "where d.parent.id= " + fatherId;
+    }
+
+    return getSession().createQuery(hql).list();
   }
 
   @Override

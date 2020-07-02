@@ -48,7 +48,7 @@ public class DepotServiceImpl implements DepotService {
       throw new Exception("仓库不存在");
     } else {
       oldDepot.setName(depot.getName());
-      // oldDepot.setBranch(depot.getBranch());
+      oldDepot.setBranch(depot.getBranch());
       oldDepot.setInitials(depot.getInitials());
       DepotDao.update(oldDepot);
     }

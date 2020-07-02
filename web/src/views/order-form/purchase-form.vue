@@ -1,6 +1,6 @@
 <template>
   <div>
-    <order-form :orderFormData="data" :orderFormType="getFormType()"></order-form>
+    <order-form :orderFormDataValue="data" :orderFormType="getFormType()"></order-form>
   </div>
 </template>
 

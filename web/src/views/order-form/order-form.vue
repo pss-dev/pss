@@ -647,6 +647,8 @@ export default {
     },
 
     save () {
+      console.log("=========== save ", this.orderFormData);
+
       if (this.orderFormData.actionType == Tool.actionType.add) {
         orderFormApi.addOrderForm(this.orderFormData).then((res) => {
           console.log(res);
@@ -657,7 +659,6 @@ export default {
           console.log(res);
         });
       }
-
     },
 
     verifyOrderForm () {

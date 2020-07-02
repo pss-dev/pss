@@ -2,12 +2,15 @@ package com.pssdev.pss.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModel;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.util.Objects;
+import java.util.HashSet;
+import java.util.Set;
 
-@Entity(name = "t_depot")
+@Entity()
 @ApiModel("仓库信息")
 @JsonIgnoreProperties
 public class Depot {
@@ -25,6 +28,10 @@ public class Depot {
   @JoinColumn(name = "father_id")
   @ManyToOne(targetEntity = Depot.class)
   private Depot parent;
+
+  @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  @JsonIgnore
+  private Set<Depot> children = new HashSet<>();
 
   public Integer getId() {
     return id;
@@ -64,6 +71,14 @@ public class Depot {
 
   public void setParent(Depot parent) {
     this.parent = parent;
+  }
+
+  public Set<Depot> getChildren() {
+    return children;
+  }
+
+  public void setChildren(Set<Depot> children) {
+    this.children = children;
   }
 
   @Override

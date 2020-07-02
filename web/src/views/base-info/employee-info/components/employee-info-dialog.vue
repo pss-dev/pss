@@ -25,7 +25,7 @@
             <el-input v-model="employeeData.password" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="分支机构" prop="branch">
-            <el-input readonly v-model="employeeData.branch.name" autocomplete="off">
+            <el-input readonly :value="getBranchName()" autocomplete="off">
               <el-button
                 size="small"
                 @click="showBranchDialog()"
@@ -35,7 +35,7 @@
             </el-input>
           </el-form-item>
           <el-form-item label="部门" prop="department">
-            <el-input readonly v-model="employeeData.department.name" autocomplete="off">
+            <el-input readonly :value="getDepartmentName()" autocomplete="off">
               <el-button
                 size="small"
                 @click="showDepartmentDialog()"
@@ -197,6 +197,14 @@ export default {
     deleteRow (row, index) {
       this.employeeData.roles.splice(index, 1);
     },
+
+    getDepartmentName () {
+      return this.employeeData.department ? this.employeeData.department.name : "";
+    },
+
+    getBranchName () {
+      return this.employeeData.branch ? this.employeeData.branch.name : "";
+    }
   },
 
   created: function () {

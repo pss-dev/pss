@@ -83,8 +83,8 @@ export default {
         name: '',
         account: '',
         password: '',
-        branch: { id: null, name: '' },
-        department: { id: null, name: '' },
+        branch: null,
+        department: null,
         roles: [],
       };
 
@@ -99,15 +99,16 @@ export default {
 
     submitData (employeeData) {
       if (this.addInfo) {
+        console.log("====== submitData ", employeeData);
         employeeInfoApi.addEmployeeInfo(employeeData).then(
-          (res) => {
-            this.setResponseResult(res.data);
+          () => {
+            this.getEmployeeInfo();
           });
       }
       else {
         employeeInfoApi.modifyEmployeeInfo(employeeData).then(
-          (res) => {
-            this.setResponseResult(res.data);
+          () => {
+            this.getEmployeeInfo();
           });
       }
     },
@@ -123,6 +124,7 @@ export default {
     getEmployeeInfo () {
       employeeInfoApi.getEmployeeInfo().then(
         (res) => {
+          console.log("=========  getEmployeeInfo ", res);
           this.setResponseResult(res.data);
           this.closeDialog();
         });

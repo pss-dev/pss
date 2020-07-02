@@ -15,12 +15,12 @@ public class RoleController {
 
   @PostMapping("/role")
   public void insertRole(@RequestBody Role role) throws Exception {
+    roleService.insertRole(role);
   }
 
   @DeleteMapping("/role")
   public void deleteRole(@RequestBody Role role) {
     roleService.deleteRole(role);
-    ;
   }
 
   @PutMapping("/role")

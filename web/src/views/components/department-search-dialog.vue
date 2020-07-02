@@ -5,6 +5,7 @@
     :title="dialogTitle"
     :visible.sync="dialogVisible"
     :before-close="handleClose"
+    append-to-body
   >
     <search-base
       :paths="getPathsLabel()"

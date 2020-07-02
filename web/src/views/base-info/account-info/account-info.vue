@@ -21,6 +21,7 @@
           :previousDisable="!hasFatherInfo()"
           @newInfo="newInfo"
           @copyNew="copyNew"
+          @edit="edit"
           @deleteInfo="deleteInfo"
           @previous="previous"
           @next="getChildData"

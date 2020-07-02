@@ -26,7 +26,7 @@ public class AccountServiceImpl implements AccountService {
       }
     }
 
-    if (accountDao.get(account.getId()) != null) {
+    if (account.getId() != null && accountDao.get(account.getId()) != null) {
       throw new Exception("账户已经存在");
     }
 

@@ -109,7 +109,7 @@
         <div>
           <base-info-table
             :titles="titData"
-            :tableData="orderFormDatas"
+            :tableData="tableData"
             @handleCurrentChange="handleCurrentChange"
             @getChildData="openOrderForm"
           ></base-info-table>
@@ -177,11 +177,14 @@ import UnitSearchDialog from "../components/unit-search-dialog.vue"
 import AccountSearchDialog from "../components/account-search-dialog.vue"
 import BaseInfoTable from "@/views/base-info/components/base-info-table.vue"
 
+import TableBaseInfo from '@/views/mixIns/table-base-info.js'
+
 import orderFormApi from "../../api/order-form-api/orderFormApi.js"
 import Tool from '@/views/constant/tool.js'
 
 export default {
   name: "orderForm",
+  mixins: [TableBaseInfo],
 
   components: {
     "department-search-dialog": DepartmentSearchDialog,
@@ -207,15 +210,6 @@ export default {
 
       selectedInfo: null,
       dateRange: [],
-
-      orderFormDatas: [{
-        id: null,
-        type: Tool.orderFormType.purchaseForm,
-        status: 1,// 用来判断是草稿还是已经审核过的
-        createDate: "",
-        company: { name: "aaa" },
-        employee: { name: "aaa" },
-      }],
 
       searchModel: {
         orderFormType: Tool.orderFormType.purchaseForm,
@@ -404,13 +398,9 @@ export default {
       };
 
       console.log("======  search ", searchModelData);
-      // return orderFormApi.getOrderFormInfo(searchModelData).then(
-      //   (res) => {
-      //     this.setResponseResult(res.data);
-      //   });
-
       return orderFormApi.getOrderForms().then((res) => {
         console.log("============= getOrderForms ", res);
+        this.setResponseResult(res.data);
       });
     },
 

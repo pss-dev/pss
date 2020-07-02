@@ -1,5 +1,8 @@
 package com.pssdev.pss.entity;
 
+import org.springframework.lang.Nullable;
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
@@ -12,13 +15,19 @@ public class Employee implements Serializable {
   private String name;
   private String account;
   private String password;
+
+  @Nullable
   @JoinColumn(name = "branch_id")
   @OneToOne(targetEntity = Branch.class)
   private Branch branch;
+
+  @Nullable
   @JoinColumn(name = "department_id")
   @OneToOne(targetEntity = Department.class)
   private Department department;
-  @ManyToMany(targetEntity = Role.class)
+
+  @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+  @ManyToMany(targetEntity = Role.class, fetch = FetchType.EAGER)
   private Set<Role> roles;
 
   public Set<Role> getRoles() {
@@ -79,10 +88,6 @@ public class Employee implements Serializable {
 
   @Override
   public String toString() {
-    return "Employee{" +
-       "id=" + id +
-       ", name='" + name + '\'' +
-       ", account='" + account + '\'' +
-       '}';
+    return "Employee{" + "id=" + id + ", name='" + name + '\'' + ", account='" + account + '\'' + '}';
   }
 }
