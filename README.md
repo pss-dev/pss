@@ -37,3 +37,61 @@ gradlew[.bat] server # 不会编译 classes
 ### 4. 代码提交
 * Fix bug 携带 bug 号, GitHub 会自动关联, 格式为 `#2 message`
 
+### 5. 授权
+
+> 对于授权的控制访问放在 `Controller` 层. 具体可参考 `com.pssdev.pss.controller.DepartmentController`
+
+> 基本格式为
+
+``` text
+level/resource/operator
+```
+
+> `level`: 级别,有以下值
+>   * **system**: 代表超级管理员
+>   * **admin**: 代表非超级管理员的 Administrator
+>   * **user**: 普通用户
+
+> `resource`: 受授权管理的系统资源, 具体映射为:
+``` javascript
+resource: {
+    baseInfo: "1",
+    product: "2",
+    unit: "4",
+    price: "8",
+    company: "16",
+    depot: "32",
+    department: "64",
+    branch: "128",
+    orderForm: "256",
+    manage: "512",
+    role: "1024",
+    employee: "2048",
+    account: "4096",
+    statistic: "8192",
+    log: "16384",
+    revenue: "32768",
+}
+```
+
+> `operator`: 对资源的访问, 具体可参看 `com.pssdev.pss.util.SecurityUtil#getOperatorPermission`
+
+``` java
+public static String getOperatorPermission(PermissionEnum permission) {
+    switch(permission) {
+        case READ:
+            return "r";
+        case WRITE:
+            return "w";
+        case DELETE:
+            return "d";
+        case VERIFY:
+            return "v";
+        case ADMIN:
+            return ALL_PERMISSION;
+        default:
+            return "";
+    }
+}
+```
+

@@ -2,7 +2,7 @@ package com.pssdev.pss.config;
 
 import com.pssdev.pss.entity.*;
 import com.pssdev.pss.service.EmployeeService;
-import com.pssdev.pss.util.Tool;
+import com.pssdev.pss.util.SecurityUtil;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -39,12 +39,17 @@ public class PssRealm extends AuthorizingRealm {
     // 给该用户设置角色
     Set<Role> roles = emp.getRoles();
 
+    if(emp.isAdmin()) {
+      authorizationInfo.addStringPermission(SecurityUtil.ALL_PERMISSION);
+    }
+
     for(Role role : roles) {
       // 添加角色
       authorizationInfo.addRole(role.getName());
+
       // 添加权限
       for(Permission permission: role.getPermissions()) {
-        authorizationInfo.addStringPermission(Tool.buildPermissionString(permission));
+        authorizationInfo.addStringPermission(SecurityUtil.buildPermissionString(username, role, permission));
       }
     }
 

@@ -81,6 +81,9 @@ public class ShiroConfig {
       return shiroFilterFactoryBean;
    }
 
+   /**
+    * 用于映射匹配权限注解.
+    */
    @Bean
    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {
       AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();

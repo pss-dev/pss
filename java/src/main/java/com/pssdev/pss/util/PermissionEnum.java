@@ -13,6 +13,10 @@ public enum PermissionEnum {
       this.permission = permission;
    }
 
+   public int getPermission() {
+      return this.permission;
+   }
+
    public static PermissionEnum valueOf(int permission) {
       switch(permission) {
          case 1:

@@ -1,7 +1,8 @@
 package com.pssdev.pss.entity;
 
-import org.springframework.lang.Nullable;
+import com.pssdev.pss.util.SecurityUtil;
 import org.hibernate.annotations.Cascade;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -89,5 +90,9 @@ public class Employee implements Serializable {
   @Override
   public String toString() {
     return "Employee{" + "id=" + id + ", name='" + name + '\'' + ", account='" + account + '\'' + '}';
+  }
+
+  public boolean isAdmin() {
+    return SecurityUtil.Admin.equals(this.account);
   }
 }
