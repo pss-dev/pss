@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Index from '@/views/inventory-index/inventory-index'
-import InventoryLogin from '@/views/login/inventory-login'
 import Department from '@/views/base-info/department-info/department-info'
 import OrderForm from "@/views/order-form/order-form"
 import Company from "@/views/base-info/company-info/company-info"
@@ -19,81 +18,81 @@ Vue.use(VueRouter)
 export default new VueRouter({
   mode: "history",
   routes: [{
-      path: '/',
-      meata: {
-        title: '首页'
-      },
-      component: Index
+    path: '/',
+    meata: {
+      title: '首页'
     },
-    {
-      path: '/dept',
-      meata: {
-        title: 'Department'
-      },
-      component: Department
+    component: Index
+  },
+  {
+    path: '/dept',
+    meata: {
+      title: 'Department'
     },
-    {
-      path: '/order',
-      meata: {
-        title: 'OrderForm'
-      },
-      component: OrderForm
+    component: Department
+  },
+  {
+    path: '/order',
+    meata: {
+      title: 'OrderForm'
     },
-    {
-      path: '/company',
-      meata: {
-        title: 'Company'
-      },
-      component: Company
+    component: OrderForm
+  },
+  {
+    path: '/company',
+    meata: {
+      title: 'Company'
     },
-    {
-      path: '/branch',
-      meata: {
-        title: 'Branch'
-      },
-      component: Branch
+    component: Company
+  },
+  {
+    path: '/branch',
+    meata: {
+      title: 'Branch'
     },
-    {
-      path: '/price',
-      meata: {
-        title: 'Price'
-      },
-      component: Price
+    component: Branch
+  },
+  {
+    path: '/price',
+    meata: {
+      title: 'Price'
     },
-    {
-      path: '/depot',
-      meata: {
-        title: 'Depot'
-      },
-      component: Depot
+    component: Price
+  },
+  {
+    path: '/depot',
+    meata: {
+      title: 'Depot'
     },
-    {
-      path: '/unit',
-      meata: {
-        title: 'Unit'
-      },
-      component: Unit
+    component: Depot
+  },
+  {
+    path: '/unit',
+    meata: {
+      title: 'Unit'
     },
-    {
-      path: '/product',
-      meata: {
-        title: 'Product'
-      },
-      component: Product
+    component: Unit
+  },
+  {
+    path: '/product',
+    meata: {
+      title: 'Product'
     },
-    {
-      path: '/account',
-      meata: {
-        title: 'Account'
-      },
-      component: Account
+    component: Product
+  },
+  {
+    path: '/account',
+    meata: {
+      title: 'Account'
     },
-    {
-      path: '/employee',
-      meata: {
-        title: 'Employee'
-      },
-      component: Employee
-    }
+    component: Account
+  },
+  {
+    path: '/employee',
+    meata: {
+      title: 'Employee'
+    },
+    component: Employee
+  }
   ]
 })
