@@ -2,6 +2,7 @@ package com.pssdev.pss.config;
 
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.authz.permission.WildcardPermissionResolver;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
@@ -102,5 +103,14 @@ public class ShiroConfig {
       credentialsMatcher.setHashIterations(1024);
 
       return credentialsMatcher;
+   }
+
+   /**
+    * 用于匹配 @RequiresPermissions 注解中的通配符. * 代表任意.
+    * @return PermissionResolver
+    */
+   @Bean
+   public WildcardPermissionResolver wildcardPermissionResolver() {
+      return new PssWildcardPermissionResolver();
    }
 }

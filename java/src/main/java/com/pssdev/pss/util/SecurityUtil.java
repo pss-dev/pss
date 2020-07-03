@@ -34,15 +34,9 @@ public final class SecurityUtil {
 
       if(Admin.equals(principle)) {
          sb.append(SYSTEM_PERMISSION_FLAG);
-         sb.append(SUBPART_DIVIDER_TOKEN);
-         sb.append(ADMINISTRATOR_PERMISSION_FLAG);
-         sb.append(SUBPART_DIVIDER_TOKEN);
-         sb.append(USER_PERMISSION_FLAG);
       }
       else if(Administrator.equals(role.getName())) {
          sb.append(ADMINISTRATOR_PERMISSION_FLAG);
-         sb.append(SUBPART_DIVIDER_TOKEN);
-         sb.append(USER_PERMISSION_FLAG);
       }
       else {
          sb.append(USER_PERMISSION_FLAG);

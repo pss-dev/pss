@@ -7,6 +7,7 @@ import org.apache.shiro.authc.*;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.authz.permission.WildcardPermissionResolver;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
@@ -23,8 +24,12 @@ public class PssRealm extends AuthorizingRealm {
 
   @Autowired
   @Lazy // dependencies service must lazy loading for realm initialize.
-  public PssRealm(EmployeeService employeeService, CredentialsMatcher credentialsMatcher) {
+  public PssRealm(EmployeeService employeeService,
+                  CredentialsMatcher credentialsMatcher,
+                  WildcardPermissionResolver wildcardPermissionResolver)
+  {
     super(credentialsMatcher);
+    setPermissionResolver(wildcardPermissionResolver);
     this.employeeService = employeeService;
   }
 
