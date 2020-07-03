@@ -5,19 +5,20 @@
     :title="title"
     :visible.sync="dialogVisible"
     :before-close="handleClose"
+    append-to-body
   >
     <el-form
-      :model="departmentData"
-      ref="departmentData"
+      :model="printInfo"
+      ref="printInfo"
       :rules="rules"
       label-width="100px"
-      class="demo-ruleForm"
+      class="demo-dynamic"
     >
-      <el-form-item label="部门名称" prop="name">
-        <el-input v-model="departmentData.name" autocomplete="off"></el-input>
+      <el-form-item label="标题" prop="title">
+        <el-input v-model="printInfo.title" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item label="拼音码" prop="initials">
-        <el-input v-model="departmentData.initials" autocomplete="off"></el-input>
+      <el-form-item label="提示" prop="prompt">
+        <el-input v-model="printInfo.prompt" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button @click="closeDialog">取 消</el-button>
@@ -29,23 +30,26 @@
 
 <script>
 export default {
-  name: "departmentInfoDialog",
+  name: "printSettingDialog",
+  components: {
+  },
 
   props: {
-    "title": {
-      type: String
-    },
-    "departmentData": {
+    "printInfo": {
       type: Object
-    }
+    },
   },
 
   data () {
     return {
       dialogVisible: true,
+      title: "打印信息设置",
       rules: {
-        name: [
-          { required: true, message: '请输部门名称', trigger: 'blur' }
+        title: [
+          { required: true, message: '请输价格名称', trigger: 'blur' }
+        ],
+        prompt: [
+          { required: true, message: '请输价格名称', trigger: 'blur' }
         ]
       },
     }
@@ -62,15 +66,15 @@ export default {
     },
 
     submitData () {
-      this.$refs['departmentData'].validate((valid) => {
+      this.$refs['printInfo'].validate((valid) => {
         if (valid) {
-          this.$emit("submitData", this.departmentData);
+          this.$emit("submitData", this.printInfo);
         } else {
           console.log('error submit!!');
           return false;
         }
       });
-    }
+    },
   },
 
   created: function () {

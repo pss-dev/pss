@@ -83,7 +83,7 @@ export default {
     submitData () {
       this.$refs['depotData'].validate((valid) => {
         if (valid) {
-          this.$emit("submitData", this.depotData, this.oldID);
+          this.$emit("submitData", this.depotData);
         } else {
           console.log('error submit!!');
           return false;

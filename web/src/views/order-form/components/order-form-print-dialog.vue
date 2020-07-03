@@ -8,7 +8,7 @@
   >
     <el-card class="prind-card">
       <div ref="print" id="print">
-        <div class="print-title">{{formInfo.title}}</div>
+        <div class="print-title">{{printInfo.title}}</div>
         <el-row :gutter="10">
           <el-col :span="3">客户姓名：</el-col>
           <el-col :span="5">{{orderFormData.company.name}}</el-col>
@@ -81,19 +81,28 @@
         </el-row>
         <el-row :gutter="10">
           <el-col :span="3">温馨提示：</el-col>
-          <el-col :span="21">{{formInfo.prompt}}</el-col>
+          <el-col :span="21">{{printInfo.prompt}}</el-col>
         </el-row>
       </div>
     </el-card>
 
     <div class="print-footer">
-      <el-button>打印设置</el-button>
+      <el-button @click="showPrintDialog">打印设置</el-button>
       <el-button v-print="'#print'">打印</el-button>
     </div>
+
+    <print-setting-dialog
+      :printInfo="printInfoValue"
+      @closeDialog="closePrintDialog"
+      @submitData="submitPrintData"
+      v-if="printSettingDialogVisiable"
+    ></print-setting-dialog>
   </el-dialog>
 </template>
 
 <script>
+import PrintSettingDialog from "./print-setting-dialog.vue"
+
 function smalltoBIG (n) {
   var fraction = ['角', '分'];
   var digit = ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖'];
@@ -125,6 +134,9 @@ function smalltoBIG (n) {
 
 export default {
   name: "printDialog",
+  components: {
+    "print-setting-dialog": PrintSettingDialog
+  },
   props: {
     "orderFormData": {
       type: Object
@@ -140,6 +152,7 @@ export default {
   data () {
     return {
       dialogVisible: true,
+      printSettingDialogVisiable: false,
       title: "打印预览",
 
       titles:
@@ -151,10 +164,11 @@ export default {
         { prop: "amount", label: "金额" },
         { prop: "note", label: "备注" }],
 
-      formInfo: {
+      printInfo: {
         title: "谢谢使用",
         prompt: "如果您在收货过程中有任何质疑，请在收货及时与本公司联系，非常感谢您对我们工作的支持！"
       },
+      printInfoValue: {},
 
       bigMoney: '',
       accountInfo: '',
@@ -193,6 +207,20 @@ export default {
       if (day < 10) day = '0' + day
 
       return year + '-' + month + '-' + day
+    },
+
+    showPrintDialog () {
+      this.printInfoValue = JSON.parse(JSON.stringify(this.printInfo));
+      this.printSettingDialogVisiable = true;
+    },
+
+    closePrintDialog () {
+      this.printSettingDialogVisiable = false;
+    },
+
+    submitPrintData (value) {
+      this.printInfo = value;
+      this.printSettingDialogVisiable = false;
     }
   },
 

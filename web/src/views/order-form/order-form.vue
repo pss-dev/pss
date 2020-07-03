@@ -379,14 +379,14 @@ export default {
         id: null,
         type: 1,
         status: 0,// 用来判断是草稿还是已经审核过的
-        creatUser: null, //由谁创建
-        verifyUser: null, //由谁审核过账
+        creatUser: {}, //由谁创建
+        verifyUser: {}, //由谁审核过账
         createDate: new Date(),
-        branch: null,
-        company: null,
-        employee: null,
-        department: null,
-        depot: null,
+        branch: {},
+        company: {},
+        employee: {},
+        department: {},
+        depot: {},
         summary: 'asdasdasd',
 
         actionType: Tool.actionType.add,
@@ -394,7 +394,7 @@ export default {
         products: [
         ],
 
-        account: null,
+        account: {},
         money: 0, // 收款
         wipe: 0, // 抹零
       },

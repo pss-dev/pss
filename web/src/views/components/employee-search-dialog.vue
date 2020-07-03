@@ -10,8 +10,8 @@
     <search-base
       :titles="titleData"
       :tableData="tableData"
-      :previousDisable="!hasFatherInfo()"
-      :nextDisable="isSelectedInfoValid()"
+      :previousVisiable="false"
+      :nextVisiable="false"
       :totalSize="totalSize"
       :currentPage="currentPage"
       :tableHeaderVisiable="false"

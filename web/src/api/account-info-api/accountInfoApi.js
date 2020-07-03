@@ -25,11 +25,11 @@ function modifyAccountInfo (data) {
   })
 }
 
-function deleteAccountInfo (params) {
+function deleteAccountInfo (data) {
   return fetch({
     url: baseApi.baseApi('account'),
     method: 'delete',
-    params
+    data
   })
 }
 
