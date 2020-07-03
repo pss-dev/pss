@@ -81,6 +81,10 @@ public class Depot {
     this.children = children;
   }
 
+  public boolean isHaveChildren() {
+    return this.children == null || this.children.size() == 0 ? false : true;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

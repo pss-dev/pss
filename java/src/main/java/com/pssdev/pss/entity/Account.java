@@ -1,9 +1,15 @@
 package com.pssdev.pss.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.Objects;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
+@JsonIgnoreProperties
 public class Account {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -15,6 +21,10 @@ public class Account {
   @JoinColumn(name = "father_id")
   @ManyToOne(targetEntity = Account.class)
   private Account parent;
+
+  @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  @JsonIgnore
+  private Set<Account> children = new HashSet<>();
 
   public Integer getId() {
     return id;
@@ -62,6 +72,18 @@ public class Account {
 
   public void setParent(Account parent) {
     this.parent = parent;
+  }
+
+  public Set<Account> getChildren() {
+    return children;
+  }
+
+  public void setChildren(Set<Account> children) {
+    this.children = children;
+  }
+
+  public boolean isHaveChildren() {
+    return this.children == null || this.children.size() == 0 ? false : true;
   }
 
   @Override

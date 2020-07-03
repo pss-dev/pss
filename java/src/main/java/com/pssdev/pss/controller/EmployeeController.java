@@ -1,5 +1,6 @@
 package com.pssdev.pss.controller;
 
+import com.pssdev.pss.util.*;
 import com.pssdev.pss.entity.Employee;
 import com.pssdev.pss.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,19 +23,21 @@ public class EmployeeController {
 
   @PostMapping("employee")
   @ResponseBody
-  public void addEmployee(Employee user) {
+  public void addEmployee(@RequestBody Employee user) {
+    String md5Password = SecurityUtil.generatorPassword(user.getAccount(), user.getPassword());
+    user.setPassword(md5Password);
     employeeService.insertEmployee(user);
   }
 
   @PutMapping("employee")
   @ResponseBody
-  public void updateEmployee(Employee user) {
+  public void updateEmployee(@RequestBody Employee user) {
     employeeService.updateEmployee(user);
   }
 
   @DeleteMapping("employee")
   @ResponseBody
-  public void deleteEmployee(Employee user) {
+  public void deleteEmployee(@RequestBody Employee user) {
     employeeService.deleteEmployee(user);
   }
 }

@@ -19,6 +19,7 @@
           :selectedInfoInvalid="isSelectedInfoInvalid()"
           :previousVisiable="false"
           :nextVisiable="false"
+          @edit="edit"
           @newInfo="newInfo"
           @copyNew="copyNew"
           @deleteInfo="deleteInfo"

@@ -79,6 +79,7 @@ export default {
 
     getCompanyInfo (params) {
       params.type = this.companyType;
+
       return companyInfoApi.getCompanyInfo(params).then(
         (res) => {
           this.setResponseResult(res.data);

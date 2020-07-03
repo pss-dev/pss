@@ -1,11 +1,17 @@
 package com.pssdev.pss.entity;
 
 import org.hibernate.annotations.Cascade;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
+@JsonIgnoreProperties
 public class Product {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -33,6 +39,11 @@ public class Product {
   @OneToOne(targetEntity = ProductUnit.class)
   @JoinColumn(name = "purchase_default_unit_id")
   private ProductUnit purchaseDefaultUnit;
+
+  @ApiModelProperty("子商品")
+  @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  @JsonIgnore
+  private Set<Product> children = new HashSet<>();
 
   public Integer getId() {
     return id;
@@ -136,6 +147,18 @@ public class Product {
 
   public void setPurchaseDefaultUnit(ProductUnit purchaseDefaultUnit) {
     this.purchaseDefaultUnit = purchaseDefaultUnit;
+  }
+
+  public Set<Product> getChildren() {
+    return children;
+  }
+
+  public void setChildren(Set<Product> children) {
+    this.children = children;
+  }
+
+  public boolean isHaveChildren() {
+    return this.children == null || this.children.size() == 0 ? false : true;
   }
 
   @Override

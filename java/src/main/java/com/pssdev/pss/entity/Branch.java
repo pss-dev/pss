@@ -100,6 +100,10 @@ public class Branch implements Serializable {
     return parent;
   }
 
+  public boolean isHaveChildren() {
+    return this.children == null || this.children.size() == 0 ? false : true;
+  }
+
   @Override
   public String toString() {
     return "Branch{" + "id=" + id + ", name='" + name + '\'' + ", initials='" + initials + '\'' + ", parent="

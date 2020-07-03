@@ -74,7 +74,7 @@ export default {
       value = value == null ? this.selectedInfo : value;
       var param = this.getParameterForNewTable(value.id);
 
-      this.getdepotInfo(param).then(() => {
+      this.getDepotInfo(param).then(() => {
         this.addPaths();
         this.resetCurrentPage();
         this.parent = value;
