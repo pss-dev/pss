@@ -20,7 +20,7 @@ public class DepartmentController {
   }
 
   @GetMapping("/department")
-  @RequiresPermissions("*:64:r")
+  @RequiresPermissions("user:64:r")
   @ApiOperation("获取指定部门集合, 如果父部门未指定则获取所有部门信息")
   public List<Department> getDepartment(
       @ApiParam("上级部门 ID") @RequestParam(name = "fatherID", required = false) Integer fatherID) {
@@ -30,21 +30,21 @@ public class DepartmentController {
   }
 
   @PostMapping("/department")
-  @RequiresPermissions("*:64:w")
+  @RequiresPermissions("user:64:w")
   @ApiOperation("添加部门信息")
   public Integer insertDepartment(@ApiParam("部门信息") @RequestBody Department department) {
     return departmentService.insertDepartment(department);
   }
 
   @PutMapping("/department")
-  @RequiresPermissions("*:64:w")
+  @RequiresPermissions("user:64:w")
   @ApiOperation("修改部门信息")
   public void updateDepartment(@ApiParam("部门信息") @RequestBody Department department) {
     departmentService.updateDepartment(department);
   }
 
   @DeleteMapping("/department")
-  @RequiresPermissions("*:64:d")
+  @RequiresPermissions("user:64:d")
   @ApiOperation("删除部门信息")
   public void deleteDepartment(@ApiParam("部门 ID") @RequestBody Department department) {
     departmentService.deleteDepartment(department);

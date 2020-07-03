@@ -34,13 +34,21 @@ public final class SecurityUtil {
 
       if(Admin.equals(principle)) {
          sb.append(SYSTEM_PERMISSION_FLAG);
+         sb.append(SUBPART_DIVIDER_TOKEN);
+         sb.append(ADMINISTRATOR_PERMISSION_FLAG);
+         sb.append(SUBPART_DIVIDER_TOKEN);
+         sb.append(USER_PERMISSION_FLAG);
       }
       else if(Administrator.equals(role.getName())) {
          sb.append(ADMINISTRATOR_PERMISSION_FLAG);
+         sb.append(SUBPART_DIVIDER_TOKEN);
+         sb.append(USER_PERMISSION_FLAG);
       }
       else {
          sb.append(USER_PERMISSION_FLAG);
       }
+
+      sb.append(PART_DIVIDER_TOKEN);
 
       sb.append(permission.getResource());
 
@@ -59,23 +67,33 @@ public final class SecurityUtil {
       int permission = operator;
       List<String> permissions = new ArrayList<>();
 
-      if(permission == (permission & PermissionEnum.READ.getPermission())) {
+      if(PermissionEnum.READ.getPermission()
+         == (permission & PermissionEnum.READ.getPermission()))
+      {
          permissions.add(getOperatorPermission(PermissionEnum.READ));
       }
 
-      if(permission == (permission & PermissionEnum.WRITE.getPermission())) {
+      if(PermissionEnum.WRITE.getPermission()
+         == (permission & PermissionEnum.WRITE.getPermission()))
+      {
          permissions.add(getOperatorPermission(PermissionEnum.WRITE));
       }
 
-      if(permission == (permission & PermissionEnum.DELETE.getPermission())) {
+      if(PermissionEnum.DELETE.getPermission()
+         == (permission & PermissionEnum.DELETE.getPermission()))
+      {
          permissions.add(getOperatorPermission(PermissionEnum.DELETE));
       }
 
-      if(permission == (permission & PermissionEnum.VERIFY.getPermission())) {
+      if(PermissionEnum.VERIFY.getPermission()
+         == (permission & PermissionEnum.VERIFY.getPermission()))
+      {
          permissions.add(getOperatorPermission(PermissionEnum.VERIFY));
       }
 
-      if(permission == (permission & PermissionEnum.ADMIN.getPermission())) {
+      if(PermissionEnum.ADMIN.getPermission()
+         == (permission & PermissionEnum.ADMIN.getPermission()))
+      {
          permissions.add(getOperatorPermission(PermissionEnum.ADMIN));
       }
 
