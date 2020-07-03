@@ -24,11 +24,11 @@ function modifyEmployeeInfo (data) {
   })
 }
 
-function deleteEmployeeInfo (params) {
+function deleteEmployeeInfo (data) {
   return fetch({
     url: baseApi.baseApi('employee'),
     method: 'delete',
-    params
+    data
   })
 }
 

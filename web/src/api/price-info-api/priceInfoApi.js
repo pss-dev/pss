@@ -8,14 +8,6 @@ function getPriceInfo () {
   })
 }
 
-function addPriceInfo (data) {
-  return fetch({
-    url: baseApi.baseApi('price'),
-    method: 'post',
-    data
-  })
-}
-
 function modifyPriceInfo (data) {
   return fetch({
     url: baseApi.baseApi('price'),
@@ -26,6 +18,5 @@ function modifyPriceInfo (data) {
 
 export default {
   getPriceInfo,
-  addPriceInfo,
   modifyPriceInfo,
 }

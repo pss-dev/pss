@@ -24,11 +24,11 @@ function setRoleInfo (data) {
   })
 }
 
-function deleteRoleInfo (params) {
+function deleteRoleInfo (data) {
   return fetch({
     url: baseApi.baseApi('role'),
     method: 'delete',
-    params
+    data
   })
 }
 
