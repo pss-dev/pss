@@ -103,3 +103,5 @@ task server() {
       }
    }
 }
+
+tasks.bootJar.dependsOn(tasks.findByPath(':web:build'))
