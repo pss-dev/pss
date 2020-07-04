@@ -104,4 +104,8 @@ task server() {
    }
 }
 
+tasks.bootJar.configure {
+   archivesBaseName = "pss-ms";
+}
+
 tasks.bootJar.dependsOn(tasks.findByPath(':web:build'))
