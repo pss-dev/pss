@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 import java.util.HashSet;
 import java.util.Set;
@@ -32,6 +33,9 @@ public class Depot {
   @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   @JsonIgnore
   private Set<Depot> children = new HashSet<>();
+  @OneToMany(targetEntity = DepotItem.class, mappedBy = "depot")
+  @JsonIgnore
+  private List<DepotItem> depotItems;
 
   public Integer getId() {
     return id;
@@ -83,6 +87,14 @@ public class Depot {
 
   public boolean isHaveChildren() {
     return this.children == null || this.children.size() == 0 ? false : true;
+  }
+
+  public List<DepotItem> getDepotItems() {
+    return depotItems;
+  }
+
+  public void setDepotItems(List<DepotItem> depotItems) {
+    this.depotItems = depotItems;
   }
 
   @Override

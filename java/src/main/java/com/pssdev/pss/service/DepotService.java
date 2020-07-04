@@ -1,6 +1,7 @@
 package com.pssdev.pss.service;
 
 import com.pssdev.pss.entity.Depot;
+import com.pssdev.pss.entity.DepotItem;
 
 import java.util.List;
 
@@ -33,4 +34,12 @@ public interface DepotService {
    * delete a Depot
    */
   void deleteDepot(Depot depot);
+
+  /**
+   * get inventory Product
+   * @param depotId
+   * @param productId
+   * @return
+   */
+  public DepotItem inventoryProduct(int depotId, int productId);
 }

@@ -1,6 +1,7 @@
 package com.pssdev.pss.controller;
 
 import com.pssdev.pss.entity.Depot;
+import com.pssdev.pss.entity.DepotItem;
 import com.pssdev.pss.service.DepotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -31,5 +32,12 @@ public class DepotController {
   @GetMapping("/depot")
   public List<Depot> getDepots(@RequestParam(required = false) Integer fatherID) {
     return depotService.getDepots(fatherID);
+  }
+
+  @GetMapping("/depot/product")
+  public DepotItem getInventoryProduct(@RequestParam("depot") int depot,
+                                       @RequestParam("product") int product)
+  {
+    return depotService.inventoryProduct(depot, product);
   }
 }
