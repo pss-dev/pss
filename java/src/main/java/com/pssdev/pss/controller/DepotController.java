@@ -40,4 +40,9 @@ public class DepotController {
   {
     return depotService.inventoryProduct(depot, product);
   }
+
+   @GetMapping("/depot/products")
+   public List<DepotItem> getInventoryProducts(@RequestParam("depot") int depot) {
+      return depotService.inventoryProducts(depot);
+   }
 }

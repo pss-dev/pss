@@ -55,6 +55,14 @@ public class DepotServiceImpl implements DepotService {
   }
 
   @Override
+  public List<DepotItem> inventoryProducts(int depotId) {
+    Depot depot = depotDao.get(depotId);
+    assert depot != null;
+
+    return depotDao.getInventoryProducts(depot);
+  }
+
+  @Override
   @Transactional
   public void updateDepot(Depot depot) throws Exception {
     Depot oldDepot = depotDao.get(depot.getId());

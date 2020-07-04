@@ -42,4 +42,11 @@ public interface DepotService {
    * @return
    */
   public DepotItem inventoryProduct(int depotId, int productId);
+
+  /**
+   * get inventory Product
+   * @param depotId
+   * @return
+   */
+  public List<DepotItem> inventoryProducts(int depotId);
 }

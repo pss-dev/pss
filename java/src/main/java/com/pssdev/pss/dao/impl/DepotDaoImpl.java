@@ -32,10 +32,25 @@ public class DepotDaoImpl extends BaseDao<Depot, Integer> implements DepotDao {
     Session session = getSession();
 
     for(DepotItem item : items) {
-      session.save(item);
+      DepotItem oldItem = getItem(item);
+
+      if(oldItem != null) {
+        oldItem.setProductCount(oldItem.getProductCount() + item.getProductCount());
+        session.update(oldItem);
+      }
+      else {
+        session.save(item);
+      }
     }
 
     session.flush();
+  }
+
+  private DepotItem getItem(DepotItem item) {
+    DepotItem oldItem = (DepotItem) getSession().createQuery("from DepotItem di where di.depot.id = " + item.getDepot().getId() +
+            " and di.product.id = " + item.getDepot().getId()).getSingleResult();
+
+    return oldItem;
   }
 
   @Override
@@ -44,7 +59,10 @@ public class DepotDaoImpl extends BaseDao<Depot, Integer> implements DepotDao {
     Session session = getSession();
 
     for(DepotItem item : items) {
-      session.delete(item);
+      DepotItem oldItem = getItem(item);
+      assert oldItem != null;
+      oldItem.setProductCount(oldItem.getProductCount() - item.getProductCount());
+      session.update(oldItem);
     }
 
     session.flush();
