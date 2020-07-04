@@ -37,6 +37,7 @@ public interface DepotService {
 
   /**
    * get inventory Product
+   * 
    * @param depotId
    * @param productId
    * @return
@@ -45,8 +46,17 @@ public interface DepotService {
 
   /**
    * get inventory Product
+   * 
    * @param depotId
    * @return
    */
   public List<DepotItem> inventoryProducts(int depotId);
+
+  /**
+   * putIn Products
+   * 
+   * @param items
+   * @return
+   */
+  public void putInProducts(List<DepotItem> items);
 }

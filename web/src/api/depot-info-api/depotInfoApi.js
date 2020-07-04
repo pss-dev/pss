@@ -33,9 +33,18 @@ function deleteDepotInfo (data) {
   })
 }
 
+function getDepotProducts (params) {
+  return fetch({
+    url: baseApi.baseApi('depot/products'),
+    method: 'get',
+    params
+  })
+}
+
 export default {
   getDepotInfo,
   addDepotInfo,
   modifyDepotInfo,
-  deleteDepotInfo
+  deleteDepotInfo,
+  getDepotProducts
 }

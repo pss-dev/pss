@@ -35,7 +35,7 @@ public class Branch implements Serializable {
 
   @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   @JsonIgnore
-  private Set<Branch> children = new HashSet<>();
+  private Set<Branch> children;
 
   public Branch() {
   }

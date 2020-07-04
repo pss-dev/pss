@@ -33,7 +33,7 @@ public class Depot {
   @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   @JsonIgnore
   private Set<Depot> children = new HashSet<>();
-  @OneToMany(targetEntity = DepotItem.class, mappedBy = "depot")
+  @OneToMany(targetEntity = DepotItem.class, mappedBy = "depot", fetch = FetchType.EAGER)
   @JsonIgnore
   private List<DepotItem> depotItems;
 

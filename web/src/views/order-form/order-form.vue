@@ -137,7 +137,7 @@
                   <el-button
                     size="small"
                     :disabled="getDisable(scope.row)"
-                    @click="showProductSelectDialog(scope)"
+                    @click="showProductSelectDialog(scope.row)"
                     slot="append"
                     icon="el-icon-search"
                   ></el-button>
@@ -244,7 +244,7 @@
               <label class="account-label">收款金额：</label>
             </el-col>
             <el-col :span="3">
-              <el-input placeholder="收款金额" v-model="orderFormData.money"></el-input>
+              <el-input placeholder="收款金额" v-model="orderFormData.money" @change="moneyChange"></el-input>
             </el-col>
             <el-col :span="3">
               <label class="account-label">抹零金额：</label>
@@ -285,6 +285,7 @@
     ></branch-search-dialog>
     <company-search-dialog
       v-if="companyDialogVisiable"
+      :companyType="companyType"
       @submitData="submitCompanyData"
       @closeDialog="closeCompanyDialog"
     ></company-search-dialog>
@@ -305,6 +306,7 @@
     ></depot-search-dialog>
     <product-search-dialog
       v-if="productDialogVisiable"
+      :depot="getDepotID()"
       @submitData="submitProductData"
       @closeDialog="closeProductDialog"
     ></product-search-dialog>
@@ -374,19 +376,20 @@ export default {
       defaultPriceID: -1,
       scopeValue: null,
       createDate: new Date(),
+      companyType: 0,
 
       orderFormData: {
         id: null,
         type: 1,
         status: 0,// 用来判断是草稿还是已经审核过的
-        creatUser: {}, //由谁创建
-        verifyUser: {}, //由谁审核过账
+        creatUser: null, //由谁创建
+        verifyUser: null, //由谁审核过账
         createDate: new Date(),
-        branch: {},
-        company: {},
-        employee: {},
-        department: {},
-        depot: {},
+        branch: null,
+        company: null,
+        employee: null,
+        department: null,
+        depot: null,
         summary: 'asdasdasd',
 
         actionType: Tool.actionType.add,
@@ -394,7 +397,7 @@ export default {
         products: [
         ],
 
-        account: {},
+        account: null,
         money: 0, // 收款
         wipe: 0, // 抹零
       },
@@ -414,6 +417,11 @@ export default {
   },
 
   methods: {
+
+    getDepotID () {
+      return this.orderFormData.depot ? this.orderFormData.depot.id : null;
+    },
+
     getCreateUserName () {
       return this.orderFormData.creatUser ? this.orderFormData.creatUser.name : "";
     },
@@ -520,12 +528,10 @@ export default {
       this.depotDialogVisiable = false;
     },
 
-    showProductSelectDialog (scope) {
+    showProductSelectDialog (row) {
       this.productDialogVisiable = true;
+      this.scopeValue = row;
 
-      if (scope != null) {
-        this.scopeValue = scope.row;
-      }
     },
 
     closeProductDialog () {
@@ -684,7 +690,7 @@ export default {
     },
 
     moneyChange () {
-      this.afterWipe = this.getAmountMoney() - this.orderFormData.wipe;
+      this.afterWipe = this.orderFormData.money - this.orderFormData.wipe;
     },
 
     getPricesData () {
@@ -716,6 +722,14 @@ export default {
 
   created: function () {
     console.log("====== this  ", this.orderFormData);
+
+    if (this.orderFormType == Tool.orderFormType.purchaseForm ||
+      this.orderFormType == Tool.orderFormType.purchaseReturn) {
+      this.companyType = 1;
+    }
+    else {
+      this.companyType = 0;
+    }
 
     if (this.orderFormDataValue) {
       this.orderFormData = this.orderFormDataValue;

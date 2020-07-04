@@ -24,6 +24,7 @@
 
 <script>
 import productInfoApi from "../../api/product-info-api/productInfoApi.js"
+import DepotInfoApi from "../../api/depot-info-api/depotInfoApi.js"
 import searchBase from "./search-base.vue"
 import searchBseInfo from '../mixIns/search-base-info'
 import tableBaseInfo from '../mixIns/table-base-info.js'
@@ -33,6 +34,12 @@ export default {
   mixins: [searchBseInfo, tableBaseInfo],
   components: {
     "search-base": searchBase
+  },
+
+  props: {
+    "depot": {
+      type: Number,
+    }
   },
 
   data () {
@@ -84,6 +91,15 @@ export default {
     var params = this.getParameterForNewTable(this.getParentID());
 
     this.getProductInfo(params);
+
+    if (this.depot != null) {
+      var dparams = { depot: this.depot };
+
+      DepotInfoApi.getDepotProducts(dparams).then((res) => {
+        console.log("========  ", res);
+      });
+    }
+
   }
 }
 </script>

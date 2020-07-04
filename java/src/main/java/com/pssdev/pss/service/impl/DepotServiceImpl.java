@@ -55,6 +55,7 @@ public class DepotServiceImpl implements DepotService {
   }
 
   @Override
+  @Transactional
   public List<DepotItem> inventoryProducts(int depotId) {
     Depot depot = depotDao.get(depotId);
     assert depot != null;
@@ -87,5 +88,11 @@ public class DepotServiceImpl implements DepotService {
   @Transactional
   public List<Depot> getDepots() {
     return depotDao.getAll();
+  }
+
+  @Override
+  @Transactional
+  public void putInProducts(List<DepotItem> items) {
+    depotDao.putInProducts(items);
   }
 }

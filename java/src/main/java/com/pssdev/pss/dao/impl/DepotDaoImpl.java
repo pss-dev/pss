@@ -5,6 +5,7 @@ import com.pssdev.pss.entity.Depot;
 import com.pssdev.pss.entity.DepotItem;
 import com.pssdev.pss.entity.Product;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -30,15 +31,15 @@ public class DepotDaoImpl extends BaseDao<Depot, Integer> implements DepotDao {
   public void putInProducts(List<DepotItem> items) {
     assert items != null;
     Session session = getSession();
-
-    for(DepotItem item : items) {
+    System.out.println("=========== putInProducts  items " + items.size());
+    for (DepotItem item : items) {
       DepotItem oldItem = getItem(item);
 
-      if(oldItem != null) {
+      if (oldItem != null) {
         oldItem.setProductCount(oldItem.getProductCount() + item.getProductCount());
         session.update(oldItem);
-      }
-      else {
+      } else {
+        System.out.println("=========== putInProducts " + item.toString());
         session.save(item);
       }
     }
@@ -47,8 +48,14 @@ public class DepotDaoImpl extends BaseDao<Depot, Integer> implements DepotDao {
   }
 
   private DepotItem getItem(DepotItem item) {
-    DepotItem oldItem = (DepotItem) getSession().createQuery("from DepotItem di where di.depot.id = " + item.getDepot().getId() +
-            " and di.product.id = " + item.getDepot().getId()).getSingleResult();
+    DepotItem oldItem = null;
+
+    Query query = getSession().createQuery("from DepotItem di where di.depot.id = " + item.getDepot().getId()
+        + " and di.product.id = " + item.getProduct().getId());
+
+    if (query.getResultList().size() != 0) {
+      oldItem = (DepotItem) query.getSingleResult();
+    }
 
     return oldItem;
   }
@@ -58,7 +65,7 @@ public class DepotDaoImpl extends BaseDao<Depot, Integer> implements DepotDao {
     assert items != null;
     Session session = getSession();
 
-    for(DepotItem item : items) {
+    for (DepotItem item : items) {
       DepotItem oldItem = getItem(item);
       assert oldItem != null;
       oldItem.setProductCount(oldItem.getProductCount() - item.getProductCount());
@@ -72,7 +79,7 @@ public class DepotDaoImpl extends BaseDao<Depot, Integer> implements DepotDao {
   public List<DepotItem> getInventoryProducts(Depot depot) {
     depot = get(depot.getId());
 
-    if(depot == null) {
+    if (depot == null) {
       return new ArrayList<>();
     }
 
@@ -81,11 +88,11 @@ public class DepotDaoImpl extends BaseDao<Depot, Integer> implements DepotDao {
 
   @Override
   public DepotItem inventoryProduct(Depot depot, Product product) {
-    String hql = "from DepotItem di where di.depot.id =" + depot.getId() +
-            " and " + "di.product.id = " + product.getId();
+    String hql = "from DepotItem di where di.depot.id =" + depot.getId() + " and " + "di.product.id = "
+        + product.getId();
     List<DepotItem> findItems = getSession().createQuery(hql).list();
 
-    return findItems == null || findItems.size() == 0? null : findItems.get(0);
+    return findItems == null || findItems.size() == 0 ? null : findItems.get(0);
   }
 
   @Override
