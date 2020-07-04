@@ -9,3 +9,7 @@ create table Employee_Role (
     roles_id integer not null,
     primary key (Employee_id, roles_id)
 )
+
+insert into Role(name) values('Administrator');
+
+insert into Employee_Role(Employee_id, roles_id) values(1, 1);

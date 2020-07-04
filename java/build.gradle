@@ -35,7 +35,8 @@ dependencies {
    implementation 'net.sf.ehcache:ehcache'
 
    // datasource
-   runtimeOnly 'com.h2database:h2'
+   runtimeOnly "mysql:mysql-connector-java:${mysqlVersion}"
+   testRuntimeOnly 'com.h2database:h2'
    implementation 'com.alibaba:druid:1.1.18'
 
    // security

@@ -8,4 +8,5 @@ create table Employee (
         primary key (id)
     )
 
+INSERT INTO Employee(account, name, password) values('admin', 'admin', 'df655ad8d3229f3269fad2a8bab59b6c');
 
