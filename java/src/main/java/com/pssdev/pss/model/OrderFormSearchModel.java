@@ -1,94 +1,96 @@
 package com.pssdev.pss.model;
 
-public class OrderFormSearchModel {
-  private int orderFormType;
-  private int orderFormStatus;
-  private long startDate;
-  private long endDate;
-  private int branchID;
-  private int companyID;
-  private int employeeID;
-  private int departmentID;
-  private int depotID;
-  private int accountID;
+import java.util.Date;
 
-  public int getOrderFormType() {
+public class OrderFormSearchModel {
+  private Integer orderFormType;
+  private Integer orderFormStatus;
+  private Date startDate;
+  private Date endDate;
+  private Integer branchID;
+  private Integer companyID;
+  private Integer employeeID;
+  private Integer departmentID;
+  private Integer depotID;
+  private Integer accountID;
+
+  public Integer getOrderFormType() {
     return orderFormType;
   }
 
-  public void setOrderFormType(int orderFormType) {
+  public void setOrderFormType(Integer orderFormType) {
     this.orderFormType = orderFormType;
   }
 
-  public int getOrderFormStatus() {
+  public Integer getOrderFormStatus() {
     return orderFormStatus;
   }
 
-  public void setOrderFormStatus(int orderFormStatus) {
+  public void setOrderFormStatus(Integer orderFormStatus) {
     this.orderFormStatus = orderFormStatus;
   }
 
-  public long getStartDate() {
+  public Date getStartDate() {
     return startDate;
   }
 
-  public void setStartDate(Long startDate) {
+  public void setStartDate(Date startDate) {
     this.startDate = startDate;
   }
 
-  public long getEndDate() {
+  public Date getEndDate() {
     return endDate;
   }
 
-  public void setEndDate(long endDate) {
+  public void setEndDate(Date endDate) {
     this.endDate = endDate;
   }
 
-  public int getBranchID() {
+  public Integer getBranchID() {
     return branchID;
   }
 
-  public void setBranchID(int branchID) {
+  public void setBranchID(Integer branchID) {
     this.branchID = branchID;
   }
 
-  public int getCompanyID() {
+  public Integer getCompanyID() {
     return companyID;
   }
 
-  public void setCompanyID(int companyID) {
+  public void setCompanyID(Integer companyID) {
     this.companyID = companyID;
   }
 
-  public int getEmployeeID() {
+  public Integer getEmployeeID() {
     return employeeID;
   }
 
-  public void setEmployeeID(int employeeID) {
+  public void setEmployeeID(Integer employeeID) {
     this.employeeID = employeeID;
   }
 
-  public int getDepartmentID() {
+  public Integer getDepartmentID() {
     return departmentID;
   }
 
-  public void setDepartmentID(int departmentID) {
+  public void setDepartmentID(Integer departmentID) {
     this.departmentID = departmentID;
   }
 
-  public int getDepotID() {
+  public Integer getDepotID() {
     return depotID;
   }
 
-  public void setDepotID(int depotID) {
+  public void setDepotID(Integer depotID) {
     this.depotID = depotID;
   }
 
-  public int getAccountID() {
+  public Integer getAccountID() {
     return accountID;
   }
 
-  public void setAccountID(int accountID) {
+  public void setAccountID(Integer accountID) {
     this.accountID = accountID;
   }
 }

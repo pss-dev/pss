@@ -2,6 +2,7 @@ package com.pssdev.pss.service.impl;
 
 import com.pssdev.pss.dao.OrderFormDao;
 import com.pssdev.pss.entity.OrderForm;
+import com.pssdev.pss.model.OrderFormSearchModel;
 import com.pssdev.pss.service.OrderFormService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,5 +36,11 @@ public class OrderFormServiceImpl implements OrderFormService {
    @Override
    public List<OrderForm> getOrderForms() {
       return this.orderFormDao.getAll();
+   }
+
+   @Override
+   public List<OrderForm> search(OrderFormSearchModel model) {
+      assert model != null;
+      return this.orderFormDao.search(model);
    }
 }

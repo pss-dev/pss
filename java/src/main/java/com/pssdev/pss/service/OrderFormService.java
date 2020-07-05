@@ -1,6 +1,7 @@
 package com.pssdev.pss.service;
 
 import com.pssdev.pss.entity.OrderForm;
+import com.pssdev.pss.model.OrderFormSearchModel;
 
 import java.util.List;
 
@@ -32,4 +33,11 @@ public interface OrderFormService {
    * @return
    */
   List<OrderForm> getOrderForms();
+
+  /**
+   * 查询单据
+   * @param model
+   * @return
+   */
+  List<OrderForm> search(OrderFormSearchModel model);
 }
