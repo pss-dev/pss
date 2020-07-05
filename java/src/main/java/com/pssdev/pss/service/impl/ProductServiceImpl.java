@@ -21,8 +21,8 @@ public class ProductServiceImpl implements ProductService {
   private ProductDao productDao;
 
   @Override
-  public void insertProduct(Product product) throws Exception {
-    this.productDao.insert(product);
+  public Integer insertProduct(Product product) throws Exception {
+    return this.productDao.insert(product);
   }
 
   @Override
@@ -133,5 +133,10 @@ public class ProductServiceImpl implements ProductService {
   @Override
   public List<Product> getProducts() {
     return this.productDao.getAll();
+  }
+
+  @Override
+  public Product getProduct(Integer productId) {
+    return this.productDao.get(productId);
   }
 }

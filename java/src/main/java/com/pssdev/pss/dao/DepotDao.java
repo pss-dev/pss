@@ -14,30 +14,34 @@ public interface DepotDao extends CURDDao<Depot, Integer> {
    * @return
    * @param fatherId
    */
-  List<Depot> getDepots(Integer fatherId);
+  List<Depot> getDepots(Integer fatherId, Integer branchId);
 
   /**
    * 入库
+   * 
    * @param items
    */
   void putInProducts(List<DepotItem> items);
 
   /**
    * 出库
+   * 
    * @param items
    */
   void removeProducts(List<DepotItem> items);
 
   /**
    * 获得仓库所有商品
+   * 
    * @param depot 仓库
    * @return
    */
-  List<DepotItem> getInventoryProducts(Depot depot);
+  List<DepotItem> getInventoryProducts(Depot depot, Integer productFatherID);
 
   /**
    * 获得仓库特定商品
-   * @param depot 仓库
+   * 
+   * @param depot   仓库
    * @param product 商品
    * @return
    */

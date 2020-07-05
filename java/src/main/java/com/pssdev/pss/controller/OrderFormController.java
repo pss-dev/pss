@@ -49,7 +49,13 @@ public class OrderFormController {
 
     for (OrderFormProduct orderFormproduct : products) {
       Product product = orderFormproduct.getProduct();
-      int count = orderFormproduct.getCount();
+      int crate = getUnitCrate(product, orderFormproduct.getUnit());
+
+      if (crate == -1) {
+        System.out.println("======  unit not found!");
+      }
+
+      int count = orderFormproduct.getCount() * crate;
 
       DepotItem depotItem = new DepotItem();
       depotItem.setDepot(depot);
@@ -61,6 +67,20 @@ public class OrderFormController {
 
     System.out.println("=========== verifyOrderForm " + depotItems.size());
     depotService.putInProducts(depotItems);
+  }
+
+  private int getUnitCrate(Product product, ProductUnit unit) {
+    int crate = -1;
+
+    List<ProductUnitPrice> units = product.getUnits();
+
+    for (ProductUnitPrice punit : units) {
+      if (punit.getId() == unit.getId()) {
+        return punit.getCrate();
+      }
+    }
+
+    return crate;
   }
 
   @GetMapping("/orderForm")

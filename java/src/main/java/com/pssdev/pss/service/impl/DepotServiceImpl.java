@@ -56,11 +56,11 @@ public class DepotServiceImpl implements DepotService {
 
   @Override
   @Transactional
-  public List<DepotItem> inventoryProducts(int depotId) {
+  public List<DepotItem> inventoryProducts(int depotId, Integer productFatherID) {
     Depot depot = depotDao.get(depotId);
     assert depot != null;
 
-    return depotDao.getInventoryProducts(depot);
+    return depotDao.getInventoryProducts(depot, productFatherID);
   }
 
   @Override
@@ -80,8 +80,8 @@ public class DepotServiceImpl implements DepotService {
 
   @Override
   @Transactional
-  public List<Depot> getDepots(Integer fatherId) {
-    return fatherId == null ? this.getDepots() : depotDao.getDepots(fatherId);
+  public List<Depot> getDepots(Integer fatherId, Integer branchId) {
+    return fatherId == null && branchId == null ? this.getDepots() : depotDao.getDepots(fatherId, branchId);
   }
 
   @Override

@@ -11,7 +11,7 @@ public interface DepotService {
    *
    * @param parentId if null get all dept, else get specified dept.
    */
-  List<Depot> getDepots(Integer parentId);
+  List<Depot> getDepots(Integer parentId, Integer branchID);
 
   /**
    * get all Depots
@@ -50,7 +50,7 @@ public interface DepotService {
    * @param depotId
    * @return
    */
-  public List<DepotItem> inventoryProducts(int depotId);
+  public List<DepotItem> inventoryProducts(int depotId, Integer productFatherID);
 
   /**
    * putIn Products

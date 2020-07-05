@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import productInfoApi from "../../api/product-info-api/productInfoApi.js"
+//import productInfoApi from "../../api/product-info-api/productInfoApi.js"
 import DepotInfoApi from "../../api/depot-info-api/depotInfoApi.js"
 import searchBase from "./search-base.vue"
 import searchBseInfo from '../mixIns/search-base-info'
@@ -47,9 +47,9 @@ export default {
       title: "商品查询",
 
       titleData: [
-        { prop: "id", label: "编号" },
-        { prop: "name", label: "名称" },
-        { prop: "number", label: "库存" }],
+        { prop: "product.identifier", label: "编号" },
+        { prop: "product.name", label: "名称" },
+        { prop: "productCount", label: "库存" }],
 
       tableData: [],
     }
@@ -57,7 +57,8 @@ export default {
 
   methods: {
     getChildData (value) {
-      var param = this.getParameterForNewTable(value.id);
+      var param = this.getParameterForNewTable(value.product.id);
+      param.depot = this.depot;
 
       this.getProductInfo(param).then(() => {
         this.addPaths();
@@ -72,7 +73,8 @@ export default {
       }
 
       var previousInfo = this.paths[this.paths.length - 1];
-      var previousParams = this.getParameterForNewTable(this.getParentID0(previousInfo.parent));
+      var previousParams = this.getParameterForNewTable(this.getParentID0(previousInfo.parent.product));
+      previousParams.depot = this.depot;
 
       this.getProductInfo(previousParams).then(() => {
         this.setPerviousInfo();
@@ -80,8 +82,9 @@ export default {
     },
 
     getProductInfo (params) {
-      return productInfoApi.getProductInfo(params).then(
+      return DepotInfoApi.getDepotProducts(params).then(
         (res) => {
+          console.log("========== getProductInfo ", res);
           this.setResponseResult(res.data);
         });
     },
@@ -89,17 +92,9 @@ export default {
 
   created: function () {
     var params = this.getParameterForNewTable(this.getParentID());
+    params.depot = this.depot;
 
     this.getProductInfo(params);
-
-    if (this.depot != null) {
-      var dparams = { depot: this.depot };
-
-      DepotInfoApi.getDepotProducts(dparams).then((res) => {
-        console.log("========  ", res);
-      });
-    }
-
   }
 }
 </script>

@@ -15,13 +15,23 @@ import java.util.List;
 public class DepotDaoImpl extends BaseDao<Depot, Integer> implements DepotDao {
 
   @Override
-  public List<Depot> getDepots(Integer fatherId) {
-    String hql = "from Depot d ";
+  public List<Depot> getDepots(Integer fatherId, Integer branchId) {
+    String hql = "from Depot d where ";
 
-    if (fatherId == -1) {
-      hql += "where d.parent is null";
-    } else {
-      hql += "where d.parent.id= " + fatherId;
+    if (fatherId != null) {
+      if (fatherId == -1) {
+        hql += "d.parent is null";
+      } else {
+        hql += "d.parent.id= " + fatherId;
+      }
+    }
+
+    if (branchId != null) {
+      if (fatherId != null) {
+        hql += " and ";
+      }
+
+      hql += "d.branch.id= " + branchId;
     }
 
     return getSession().createQuery(hql).list();
@@ -76,14 +86,28 @@ public class DepotDaoImpl extends BaseDao<Depot, Integer> implements DepotDao {
   }
 
   @Override
-  public List<DepotItem> getInventoryProducts(Depot depot) {
+  public List<DepotItem> getInventoryProducts(Depot depot, Integer productFatherID) {
     depot = get(depot.getId());
 
     if (depot == null) {
       return new ArrayList<>();
     }
 
-    return depot.getDepotItems();
+    if (productFatherID == null) {
+      return depot.getDepotItems();
+    }
+
+    String hql = "from DepotItem di where di.depot.id =" + depot.getId() + " and ";
+
+    if (productFatherID == -1) {
+      hql += "di.product.parent is null";
+    } else {
+      hql += "di.product.parent.id= " + productFatherID;
+    }
+
+    List<DepotItem> findItems = getSession().createQuery(hql).list();
+
+    return findItems;
   }
 
   @Override

@@ -35,6 +35,12 @@ export default {
     "search-base": searchBase
   },
 
+  props: {
+    "branchID": {
+      type: Number,
+    }
+  },
+
   data () {
     return {
       title: "仓库机构查询",
@@ -48,6 +54,7 @@ export default {
   methods: {
     getChildData (value) {
       var param = this.getParameterForNewTable(value.id);
+      param.branchID = this.branchID;
 
       this.getDepotInfo(param).then(() => {
         this.addPaths();
@@ -63,6 +70,7 @@ export default {
 
       var previousInfo = this.paths[this.paths.length - 1];
       var previousParams = this.getParameterForNewTable(this.getParentID0(previousInfo.parent));
+      previousParams.branchID = this.branchID;
 
       this.getDepotInfo(previousParams).then(() => {
         this.setPerviousInfo();
@@ -79,6 +87,7 @@ export default {
 
   created: function () {
     var params = this.getParameterForNewTable(this.getParentID());
+    params.branchID = this.branchID;
 
     this.getDepotInfo(params);
   }

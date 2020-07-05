@@ -30,19 +30,19 @@ public class DepotController {
   }
 
   @GetMapping("/depot")
-  public List<Depot> getDepots(@RequestParam(required = false) Integer fatherID) {
-    return depotService.getDepots(fatherID);
+  public List<Depot> getDepots(@RequestParam(required = false) Integer fatherID,
+      @RequestParam(required = false) Integer branchID) {
+    return depotService.getDepots(fatherID, branchID);
   }
 
   @GetMapping("/depot/product")
-  public DepotItem getInventoryProduct(@RequestParam("depot") int depot,
-                                       @RequestParam("product") int product)
-  {
+  public DepotItem getInventoryProduct(@RequestParam("depot") int depot, @RequestParam("product") int product) {
     return depotService.inventoryProduct(depot, product);
   }
 
-   @GetMapping("/depot/products")
-   public List<DepotItem> getInventoryProducts(@RequestParam("depot") int depot) {
-      return depotService.inventoryProducts(depot);
-   }
+  @GetMapping("/depot/products")
+  public List<DepotItem> getInventoryProducts(@RequestParam("depot") int depot,
+      @RequestParam("fatherID") Integer productFatherID) {
+    return depotService.inventoryProducts(depot, productFatherID);
+  }
 }

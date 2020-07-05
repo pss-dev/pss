@@ -9,21 +9,20 @@ import java.util.List;
 @Repository("productDao")
 public class ProductDaoImpl extends BaseDao<Product, Integer> implements ProductDao {
 
-   @Override
-   public List<Product> getProducts(Integer fatherId) {
-      String hql = "from Product p ";
-      if(fatherId == -1) {
-         hql += " where p.parent is null";
-      }
-      else {
-         hql += " where p.parent.id = " + fatherId;
-      }
+  @Override
+  public List<Product> getProducts(Integer fatherId) {
+    String hql = "from Product p ";
+    if (fatherId == -1) {
+      hql += " where p.parent is null";
+    } else {
+      hql += " where p.parent.id = " + fatherId;
+    }
 
-      return getSession().createQuery(hql).list();
-   }
+    return getSession().createQuery(hql).list();
+  }
 
-   @Override
-   protected Class<Product> getClazz() {
-      return Product.class;
-   }
+  @Override
+  protected Class<Product> getClazz() {
+    return Product.class;
+  }
 }

@@ -301,6 +301,7 @@
     ></department-search-dialog>
     <depot-search-dialog
       v-if="depotDialogVisiable"
+      :branchID="getBranchID()"
       @submitData="submitDepotData"
       @closeDialog="closeDepotDialog"
     ></depot-search-dialog>
@@ -422,6 +423,10 @@ export default {
       return this.orderFormData.depot ? this.orderFormData.depot.id : null;
     },
 
+    getBranchID () {
+      return this.orderFormData.branch ? this.orderFormData.branch.id : null;
+    },
+
     getCreateUserName () {
       return this.orderFormData.creatUser ? this.orderFormData.creatUser.name : "";
     },
@@ -515,7 +520,15 @@ export default {
     },
 
     showDepotDialog () {
-      this.depotDialogVisiable = true;
+      if (this.getBranchID() == null) {
+        this.$message({
+          message: `请先选择分支结构！`,
+          showClose: true
+        });
+      }
+      else {
+        this.depotDialogVisiable = true;
+      }
     },
 
     closeDepotDialog () {
