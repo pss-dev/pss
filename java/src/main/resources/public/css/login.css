@@ -48,3 +48,8 @@ div.loading-indicator > div > i.fa {
   height: 50px;
   vertical-align: middle;
 }
+
+.alert-error-message {
+  color: red;
+  font-weight: bold;
+}

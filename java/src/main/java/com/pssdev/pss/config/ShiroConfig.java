@@ -70,6 +70,9 @@ public class ShiroConfig {
       filterChainMap.put("/login", "anon");
       filterChainMap.put("/api/1.0/login", "anon");
 
+      // 错误页面
+      filterChainMap.put("/error/**", "anon");
+
       // 配置 logout 过滤器
       filterChainMap.put("/logout", "logout");
 

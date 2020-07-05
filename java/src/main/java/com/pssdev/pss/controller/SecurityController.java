@@ -41,24 +41,7 @@ public class SecurityController {
             // 执行登录
             currentUser.login(token);
          }
-         catch(UnknownAccountException uae) {
-            System.out.println("==用户不存在==" + uae.getMessage());
-            throw uae;
-         }
-         catch(IncorrectCredentialsException ice) {
-            System.out.println("====密码不正确====" + ice.getMessage());
-            throw ice;
-         }
-         catch(LockedAccountException lae) {
-            System.out.println("===账户被锁定==" + lae.getMessage());
-            throw lae;
-         }
-         catch(ExcessiveAttemptsException eae) {
-            System.out.println("=====尝试次数太多===" + eae.getMessage());
-            throw eae;
-         }
          catch(AuthenticationException e) {
-            System.out.println("登录失败: " + token.getPrincipal() + ", " + e.getMessage() + "===" + e.getClass().getSimpleName());
             throw e;
          }
       }
@@ -79,6 +62,11 @@ public class SecurityController {
       }
 
       return employee;
+   }
+
+   @GetMapping("/error")
+   public String gotoErrorPage() {
+      return "/error/exception";
    }
 
    private final EmployeeService employeeService;
