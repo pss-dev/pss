@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <title>Pss Login</title>
-  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
-  <link rel="stylesheet" type="text/css" href="css/login.css" />
+  <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="/css/login.css" />
 </head>
 
 <body>
@@ -18,7 +18,9 @@
 
           <div id="userNameGroup" class="form-group">
             <label class="required-field" for="userName">用户名</label>
-            <input type="text" class="form-control form-control-danger" id="userName" name="userName" autofocus />
+            <input type="text" class="form-control form-control-danger" id="userName"
+                   name="userName" autofocus
+                   th:value="${result != null ? result.data : ''}"/>
             <div id="userNameError" class="form-control-feedback" style="display: none;">
               Please enter your user name.
             </div>
@@ -33,6 +35,10 @@
           <div id="rememberMeGroup" class="form-group">
             <input type="checkbox" id="rememberMe" name="rememberMe" />
             <span class="required-field" for="rememberMe">记住我</span>
+          </div>
+
+          <div th:if="${result ne null}"  class="alert-error-message">
+            <label th:text="${result.message }"></label>
           </div>
         </div>
         <div class="card-footer">

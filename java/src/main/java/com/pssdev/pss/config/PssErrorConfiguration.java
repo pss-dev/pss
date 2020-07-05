@@ -9,9 +9,10 @@ public class PssErrorConfiguration implements ErrorPageRegistrar {
 
    @Override
    public void registerErrorPages(ErrorPageRegistry registry) {
-      ErrorPage[] errorPages = new ErrorPage[1];
+      ErrorPage[] errorPages = new ErrorPage[2];
       // server redirect 404 to index of web.
       errorPages[0] = new ErrorPage(HttpStatus.NOT_FOUND, "/index.html");
+      errorPages[1] = new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/error/exception");
 
       registry.addErrorPages(errorPages);
    }
