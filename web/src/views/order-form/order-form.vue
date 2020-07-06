@@ -167,7 +167,7 @@
                 </el-input>
               </template>
             </el-table-column>
-            <el-table-column prop="stock" label="账面库存">
+            <el-table-column v-if="orderFormData.status == 1" prop="stock" label="账面库存">
               <template slot-scope="scope">
                 <span>{{scope.row.stock}}</span>
               </template>
@@ -382,7 +382,7 @@ export default {
       orderFormData: {
         id: null,
         type: 1,
-        status: 0,// 用来判断是草稿还是已经审核过的
+        status: 1,// 用来判断是草稿还是已经审核过的
         creatUser: null, //由谁创建
         verifyUser: null, //由谁审核过账
         createDate: new Date(),
@@ -552,31 +552,34 @@ export default {
     },
 
     submitProductData (productValue) {
-      if (this.scopeValue != null) {
-        this.scopeValue.product = productValue;
+      let defaultUnit = {};
+
+      if (this.orderFormType == Tool.orderFormType.purchaseForm ||
+        this.orderFormType == Tool.orderFormType.purchaseReturn) {
+        defaultUnit = productValue.product.purchaseDefaultUnit;
       }
       else {
-        let defaultUnit = {};
+        defaultUnit = productValue.product.sellDefaultUnit;
+      }
 
-        if (this.orderFormType == Tool.orderFormType.purchaseForm ||
-          this.orderFormType == Tool.orderFormType.purchaseReturn) {
-          defaultUnit = productValue.purchaseDefaultUnit;
-        }
-        else {
-          defaultUnit = productValue.sellDefaultUnit;
-        }
-
+      if (this.scopeValue != null) {
+        this.scopeValue.product = productValue.product;
+        this.scopeValue.stock = productValue.productCount
+        this.scopeValue.unit = defaultUnit;
+      }
+      else {
         let pvalue = {
           id: null,
-          product: productValue,
+          product: productValue.product,
           unit: defaultUnit,
+          stock: productValue.productCount,
           count: 0,
           price: 0,
           amount: 0,
           note: '',
           actionType: Tool.actionType.add
         };
-        console.log("======== pvalue ", pvalue);
+        console.log("======== pvalue ", pvalue, productValue);
         this.orderFormData.products.push(pvalue);
         this.scopeValue = pvalue;
       }
@@ -681,7 +684,7 @@ export default {
     },
 
     verifyOrderForm () {
-      this.orderFormData.verified = true;
+      this.orderFormData.status = 2;
 
       orderFormApi.verifyOrderForm(this.orderFormData).then((res) => {
         console.log(res);
@@ -718,7 +721,7 @@ export default {
     },
 
     verified () {
-      return this.orderFormData.status == 1;
+      return this.orderFormData.status == 2;
     },
 
     getAmountMoney () {
@@ -730,31 +733,42 @@ export default {
       });
       console.log("=========amount  ", amount);
       return amount;
+    },
+
+    initOrderForm (ovalue) {
+      if (ovalue) {
+        this.orderFormData = ovalue;
+        this.orderFormType = ovalue.type;
+      }
+      else {
+        this.orderFormData.type = this.orderFormType;
+      }
+
+      if (this.orderFormType == Tool.orderFormType.purchaseForm ||
+        this.orderFormType == Tool.orderFormType.purchaseReturn) {
+        this.companyType = 1;
+      }
+      else {
+        this.companyType = 0;
+      }
+
+      this.afterWipe = this.getAmountMoney() - this.orderFormData.wipe;
+      this.createDate = new Date(this.orderFormData.createDate);
     }
   },
 
   created: function () {
-    console.log("====== this  ", this.orderFormData);
-
-    if (this.orderFormType == Tool.orderFormType.purchaseForm ||
-      this.orderFormType == Tool.orderFormType.purchaseReturn) {
-      this.companyType = 1;
-    }
-    else {
-      this.companyType = 0;
-    }
-
-    if (this.orderFormDataValue) {
-      this.orderFormData = this.orderFormDataValue;
-    }
-    else {
-      this.orderFormData.type = this.orderFormType;
-    }
-
-    this.afterWipe = this.getAmountMoney() - this.orderFormData.wipe;
-    this.createDate = new Date(this.orderFormData.createDate);
-
     this.getPricesData();
+
+    if (this.orderFormDataValue && this.orderFormDataValue.id != null && this.orderFormDataValue.status == 1) {
+      orderFormApi.initOrderForm(this.orderFormDataValue).then((res) => {
+        console.log("========= init ", res);
+        this.initOrderForm(res.data);
+      });
+    }
+    else {
+      this.initOrderForm(this.orderFormDataValue);
+    }
   }
 }
 </script>

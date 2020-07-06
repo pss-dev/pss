@@ -48,11 +48,20 @@ function verifyOrderForm (data) {
   })
 }
 
+function initOrderForm (data) {
+  return fetch({
+    url: baseApi.baseApi('orderForm/init'),
+    method: 'post',
+    data
+  })
+}
+
 export default {
   getOrderFormInfo,
   addOrderForm,
   saveOrderForm,
   deleteOrderFormInfo,
   verifyOrderForm,
-  getOrderForms
+  getOrderForms,
+  initOrderForm
 }

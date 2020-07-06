@@ -3,6 +3,7 @@ package com.pssdev.pss.controller;
 import com.pssdev.pss.entity.*;
 import com.pssdev.pss.service.*;
 import com.pssdev.pss.model.*;
+import com.pssdev.pss.util.OrderFormType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,10 +54,11 @@ public class OrderFormController {
 
       if (crate == -1) {
         System.out.println("======  unit not found!");
+        continue;
       }
 
       int count = orderFormproduct.getCount() * crate;
-
+      System.out.println("======  count! " + count);
       DepotItem depotItem = new DepotItem();
       depotItem.setDepot(depot);
       depotItem.setProduct(product);
@@ -66,7 +68,13 @@ public class OrderFormController {
     }
 
     System.out.println("=========== verifyOrderForm " + depotItems.size());
-    depotService.putInProducts(depotItems);
+
+    if (orderForm.getType() == OrderFormType.PURCHASEFORM || orderForm.getType() == OrderFormType.SALESRETURN) {
+      depotService.putInProducts(depotItems);
+    } else {
+      depotService.putOutProducts(depotItems);
+    }
+
   }
 
   private int getUnitCrate(Product product, ProductUnit unit) {
@@ -75,7 +83,7 @@ public class OrderFormController {
     List<ProductUnitPrice> units = product.getUnits();
 
     for (ProductUnitPrice punit : units) {
-      if (punit.getId() == unit.getId()) {
+      if (punit.getUnit().getId() == unit.getId()) {
         return punit.getCrate();
       }
     }
@@ -91,5 +99,10 @@ public class OrderFormController {
   @PostMapping("/orderForm/search")
   public List<OrderForm> searchOrderForms(@RequestBody OrderFormSearchModel orderFormSearchModel) throws Exception {
     return this.orderFormService.search(orderFormSearchModel);
+  }
+
+  @PostMapping("/orderForm/init")
+  public OrderForm searchOrderForms(@RequestBody OrderForm orderForm) throws Exception {
+    return this.orderFormService.initOrderForm(orderForm);
   }
 }

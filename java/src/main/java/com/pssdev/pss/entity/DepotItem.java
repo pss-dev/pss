@@ -8,8 +8,10 @@ public class DepotItem {
   @GeneratedValue
   private Long id;
   @ManyToOne(targetEntity = Depot.class, fetch = FetchType.EAGER)
+  @JoinColumn(name = "depot_id")
   private Depot depot;
   @OneToOne(targetEntity = Product.class, fetch = FetchType.EAGER)
+  @JoinColumn(name = "product_id")
   private Product product;
   private int productCount;
 

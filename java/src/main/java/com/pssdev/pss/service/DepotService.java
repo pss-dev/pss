@@ -1,7 +1,6 @@
 package com.pssdev.pss.service;
 
-import com.pssdev.pss.entity.Depot;
-import com.pssdev.pss.entity.DepotItem;
+import com.pssdev.pss.entity.*;
 
 import java.util.List;
 
@@ -59,4 +58,20 @@ public interface DepotService {
    * @return
    */
   public void putInProducts(List<DepotItem> items);
+
+  /**
+   * putOut Products
+   * 
+   * @param items
+   * @return
+   */
+  public void putOutProducts(List<DepotItem> items);
+
+  /**
+   * get DepotItems By OrderForm
+   * 
+   * @param orderForm
+   * @return
+   */
+  public List<DepotItem> getItemsByOrderForm(OrderForm orderForm);
 }

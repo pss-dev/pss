@@ -1,8 +1,6 @@
 package com.pssdev.pss.dao;
 
-import com.pssdev.pss.entity.Depot;
-import com.pssdev.pss.entity.DepotItem;
-import com.pssdev.pss.entity.Product;
+import com.pssdev.pss.entity.*;
 
 import java.util.List;
 
@@ -28,7 +26,7 @@ public interface DepotDao extends CURDDao<Depot, Integer> {
    * 
    * @param items
    */
-  void removeProducts(List<DepotItem> items);
+  void putOutProducts(List<DepotItem> items);
 
   /**
    * 获得仓库所有商品
@@ -46,4 +44,6 @@ public interface DepotDao extends CURDDao<Depot, Integer> {
    * @return
    */
   DepotItem inventoryProduct(Depot depot, Product product);
+
+  List<DepotItem> getItemsByOrderForm(OrderForm orderForm);
 }

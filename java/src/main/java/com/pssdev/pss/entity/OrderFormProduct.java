@@ -24,6 +24,9 @@ public class OrderFormProduct {
   @Transient
   private int actionType;
 
+  @Transient
+  private int stock;
+
   public Long getId() {
     return id;
   }
@@ -86,5 +89,13 @@ public class OrderFormProduct {
 
   public void setActionType(int actionType) {
     this.actionType = actionType;
+  }
+
+  public int getStock() {
+    return stock;
+  }
+
+  public void setStock(int stock) {
+    this.stock = stock;
   }
 }

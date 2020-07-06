@@ -2,9 +2,7 @@ package com.pssdev.pss.service.impl;
 
 import com.pssdev.pss.dao.DepotDao;
 import com.pssdev.pss.dao.ProductDao;
-import com.pssdev.pss.entity.Depot;
-import com.pssdev.pss.entity.DepotItem;
-import com.pssdev.pss.entity.Product;
+import com.pssdev.pss.entity.*;
 import com.pssdev.pss.service.DepotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -94,5 +92,17 @@ public class DepotServiceImpl implements DepotService {
   @Transactional
   public void putInProducts(List<DepotItem> items) {
     depotDao.putInProducts(items);
+  }
+
+  @Override
+  @Transactional
+  public void putOutProducts(List<DepotItem> items) {
+    depotDao.putOutProducts(items);
+  }
+
+  @Override
+  @Transactional
+  public List<DepotItem> getItemsByOrderForm(OrderForm orderForm) {
+    return depotDao.getItemsByOrderForm(orderForm);
   }
 }

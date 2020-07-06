@@ -264,8 +264,8 @@ export default {
   methods: {
     dateRanegChange () {
       if (this.dateRange.length == 2) {
-        this.searchModel.startDate = this.dateRange[0].getTime();
-        this.searchModel.endDate = this.dateRange[1].getTime();
+        this.searchModel.startDate = this.dateRange[0];
+        this.searchModel.endDate = this.dateRange[1];
       }
     },
 
@@ -389,12 +389,12 @@ export default {
         orderFormStatus: this.searchModel.orderFormStatus,
         startDate: this.searchModel.startDate,
         endDate: this.searchModel.endDate,
-        branchID: this.searchModel.branch.id,
-        companyID: this.searchModel.company.id,
-        employeeID: this.searchModel.employee.id,
-        departmentID: this.searchModel.department.id,
-        depotID: this.searchModel.depot.id,
-        accountID: this.searchModel.account.id,
+        branchID: this.searchModel.branch.id ? this.searchModel.branch.id : null,
+        companyID: this.searchModel.company.id ? this.searchModel.company.id : null,
+        employeeID: this.searchModel.employee.id ? this.searchModel.employee.id : null,
+        departmentID: this.searchModel.department.id ? this.searchModel.department.id : null,
+        depotID: this.searchModel.depot.id ? this.searchModel.depot.id : null,
+        accountID: this.searchModel.account.id ? this.searchModel.account.id : null,
       };
 
       console.log("======  search ", searchModelData);

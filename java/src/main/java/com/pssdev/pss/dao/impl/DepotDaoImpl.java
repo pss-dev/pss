@@ -1,13 +1,17 @@
 package com.pssdev.pss.dao.impl;
 
 import com.pssdev.pss.dao.DepotDao;
-import com.pssdev.pss.entity.Depot;
-import com.pssdev.pss.entity.DepotItem;
-import com.pssdev.pss.entity.Product;
+import com.pssdev.pss.entity.*;
+import com.pssdev.pss.util.OrderFormType;
+
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,6 +50,7 @@ public class DepotDaoImpl extends BaseDao<Depot, Integer> implements DepotDao {
       DepotItem oldItem = getItem(item);
 
       if (oldItem != null) {
+        System.out.println("======== in " + oldItem.getProductCount() + " === " + item.getProductCount());
         oldItem.setProductCount(oldItem.getProductCount() + item.getProductCount());
         session.update(oldItem);
       } else {
@@ -71,13 +76,14 @@ public class DepotDaoImpl extends BaseDao<Depot, Integer> implements DepotDao {
   }
 
   @Override
-  public void removeProducts(List<DepotItem> items) {
+  public void putOutProducts(List<DepotItem> items) {
     assert items != null;
     Session session = getSession();
 
     for (DepotItem item : items) {
       DepotItem oldItem = getItem(item);
       assert oldItem != null;
+      System.out.println("======== out  " + oldItem.getProductCount() + " === " + item.getProductCount());
       oldItem.setProductCount(oldItem.getProductCount() - item.getProductCount());
       session.update(oldItem);
     }
@@ -117,6 +123,27 @@ public class DepotDaoImpl extends BaseDao<Depot, Integer> implements DepotDao {
     List<DepotItem> findItems = getSession().createQuery(hql).list();
 
     return findItems == null || findItems.size() == 0 ? null : findItems.get(0);
+  }
+
+  @Override
+  public List<DepotItem> getItemsByOrderForm(OrderForm orderForm) {
+    Session session = getSession();
+    CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+    CriteriaQuery<DepotItem> criteriaQuery = criteriaBuilder.createQuery(DepotItem.class);
+    Root<DepotItem> root = criteriaQuery.from(DepotItem.class);
+
+    Predicate depotpred = criteriaBuilder.equal(root.get("depot").get("id"), orderForm.getDepot().getId());
+    List<Predicate> conditons = new ArrayList<>();
+
+    for (OrderFormProduct oproduct : orderForm.getProducts()) {
+      conditons.add(criteriaBuilder.equal(root.get("product").get("id"), oproduct.getProduct().getId()));
+    }
+
+    criteriaQuery.where(depotpred, criteriaBuilder.or(conditons.toArray(new Predicate[0])));
+
+    List<DepotItem> res = session.createQuery(criteriaQuery).getResultList();
+
+    return res;
   }
 
   @Override

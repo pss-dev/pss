@@ -5,6 +5,8 @@ import com.pssdev.pss.model.OrderFormSearchModel;
 
 import java.util.List;
 
+import javax.persistence.criteria.Order;
+
 public interface OrderFormService {
   /**
    * 插入单据信息
@@ -36,8 +38,17 @@ public interface OrderFormService {
 
   /**
    * 查询单据
+   * 
    * @param model
    * @return
    */
   List<OrderForm> search(OrderFormSearchModel model);
+
+  /**
+   * 初始化库存，只用于草稿表单
+   * 
+   * @param orderForm
+   * @return
+   */
+  OrderForm initOrderForm(OrderForm orderForm);
 }
