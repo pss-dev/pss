@@ -3,6 +3,7 @@ package com.pssdev.pss.controller;
 import com.pssdev.pss.entity.*;
 import com.pssdev.pss.service.*;
 import com.pssdev.pss.model.*;
+import com.pssdev.pss.util.OrderFormStatus;
 import com.pssdev.pss.util.OrderFormType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,9 +21,8 @@ public class OrderFormController {
   private DepotService depotService;
 
   @PostMapping("/orderForm")
-  public void insertOrderForms(@RequestBody OrderForm orderForm) throws Exception {
-    orderFormService.insertOrderForm(orderForm);
-    System.out.println("================== insertOrderForms ");
+  public Long insertOrderForms(@RequestBody OrderForm orderForm) throws Exception {
+    return orderFormService.insertOrderForm(orderForm);
   }
 
   @DeleteMapping("/orderForm")
@@ -37,6 +37,7 @@ public class OrderFormController {
 
   @PutMapping("/orderForm/verify")
   public void verifyOrderForm(@RequestBody OrderForm orderForm) throws Exception {
+    orderForm.setStatus(OrderFormStatus.VERIFY);
     // check 'verify' perimission
     if (orderForm.getId() == null) {
       orderFormService.insertOrderForm(orderForm);

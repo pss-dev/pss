@@ -6,6 +6,7 @@
           <div slot="header" class="card-header">
             <span>创建者: {{getCreateUserName()}}</span>
             <span class="verify-user">审核者: {{getVerifyUserName()}}</span>
+            <span v-if="showVerifyMessage" class="verified-message">已审核</span>
           </div>
           <el-row :gutter="20" class="el-row-bottom-20">
             <el-col :span="6">
@@ -378,6 +379,7 @@ export default {
       scopeValue: null,
       createDate: new Date(),
       companyType: 0,
+      showVerifyMessage: false,
 
       orderFormData: {
         id: null,
@@ -674,20 +676,35 @@ export default {
       if (this.orderFormData.actionType == Tool.actionType.add) {
         orderFormApi.addOrderForm(this.orderFormData).then((res) => {
           console.log(res);
+          this.orderFormData.id = res.data;
+
+          this.$message({
+            message: `保存成功`,
+            showClose: true
+          });
         });
       }
       else {
         orderFormApi.saveOrderForm(this.orderFormData).then((res) => {
           console.log(res);
+          this.$message({
+            message: `保存成功`,
+            showClose: true
+          });
         });
       }
     },
 
     verifyOrderForm () {
-      this.orderFormData.status = 2;
-
       orderFormApi.verifyOrderForm(this.orderFormData).then((res) => {
         console.log(res);
+
+        this.orderFormData.status = 2;
+        this.showVerifyMessage = true;
+        this.$message({
+          message: `单据审核成功`,
+          showClose: true
+        });
       });
     },
 
@@ -768,6 +785,10 @@ export default {
     }
     else {
       this.initOrderForm(this.orderFormDataValue);
+
+      if (this.orderFormData.status == 2) {
+        this.showVerifyMessage = true;
+      }
     }
   }
 }
@@ -817,5 +838,11 @@ export default {
 .account-label {
   height: 40px;
   line-height: 40px;
+}
+
+.verified-message {
+  float: right;
+  color: red;
+  font-size: 20px;
 }
 </style>

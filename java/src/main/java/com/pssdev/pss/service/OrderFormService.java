@@ -13,7 +13,7 @@ public interface OrderFormService {
    * 
    * @param orderForm
    */
-  void insertOrderForm(OrderForm orderForm) throws Exception;
+  Long insertOrderForm(OrderForm orderForm) throws Exception;
 
   /**
    * 删除单据信息

@@ -21,8 +21,8 @@ public class OrderFormServiceImpl implements OrderFormService {
   private DepotService depotService;
 
   @Override
-  public void insertOrderForm(OrderForm orderForm) throws Exception {
-    this.orderFormDao.insert(orderForm);
+  public Long insertOrderForm(OrderForm orderForm) throws Exception {
+    return this.orderFormDao.insert(orderForm);
   }
 
   @Override
