@@ -3,6 +3,8 @@ package com.pssdev.pss.config;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.authz.permission.WildcardPermissionResolver;
+import org.apache.shiro.cache.CacheManager;
+import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
@@ -35,10 +37,21 @@ public class ShiroConfig {
       return advisorAutoProxyCreator;
    }
 
+   @Bean("shiroCacheManager")
+   @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+   public CacheManager cacheManager(net.sf.ehcache.CacheManager ehCacheCacheManager) {
+      EhCacheManager ehCacheManager = new EhCacheManager();
+      ehCacheManager.setCacheManager(ehCacheCacheManager);
+
+      return ehCacheManager;
+   }
+
    @Bean("securityManager")
-   public SecurityManager securityManager(AuthorizingRealm realm) {
-      DefaultWebSecurityManager securityManager
-         = new DefaultWebSecurityManager(realm);
+   public SecurityManager securityManager(AuthorizingRealm realm,
+                                          CacheManager cacheManager)
+   {
+      DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager(realm);
+      securityManager.setCacheManager(cacheManager);
 
       return securityManager;
    }
