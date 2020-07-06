@@ -398,7 +398,7 @@ export default {
       };
 
       console.log("======  search ", searchModelData);
-      return orderFormApi.getOrderForms().then((res) => {
+      return orderFormApi.getOrderForms(searchModelData).then((res) => {
         console.log("============= getOrderForms ", res);
         this.setResponseResult(res.data);
       });

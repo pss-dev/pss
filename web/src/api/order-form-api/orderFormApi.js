@@ -1,18 +1,11 @@
 import baseApi from '../baseApi.js'
 import fetch from '@/http/fetch'
 
-function getOrderFormInfo (data) {
+function getOrderForms (data) {
   return fetch({
     url: baseApi.baseApi('orderForm/search'),
     method: 'post',
     data
-  })
-}
-
-function getOrderForms () {
-  return fetch({
-    url: baseApi.baseApi('orderForm'),
-    method: 'get',
   })
 }
 
@@ -57,7 +50,6 @@ function initOrderForm (data) {
 }
 
 export default {
-  getOrderFormInfo,
   addOrderForm,
   saveOrderForm,
   deleteOrderFormInfo,
