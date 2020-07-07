@@ -52,7 +52,7 @@ public class SecurityController {
 
    @GetMapping("/api/1.0/principal")
    @ResponseBody
-   public Employee logout() {
+   public Employee getCurrentEmployee() {
       Subject subject = SecurityUtils.getSubject();
       Object principal = subject.getPrincipal();
       Employee employee = null;
