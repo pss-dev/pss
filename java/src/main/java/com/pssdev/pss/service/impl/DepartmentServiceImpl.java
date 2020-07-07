@@ -28,14 +28,11 @@ public class DepartmentServiceImpl implements DepartmentService {
   }
 
   @Transactional(readOnly = true)
-  @Cacheable(key = "'deptAll'+#parentId")
+  @Cacheable(key = "'deptAll'", condition = "#p0==null")
   @Override
   public List<Department> getDepartments(Integer parentId) {
     if (parentId == null) {
       return departmentDao.getAll();
-    }
-    else if(TOP_FLAG1.equals(parentId) || TOP_FLAG2.equals(parentId)) {
-      return departmentDao.getTop();
     }
 
     Department department = departmentDao.get(parentId);
@@ -48,35 +45,49 @@ public class DepartmentServiceImpl implements DepartmentService {
   }
 
   @Transactional(readOnly = true)
-  @Cacheable(key = "'deptAll-1'")
+  @Cacheable(key = "'deptTop'")
   @Override
   public List<Department> getTop() {
     return departmentDao.getTop();
   }
 
   @Transactional(readOnly = true)
-  @Cacheable(key = "'deptAll2'")
+  @Cacheable(key = "'deptAll'")
   @Override
   public List<Department> getDepartments() {
     return departmentDao.getAll();
   }
 
   @Transactional
-  @CacheEvict(allEntries = true)
+  @Caching(put = {
+     @CachePut(key = "'dept_'+#p0.id")
+  }, evict = {
+     @CacheEvict(key = "'deptAll'"),
+     @CacheEvict(key = "'deptTop'")
+  })
   @Override
   public int insertDepartment(Department department) {
     return departmentDao.insert(department);
   }
 
   @Transactional
-  @CachePut(key = "'dept_'+#department.getId()")
+  @Caching(put = {
+     @CachePut(key = "'dept_'+#p0.id")
+  }, evict = {
+     @CacheEvict(key = "'deptAll'"),
+     @CacheEvict(key = "'deptTop'")
+  })
   @Override
   public void updateDepartment(Department department) {
     departmentDao.update(department);
   }
 
   @Transactional
-  @CacheEvict(allEntries = true)
+  @Caching(evict = {
+     @CacheEvict(key = "'dept_'+#p0.id"),
+     @CacheEvict(key = "'deptTop'"),
+     @CacheEvict(key = "'deptAll'")
+  })
   @Override
   public void deleteDepartment(Department dept) {
     assert dept.getId() != null;

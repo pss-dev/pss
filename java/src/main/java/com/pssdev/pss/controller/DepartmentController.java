@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.pssdev.pss.service.TreeStructureService.TOP_FLAG1;
+import static com.pssdev.pss.service.TreeStructureService.TOP_FLAG2;
+
 @RestController
 @RequestMapping("/api/1.0/")
 @Api("部门信息控制器")
@@ -23,7 +26,12 @@ public class DepartmentController {
   @RequiresPermissions("*:64:r")
   @ApiOperation("获取指定部门集合, 如果父部门未指定则获取所有部门信息")
   public List<Department> getDepartment(
-      @ApiParam("上级部门 ID") @RequestParam(name = "fatherID", required = false) Integer fatherID) {
+      @ApiParam("上级部门 ID") @RequestParam(name = "fatherID", required = false) Integer fatherID)
+  {
+    if(TOP_FLAG1.equals(fatherID) || TOP_FLAG2.equals(fatherID)) {
+      return departmentService.getTop();
+    }
+
     List<Department> departments = departmentService.getDepartments(fatherID);
 
     return departments;
