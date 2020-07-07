@@ -28,7 +28,7 @@ public class DepartmentServiceImpl implements DepartmentService {
   }
 
   @Transactional(readOnly = true)
-  @Cacheable(key = "'deptAll'", condition = "#p0==null")
+  @Cacheable(key = "'deptAll' + (#p0 == null ? '' : #p0)")
   @Override
   public List<Department> getDepartments(Integer parentId) {
     if (parentId == null) {
@@ -63,6 +63,7 @@ public class DepartmentServiceImpl implements DepartmentService {
      @CachePut(key = "'dept_'+#p0.id")
   }, evict = {
      @CacheEvict(key = "'deptAll'"),
+     @CacheEvict(key = "'deptAll' + #p0.parent.id"),
      @CacheEvict(key = "'deptTop'")
   })
   @Override
@@ -75,6 +76,7 @@ public class DepartmentServiceImpl implements DepartmentService {
      @CachePut(key = "'dept_'+#p0.id")
   }, evict = {
      @CacheEvict(key = "'deptAll'"),
+     @CacheEvict(key = "'deptAll' + #p0?.parent?.id"),
      @CacheEvict(key = "'deptTop'")
   })
   @Override
@@ -86,7 +88,8 @@ public class DepartmentServiceImpl implements DepartmentService {
   @Caching(evict = {
      @CacheEvict(key = "'dept_'+#p0.id"),
      @CacheEvict(key = "'deptTop'"),
-     @CacheEvict(key = "'deptAll'")
+     @CacheEvict(key = "'deptAll'"),
+     @CacheEvict(key = "'deptAll' + #p0?.parent?.id")
   })
   @Override
   public void deleteDepartment(Department dept) {

@@ -54,7 +54,7 @@ public class DepartmentController {
   @DeleteMapping("/department")
   @RequiresPermissions("*:64:d")
   @ApiOperation("删除部门信息")
-  public void deleteDepartment(@ApiParam("部门 ID") @RequestBody Department department) {
+  public void deleteDepartment(@ApiParam("将要删除的部门信息") @RequestBody Department department) {
     departmentService.deleteDepartment(department);
   }
 
