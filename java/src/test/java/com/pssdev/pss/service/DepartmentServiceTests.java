@@ -9,7 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.*;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @SpringBootTest
@@ -19,15 +20,14 @@ public class DepartmentServiceTests {
   @Autowired
   private DepartmentService departmentService;
 
-  // @Test
+  @Test
   @Order(1)
   public void testNonNull() {
     Assertions.assertNotNull(departmentService, "Init Department Service Error.");
   }
 
   @Order(2)
-  // @RepeatedTest(value = 5, name = "Insert 5 dept to make sure get dept id not
-  // null")
+  @RepeatedTest(value = 5, name = "Insert 5 dept to make sure get dept id not null")
   public void testInsertTopDepartment() {
     int index = (int) (1000 * Math.random());
     Department dept1 = new Department();
@@ -37,7 +37,7 @@ public class DepartmentServiceTests {
     departmentService.insertDepartment(dept1);
   }
 
-  // @Test
+  @Test
   @Order(3)
   public void testGetDepartments() {
     List<Department> departments = departmentService.getDepartments();
@@ -47,7 +47,7 @@ public class DepartmentServiceTests {
     Assertions.assertNotNull(departments, "Departments is empty");
   }
 
-  // @ParameterizedTest
+  @ParameterizedTest
   @ValueSource(ints = { 2 })
   @Order(4)
   public void testGetDepartment(int id) {
@@ -59,7 +59,7 @@ public class DepartmentServiceTests {
     LOGGER.info("Department: {}", department);
   }
 
-  // @ParameterizedTest
+  @ParameterizedTest
   @ValueSource(ints = { 2 })
   @Order(5)
   public void testInsertChildDepartment(int id) {
@@ -98,17 +98,39 @@ public class DepartmentServiceTests {
     Assertions.assertTrue(childIds.contains(cid2), "Missing child 2");
   }
 
-  // @Test
+  @Test
   @Order(6)
   public void testGetTop() {
-    List<Department> departments = departmentService.getDepartments(-1);
+    List<Department> departments = departmentService.getTop();
 
     departments.stream().forEach(dept -> Assertions.assertNull(dept.getParent(), "Top Parent is not null."));
   }
 
-  // @ParameterizedTest
-  @ValueSource(ints = { 2 })
+  @RepeatedTest(value = 3, name = "Query 3 times to see sql display times.")
   @Order(7)
+  public void testDepartmentCache() {
+    List<Department> departments = departmentService.getDepartments();
+
+    LOGGER.info("Get All Departments: {}", departments);
+
+    if(departments != null) {
+      departments.stream().map(Department::getId).forEach(departmentService::getDepartment);
+    }
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = { "Child Level1", "Child Level2" })
+  @Order(8)
+  public void testGetDepartmentByName(String deptName) {
+    Department dept = this.departmentService.getDepartmentByName(deptName);
+
+    Assertions.assertNotNull(dept, "Get department by name is null.");
+    Assertions.assertEquals(deptName, dept.getName(), "Get department by name error.");
+  }
+
+  @ParameterizedTest
+  @ValueSource(ints = { 2 })
+  @Order(Integer.MAX_VALUE) // Last delete
   public void testDeleteDepartment(int id) {
     Department dept = departmentService.getDepartment(id);
     Set<Department> children = dept.getChildren();
@@ -118,17 +140,6 @@ public class DepartmentServiceTests {
     }
 
     departmentService.deleteDepartment(new Department(id));
-  }
-
-  // @RepeatedTest(value = 3, name = "Query 3 times to see sql display times.")
-  public void testDepartmentCache() {
-    List<Department> departments = departmentService.getDepartments();
-
-    LOGGER.info("Get All Departments: {}", departments);
-
-    if (departments != null) {
-      departments.stream().map(Department::getId).forEach(departmentService::getDepartment);
-    }
   }
 
   private static final Logger LOGGER = LoggerFactory.getLogger(DepartmentServiceTests.class);

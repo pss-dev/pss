@@ -21,10 +21,10 @@ public class DepartmentServiceImpl implements DepartmentService {
   }
 
   @Transactional(readOnly = true)
-  @Cacheable(key = "'dept_'+#parentId")
+  @Cacheable(key = "'dept_'+#p0")
   @Override
-  public Department getDepartment(Integer parentId) {
-    return departmentDao.get(parentId);
+  public Department getDepartment(Integer id) {
+    return departmentDao.get(id);
   }
 
   @Transactional(readOnly = true)
@@ -59,25 +59,31 @@ public class DepartmentServiceImpl implements DepartmentService {
   }
 
   @Transactional
-  @Caching(put = { @CachePut(key = "'dept_'+#p0.id") }, evict = { @CacheEvict(key = "'deptAll'"),
-      @CacheEvict(key = "'deptAll' + #p0.parent.id"), @CacheEvict(key = "'deptTop'") })
+  @CacheEvict(allEntries = true)
   @Override
   public int insertDepartment(Department department) {
     return departmentDao.insert(department);
   }
 
   @Transactional
-  @Caching(put = { @CachePut(key = "'dept_'+#p0.id") }, evict = { @CacheEvict(key = "'deptAll'"),
-      @CacheEvict(key = "'deptAll' + #p0?.parent?.id"), @CacheEvict(key = "'deptTop'") })
+  @Caching(
+     put = {
+        @CachePut(key = "'dept_' + #p0.id"),
+        @CachePut(key = "'deptName_' + #p0.name")
+     },
+     evict = {
+        @CacheEvict(key = "'deptAll'"),
+        @CacheEvict(key = "'deptAll' + #p0?.parent?.id"),
+        @CacheEvict(key = "'deptTop'")
+     }
+  )
   @Override
   public void updateDepartment(Department department) {
     departmentDao.update(department);
   }
 
   @Transactional
-  @Caching(evict = { @CacheEvict(key = "'dept_'+#p0.id"), @CacheEvict(key = "'deptTop'"),
-      @CacheEvict(key = "'deptAll'"), @CacheEvict(key = "'deptAll' + #p0?.parent?.id") })
-
+  @CacheEvict(allEntries = true)
   @Override
   public void deleteDepartment(Department dept) {
     assert dept.getId() != null;
@@ -85,6 +91,7 @@ public class DepartmentServiceImpl implements DepartmentService {
   }
 
   @Transactional
+  @Cacheable(key = "'deptName_' + #p0")
   @Override
   public Department getDepartmentByName(String name) {
     return departmentDao.getByName(name);
