@@ -11,25 +11,25 @@
         <div class="print-title">{{printInfo.title}}</div>
         <el-row :gutter="10">
           <el-col :span="3">客户姓名：</el-col>
-          <el-col :span="5">{{orderFormData.company.name}}</el-col>
+          <el-col :span="5">{{getCompanyName()}}</el-col>
           <el-col :span="3">发货仓库：</el-col>
-          <el-col :span="5">{{orderFormData.depot.name}}</el-col>
+          <el-col :span="5">{{getDepotName()}}</el-col>
           <el-col :span="3">录单日期：</el-col>
-          <el-col :span="5">{{createDate}}</el-col>
+          <el-col :span="5">{{orderFormData.createDate.toISOString().substring(0, 10)}}</el-col>
         </el-row>
 
         <el-row :gutter="10">
           <el-col :span="3">联系人：</el-col>
-          <el-col :span="5">{{orderFormData.company.contactPerson}}</el-col>
+          <el-col :span="5">{{getCompanyContactPerson()}}</el-col>
           <el-col :span="3">经手人：</el-col>
-          <el-col :span="5">{{orderFormData.employee.name}}</el-col>
+          <el-col :span="5">{{getEmployeeName()}}</el-col>
           <el-col :span="3">付款方式：</el-col>
-          <el-col :span="5">{{orderFormData.account.name}}</el-col>
+          <el-col :span="5">{{getAccountName()}}</el-col>
         </el-row>
 
         <el-row :gutter="10">
           <el-col :span="3">联系电话：</el-col>
-          <el-col :span="5">{{orderFormData.company.contactPhone}}</el-col>
+          <el-col :span="5">{{getCompanyContactPhone()}}</el-col>
           <el-col :span="3">摘要：</el-col>
           <el-col :span="13">{{orderFormData.summary}}</el-col>
         </el-row>
@@ -63,21 +63,21 @@
         </el-row>
         <el-row :gutter="10">
           <el-col :span="3">制单人：</el-col>
-          <el-col :span="5">{{orderFormData.creatUser.name}}</el-col>
+          <el-col :span="5">{{getCreateUserName()}}</el-col>
           <el-col :span="3">经手人：</el-col>
-          <el-col :span="5">{{orderFormData.employee.name}}</el-col>
+          <el-col :span="5">{{getEmployeeName()}}</el-col>
           <el-col :span="3">打印日期：</el-col>
-          <el-col :span="5">{{printDate}}</el-col>
+          <el-col :span="5">{{printDate.toISOString().substring(0, 10)}}</el-col>
         </el-row>
         <el-row :gutter="10">
           <el-col :span="3">地址：</el-col>
-          <el-col :span="13">{{orderFormData.company.address}}</el-col>
+          <el-col :span="13">{{getCompanyAddress()}}</el-col>
           <el-col :span="3">电话：</el-col>
-          <el-col :span="5">{{orderFormData.company.contactPhone}}</el-col>
+          <el-col :span="5">{{getCompanyTelephone()}}</el-col>
         </el-row>
         <el-row :gutter="10">
           <el-col :span="3">银行账户：</el-col>
-          <el-col :span="21">{{accountInfo}}</el-col>
+          <el-col :span="21">{{getAccountInfo()}}</el-col>
         </el-row>
         <el-row :gutter="10">
           <el-col :span="3">温馨提示：</el-col>
@@ -154,6 +154,7 @@ export default {
       dialogVisible: true,
       printSettingDialogVisiable: false,
       title: "打印预览",
+      printDate: new Date(),
 
       titles:
         [{ prop: "product.identifier", label: "商品编号" },
@@ -171,8 +172,6 @@ export default {
       printInfoValue: {},
 
       bigMoney: '',
-      accountInfo: '',
-      createDate: '',
     }
   },
 
@@ -181,32 +180,58 @@ export default {
       this.$emit('closeDialog')
     },
 
+    getCreateUserName () {
+      return this.orderFormData.creatUser ? this.orderFormData.creatUser.name : "";
+    },
+
+    getCompanyName () {
+      return this.orderFormData.company ? this.orderFormData.company.name : "";
+    },
+
+    getEmployeeName () {
+      return this.orderFormData.employee ? this.orderFormData.employee.name : "";
+    },
+
+    getCompanyContactPerson () {
+      return this.orderFormData.company ? this.orderFormData.company.contactPerson : "";
+    },
+
+    getCompanyAddress () {
+      return this.orderFormData.company ? this.orderFormData.company.address : "";
+    },
+
+    getCompanyTelephone () {
+      return this.orderFormData.company ? this.orderFormData.company.telephone : "";
+    },
+
+    getCompanyContactPhone () {
+      return this.orderFormData.company ? this.orderFormData.company.contactPhone : "";
+    },
+
+    getDepotName () {
+      return this.orderFormData.depot ? this.orderFormData.depot.name : "";
+    },
+
+    getAccountName () {
+      return this.orderFormData.account ? this.orderFormData.account.name : "";
+    },
+
     getAccountInfo () {
       let result = '';
 
-      if (this.orderFormData.account.bank) {
+      if (this.orderFormData.account && this.orderFormData.account.bank) {
         result += this.orderFormData.account.bank + '  ';
       }
 
-      if (this.orderFormData.account.account) {
+      if (this.orderFormData.account && this.orderFormData.account.account) {
         result += this.orderFormData.account.account + '  ';
       }
 
-      if (this.orderFormData.account.cardholder) {
+      if (this.orderFormData.account && this.orderFormData.account.cardholder) {
         result += this.orderFormData.account.cardholder + '  ';
       }
 
       return result;
-    },
-
-    getDateLabel (date) {
-      let year = date.getFullYear()
-      let month = date.getMonth() + 1
-      let day = date.getDate()
-      if (month < 10) month = '0' + month
-      if (day < 10) day = '0' + day
-
-      return year + '-' + month + '-' + day
     },
 
     showPrintDialog () {
@@ -226,9 +251,6 @@ export default {
 
   created: function () {
     this.bigMoney = smalltoBIG(this.amountMoney);
-    this.accountInfo = this.getAccountInfo();
-    this.createDate = this.getDateLabel(this.orderFormData.createDate);
-    this.printDate = this.getDateLabel(new Date());
   }
 
 }

@@ -107,12 +107,41 @@
       </el-header>
       <el-main>
         <div>
-          <base-info-table
-            :titles="titData"
-            :tableData="tableData"
-            @handleCurrentChange="handleCurrentChange"
-            @getChildData="openOrderForm"
-          ></base-info-table>
+          <el-table
+            :data="tableData.slice((currentPage-1) * pageSize, currentPage * pageSize)"
+            border
+            highlight-current-row
+            @current-change="handleCurrentChange"
+            @row-dblclick="openOrderForm"
+            height="400"
+            style="width: 100%"
+          >
+            <el-table-column prop="createDate" label="商品名称">
+              <template slot-scope="scope">
+                <span>{{scope.row.createDate.substring(0, 10)}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column prop="company.name" label="商品名称">
+              <template slot-scope="scope">
+                <span>{{scope.row.company.name}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column prop="employee.name" label="商品名称">
+              <template slot-scope="scope">
+                <span>{{scope.row.employee.name}}</span>
+              </template>
+            </el-table-column>
+          </el-table>
+          <el-pagination
+            class="pagination"
+            @size-change="pageSizeChange"
+            @current-change="pageChange"
+            :small="true"
+            :current-page="currentPage"
+            :page-sizes="[30, 50, 100, 200]"
+            layout="sizes, jumper, prev, next, total"
+            :total="totalSize"
+          ></el-pagination>
         </div>
       </el-main>
       <el-footer>
@@ -175,10 +204,8 @@ import DepotSearchDialog from "../components/depot-search-dialog.vue"
 import ProductSearchDialog from "../components/product-search-dialog.vue"
 import UnitSearchDialog from "../components/unit-search-dialog.vue"
 import AccountSearchDialog from "../components/account-search-dialog.vue"
-import BaseInfoTable from "@/views/base-info/components/base-info-table.vue"
 
 import TableBaseInfo from '@/views/mixIns/table-base-info.js'
-
 import orderFormApi from "../../api/order-form-api/orderFormApi.js"
 import Tool from '@/views/constant/tool.js'
 
@@ -194,7 +221,6 @@ export default {
     "product-search-dialog": ProductSearchDialog,
     "unit-search-dialog": UnitSearchDialog,
     "account-search-dialog": AccountSearchDialog,
-    "base-info-table": BaseInfoTable
   },
 
   props: {
@@ -202,12 +228,6 @@ export default {
 
   data () {
     return {
-      titData: [
-        { prop: "createDate", label: "创建时间" },
-        { prop: "company.name", label: "来往公司" },
-        { prop: "employee.name", label: "经手人" }
-      ],
-
       selectedInfo: null,
       dateRange: [],
 

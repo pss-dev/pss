@@ -14,8 +14,7 @@
                 <el-date-picker
                   class="order-form-item"
                   type="date"
-                  value-format="yyyy-MM-dd"
-                  v-model="createDate"
+                  v-model="orderFormData.createDate"
                   @change="dateChange"
                   placeholder="选择日期"
                 ></el-date-picker>
@@ -377,7 +376,6 @@ export default {
       prices: [],
       defaultPriceID: -1,
       scopeValue: null,
-      createDate: new Date(),
       companyType: 0,
       showVerifyMessage: false,
 
@@ -672,6 +670,9 @@ export default {
 
     save () {
       console.log("=========== save ", this.orderFormData);
+      if (!this.formValid()) {
+        return;
+      }
 
       if (this.orderFormData.actionType == Tool.actionType.add) {
         orderFormApi.addOrderForm(this.orderFormData).then((res) => {
@@ -696,6 +697,10 @@ export default {
     },
 
     verifyOrderForm () {
+      if (!this.formValid()) {
+        return;
+      }
+
       orderFormApi.verifyOrderForm(this.orderFormData).then((res) => {
         console.log(res);
 
@@ -770,7 +775,44 @@ export default {
       }
 
       this.afterWipe = this.getAmountMoney() - this.orderFormData.wipe;
-      this.createDate = new Date(this.orderFormData.createDate);
+      this.orderFormData.createDate = new Date(this.orderFormData.createDate);
+    },
+
+    formValid () {
+      let message = "";
+      let valid = true;
+
+      if (this.orderFormData.branch == null) {
+        message = "请选择分支机构";
+        valid = false;
+      }
+      else if (this.orderFormData.company == null) {
+        message = "请选择来往公司";
+        valid = false;
+      }
+      else if (this.orderFormData.employee == null) {
+        message = "请选择经手人";
+        valid = false;
+      }
+      else if (this.orderFormData.department == null) {
+        message = "请选择部门";
+        valid = false;
+      }
+      else if (this.orderFormData.depot == null) {
+        message = "请选择仓库";
+        valid = false;
+      }
+      else if (this.orderFormData.account == null) {
+        message = "请选择账户";
+        valid = false;
+      }
+
+      this.$message({
+        message: message,
+        showClose: true
+      });
+
+      return valid;
     }
   },
 

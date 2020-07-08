@@ -22,6 +22,9 @@
       <el-form-item label="地址" prop="address">
         <el-input v-model="companyData.address" autocomplete="off"></el-input>
       </el-form-item>
+      <el-form-item label="电话" prop="telephone">
+        <el-input v-model="companyData.telephone" autocomplete="off"></el-input>
+      </el-form-item>
       <el-form-item label="联系人" prop="contactPerson">
         <el-input v-model="companyData.contactPerson" autocomplete="off"></el-input>
       </el-form-item>

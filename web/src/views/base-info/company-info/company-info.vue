@@ -75,6 +75,7 @@ export default {
         [{ prop: "name", label: "名称" },
         { prop: "initials", label: "拼音码" },
         { prop: "address", label: "地址" },
+        { prop: "telephone", label: "电话" },
         { prop: "contactPerson", label: "联系人" },
         { prop: "contactPhone", label: "联系人电话" },],
     }
@@ -102,6 +103,7 @@ export default {
         id: null,
         name: '',
         initials: '',
+        telephone: '',
         address: '',
         contactPerson: '',
         contactPhone: '',
