@@ -40,4 +40,11 @@ public interface ProductUnitService {
    * @return
    */
   List<ProductUnit> getProductUnits();
+
+  /**
+   * get unit by name
+   *
+   * @return
+   */
+  ProductUnit getUnitByName(String name);
 }

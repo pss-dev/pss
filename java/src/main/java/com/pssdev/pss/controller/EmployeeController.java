@@ -22,6 +22,14 @@ public class EmployeeController {
     return employeeService.getEmployees();
   }
 
+  @PostMapping("/employee/duplicate")
+  @RequiresPermissions("*:2048:r")
+  public boolean checkEmployeeDuplicate(@RequestBody Employee employee) throws Exception {
+    Employee emp = employeeService.getEmployeeByName(employee.getName());
+
+    return emp == null;
+  }
+
   @PostMapping("/employee")
   @RequiresPermissions("*:2048:w")
   public void addEmployee(@RequestBody Employee user) {

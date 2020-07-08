@@ -38,4 +38,11 @@ public interface DepartmentService extends TreeStructureService<Department> {
    * delete a department
    */
   void deleteDepartment(Department dept);
+
+  /**
+   * get department by name
+   *
+   * @return
+   */
+  Department getDepartmentByName(String name);
 }

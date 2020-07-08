@@ -139,4 +139,10 @@ public class ProductServiceImpl implements ProductService {
   public Product getProduct(Integer productId) {
     return this.productDao.get(productId);
   }
+
+  @Transactional
+  @Override
+  public Product getProductByName(String name) {
+    return productDao.getByName(name);
+  }
 }

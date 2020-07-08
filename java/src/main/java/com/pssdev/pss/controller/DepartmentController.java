@@ -36,6 +36,14 @@ public class DepartmentController {
     return departments;
   }
 
+  @PostMapping("/department/duplicate")
+  @RequiresPermissions("*:64:r")
+  public boolean checkDepartmentDuplicate(@RequestBody Department department) throws Exception {
+    Department dept = departmentService.getDepartmentByName(department.getName());
+
+    return dept == null;
+  }
+
   @PostMapping("/department")
   @RequiresPermissions("*:64:w")
   @ApiOperation("添加部门信息")

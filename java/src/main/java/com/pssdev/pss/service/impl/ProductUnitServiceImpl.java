@@ -41,10 +41,9 @@ public class ProductUnitServiceImpl implements ProductUnitService {
 
   @Override
   public List<ProductUnit> getProductUnits(Integer fatherId) {
-    if(fatherId != null) {
+    if (fatherId != null) {
       return productUnitDao.getProductUnits(fatherId);
-    }
-    else {
+    } else {
       return getProductUnits();
     }
 
@@ -53,5 +52,11 @@ public class ProductUnitServiceImpl implements ProductUnitService {
   @Override
   public List<ProductUnit> getProductUnits() {
     return this.productUnitDao.getAll();
+  }
+
+  @Transactional
+  @Override
+  public ProductUnit getUnitByName(String name) {
+    return productUnitDao.getByName(name);
   }
 }

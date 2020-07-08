@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service("departmentService")
-@CacheConfig(cacheNames="pss-department")
+@CacheConfig(cacheNames = "pss-department")
 public class DepartmentServiceImpl implements DepartmentService {
 
   @Autowired
@@ -38,7 +38,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     Department department = departmentDao.get(parentId);
 
     if (department != null) {
-      return new ArrayList<>(department.getChildren() );
+      return new ArrayList<>(department.getChildren());
     }
 
     return null;
@@ -59,42 +59,35 @@ public class DepartmentServiceImpl implements DepartmentService {
   }
 
   @Transactional
-  @Caching(put = {
-     @CachePut(key = "'dept_'+#p0.id")
-  }, evict = {
-     @CacheEvict(key = "'deptAll'"),
-     @CacheEvict(key = "'deptAll' + #p0.parent.id"),
-     @CacheEvict(key = "'deptTop'")
-  })
+  @Caching(put = { @CachePut(key = "'dept_'+#p0.id") }, evict = { @CacheEvict(key = "'deptAll'"),
+      @CacheEvict(key = "'deptAll' + #p0.parent.id"), @CacheEvict(key = "'deptTop'") })
   @Override
   public int insertDepartment(Department department) {
     return departmentDao.insert(department);
   }
 
   @Transactional
-  @Caching(put = {
-     @CachePut(key = "'dept_'+#p0.id")
-  }, evict = {
-     @CacheEvict(key = "'deptAll'"),
-     @CacheEvict(key = "'deptAll' + #p0?.parent?.id"),
-     @CacheEvict(key = "'deptTop'")
-  })
+  @Caching(put = { @CachePut(key = "'dept_'+#p0.id") }, evict = { @CacheEvict(key = "'deptAll'"),
+      @CacheEvict(key = "'deptAll' + #p0?.parent?.id"), @CacheEvict(key = "'deptTop'") })
   @Override
   public void updateDepartment(Department department) {
     departmentDao.update(department);
   }
 
   @Transactional
-  @Caching(evict = {
-     @CacheEvict(key = "'dept_'+#p0.id"),
-     @CacheEvict(key = "'deptTop'"),
-     @CacheEvict(key = "'deptAll'"),
-     @CacheEvict(key = "'deptAll' + #p0?.parent?.id")
-  })
+  @Caching(evict = { @CacheEvict(key = "'dept_'+#p0.id"), @CacheEvict(key = "'deptTop'"),
+      @CacheEvict(key = "'deptAll'"), @CacheEvict(key = "'deptAll' + #p0?.parent?.id") })
+
   @Override
   public void deleteDepartment(Department dept) {
     assert dept.getId() != null;
     departmentDao.delete(dept);
+  }
+
+  @Transactional
+  @Override
+  public Department getDepartmentByName(String name) {
+    return departmentDao.getByName(name);
   }
 
   private final DepartmentDao departmentDao;

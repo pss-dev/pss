@@ -105,4 +105,10 @@ public class DepotServiceImpl implements DepotService {
   public List<DepotItem> getItemsByOrderForm(OrderForm orderForm) {
     return depotDao.getItemsByOrderForm(orderForm);
   }
+
+  @Transactional
+  @Override
+  public Depot getDepotByName(String name) {
+    return depotDao.getByName(name);
+  }
 }

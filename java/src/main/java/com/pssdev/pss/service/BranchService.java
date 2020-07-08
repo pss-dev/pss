@@ -38,4 +38,11 @@ public interface BranchService extends TreeStructureService<Branch> {
    * delete a branch by id
    */
   void deleteBranch(Branch branch);
+
+  /**
+   * get branch by name
+   *
+   * @return
+   */
+  Branch getBranchByName(String name);
 }

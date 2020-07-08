@@ -42,4 +42,11 @@ public interface ProductService {
   List<Product> getProducts();
 
   Product getProduct(Integer productId);
+
+  /**
+   * get product by name
+   *
+   * @return
+   */
+  Product getProductByName(String name);
 }

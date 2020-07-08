@@ -17,8 +17,16 @@ public class DepotController {
 
   @PostMapping("/depot")
   @RequiresPermissions("*:32:w")
-  public void insertCompanies(@RequestBody Depot depot) throws Exception {
+  public void insertDepot(@RequestBody Depot depot) throws Exception {
     depotService.insertDepot(depot);
+  }
+
+  @PostMapping("/depot/duplicate")
+  @RequiresPermissions("*:32:r")
+  public boolean checkDepotDuplicate(@RequestBody Depot depot) throws Exception {
+    Depot depo = depotService.getDepotByName(depot.getName());
+
+    return depo == null;
   }
 
   @DeleteMapping("/depot")

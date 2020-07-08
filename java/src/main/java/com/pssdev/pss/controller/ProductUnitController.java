@@ -20,6 +20,14 @@ public class ProductUnitController {
     productUnitService.insertProductUnit(productUnit);
   }
 
+  @PostMapping("/unit/duplicate")
+  @RequiresPermissions("*:4:r")
+  public boolean checkProductUnitDuplicate(@RequestBody ProductUnit productUnit) throws Exception {
+    ProductUnit unit = productUnitService.getUnitByName(productUnit.getName());
+
+    return unit == null;
+  }
+
   @DeleteMapping("/unit")
   @RequiresPermissions("*:4:d")
   public void deleteProductUnit(@RequestBody ProductUnit productUnit) {

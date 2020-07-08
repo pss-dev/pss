@@ -20,6 +20,14 @@ public class RoleController {
     roleService.insertRole(role);
   }
 
+  @PostMapping("/role/duplicate")
+  @RequiresPermissions("*:1024:r")
+  public boolean checkRoleDuplicate(@RequestBody Role role) throws Exception {
+    Role rol = roleService.getRoleByName(role.getName());
+
+    return rol == null;
+  }
+
   @DeleteMapping("/role")
   @RequiresPermissions("*:1024:d")
   public void deleteRole(@RequestBody Role role) {

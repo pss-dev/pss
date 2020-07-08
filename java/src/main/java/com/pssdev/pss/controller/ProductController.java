@@ -38,6 +38,14 @@ public class ProductController {
     depotService.putInProducts(depotItems);
   }
 
+  @PostMapping("/product/duplicate")
+  @RequiresPermissions("*:2:r")
+  public boolean checkProductDuplicate(@RequestBody Product product) throws Exception {
+    Product pro = productService.getProductByName(product.getName());
+
+    return pro == null;
+  }
+
   @DeleteMapping("/product")
   @RequiresPermissions("*:2:d")
   public void deleteProduct(@RequestBody Product product) {

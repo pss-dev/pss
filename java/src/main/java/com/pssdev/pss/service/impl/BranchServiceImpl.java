@@ -28,17 +28,16 @@ public class BranchServiceImpl implements BranchService {
   @Transactional(readOnly = true)
   @Override
   public List<Branch> getBranches(Integer fatherID) {
-    if(fatherID == null) {
+    if (fatherID == null) {
       return branchDao.getAll();
-    }
-    else if(TOP_FLAG1.equals(fatherID) || TOP_FLAG2.equals(fatherID)) {
+    } else if (TOP_FLAG1.equals(fatherID) || TOP_FLAG2.equals(fatherID)) {
       return branchDao.getTop();
     }
 
     Branch department = branchDao.get(fatherID);
 
     if (department != null) {
-      return new ArrayList<>(department.getChildren() );
+      return new ArrayList<>(department.getChildren());
     }
 
     return null;
@@ -66,5 +65,11 @@ public class BranchServiceImpl implements BranchService {
   @Override
   public List<Branch> getTop() {
     return branchDao.getTop();
+  }
+
+  @Transactional
+  @Override
+  public Branch getBranchByName(String name) {
+    return branchDao.getByName(name);
   }
 }

@@ -2,16 +2,12 @@ package com.pssdev.pss.dao.impl;
 
 import com.pssdev.pss.dao.DepotDao;
 import com.pssdev.pss.entity.*;
-import com.pssdev.pss.util.OrderFormType;
 
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -149,5 +145,17 @@ public class DepotDaoImpl extends BaseDao<Depot, Integer> implements DepotDao {
   @Override
   protected Class<Depot> getClazz() {
     return Depot.class;
+  }
+
+  @Override
+  public Depot getByName(String name) {
+    Session session = getSession();
+
+    CriteriaBuilder cb = session.getCriteriaBuilder();
+    CriteriaQuery<Depot> query = cb.createQuery(getClazz());
+    Root<Depot> root = query.from(getClazz());
+    query.where(cb.equal(root.get("name"), name));
+
+    return session.createQuery(query).uniqueResultOptional().orElse(null);
   }
 }

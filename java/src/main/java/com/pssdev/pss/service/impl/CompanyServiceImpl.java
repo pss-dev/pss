@@ -70,4 +70,10 @@ public class CompanyServiceImpl implements CompanyService {
   public List<Company> getCompanies(Integer type) {
     return companyDao.getAll();
   }
+
+  @Transactional
+  @Override
+  public Company getCompanyByName(String name) {
+    return companyDao.getByName(name);
+  }
 }

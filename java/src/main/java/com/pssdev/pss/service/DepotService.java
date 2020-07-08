@@ -74,4 +74,11 @@ public interface DepotService {
    * @return
    */
   public List<DepotItem> getItemsByOrderForm(OrderForm orderForm);
+
+  /**
+   * get depot by name
+   *
+   * @return
+   */
+  Depot getDepotByName(String name);
 }

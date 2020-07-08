@@ -31,6 +31,14 @@ public class BranchController {
     return branches;
   }
 
+  @PostMapping("/branch/duplicate")
+  @RequiresPermissions("*:128:r")
+  public boolean checkBranchDuplicate(@RequestBody Branch branch) throws Exception {
+    Branch bra = branchService.getBranchByName(branch.getName());
+
+    return bra == null;
+  }
+
   @GetMapping("/branches")
   @RequiresPermissions("*:128:r")
   @ApiOperation("获取所有分支信息")

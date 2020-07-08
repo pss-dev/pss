@@ -20,6 +20,14 @@ public class CompanyController {
     companyService.insertCompany(company);
   }
 
+  @PostMapping("/company/duplicate")
+  @RequiresPermissions("*:16:r")
+  public boolean checkCompanyDuplicate(@RequestBody Company company) throws Exception {
+    Company com = companyService.getCompanyByName(company.getName());
+
+    return com == null;
+  }
+
   @DeleteMapping("/company")
   @RequiresPermissions("*:16:d")
   public void deleteCompany(@RequestBody Company company) {

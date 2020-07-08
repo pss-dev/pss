@@ -5,6 +5,7 @@ import com.pssdev.pss.entity.*;
 import java.util.List;
 
 public interface DepotDao extends CURDDao<Depot, Integer> {
+  Depot getByName(String name);
 
   /**
    * 获得所有仓库信息
