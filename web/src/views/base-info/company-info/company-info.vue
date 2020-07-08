@@ -121,20 +121,33 @@ export default {
     },
 
     submitData (companyData) {
-      var getInfoParams = this.getParameterForNewTable(this.getParentID());
       console.log("====== submitData ", companyData);
-      if (this.addInfo) {
-        companyInfoApi.addCompanyInfo(companyData).then(
-          () => {
-            this.getCompanyInfo(getInfoParams);
+
+      companyInfoApi.checkCompanyDuplicate(companyData).then((res) => {
+        if (res.data == false) {
+          this.$message({
+            message: "来往单位名称重复",
+            type: "error",
+            showClose: true
           });
-      }
-      else {
-        companyInfoApi.modifyCompanyInfo(companyData).then(
-          () => {
-            this.getCompanyInfo(getInfoParams);
-          });
-      }
+        }
+        else {
+          var getInfoParams = this.getParameterForNewTable(this.getParentID());
+
+          if (this.addInfo) {
+            companyInfoApi.addCompanyInfo(companyData).then(
+              () => {
+                this.getCompanyInfo(getInfoParams);
+              });
+          }
+          else {
+            companyInfoApi.modifyCompanyInfo(companyData).then(
+              () => {
+                this.getCompanyInfo(getInfoParams);
+              });
+          }
+        }
+      });
     },
 
     deleteInfo () {

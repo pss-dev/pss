@@ -104,20 +104,32 @@ export default {
 
     submitData (departmentData) {
       console.log("======departmentData  ", departmentData);
-      let getInfoParams = this.getParameterForNewTable(this.getParentID());
 
-      if (this.addInfo) {
-        departmentInfoApi.addDepartmentInfo(departmentData).then(
-          () => {
-            this.getDepartmentInfo(getInfoParams);
+      departmentInfoApi.checkDepartmentDuplicate(departmentData).then((res) => {
+        if (res.data == false) {
+          this.$message({
+            message: "部门名称重复",
+            type: "error",
+            showClose: true
           });
-      }
-      else {
-        departmentInfoApi.modifyDepartmentInfo(departmentData).then(
-          () => {
-            this.getDepartmentInfo(getInfoParams);
-          });
-      }
+        }
+        else {
+          let getInfoParams = this.getParameterForNewTable(this.getParentID());
+
+          if (this.addInfo) {
+            departmentInfoApi.addDepartmentInfo(departmentData).then(
+              () => {
+                this.getDepartmentInfo(getInfoParams);
+              });
+          }
+          else {
+            departmentInfoApi.modifyDepartmentInfo(departmentData).then(
+              () => {
+                this.getDepartmentInfo(getInfoParams);
+              });
+          }
+        }
+      });
     },
 
     deleteInfo () {

@@ -100,19 +100,31 @@ export default {
     },
 
     submitData (employeeData) {
-      if (this.addInfo) {
-        console.log("====== submitData ", employeeData);
-        employeeInfoApi.addEmployeeInfo(employeeData).then(
-          () => {
-            this.getEmployeeInfo();
+      console.log("====== submitData ", employeeData);
+
+      employeeInfoApi.checkEmployeeDuplicate(employeeData).then((res) => {
+        if (res.data == false) {
+          this.$message({
+            message: "员工名称重复",
+            type: "error",
+            showClose: true
           });
-      }
-      else {
-        employeeInfoApi.modifyEmployeeInfo(employeeData).then(
-          () => {
-            this.getEmployeeInfo();
-          });
-      }
+        }
+        else {
+          if (this.addInfo) {
+            employeeInfoApi.addEmployeeInfo(employeeData).then(
+              () => {
+                this.getEmployeeInfo();
+              });
+          }
+          else {
+            employeeInfoApi.modifyEmployeeInfo(employeeData).then(
+              () => {
+                this.getEmployeeInfo();
+              });
+          }
+        }
+      });
     },
 
     deleteInfo () {

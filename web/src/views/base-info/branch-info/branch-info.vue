@@ -108,20 +108,32 @@ export default {
 
     submitData (branchData) {
       console.log("====== branchData ", branchData);
-      var getInfoParams = this.getParameterForNewTable(this.getParentID());
 
-      if (this.addInfo) {
-        branchInfoApi.addBranchInfo(branchData).then(
-          () => {
-            this.getBranchInfo(getInfoParams);
+      branchInfoApi.checkBranchDuplicate(branchData).then((res) => {
+        if (res.data == false) {
+          this.$message({
+            message: "分级机构名称重复",
+            type: "error",
+            showClose: true
           });
-      }
-      else {
-        branchInfoApi.modifyBranchInfo(branchData).then(
-          () => {
-            this.getBranchInfo(getInfoParams);
-          });
-      }
+        }
+        else {
+          var getInfoParams = this.getParameterForNewTable(this.getParentID());
+
+          if (this.addInfo) {
+            branchInfoApi.addBranchInfo(branchData).then(
+              () => {
+                this.getBranchInfo(getInfoParams);
+              });
+          }
+          else {
+            branchInfoApi.modifyBranchInfo(branchData).then(
+              () => {
+                this.getBranchInfo(getInfoParams);
+              });
+          }
+        }
+      })
     },
 
     deleteInfo () {

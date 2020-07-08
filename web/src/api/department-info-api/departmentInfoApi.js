@@ -17,6 +17,14 @@ function addDepartmentInfo (data) {
   })
 }
 
+function checkDepartmentDuplicate (data) {
+  return fetch({
+    url: baseApi.baseApi('department/duplicate'),
+    method: 'post',
+    data
+  })
+}
+
 function modifyDepartmentInfo (data) {
   return fetch({
     url: baseApi.baseApi('department'),
@@ -37,5 +45,6 @@ export default {
   getDepartmentInfo,
   addDepartmentInfo,
   modifyDepartmentInfo,
-  deleteDepartmentInfo
+  deleteDepartmentInfo,
+  checkDepartmentDuplicate
 }

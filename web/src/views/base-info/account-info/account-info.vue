@@ -71,9 +71,11 @@ export default {
 
   data () {
     return {
-      titData:
-        [{ prop: "name", label: "支付类型" },
-        { prop: "account", label: "支付账户" }],
+      titleData: [
+        { prop: "name", label: "账户名称" },
+        { prop: "bank", label: "银行名称" },
+        { prop: "cardholder", label: "持卡人" },
+        { prop: "account", label: "卡号" }],
     }
   },
 

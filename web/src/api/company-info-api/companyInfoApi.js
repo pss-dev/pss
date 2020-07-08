@@ -9,6 +9,14 @@ function getCompanyInfo (params) {
   })
 }
 
+function checkCompanyDuplicate (data) {
+  return fetch({
+    url: baseApi.baseApi('company/duplicate'),
+    method: 'post',
+    data
+  })
+}
+
 function addCompanyInfo (data) {
   return fetch({
     url: baseApi.baseApi('company'),
@@ -37,5 +45,6 @@ export default {
   getCompanyInfo,
   addCompanyInfo,
   modifyCompanyInfo,
-  deleteCompanyInfo
+  deleteCompanyInfo,
+  checkCompanyDuplicate
 }

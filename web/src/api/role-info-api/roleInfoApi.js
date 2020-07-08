@@ -8,6 +8,14 @@ function getRoleInfo () {
   })
 }
 
+function checkRoleDuplicate (data) {
+  return fetch({
+    url: baseApi.baseApi('role/duplicate'),
+    method: 'post',
+    data
+  })
+}
+
 function addRoleInfo (data) {
   return fetch({
     url: baseApi.baseApi('role'),
@@ -36,5 +44,6 @@ export default {
   getRoleInfo,
   addRoleInfo,
   setRoleInfo,
-  deleteRoleInfo
+  deleteRoleInfo,
+  checkRoleDuplicate
 }

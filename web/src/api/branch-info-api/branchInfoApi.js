@@ -9,6 +9,14 @@ function getBranchInfo (params) {
   })
 }
 
+function checkBranchDuplicate (data) {
+  return fetch({
+    url: baseApi.baseApi('branch/duplicate'),
+    method: 'post',
+    data
+  })
+}
+
 function addBranchInfo (data) {
   return fetch({
     url: baseApi.baseApi('branch'),
@@ -37,5 +45,6 @@ export default {
   getBranchInfo,
   addBranchInfo,
   modifyBranchInfo,
-  deleteBranchInfo
+  deleteBranchInfo,
+  checkBranchDuplicate
 }

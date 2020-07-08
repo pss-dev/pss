@@ -9,6 +9,14 @@ function getUnitInfo (params) {
   })
 }
 
+function checkUnitDuplicate (data) {
+  return fetch({
+    url: baseApi.baseApi('unit/duplicate'),
+    method: 'post',
+    data
+  })
+}
+
 function addUnitInfo (data) {
   return fetch({
     url: baseApi.baseApi('unit'),
@@ -37,5 +45,6 @@ export default {
   getUnitInfo,
   addUnitInfo,
   modifyUnitInfo,
-  deleteUnitInfo
+  deleteUnitInfo,
+  checkUnitDuplicate
 }

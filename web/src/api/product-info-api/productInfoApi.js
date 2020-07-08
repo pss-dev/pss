@@ -9,6 +9,14 @@ function getProductInfo (params) {
   })
 }
 
+function checkProductDuplicate (data) {
+  return fetch({
+    url: baseApi.baseApi('product/duplicate'),
+    method: 'post',
+    data
+  })
+}
+
 function addProductInfo (data) {
   return fetch({
     url: baseApi.baseApi('product'),
@@ -37,5 +45,6 @@ export default {
   getProductInfo,
   addProductInfo,
   modifyProductInfo,
-  deleteProductInfo
+  deleteProductInfo,
+  checkProductDuplicate
 }

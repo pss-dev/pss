@@ -9,6 +9,14 @@ function getDepotInfo (params) {
   })
 }
 
+function checkDepotDuplicate (data) {
+  return fetch({
+    url: baseApi.baseApi('depot/duplicate'),
+    method: 'post',
+    data
+  })
+}
+
 function addDepotInfo (data) {
   return fetch({
     url: baseApi.baseApi('depot'),
@@ -46,5 +54,6 @@ export default {
   addDepotInfo,
   modifyDepotInfo,
   deleteDepotInfo,
-  getDepotProducts
+  getDepotProducts,
+  checkDepotDuplicate
 }

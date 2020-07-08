@@ -207,19 +207,30 @@ export default {
 
     submitData () {
       console.log("=====  submit ", this.selectedInfo);
-      if (this.selectedInfo && this.selectedInfo.id != null) {
-        RoleInfoApi.setRoleInfo(this.selectedInfo).then(
-          () => {
-            this.getRoleInfo();
-          });
-      }
-      else {
-        RoleInfoApi.addRoleInfo(this.selectedInfo).then(
-          () => {
-            this.getRoleInfo();
-          });
-      }
 
+      RoleInfoApi.checkRoleDuplicate(this.selectedInfo).then((res) => {
+        if (res.data == false) {
+          this.$message({
+            message: "角色名称重复",
+            type: "error",
+            showClose: true
+          });
+        }
+        else {
+          if (this.selectedInfo && this.selectedInfo.id != null) {
+            RoleInfoApi.setRoleInfo(this.selectedInfo).then(
+              () => {
+                this.getRoleInfo();
+              });
+          }
+          else {
+            RoleInfoApi.addRoleInfo(this.selectedInfo).then(
+              () => {
+                this.getRoleInfo();
+              });
+          }
+        }
+      });
     },
 
     deleteInfo () {

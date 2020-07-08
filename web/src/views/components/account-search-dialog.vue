@@ -42,9 +42,10 @@ export default {
       title: "账户查询",
 
       titleData: [
-        { prop: "id", label: "编号" },
-        { prop: "name", label: "名称" },
-        { prop: "balance", label: "余额" }],
+        { prop: "name", label: "账户名称" },
+        { prop: "bank", label: "银行名称" },
+        { prop: "cardholder", label: "持卡人" },
+        { prop: "account", label: "卡号" }],
 
       tableData: [],
     }

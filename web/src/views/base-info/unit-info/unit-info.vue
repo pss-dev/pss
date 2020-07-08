@@ -103,20 +103,31 @@ export default {
     },
 
     submitData (unitData) {
-      var getInfoParams = this.getParameterForNewTable(this.getParentID());
+      unitInfoApi.checkUnitDuplicate(unitData).then((res) => {
+        if (res.data == false) {
+          this.$message({
+            message: "单位名称重复",
+            type: "error",
+            showClose: true
+          });
+        }
+        else {
+          var getInfoParams = this.getParameterForNewTable(this.getParentID());
 
-      if (this.addInfo) {
-        unitInfoApi.addUnitInfo(unitData).then(
-          () => {
-            this.getUnitInfo(getInfoParams);
-          });
-      }
-      else {
-        unitInfoApi.modifyUnitInfo(unitData).then(
-          () => {
-            this.getUnitInfo(getInfoParams);
-          });
-      }
+          if (this.addInfo) {
+            unitInfoApi.addUnitInfo(unitData).then(
+              () => {
+                this.getUnitInfo(getInfoParams);
+              });
+          }
+          else {
+            unitInfoApi.modifyUnitInfo(unitData).then(
+              () => {
+                this.getUnitInfo(getInfoParams);
+              });
+          }
+        }
+      });
     },
 
     deleteInfo () {

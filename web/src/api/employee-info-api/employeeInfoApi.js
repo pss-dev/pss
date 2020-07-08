@@ -8,6 +8,14 @@ function getEmployeeInfo () {
   })
 }
 
+function checkEmployeeDuplicate (data) {
+  return fetch({
+    url: baseApi.baseApi('employee/duplicate'),
+    method: 'post',
+    data
+  })
+}
+
 function addEmployeeInfo (data) {
   return fetch({
     url: baseApi.baseApi('employee'),
@@ -44,5 +52,6 @@ export default {
   addEmployeeInfo,
   modifyEmployeeInfo,
   deleteEmployeeInfo,
-  getPermission
+  getPermission,
+  checkEmployeeDuplicate
 }

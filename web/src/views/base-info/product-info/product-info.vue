@@ -156,20 +156,32 @@ export default {
     },
 
     submitData (productData) {
-      var getInfoParams = this.getParameterForNewTable(this.getParentID());
       console.log("========= submitData ", productData);
-      if (this.addInfo) {
-        productInfoApi.addProductInfo(productData).then(
-          () => {
-            this.getProductInfo(getInfoParams);
+
+      productInfoApi.checkProductDuplicate(productData).then((res) => {
+        if (res.data == false) {
+          this.$message({
+            message: "商品编号重复",
+            type: "error",
+            showClose: true
           });
-      }
-      else {
-        productInfoApi.modifyProductInfo(productData).then(
-          () => {
-            this.getProductInfo(getInfoParams);
-          });
-      }
+        }
+        else {
+          var getInfoParams = this.getParameterForNewTable(this.getParentID());
+          if (this.addInfo) {
+            productInfoApi.addProductInfo(productData).then(
+              () => {
+                this.getProductInfo(getInfoParams);
+              });
+          }
+          else {
+            productInfoApi.modifyProductInfo(productData).then(
+              () => {
+                this.getProductInfo(getInfoParams);
+              });
+          }
+        }
+      });
     },
 
     deleteInfo () {
