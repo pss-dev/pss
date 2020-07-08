@@ -1,5 +1,6 @@
 package com.pssdev.pss.controller;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +19,7 @@ public class RevenueController {
   private OrderFormService orderFormService;
 
   @PostMapping("/revenue")
+  @RequiresPermissions("*:32768:r")
   public RevenueResultModel getRevenueResu(@RequestBody OrderFormSearchModel orderFormSearchModel) throws Exception {
     List<OrderForm> orderForms = this.orderFormService.search(orderFormSearchModel);
     int purchaseCount = 0;

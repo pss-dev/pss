@@ -2,6 +2,7 @@ package com.pssdev.pss.controller;
 
 import com.pssdev.pss.service.RoleService;
 import com.pssdev.pss.entity.Role;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,21 +15,25 @@ public class RoleController {
   private RoleService roleService;
 
   @PostMapping("/role")
+  @RequiresPermissions("*:1024:w")
   public void insertRole(@RequestBody Role role) throws Exception {
     roleService.insertRole(role);
   }
 
   @DeleteMapping("/role")
+  @RequiresPermissions("*:1024:d")
   public void deleteRole(@RequestBody Role role) {
     roleService.deleteRole(role);
   }
 
   @PutMapping("/role")
+  @RequiresPermissions("*:1024:w")
   public void modifyRole(@RequestBody Role role) throws Exception {
     roleService.modifyRole(role);
   }
 
   @GetMapping("/role")
+  @RequiresPermissions("*:1024:r")
   public List<Role> getRoles() {
     return roleService.getRoles();
   }

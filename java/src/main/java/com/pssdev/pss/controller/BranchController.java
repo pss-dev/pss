@@ -5,6 +5,7 @@ import com.pssdev.pss.service.BranchService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +22,7 @@ public class BranchController {
   }
 
   @GetMapping("/branch")
+  @RequiresPermissions("*:128:r")
   @ApiOperation("获取指定分支集合")
   public List<Branch> getBranch(
       @ApiParam("上级分支 ID") @RequestParam(name = "fatherID", required = false) Integer fatherID) {
@@ -30,24 +32,28 @@ public class BranchController {
   }
 
   @GetMapping("/branches")
+  @RequiresPermissions("*:128:r")
   @ApiOperation("获取所有分支信息")
   public List<Branch> getBranches() {
     return branchService.getBranches(null);
   }
 
   @PostMapping("/branch")
+  @RequiresPermissions("*:128:w")
   @ApiOperation("添加分支信息")
   public Integer insertBranch(@ApiParam("分支信息") @RequestBody Branch branch) {
     return branchService.insertBranch(branch);
   }
 
   @PutMapping("/branch")
+  @RequiresPermissions("*:128:w")
   @ApiOperation("修改分支信息")
   public void updateBranch(@ApiParam("分支信息") @RequestBody Branch branch) {
     branchService.updateBranch(branch);
   }
 
   @DeleteMapping("/branch")
+  @RequiresPermissions("*:128:d")
   @ApiOperation("删除分支信息")
   public void deleteBranch(@ApiParam("分支信息") @RequestBody Branch branch) {
     branchService.deleteBranch(branch);

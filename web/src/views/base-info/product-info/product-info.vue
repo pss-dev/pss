@@ -18,6 +18,7 @@
           :totalSize="totalSize"
           :currentPage="currentPage"
           :selectedInfoInvalid="isSelectedInfoInvalid()"
+          :isSelectedleaf="isSelectedleaf()"
           :previousDisable="!hasFatherInfo()"
           :isProduct="true"
           :stopPurchaseDisable="getStopPurchaseStatus()"

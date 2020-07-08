@@ -3,26 +3,27 @@ package com.pssdev.pss.controller;
 import com.pssdev.pss.util.*;
 import com.pssdev.pss.entity.Employee;
 import com.pssdev.pss.service.EmployeeService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
-@RequestMapping("/api/1.0/")
+@RestController
+@RequestMapping("/api/1.0")
 public class EmployeeController {
   @Autowired
   private EmployeeService employeeService;
 
-  @GetMapping("employee")
+  @GetMapping("/employee")
+  @RequiresPermissions("*:2048:r")
   @ResponseBody
   public List<Employee> getAllEmployees() {
     return employeeService.getEmployees();
   }
 
-  @PostMapping("employee")
-  @ResponseBody
+  @PostMapping("/employee")
+  @RequiresPermissions("*:2048:w")
   public void addEmployee(@RequestBody Employee user) {
     String md5Password = SecurityUtil.generatorPassword(user.getAccount(), user.getPassword());
     user.setPassword(md5Password);
@@ -30,8 +31,8 @@ public class EmployeeController {
     employeeService.insertEmployee(user);
   }
 
-  @PutMapping("employee")
-  @ResponseBody
+  @PutMapping("/employee")
+  @RequiresPermissions("*:2048:w")
   public void updateEmployee(@RequestBody Employee user) {
     if (user.getPasswordChange()) {
       String md5Password = SecurityUtil.generatorPassword(user.getAccount(), user.getPassword());
@@ -41,8 +42,8 @@ public class EmployeeController {
     employeeService.updateEmployee(user);
   }
 
-  @DeleteMapping("employee")
-  @ResponseBody
+  @DeleteMapping("/employee")
+  @RequiresPermissions("*:2048:d")
   public void deleteEmployee(@RequestBody Employee user) {
     employeeService.deleteEmployee(user);
   }

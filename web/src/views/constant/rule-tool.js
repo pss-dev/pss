@@ -7,6 +7,22 @@ export default {
     admin: 0x10
   },
 
+  haveReadPermission: function (op) {
+    return op & this.rule.read == this.rule.read || op & this.rule.admin == this.rule.admin;
+  },
+
+  haveWritePermission: function (op) {
+    return op & this.rule.write == this.rule.write || op & this.rule.admin == this.rule.admin;
+  },
+
+  haveDeletePermission: function (op) {
+    return op & this.rule.delete == this.rule.delete || op & this.rule.admin == this.rule.admin;
+  },
+
+  haveVerifyPermission: function (op) {
+    return op & this.rule.admin == this.rule.admin || op & this.rule.admin == this.rule.admin;
+  },
+
   resource: {
     baseInfo: "1",
     product: "2",

@@ -5,6 +5,7 @@ import com.pssdev.pss.service.*;
 import com.pssdev.pss.model.*;
 import com.pssdev.pss.util.OrderFormStatus;
 import com.pssdev.pss.util.OrderFormType;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/api/1.0/")
+@RequestMapping("/api/1.0")
 public class OrderFormController {
   @Autowired
   private OrderFormService orderFormService;
@@ -23,6 +24,7 @@ public class OrderFormController {
   private EmployeeService employeeService;
 
   @PostMapping("/orderForm")
+  @RequiresPermissions("*:256:w")
   public Long insertOrderForms(@RequestBody OrderForm orderForm) throws Exception {
     Employee user = employeeService.getCurrentEmployee();
     orderForm.setCreatUser(user);
@@ -30,16 +32,19 @@ public class OrderFormController {
   }
 
   @DeleteMapping("/orderForm")
+  @RequiresPermissions("*:256:d")
   public void deleteOrderForm(@RequestBody OrderForm orderForm) {
     orderFormService.deleteOrderForm(orderForm);
   }
 
   @PutMapping("/orderForm")
+  @RequiresPermissions("*:256:w")
   public void modifyOrderForm(@RequestBody OrderForm orderForm) throws Exception {
     orderFormService.modifyOrderForm(orderForm);
   }
 
   @PutMapping("/orderForm/verify")
+  @RequiresPermissions("*:256:v")
   public void verifyOrderForm(@RequestBody OrderForm orderForm) throws Exception {
     Employee user = employeeService.getCurrentEmployee();
     orderForm.setVerifyUser(user);
@@ -100,16 +105,19 @@ public class OrderFormController {
   }
 
   @GetMapping("/orderForm")
+  @RequiresPermissions("*:256:r")
   public List<OrderForm> getOrderForms() {
     return orderFormService.getOrderForms();
   }
 
   @PostMapping("/orderForm/search")
+  @RequiresPermissions("*:256:r")
   public List<OrderForm> searchOrderForms(@RequestBody OrderFormSearchModel orderFormSearchModel) throws Exception {
     return this.orderFormService.search(orderFormSearchModel);
   }
 
   @PostMapping("/orderForm/init")
+  @RequiresPermissions("*:32:r")
   public OrderForm searchOrderForms(@RequestBody OrderForm orderForm) throws Exception {
     return this.orderFormService.initOrderForm(orderForm);
   }
