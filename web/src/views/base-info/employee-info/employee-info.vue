@@ -84,6 +84,7 @@ export default {
         name: '',
         account: '',
         password: '',
+        passwordChange: false,
         branch: null,
         department: null,
         roles: [],

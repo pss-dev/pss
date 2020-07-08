@@ -16,6 +16,8 @@ public class Employee implements Serializable {
   private String name;
   private String account;
   private String password;
+  @Transient
+  private boolean passwordChange = false;
 
   @Nullable
   @JoinColumn(name = "branch_id")
@@ -69,6 +71,14 @@ public class Employee implements Serializable {
 
   public void setPassword(String password) {
     this.password = password;
+  }
+
+  public boolean getPasswordChange() {
+    return passwordChange;
+  }
+
+  public void setPasswordChange(boolean passwordChange) {
+    this.passwordChange = passwordChange;
   }
 
   public Branch getBranch() {

@@ -20,6 +20,13 @@ public interface EmployeeService {
   Employee getEmployeeByName(String name);
 
   /**
+   * get current
+   *
+   * @return
+   */
+  Employee getCurrentEmployee();
+
+  /**
    * get all Users
    *
    * @return

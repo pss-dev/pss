@@ -32,9 +32,17 @@ function deleteEmployeeInfo (data) {
   })
 }
 
+function getPermission () {
+  return fetch({
+    url: baseApi.baseApi('permission'),
+    method: 'get',
+  })
+}
+
 export default {
   getEmployeeInfo,
   addEmployeeInfo,
   modifyEmployeeInfo,
-  deleteEmployeeInfo
+  deleteEmployeeInfo,
+  getPermission
 }

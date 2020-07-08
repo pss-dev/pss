@@ -22,7 +22,7 @@
             <el-input v-model="employeeData.account" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="密码" prop="password">
-            <el-input v-model="employeeData.password" autocomplete="off"></el-input>
+            <el-input v-model="employeeData.password" @change="passwordChange" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="分支机构" prop="branch">
             <el-input readonly :value="getBranchName()" autocomplete="off">
@@ -150,6 +150,12 @@ export default {
           return false;
         }
       });
+    },
+
+    passwordChange () {
+      if (this.employeeData.id != null) {
+        this.employeeData.passwordChange = true;
+      }
     },
 
     showBranchDialog () {

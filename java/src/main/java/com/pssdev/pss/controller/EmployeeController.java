@@ -26,12 +26,18 @@ public class EmployeeController {
   public void addEmployee(@RequestBody Employee user) {
     String md5Password = SecurityUtil.generatorPassword(user.getAccount(), user.getPassword());
     user.setPassword(md5Password);
+
     employeeService.insertEmployee(user);
   }
 
   @PutMapping("employee")
   @ResponseBody
   public void updateEmployee(@RequestBody Employee user) {
+    if (user.getPasswordChange()) {
+      String md5Password = SecurityUtil.generatorPassword(user.getAccount(), user.getPassword());
+      user.setPassword(md5Password);
+    }
+
     employeeService.updateEmployee(user);
   }
 

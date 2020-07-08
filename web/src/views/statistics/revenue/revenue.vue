@@ -15,13 +15,20 @@
             </el-col>
             <el-col :span="4">
               <div>
-                <el-button @click="searchLogData">查询</el-button>
+                <el-button @click="getRevenue">查询</el-button>
               </div>
             </el-col>
           </el-row>
           <el-row class="el-row-bottom-20">
-            <el-col :span="4">入库结算：</el-col>
-            <el-col :span="4">销售结算：</el-col>
+            <el-col :span="4">入库单数量：{{revenueData.purchaseCount}}</el-col>
+            <el-col :span="4">入库退货数量：{{revenueData.sellCount}}</el-col>
+            <el-col :span="4">销售单数量：{{revenueData.purchaseReturnCount}}</el-col>
+            <el-col :span="4">销售退货数量：{{revenueData.sellReturnCount}}</el-col>
+          </el-row>
+          <el-row class="el-row-bottom-20">
+            <el-col :span="4">入库结算：{{revenueData.expenditure}}</el-col>
+            <el-col :span="4">销售结算：{{revenueData.income}}</el-col>
+            <el-col :span="4">利润：{{revenueData.profit}}</el-col>
           </el-row>
         </el-card>
       </el-main>
@@ -30,43 +37,54 @@
 </template>
 
 <script>
-import LogApi from "@/api/log-api/logApi.js"
+import RevenueApi from "@/api/revenue-api/revenueApi.js"
+import Tool from "../../constant/tool.js"
 
 export default {
   name: "accountInfo",
 
-  components: {
-  },
-
-  props: {},
-
   data () {
     return {
       dateRangeValue: [],
-      titData:
-        [{ prop: "date", label: "时间" },
-        { prop: "employee", label: "员工" },
-        { prop: "action", label: "操作" }],
-
-      tableData: []
+      revenueData: {
+        purchaseCount: '',
+        sellCount: '',
+        purchaseReturnCount: '',
+        sellReturnCount: '',
+        expenditure: '',
+        income: '',
+        profit: '',
+      }
     }
+
   },
 
   methods: {
-    searchLogData () {
+    getRevenue () {
       if (this.dateRangeValue.length != 2) {
+        this.$message({
+          message: `请先时间区域！`,
+          showClose: true
+        });
         return;
       }
 
-      var params = {
-        startDate: this.dateRangeValue[0].getTime(),
-        endDate: this.dateRangeValue[1].getTime()
+      let searchModelData = {
+        orderFormType: null,
+        orderFormStatus: Tool.orderFormStatus.verify,
+        startDate: this.dateRangeValue[0],
+        endDate: this.dateRangeValue[1],
+        branchID: null,
+        companyID: null,
+        employeeID: null,
+        departmentID: null,
+        depotID: null,
+        accountID: null,
       };
-      console.log("====== searchLogData ", params);
 
-      LogApi.getLogData(params).then((res) => {
+      RevenueApi.getRevenue(searchModelData).then((res) => {
         console.log(res);
-        this.tableData = res;
+        this.revenueData = res.data;
       });
     }
   },

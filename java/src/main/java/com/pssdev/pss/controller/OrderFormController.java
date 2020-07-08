@@ -19,9 +19,13 @@ public class OrderFormController {
   private OrderFormService orderFormService;
   @Autowired
   private DepotService depotService;
+  @Autowired
+  private EmployeeService employeeService;
 
   @PostMapping("/orderForm")
   public Long insertOrderForms(@RequestBody OrderForm orderForm) throws Exception {
+    Employee user = employeeService.getCurrentEmployee();
+    orderForm.setCreatUser(user);
     return orderFormService.insertOrderForm(orderForm);
   }
 
@@ -37,9 +41,12 @@ public class OrderFormController {
 
   @PutMapping("/orderForm/verify")
   public void verifyOrderForm(@RequestBody OrderForm orderForm) throws Exception {
+    Employee user = employeeService.getCurrentEmployee();
+    orderForm.setVerifyUser(user);
     orderForm.setStatus(OrderFormStatus.VERIFY);
     // check 'verify' perimission
     if (orderForm.getId() == null) {
+      orderForm.setCreatUser(user);
       orderFormService.insertOrderForm(orderForm);
     } else {
       orderFormService.modifyOrderForm(orderForm);
