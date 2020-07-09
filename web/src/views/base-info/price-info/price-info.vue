@@ -20,6 +20,7 @@
           :deleteInfoVisiable="false"
           :previousVisiable="false"
           :nextVisiable="false"
+          :editVisiable="writePermission"
           @newInfo="newInfo"
           @edit="edit"
         ></base-info-footer>
@@ -43,12 +44,14 @@ import PriceInfoDialog from "./components/price-info-dialog.vue"
 
 import BseInfo from '../mixIns/base-info'
 import TableBaseInfo from '@/views/mixIns/table-base-info.js'
+import PermissionBase from '@/views/mixIns/permission-base.js'
+import RuleTool from '@/views/constant/rule-tool.js'
 
 import priceInfoApi from "../../../api/price-info-api/priceInfoApi.js"
 
 export default {
   name: "priceInfo",
-  mixins: [BseInfo, TableBaseInfo],
+  mixins: [BseInfo, TableBaseInfo, PermissionBase],
   components: {
     "base-info-table": BaseInfoTabler,
     "base-info-footer": BaseInfoFooter,
@@ -107,6 +110,7 @@ export default {
 
   created: function () {
     this.getPriceInfo();
+    this.initPermission(RuleTool.resource.price);
   }
 }
 </script>

@@ -265,10 +265,14 @@
         <div>
           <el-row>
             <el-col :span="3">
-              <el-button :disabled="verified()" @click="save()">保存草稿</el-button>
+              <el-button v-if="writePermission" :disabled="verified()" @click="save()">保存草稿</el-button>
             </el-col>
             <el-col :span="3">
-              <el-button :disabled="verified()" @click="verifyOrderForm">审核过账</el-button>
+              <el-button
+                v-if="verifyPermission"
+                :disabled="verified()"
+                @click="verifyOrderForm"
+              >审核过账</el-button>
             </el-col>
             <el-col :span="3">
               <el-button @click="showPrintDialog">打印</el-button>
@@ -346,10 +350,12 @@ import PrintDialog from "./components/order-form-print-dialog"
 import orderFormApi from "../../api/order-form-api/orderFormApi.js"
 import PriceInfoApi from "../../api/price-info-api/priceInfoApi.js"
 import Tool from '@/views/constant/tool.js'
+import PermissionBase from '@/views/mixIns/permission-base.js'
+import RuleTool from '@/views/constant/rule-tool.js'
 
 export default {
   name: "orderForm",
-
+  mixins: [PermissionBase],
   components: {
     "department-search-dialog": DepartmentSearchDialog,
     "branch-search-dialog": BranchSearchDialog,
@@ -818,6 +824,7 @@ export default {
 
   created: function () {
     this.getPricesData();
+    this.initPermission(RuleTool.resource.orderForm);
 
     if (this.orderFormDataValue && this.orderFormDataValue.id != null && this.orderFormDataValue.status == 1) {
       orderFormApi.initOrderForm(this.orderFormDataValue).then((res) => {

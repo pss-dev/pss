@@ -17,10 +17,10 @@
           <el-footer>
             <el-row>
               <el-col :span="12">
-                <el-button @click="newRole">添加</el-button>
+                <el-button v-if="writePermission" @click="newRole">添加</el-button>
               </el-col>
               <el-col :span="12">
-                <el-button>删除</el-button>
+                <el-button v-if="deletePermission">删除</el-button>
               </el-col>
             </el-row>
           </el-footer>
@@ -67,7 +67,7 @@
           <el-footer>
             <el-row>
               <el-col :span="4">
-                <el-button @click="submitData">保存</el-button>
+                <el-button v-if="writePermission" @click="submitData">保存</el-button>
               </el-col>
             </el-row>
           </el-footer>
@@ -81,6 +81,7 @@
 import BseInfo from '../mixIns/base-info'
 import TableBaseInfo from '@/views/mixIns/table-base-info.js'
 import RuleTool from '@/views/constant/rule-tool.js'
+import PermissionBase from '@/views/mixIns/permission-base.js'
 //import Tool from '@/views/constant/tool.js'
 
 import RoleInfoApi from '../../../api/role-info-api/roleInfoApi'
@@ -88,7 +89,7 @@ import RoleInfoApi from '../../../api/role-info-api/roleInfoApi'
 export default {
   name: "RoleInfo",
 
-  mixins: [BseInfo, TableBaseInfo],
+  mixins: [BseInfo, TableBaseInfo, PermissionBase],
 
   components: {
   },
@@ -189,9 +190,6 @@ export default {
     },
 
     nameChange () {
-      // if (this.selectedInfo.actionType != Tool.actionType.add) {
-      //   this.selectedInfo.actionType = Tool.actionType.update;
-      // }
     },
 
     newRole () {
@@ -293,9 +291,6 @@ export default {
     },
 
     handleRuleChange () {
-      // if (this.selectedSourceRule.actionType != Tool.actionType.add) {
-      //   this.selectedSourceRule.actionType = Tool.actionType.update;
-      // }
     },
 
     setRuleCheckBoxValue () {
@@ -360,6 +355,7 @@ export default {
 
   created: function () {
     this.getRoleInfo();
+    this.initPermission(RuleTool.resource.role);
   }
 }
 </script>

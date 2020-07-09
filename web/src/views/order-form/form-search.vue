@@ -151,7 +151,11 @@
               <el-button :disabled="isSelectedInfoInvalid()" @click="openOrderForm">打开单据</el-button>
             </el-col>
             <el-col :span="3">
-              <el-button :disabled="isSelectedInfoInvalid()" @click="deleteOrderForm">删除单据</el-button>
+              <el-button
+                v-if="deletePermission"
+                :disabled="isSelectedInfoInvalid()"
+                @click="deleteOrderForm"
+              >删除单据</el-button>
             </el-col>
           </el-row>
         </div>
@@ -208,10 +212,12 @@ import AccountSearchDialog from "../components/account-search-dialog.vue"
 import TableBaseInfo from '@/views/mixIns/table-base-info.js'
 import orderFormApi from "../../api/order-form-api/orderFormApi.js"
 import Tool from '@/views/constant/tool.js'
+import PermissionBase from '@/views/mixIns/permission-base.js'
+import RuleTool from '@/views/constant/rule-tool.js'
 
 export default {
   name: "orderForm",
-  mixins: [TableBaseInfo],
+  mixins: [TableBaseInfo, PermissionBase],
 
   components: {
     "department-search-dialog": DepartmentSearchDialog,
@@ -446,6 +452,7 @@ export default {
   },
 
   created: function () {
+    this.initPermission(RuleTool.resource.orderForm);
   }
 }
 

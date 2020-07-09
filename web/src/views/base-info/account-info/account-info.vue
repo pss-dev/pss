@@ -19,6 +19,10 @@
           :currentPage="currentPage"
           :selectedInfoInvalid="isSelectedInfoInvalid()"
           :previousDisable="!hasFatherInfo()"
+          :deleteInfoVisiable="deletePermission"
+          :copyNewVisiable="writePermission"
+          :newInfoVisiable="writePermission"
+          :editVisiable="writePermission"
           @newInfo="newInfo"
           @copyNew="copyNew"
           @edit="edit"
@@ -47,13 +51,15 @@ import AccountInfoDialog from './components/account-info-dialog'
 
 import BseInfo from '../mixIns/base-info'
 import TableBaseInfo from '@/views/mixIns/table-base-info.js'
+import PermissionBase from '@/views/mixIns/permission-base.js'
 
 import accountInfoApi from '../../../api/account-info-api/accountInfoApi'
+import RuleTool from '@/views/constant/rule-tool.js'
 
 export default {
   name: "accountInfo",
 
-  mixins: [BseInfo, TableBaseInfo],
+  mixins: [BseInfo, TableBaseInfo, PermissionBase],
 
   components: {
     "base-info-header": BaseInfoHeader,
@@ -172,6 +178,7 @@ export default {
 
   created: function () {
     this.loadData();
+    this.initPermission(RuleTool.resource.account);
   }
 }
 </script>

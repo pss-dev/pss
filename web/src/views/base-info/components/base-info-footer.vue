@@ -7,7 +7,7 @@
       size="small"
       :disabled="selectedInfoInvalid"
     >复制新增</el-button>
-    <el-button @click="edit" size="small" :disabled="selectedInfoInvalid">编辑</el-button>
+    <el-button v-if="editVisiable" @click="edit" size="small" :disabled="selectedInfoInvalid">编辑</el-button>
     <el-button
       v-if="deleteInfoVisiable"
       @click="deleteInfo"
@@ -31,7 +31,7 @@
       v-if="isProduct"
       @click="stopPurchase"
       size="small"
-      :disabled="!isSelectedleaf || stopPurchaseDisable"
+      :disabled="!isSelectedLeaf || stopPurchaseDisable"
     >停止采购</el-button>
   </div>
 </template>
@@ -45,7 +45,7 @@ export default {
       type: Boolean,
       default: true
     },
-    "isSelectedleaf": {
+    "isSelectedLeaf": {
       type: Boolean,
     },
     "previousDisable": {
@@ -57,6 +57,10 @@ export default {
       default: true
     },
     "copyNewVisiable": {
+      type: Boolean,
+      default: true
+    },
+    "editVisiable": {
       type: Boolean,
       default: true
     },

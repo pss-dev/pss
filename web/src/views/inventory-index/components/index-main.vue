@@ -33,7 +33,12 @@
         :name="item.name"
       >
         <keep-alive>
-          <component :is="item.componentName" :data="item.data" @openOrderForm="addOrderForm"></component>
+          <component
+            :is="item.componentName"
+            :data="item.data"
+            :permission="item.permission"
+            @openOrderForm="addOrderForm"
+          ></component>
         </keep-alive>
       </el-tab-pane>
     </el-tabs>
@@ -42,111 +47,18 @@
 
 <script>
 let baseInfoMenuArr = [
-  {
-    label: "商品档案",
-    value: "Product",
-  },
-  {
-    label: "商品计量单位",
-    value: "Unit"
-  },
-  {
-    label: "价格名称",
-    value: "Price"
-  },
-  {
-    label: "客户档案",
-    value: "Customer"
-  },
-  {
-    label: "供货商档案",
-    value: "Supplier"
-  },
-  {
-    label: "存货仓库",
-    value: "Depot"
-  },
-  {
-    label: "部门档案",
-    value: "Department"
-  },
-  {
-    label: "分支机构",
-    value: "Branch"
-  },
 ];
 
 let orderManageMenuArr = [
-  {
-    label: "进货单",
-    value: "PurchaseForm"
-  },
-  {
-    label: "销售单",
-    value: "SalesForm"
-  },
-  {
-    label: "入库退货单",
-    value: "PurchaseReturnForm"
-  },
-  {
-    label: "销售退货单",
-    value: "SalesReturnForm"
-  },
-  {
-    label: "单据查询",
-    value: "FormSearch"
-  }
 ];
 
 let manageSettingMenuArr = [
-  {
-    label: "角色管理",
-    value: "Role"
-  },
-  {
-    label: "职员档案",
-    value: "Employee"
-  },
-  {
-    label: "账户信息",
-    value: "Account"
-  },
 ];
 
 let statisticsgMenuArr = [
-  {
-    label: "日志",
-    value: "Log"
-  },
-  {
-    label: "营收",
-    value: "Revenue"
-  }
 ];
 
-const firstMenuArr = [
-  // value为组件名，决定了tab页内容
-  {
-    label: "基本资料",
-    value: "baseInfo",
-    children: baseInfoMenuArr
-  },
-  {
-    label: "订单管理",
-    value: "orderManage",
-    children: orderManageMenuArr
-  },
-  {
-    label: "管理设置",
-    value: "manageSetting",
-    children: manageSettingMenuArr
-  },
-  {
-    label: "统计查询",
-    value: "statistics",
-    children: statisticsgMenuArr
-  }
+let firstMenuArr = [
 ];
 
 function getNavData () {
@@ -183,6 +95,9 @@ import Log from "@/views/statistics/log/log";
 import Revenue from "@/views/statistics/revenue/revenue"
 
 import Tool from '@/views/constant/tool.js'
+import RuleTool from '@/views/constant/rule-tool.js'
+
+import EmployeeApi from '@/api/employee-info-api/employeeInfoApi.js'
 
 export default {
   components: {
@@ -208,7 +123,7 @@ export default {
   data () {
     return {
       activeIndex: "1-1",
-      navData: getNavData(),
+      navData: [],
       editableTabsValue: "",
       editableTabs: []
     };
@@ -245,9 +160,8 @@ export default {
         title: label,
         name: name,
         componentName: value,
+        data: data,
       }
-
-      val.data = data;
 
       this.editableTabs.push(val);
       this.editableTabsValue = name;
@@ -324,10 +238,167 @@ export default {
       }
 
       this.addTab(newTab, orderForm);
-    }
+    },
+
+    init (permissions) {
+      let orderformVisiabel = false;
+      let permissionStore = {};
+
+      permissions.forEach((permission) => {
+        console.log("=====  permission ", permission);
+        permissionStore[permission.resource] = permission.operator;
+
+        switch (permission.resource) {
+          case RuleTool.resource.product:
+            baseInfoMenuArr.push({
+              label: "商品档案",
+              value: "Product"
+            });
+            break;
+          case RuleTool.resource.unit:
+            baseInfoMenuArr.push({
+              label: "商品计量单位",
+              value: "Unit"
+            });
+            break;
+          case RuleTool.resource.price:
+            baseInfoMenuArr.push({
+              label: "价格名称",
+              value: "Price"
+            });
+            break;
+          case RuleTool.resource.company:
+            baseInfoMenuArr.push({
+              label: "客户档案",
+              value: "Customer"
+            });
+            baseInfoMenuArr.push({
+              label: "供货商档案",
+              value: "Supplier"
+            });
+            break;
+          case RuleTool.resource.depot:
+            baseInfoMenuArr.push({
+              label: "存货仓库",
+              value: "Depot"
+            });
+            break;
+          case RuleTool.resource.department:
+            baseInfoMenuArr.push({
+              label: "部门档案",
+              value: "Department"
+            });
+            break;
+          case RuleTool.resource.branch:
+            baseInfoMenuArr.push({
+              label: "分支机构",
+              value: "Branch"
+            });
+            break;
+          case RuleTool.resource.orderForm:
+            orderformVisiabel = true;
+            break;
+          case RuleTool.resource.role:
+            manageSettingMenuArr.push({
+              label: "角色管理",
+              value: "Role"
+            });
+            break;
+          case RuleTool.resource.employee:
+            manageSettingMenuArr.push({
+              label: "职员档案",
+              value: "Employee"
+            });
+            break;
+          case RuleTool.resource.account:
+            manageSettingMenuArr.push({
+              label: "账户信息",
+              value: "Account"
+            });
+            break;
+          case RuleTool.resource.log:
+            statisticsgMenuArr.push({
+              label: "日志",
+              value: "Log"
+            });
+            break;
+          case RuleTool.resource.revenue:
+            statisticsgMenuArr.push({
+              label: "营收",
+              value: "Revenue"
+            });
+            break;
+        }
+      });
+
+      this.$store.commit("setpermissions", permissionStore);
+
+      console.log("=========permissionStore ", permissionStore);
+      if (orderformVisiabel) {
+        orderManageMenuArr = [
+          {
+            label: "进货单",
+            value: "PurchaseForm"
+          },
+          {
+            label: "销售单",
+            value: "SalesForm"
+          },
+          {
+            label: "入库退货单",
+            value: "PurchaseReturnForm"
+          },
+          {
+            label: "销售退货单",
+            value: "SalesReturnForm"
+          },
+          {
+            label: "单据查询",
+            value: "FormSearch"
+          }
+        ];
+      }
+
+      if (baseInfoMenuArr.length > 0) {
+        firstMenuArr.push({
+          label: "基本资料",
+          value: "baseInfo",
+          children: baseInfoMenuArr
+        });
+      }
+
+      if (orderManageMenuArr.length > 0) {
+        firstMenuArr.push({
+          label: "订单管理",
+          value: "orderManage",
+          children: orderManageMenuArr
+        });
+      }
+
+      if (manageSettingMenuArr.length > 0) {
+        firstMenuArr.push({
+          label: "管理设置",
+          value: "manageSetting",
+          children: manageSettingMenuArr
+        });
+      }
+
+      if (statisticsgMenuArr.length > 0) {
+        firstMenuArr.push({
+          label: "统计查询",
+          value: "statistics",
+          children: statisticsgMenuArr
+        });
+      }
+    },
   },
   created () {
-    // console.log(this.navData)
+    // get all permission
+    EmployeeApi.getPermission().then((res) => {
+      console.log(res.data);
+      this.init(res.data);
+      this.navData = getNavData();
+    });
   }
 };
 </script>

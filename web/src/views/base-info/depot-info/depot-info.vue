@@ -19,6 +19,10 @@
           :currentPage="currentPage"
           :selectedInfoInvalid="isSelectedInfoInvalid()"
           :previousDisable="!hasFatherInfo()"
+          :deleteInfoVisiable="deletePermission"
+          :copyNewVisiable="writePermission"
+          :newInfoVisiable="writePermission"
+          :editVisiable="writePermission"
           @newInfo="newInfo"
           @copyNew="copyNew"
           @edit="edit"
@@ -47,12 +51,14 @@ import DepotInfoDialog from "./components/depot-info-dialog.vue"
 
 import BseInfo from '../mixIns/base-info'
 import TableBaseInfo from '@/views/mixIns/table-base-info.js'
+import PermissionBase from '@/views/mixIns/permission-base.js'
+import RuleTool from '@/views/constant/rule-tool.js'
 
 import depotInfoApi from "../../../api/depot-info-api/depotInfoApi.js"
 
 export default {
   name: "depotInfo",
-  mixins: [BseInfo, TableBaseInfo],
+  mixins: [BseInfo, TableBaseInfo, PermissionBase],
   components: {
     "base-info-header": BaseInfoHeader,
     "base-info-table": BaseInfoTabler,
@@ -160,6 +166,7 @@ export default {
 
   created: function () {
     this.loadData();
+    this.initPermission(RuleTool.resource.depot);
   }
 }
 </script>

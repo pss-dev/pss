@@ -18,8 +18,12 @@
           :totalSize="totalSize"
           :currentPage="currentPage"
           :selectedInfoInvalid="isSelectedInfoInvalid()"
-          :isSelectedleaf="isSelectedleaf()"
+          :isSelectedLeaf="isSelectedLeaf()"
           :previousDisable="!hasFatherInfo()"
+          :deleteInfoVisiable="deletePermission"
+          :copyNewVisiable="writePermission"
+          :newInfoVisiable="writePermission"
+          :editVisiable="writePermission"
           :isProduct="true"
           :stopPurchaseDisable="getStopPurchaseStatus()"
           @newInfo="newInfo"
@@ -51,15 +55,17 @@ import ProductInfoDialog from "./components/product-info-dialog.vue"
 
 import BseInfo from '../mixIns/base-info.js'
 import TableBaseInfo from '@/views/mixIns/table-base-info.js'
+import PermissionBase from '@/views/mixIns/permission-base.js'
 
 import productInfoApi from "../../../api/product-info-api/productInfoApi.js"
 import priceInfoApi from "../../../api/price-info-api/priceInfoApi.js"
 
 import Tool from '@/views/constant/tool.js'
+import RuleTool from '@/views/constant/rule-tool.js'
 
 export default {
   name: "productInfo",
-  mixins: [BseInfo, TableBaseInfo],
+  mixins: [BseInfo, TableBaseInfo, PermissionBase],
   components: {
     "base-info-header": BaseInfoHeader,
     "base-info-table": BaseInfoTabler,
@@ -253,6 +259,7 @@ export default {
   created: function () {
     this.loadData();
     this.getPriceInfo();
+    this.initPermission(RuleTool.resource.product);
   }
 
 }

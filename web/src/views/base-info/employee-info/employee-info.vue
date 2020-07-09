@@ -19,6 +19,10 @@
           :selectedInfoInvalid="isSelectedInfoInvalid()"
           :previousVisiable="false"
           :nextVisiable="false"
+          :deleteInfoVisiable="deletePermission"
+          :copyNewVisiable="writePermission"
+          :newInfoVisiable="writePermission"
+          :editVisiable="writePermission"
           @edit="edit"
           @newInfo="newInfo"
           @copyNew="copyNew"
@@ -45,13 +49,15 @@ import EmployeeInfoDialog from './components/employee-info-dialog'
 
 import BseInfo from '../mixIns/base-info'
 import TableBaseInfo from '@/views/mixIns/table-base-info.js'
+import PermissionBase from '@/views/mixIns/permission-base.js'
+import RuleTool from '@/views/constant/rule-tool.js'
 
 import employeeInfoApi from '../../../api/employee-info-api/employeeInfoApi'
 
 export default {
   name: "employeeInfo",
 
-  mixins: [BseInfo, TableBaseInfo],
+  mixins: [BseInfo, TableBaseInfo, PermissionBase],
 
   components: {
     "base-info-header": BaseInfoHeader,
@@ -147,6 +153,7 @@ export default {
 
   created: function () {
     this.getEmployeeInfo();
+    this.initPermission(RuleTool.resource.employee);
   }
 }
 </script>
