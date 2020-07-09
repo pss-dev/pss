@@ -54,10 +54,7 @@ public class OrderFormServiceImpl implements OrderFormService {
 
     for (OrderFormProduct oProduct : orderForm.getProducts()) {
       for (DepotItem ditem : depotItems) {
-        System.out.println("===========  " + oProduct.getProduct().getId() + " === " + oProduct.getProduct().getName()
-            + " ==== " + ditem.getProduct().getId() + " === " + ditem.getProduct().getName());
         if (oProduct.getProduct().getId() == ditem.getProduct().getId()) {
-          System.out.println("========== ditem " + ditem.getDepot().getName() + " === " + ditem.getProductCount());
           oProduct.setStock(ditem.getProductCount());
           break;
         }
