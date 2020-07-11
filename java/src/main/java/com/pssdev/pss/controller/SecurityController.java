@@ -144,7 +144,8 @@ public class SecurityController {
         nperm.setResource(name);
       }
 
-      if (nperm.getOperator() != 0) {
+      if (((nperm.getOperator() & PermissionEnum.READ.getPermission()) != 0)
+          || ((nperm.getOperator() & PermissionEnum.ADMIN.getPermission()) == PermissionEnum.ADMIN.getPermission())) {
         res.add(nperm);
       }
     }
