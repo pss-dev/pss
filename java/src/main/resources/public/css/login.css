@@ -50,6 +50,5 @@ div.loading-indicator > div > i.fa {
 }
 
 .alert-error-message {
-  color: red;
-  font-weight: bold;
+  color: #F56C6C;
 }

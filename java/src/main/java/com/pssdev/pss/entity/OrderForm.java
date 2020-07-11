@@ -60,7 +60,7 @@ public class OrderForm {
 
   @Nullable
   @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
-  @ManyToMany(targetEntity = OrderFormProduct.class, fetch = FetchType.EAGER)
+  @OneToMany(targetEntity = OrderFormProduct.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   @JoinColumn(name = "order_product_id")
   private Set<OrderFormProduct> products;
   private int status;
