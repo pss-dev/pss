@@ -22,7 +22,7 @@ public class Product {
   private String type;
   private String address;
   @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
-  @ManyToMany(targetEntity = ProductUnitPrice.class, fetch = FetchType.EAGER)
+  @OneToMany(targetEntity = ProductUnitPrice.class, fetch = FetchType.EAGER)
   @OrderBy("unit_id asc")
   @JoinColumn(name = "product_id")
   private List<ProductUnitPrice> units;

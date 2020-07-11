@@ -116,17 +116,17 @@
             height="400"
             style="width: 100%"
           >
-            <el-table-column prop="createDate" label="商品名称">
+            <el-table-column prop="createDate" label="创建时间">
               <template slot-scope="scope">
                 <span>{{scope.row.createDate.substring(0, 10)}}</span>
               </template>
             </el-table-column>
-            <el-table-column prop="company.name" label="商品名称">
+            <el-table-column prop="company.name" label="来往公司">
               <template slot-scope="scope">
                 <span>{{scope.row.company.name}}</span>
               </template>
             </el-table-column>
-            <el-table-column prop="employee.name" label="商品名称">
+            <el-table-column prop="employee.name" label="经手人">
               <template slot-scope="scope">
                 <span>{{scope.row.employee.name}}</span>
               </template>
@@ -153,7 +153,7 @@
             <el-col :span="3">
               <el-button
                 v-if="deletePermission"
-                :disabled="isSelectedInfoInvalid()"
+                :disabled="isSelectedDraft()"
                 @click="deleteOrderForm"
               >删除单据</el-button>
             </el-col>
@@ -288,6 +288,10 @@ export default {
   },
 
   methods: {
+    isSelectedDraft () {
+      return this.isSelectedInfoInvalid() || this.selectedInfo.status == Tool.orderFormStatus.verify;
+    },
+
     dateRanegChange () {
       if (this.dateRange.length == 2) {
         this.searchModel.startDate = this.dateRange[0];
