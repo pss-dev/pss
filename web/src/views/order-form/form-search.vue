@@ -3,217 +3,202 @@
     <el-container>
       <el-header height="30">
         <el-card shadow="never">
-          <el-row class="el-row-bottom-20" :gutter="20">
+          <el-row class="el-row-bottom-20"
+                  :gutter="20">
             <el-col :span="6">
-              <el-date-picker
-                v-model="dateRange"
-                type="daterange"
-                range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-                @change="dateRanegChange"
-              ></el-date-picker>
+              <el-date-picker v-model="dateRange"
+                              type="daterange"
+                              range-separator="至"
+                              start-placeholder="开始日期"
+                              end-placeholder="结束日期"
+                              @change="dateRanegChange"></el-date-picker>
             </el-col>
-            <el-col :span="6">
-              <el-select v-model="searchModel.orderFormType" placeholder="单据类型">
-                <el-option
-                  v-for="item in types"
-                  :key="item.value"
-                  :label="item.name"
-                  :value="item.value"
-                ></el-option>
+            <el-col :span="4">
+              <el-select v-model="searchModel.orderFormType"
+                         placeholder="单据类型">
+                <el-option v-for="item in types"
+                           :key="item.value"
+                           :label="item.name"
+                           :value="item.value"></el-option>
               </el-select>
             </el-col>
-            <el-col :span="6">
-              <el-select v-model="searchModel.orderFormStatus" placeholder="单据状态">
-                <el-option
-                  v-for="item in status"
-                  :key="item.value"
-                  :label="item.name"
-                  :value="item.value"
-                ></el-option>
+            <el-col :span="4">
+              <el-select v-model="searchModel.orderFormStatus"
+                         placeholder="单据状态">
+                <el-option v-for="item in status"
+                           :key="item.value"
+                           :label="item.name"
+                           :value="item.value"></el-option>
               </el-select>
-            </el-col>
-            <el-col :span="2">
-              <el-button @click="getOrderForms">查询</el-button>
             </el-col>
           </el-row>
-          <el-row class="el-row-bottom-20" :gutter="20">
-            <el-col :span="6">
+          <el-row class="el-row-bottom-20"
+                  :gutter="20">
+            <el-col :span="4">
               <div class="inputBlock">
-                <el-input readonly placeholder="分支机构" v-model="searchModel.branch.name">
-                  <el-button
-                    size="small"
-                    @click="showBranchDialog"
-                    slot="append"
-                    icon="el-icon-search"
-                  ></el-button>
+                <el-input readonly
+                          placeholder="分支机构"
+                          v-model="searchModel.branch.name">
+                  <el-button size="small"
+                             @click="showBranchDialog"
+                             slot="append"
+                             icon="el-icon-search"></el-button>
                 </el-input>
               </div>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="4">
               <div class="inputBlock">
-                <el-input readonly placeholder="来往单位" v-model="searchModel.company.name">
-                  <el-button
-                    size="small"
-                    @click="showCompanyDialog"
-                    slot="append"
-                    icon="el-icon-search"
-                  ></el-button>
+                <el-input readonly
+                          placeholder="来往单位"
+                          v-model="searchModel.company.name">
+                  <el-button size="small"
+                             @click="showCompanyDialog"
+                             slot="append"
+                             icon="el-icon-search"></el-button>
+                </el-input>
+              </div>
+            </el-col>
+            <el-col :span="4">
+              <div class="inputBlock">
+                <el-input readonly
+                          placeholder="经手人"
+                          v-model="searchModel.employee.name">
+                  <el-button size="small"
+                             @click="showDepartmentDialog"
+                             slot="append"
+                             icon="el-icon-search"></el-button>
+                </el-input>
+              </div>
+            </el-col>
+            <el-col :span="4">
+              <div class="inputBlock">
+                <el-input readonly
+                          placeholder="部门"
+                          v-model="searchModel.department.name">
+                  <el-button size="small"
+                             @click="showDepartmentDialog"
+                             slot="append"
+                             icon="el-icon-search"></el-button>
+                </el-input>
+              </div>
+            </el-col>
+            <el-col :span="4">
+              <div class="inputBlock">
+                <el-input readonly
+                          placeholder="仓库"
+                          v-model="searchModel.depot.name">
+                  <el-button size="small"
+                             @click="showDepotDialog"
+                             slot="append"
+                             icon="el-icon-search"></el-button>
                 </el-input>
               </div>
             </el-col>
           </el-row>
 
           <el-row :gutter="20">
-            <el-col :span="6">
-              <div class="inputBlock">
-                <el-input readonly placeholder="经手人" v-model="searchModel.employee.name">
-                  <el-button
-                    size="small"
-                    @click="showDepartmentDialog"
-                    slot="append"
-                    icon="el-icon-search"
-                  ></el-button>
-                </el-input>
-              </div>
-            </el-col>
-            <el-col :span="6">
-              <div class="inputBlock">
-                <el-input readonly placeholder="部门" v-model="searchModel.department.name">
-                  <el-button
-                    size="small"
-                    @click="showDepartmentDialog"
-                    slot="append"
-                    icon="el-icon-search"
-                  ></el-button>
-                </el-input>
-              </div>
-            </el-col>
-            <el-col :span="6">
-              <div class="inputBlock">
-                <el-input readonly placeholder="仓库" v-model="searchModel.depot.name">
-                  <el-button
-                    size="small"
-                    @click="showDepotDialog"
-                    slot="append"
-                    icon="el-icon-search"
-                  ></el-button>
-                </el-input>
-              </div>
+
+          </el-row>
+          <el-row>
+            <el-col :span="2">
+              <el-button @click="getOrderForms">查询</el-button>
             </el-col>
           </el-row>
         </el-card>
       </el-header>
       <el-main>
         <div>
-          <el-table
-            :data="tableData.slice((currentPage-1) * pageSize, currentPage * pageSize)"
-            border
-            highlight-current-row
-            @current-change="handleCurrentChange"
-            @row-dblclick="openOrderForm"
-            height="400"
-            style="width: 100%"
-          >
-            <el-table-column prop="createDate" label="商品名称">
+          <el-table :data="tableData.slice((currentPage-1) * pageSize, currentPage * pageSize)"
+                    border
+                    highlight-current-row
+                    @current-change="handleCurrentChange"
+                    @row-dblclick="openOrderForm"
+                    height="400"
+                    style="width: 100%">
+            <el-table-column prop="createDate"
+                             label="商品名称">
               <template slot-scope="scope">
                 <span>{{scope.row.createDate.substring(0, 10)}}</span>
               </template>
             </el-table-column>
-            <el-table-column prop="company.name" label="商品名称">
+            <el-table-column prop="company.name"
+                             label="商品名称">
               <template slot-scope="scope">
                 <span>{{scope.row.company.name}}</span>
               </template>
             </el-table-column>
-            <el-table-column prop="employee.name" label="商品名称">
+            <el-table-column prop="employee.name"
+                             label="商品名称">
               <template slot-scope="scope">
                 <span>{{scope.row.employee.name}}</span>
               </template>
             </el-table-column>
           </el-table>
-          <el-pagination
-            class="pagination"
-            @size-change="pageSizeChange"
-            @current-change="pageChange"
-            :small="true"
-            :current-page="currentPage"
-            :page-sizes="[30, 50, 100, 200]"
-            layout="sizes, jumper, prev, next, total"
-            :total="totalSize"
-          ></el-pagination>
+          <el-pagination class="pagination"
+                         @size-change="pageSizeChange"
+                         @current-change="pageChange"
+                         :small="true"
+                         :current-page="currentPage"
+                         :page-sizes="[30, 50, 100, 200]"
+                         layout="sizes, jumper, prev, next, total"
+                         :total="totalSize"></el-pagination>
         </div>
       </el-main>
       <el-footer>
         <div>
           <el-row>
             <el-col :span="3">
-              <el-button :disabled="isSelectedInfoInvalid()" @click="openOrderForm">打开单据</el-button>
+              <el-button :disabled="isSelectedInfoInvalid()"
+                         @click="openOrderForm">打开单据</el-button>
             </el-col>
             <el-col :span="3">
-              <el-button
-                v-if="deletePermission"
-                :disabled="isSelectedInfoInvalid()"
-                @click="deleteOrderForm"
-              >删除单据</el-button>
+              <el-button v-if="deletePermission"
+                         :disabled="isSelectedInfoInvalid()"
+                         @click="deleteOrderForm">删除单据</el-button>
             </el-col>
           </el-row>
         </div>
       </el-footer>
     </el-container>
 
-    <branch-search-dialog
-      v-if="branchDialogVisiable"
-      @submitData="submitBranchData"
-      @closeDialog="closeBranchDialog"
-    ></branch-search-dialog>
-    <company-search-dialog
-      v-if="companyDialogVisiable"
-      @submitData="submitCompanyData"
-      @closeDialog="closeCompanyDialog"
-    ></company-search-dialog>
-    <department-search-dialog
-      v-if="departmentDialogVisiable"
-      @submitData="submitDepartmentData"
-      @closeDialog="closeDepartmentDialog"
-    ></department-search-dialog>
-    <depot-search-dialog
-      v-if="depotDialogVisiable"
-      @submitData="submitDepotData"
-      @closeDialog="closeDepotDialog"
-    ></depot-search-dialog>
-    <product-search-dialog
-      v-if="productDialogVisiable"
-      @submitData="submitProductData"
-      @closeDialog="closeProductDialog"
-    ></product-search-dialog>
-    <unit-search-dialog
-      v-if="productUnitDialogVisiable"
-      @submitData="submitProductUnitData"
-      @closeDialog="closeProductUnitDialog"
-    ></unit-search-dialog>
-    <account-search-dialog
-      v-if="accountDialogVisiable"
-      @submitData="submitAccountData"
-      @closeDialog="closeAccountDialog"
-    ></account-search-dialog>
+    <branch-search-dialog v-if="branchDialogVisiable"
+                          @submitData="submitBranchData"
+                          @closeDialog="closeBranchDialog"></branch-search-dialog>
+    <company-search-dialog v-if="companyDialogVisiable"
+                           @submitData="submitCompanyData"
+                           @closeDialog="closeCompanyDialog"></company-search-dialog>
+    <department-search-dialog v-if="departmentDialogVisiable"
+                              @submitData="submitDepartmentData"
+                              @closeDialog="closeDepartmentDialog"></department-search-dialog>
+    <depot-search-dialog v-if="depotDialogVisiable"
+                         @submitData="submitDepotData"
+                         @closeDialog="closeDepotDialog"></depot-search-dialog>
+    <product-search-dialog v-if="productDialogVisiable"
+                           @submitData="submitProductData"
+                           @closeDialog="closeProductDialog"></product-search-dialog>
+    <unit-search-dialog v-if="productUnitDialogVisiable"
+                        @submitData="submitProductUnitData"
+                        @closeDialog="closeProductUnitDialog"></unit-search-dialog>
+    <account-search-dialog v-if="accountDialogVisiable"
+                           @submitData="submitAccountData"
+                           @closeDialog="closeAccountDialog"></account-search-dialog>
   </div>
 </template>
 
 <script>
-import DepartmentSearchDialog from "../components/department-search-dialog.vue"
-import BranchSearchDialog from "../components/branch-search-dialog.vue"
-import CompanySearchDialog from "../components/company-search-dialog.vue"
-import DepotSearchDialog from "../components/depot-search-dialog.vue"
-import ProductSearchDialog from "../components/product-search-dialog.vue"
-import UnitSearchDialog from "../components/unit-search-dialog.vue"
-import AccountSearchDialog from "../components/account-search-dialog.vue"
+import DepartmentSearchDialog from "../components/department-search-dialog.vue";
+import BranchSearchDialog from "../components/branch-search-dialog.vue";
+import CompanySearchDialog from "../components/company-search-dialog.vue";
+import DepotSearchDialog from "../components/depot-search-dialog.vue";
+import ProductSearchDialog from "../components/product-search-dialog.vue";
+import UnitSearchDialog from "../components/unit-search-dialog.vue";
+import AccountSearchDialog from "../components/account-search-dialog.vue";
 
-import TableBaseInfo from '@/views/mixIns/table-base-info.js'
-import orderFormApi from "../../api/order-form-api/orderFormApi.js"
-import Tool from '@/views/constant/tool.js'
-import PermissionBase from '@/views/mixIns/permission-base.js'
-import RuleTool from '@/views/constant/rule-tool.js'
+import TableBaseInfo from "@/views/mixIns/table-base-info.js";
+import orderFormApi from "../../api/order-form-api/orderFormApi.js";
+import Tool from "@/views/constant/tool.js";
+import PermissionBase from "@/views/mixIns/permission-base.js";
+import RuleTool from "@/views/constant/rule-tool.js";
 
 export default {
   name: "orderForm",
@@ -226,13 +211,12 @@ export default {
     "depot-search-dialog": DepotSearchDialog,
     "product-search-dialog": ProductSearchDialog,
     "unit-search-dialog": UnitSearchDialog,
-    "account-search-dialog": AccountSearchDialog,
+    "account-search-dialog": AccountSearchDialog
   },
 
-  props: {
-  },
+  props: {},
 
-  data () {
+  data() {
     return {
       selectedInfo: null,
       dateRange: [],
@@ -247,33 +231,38 @@ export default {
         employee: {},
         department: {},
         depot: {},
-        account: {},
+        account: {}
       },
 
-      types: [{
-        name: "进货单",
-        value: Tool.orderFormType.purchaseForm
-      },
-      {
-        name: "销售单",
-        value: Tool.orderFormType.salesForm
-      },
-      {
-        name: "入库退货单",
-        value: Tool.orderFormType.purchaseReturn
-      },
-      {
-        name: "销售退货单",
-        value: Tool.orderFormType.salesReturn
-      }],
+      types: [
+        {
+          name: "进货单",
+          value: Tool.orderFormType.purchaseForm
+        },
+        {
+          name: "销售单",
+          value: Tool.orderFormType.salesForm
+        },
+        {
+          name: "入库退货单",
+          value: Tool.orderFormType.purchaseReturn
+        },
+        {
+          name: "销售退货单",
+          value: Tool.orderFormType.salesReturn
+        }
+      ],
 
-      status: [{
-        name: "草稿",
-        value: Tool.orderFormStatus.draft
-      }, {
-        name: "已审核",
-        value: Tool.orderFormStatus.verify
-      }],
+      status: [
+        {
+          name: "草稿",
+          value: Tool.orderFormStatus.draft
+        },
+        {
+          name: "已审核",
+          value: Tool.orderFormStatus.verify
+        }
+      ],
 
       departmentDialogVisiable: false,
       branchDialogVisiable: false,
@@ -284,178 +273,185 @@ export default {
       productUnitDialogVisiable: false,
       accountDialogVisiable: false,
       printDialogVisiable: false
-    }
+    };
   },
 
   methods: {
-    dateRanegChange () {
+    dateRanegChange() {
       if (this.dateRange.length == 2) {
         this.searchModel.startDate = this.dateRange[0];
         this.searchModel.endDate = this.dateRange[1];
       }
     },
 
-    showBranchDialog () {
+    showBranchDialog() {
       this.branchDialogVisiable = true;
     },
 
-    closeBranchDialog () {
+    closeBranchDialog() {
       this.branchDialogVisiable = false;
     },
 
-    submitBranchData (branchValue) {
+    submitBranchData(branchValue) {
       this.searchModel.branch = branchValue;
 
       this.branchDialogVisiable = false;
     },
 
-    showCompanyDialog () {
+    showCompanyDialog() {
       this.companyDialogVisiable = true;
     },
 
-    closeCompanyDialog () {
+    closeCompanyDialog() {
       this.companyDialogVisiable = false;
     },
 
-    submitCompanyData (companyValue) {
+    submitCompanyData(companyValue) {
       this.searchModel.company = companyValue;
 
       this.companyDialogVisiable = false;
     },
 
-    showEmployeeDialog () {
+    showEmployeeDialog() {
       this.employeeDialogVisiable = true;
     },
 
-    closeEmployeeDialog () {
+    closeEmployeeDialog() {
       this.employeeDialogVisiable = false;
     },
 
-    submitEmployeeData (employeeValue) {
+    submitEmployeeData(employeeValue) {
       this.searchModel.employee = employeeValue;
 
       this.employeeDialogVisiable = false;
     },
 
-    showDepartmentDialog () {
+    showDepartmentDialog() {
       this.departmentDialogVisiable = true;
     },
 
-    closeDepartmentDialog () {
+    closeDepartmentDialog() {
       this.departmentDialogVisiable = false;
     },
 
-    submitDepartmentData (departmentValue) {
+    submitDepartmentData(departmentValue) {
       this.searchModel.department = departmentValue;
 
       this.departmentDialogVisiable = false;
     },
 
-    showDepotDialog () {
+    showDepotDialog() {
       this.depotDialogVisiable = true;
     },
 
-    closeDepotDialog () {
+    closeDepotDialog() {
       this.depotDialogVisiable = false;
     },
 
-    submitDepotData (depotValue) {
+    submitDepotData(depotValue) {
       this.searchModel.depot = depotValue;
 
       this.depotDialogVisiable = false;
     },
 
-    showProductSelectDialog (scope) {
+    showProductSelectDialog(scope) {
       this.productDialogVisiable = true;
       this.scopeValue = scope.row;
     },
 
-    closeProductDialog () {
+    closeProductDialog() {
       this.productDialogVisiable = false;
     },
 
-    submitProductData (productValue) {
+    submitProductData(productValue) {
       this.scopeValue.productID = productValue.id;
 
       this.productDialogVisiable = false;
     },
 
-    showProductUnitSelectDialog (scope) {
+    showProductUnitSelectDialog(scope) {
       this.productUnitDialogVisiable = true;
       this.scopeValue = scope.row;
     },
 
-    closeProductUnitDialog () {
+    closeProductUnitDialog() {
       this.productUnitDialogVisiable = false;
     },
 
-    submitProductUnitData (productUnitValue) {
+    submitProductUnitData(productUnitValue) {
       this.scopeValue.product.Unit = productUnitValue;
 
       this.productUnitDialogVisiable = false;
     },
 
-    showAccountDialog () {
+    showAccountDialog() {
       this.accountDialogVisiable = true;
     },
 
-    closeAccountDialog () {
+    closeAccountDialog() {
       this.accountDialogVisiable = false;
     },
 
-    submitAccountData (accountValue) {
+    submitAccountData(accountValue) {
       this.searchModel.account = accountValue;
 
       this.accountDialogVisiable = false;
     },
 
-    getOrderForms () {
+    getOrderForms() {
       let searchModelData = {
         orderFormType: this.searchModel.orderFormType,
         orderFormStatus: this.searchModel.orderFormStatus,
         startDate: this.searchModel.startDate,
         endDate: this.searchModel.endDate,
-        branchID: this.searchModel.branch.id ? this.searchModel.branch.id : null,
-        companyID: this.searchModel.company.id ? this.searchModel.company.id : null,
-        employeeID: this.searchModel.employee.id ? this.searchModel.employee.id : null,
-        departmentID: this.searchModel.department.id ? this.searchModel.department.id : null,
+        branchID: this.searchModel.branch.id
+          ? this.searchModel.branch.id
+          : null,
+        companyID: this.searchModel.company.id
+          ? this.searchModel.company.id
+          : null,
+        employeeID: this.searchModel.employee.id
+          ? this.searchModel.employee.id
+          : null,
+        departmentID: this.searchModel.department.id
+          ? this.searchModel.department.id
+          : null,
         depotID: this.searchModel.depot.id ? this.searchModel.depot.id : null,
-        accountID: this.searchModel.account.id ? this.searchModel.account.id : null,
+        accountID: this.searchModel.account.id
+          ? this.searchModel.account.id
+          : null
       };
 
       console.log("======  search ", searchModelData);
-      return orderFormApi.getOrderForms(searchModelData).then((res) => {
+      return orderFormApi.getOrderForms(searchModelData).then(res => {
         console.log("============= getOrderForms ", res);
         this.setResponseResult(res.data);
       });
     },
 
-    handleCurrentChange (value) {
+    handleCurrentChange(value) {
       this.selectedInfo = value;
     },
 
-    openOrderForm () {
+    openOrderForm() {
       this.$emit("openOrderForm", this.selectedInfo);
     },
 
-    deleteOrderForm () {
-      orderFormApi
-        .deleteOrderFormInfo(this.selectedInfo)
-        .then(() => {
-          this.getOrderForms();
-        });
+    deleteOrderForm() {
+      orderFormApi.deleteOrderFormInfo(this.selectedInfo).then(() => {
+        this.getOrderForms();
+      });
     },
 
-    isSelectedInfoInvalid () {
+    isSelectedInfoInvalid() {
       return this.selectedInfo == null;
-    },
+    }
   },
 
-  created: function () {
+  created: function() {
     this.initPermission(RuleTool.resource.orderForm);
   }
-}
-
+};
 </script>
 
 <style>
