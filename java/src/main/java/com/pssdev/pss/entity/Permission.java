@@ -10,7 +10,7 @@ public class Permission implements Serializable {
    private Integer id;
 
    @Column
-   private String resource;
+   private int resource;
 
    @Column
    private Integer operator;
@@ -23,11 +23,11 @@ public class Permission implements Serializable {
       this.id = id;
    }
 
-   public String getResource() {
+   public int getResource() {
       return resource;
    }
 
-   public void setResource(String resource) {
+   public void setResource(int resource) {
       this.resource = resource;
    }
 

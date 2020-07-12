@@ -1,7 +1,23 @@
 package com.pssdev.pss.util;
 
-public class ActionType {
-   public static final int ADD = 1;
-   public static final int DELETE = 2;
-   public static final int MODIFY = 3;
+public enum ActionType {
+   ADD(1, "Add"),
+   DELETE(2, "Delete"),
+   MODIFY(3, "Modify");
+
+   private int type;
+   private String label;
+
+   ActionType(int type, String label) {
+      this.type = type;
+      this.label = label;
+   }
+
+   public int getType() {
+      return type;
+   }
+
+   public String getLabel() {
+      return label;
+   }
 }

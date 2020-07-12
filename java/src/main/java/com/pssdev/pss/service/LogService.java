@@ -15,4 +15,6 @@ public interface LogService {
   Log getLog(Integer id);
 
   List<Log> getLogs(LogSearchModel searchModel);
+
+  List<Log> getAllLogs();
 }

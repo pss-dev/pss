@@ -49,5 +49,11 @@ public class LogServiceImpl implements LogService {
     return logDao.search(searchModel);
   }
 
+  @Transactional(readOnly = true)
+  @Override
+  public List<Log> getAllLogs() {
+    return logDao.getAll();
+  }
+
   private final LogDao logDao;
 }

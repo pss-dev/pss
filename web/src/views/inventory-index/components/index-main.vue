@@ -248,7 +248,7 @@ export default {
         console.log("=====  permission ", permission);
         permissionStore[permission.resource] = permission.operator;
 
-        switch (permission.resource) {
+        switch (+permission.resource) {
           case RuleTool.resource.product:
             baseInfoMenuArr.push({
               label: "商品档案",

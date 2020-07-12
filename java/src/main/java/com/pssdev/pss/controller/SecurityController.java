@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 public class SecurityController {
@@ -30,7 +27,7 @@ public class SecurityController {
 
   @PostMapping("/api/1.0/login")
   public String login(@RequestParam String userName, @RequestParam String password,
-      @RequestParam(required = false) boolean rememberMe) {
+                      @RequestParam(required = false) boolean rememberMe) {
     Subject currentUser = SecurityUtils.getSubject();
 
     // 如果用户没有登录
@@ -58,18 +55,8 @@ public class SecurityController {
   public String getCurrentEmployee() {
     Subject subject = SecurityUtils.getSubject();
     Object principal = subject.getPrincipal();
-    Employee employee = null;
-    String userName = "";
 
-    if (principal != null) {
-      employee = employeeService.getEmployeeByName(principal.toString());
-    }
-
-    if (employee != null) {
-      userName = employee.getName();
-    }
-
-    return userName;
+    return Objects.toString(principal, "");
   }
 
   @GetMapping("/error")
@@ -88,7 +75,7 @@ public class SecurityController {
 
     Set<Role> roles = employee.getRoles();
     List<Permission> permissions = new ArrayList<>();
-    Hashtable<String, Permission> pset = new Hashtable<>();
+    Map<Integer, Permission> pset = new HashMap<>();
     List<Permission> res = new ArrayList<>();
     boolean haveAdminRole = false;
 
@@ -101,7 +88,6 @@ public class SecurityController {
       permissions.addAll(perms);
     }
 
-    System.out.println("====== haveAdminRole " + haveAdminRole);
     if (haveAdminRole) {
       setAdminPermissions(res);
     } else {
@@ -109,12 +95,13 @@ public class SecurityController {
         mergePermission(permission, pset);
       }
 
-      Permission baseInfo = pset.get(ResourceEnum.BASEINFO);
-      Permission manage = pset.get(ResourceEnum.MANAGE);
-      Permission statistic = pset.get(ResourceEnum.STATISTIC);
+      Permission baseInfo = pset.get(ResourceEnum.BASEINFO.getType());
+      Permission manage = pset.get(ResourceEnum.MANAGE.getType());
+      Permission statistic = pset.get(ResourceEnum.STATISTIC.getType());
 
-      String[] baseInfoChildren = { ResourceEnum.PRODUCT, ResourceEnum.UNIT, ResourceEnum.PRICE, ResourceEnum.COMPANY,
-          ResourceEnum.DEPOT, ResourceEnum.DEPARTMENT, ResourceEnum.BRANCH };
+      int[] baseInfoChildren = { ResourceEnum.PRODUCT.getType(),
+         ResourceEnum.UNIT.getType(), ResourceEnum.PRICE.getType(), ResourceEnum.COMPANY.getType(),
+         ResourceEnum.DEPOT.getType(), ResourceEnum.DEPARTMENT.getType(), ResourceEnum.BRANCH.getType() };
       setPermission(res, baseInfoChildren, pset, baseInfo);
 
       Permission orderForm = pset.get(ResourceEnum.ORDERFORM);
@@ -122,19 +109,23 @@ public class SecurityController {
         res.add(orderForm);
       }
 
-      String[] manageChildren = { ResourceEnum.ROLE, ResourceEnum.EMPLOYEE, ResourceEnum.ACCOUNT };
+      int[] manageChildren = { ResourceEnum.ROLE.getType(),
+         ResourceEnum.EMPLOYEE.getType(),
+         ResourceEnum.ACCOUNT.getType() };
       setPermission(res, manageChildren, pset, manage);
 
-      String[] statisticChildren = { ResourceEnum.LOG, ResourceEnum.REVENUE };
+      int[] statisticChildren = { ResourceEnum.LOG.getType(), ResourceEnum.REVENUE.getType() };
       setPermission(res, statisticChildren, pset, statistic);
     }
 
     return res;
   }
 
-  private void setPermission(List<Permission> res, String[] names, Hashtable<String, Permission> pset,
-      Permission fperm) {
-    for (String name : names) {
+  private void setPermission(List<Permission> res, int[] names,
+                             Map<Integer, Permission> pset,
+                             Permission fperm)
+  {
+    for (Integer name : names) {
       Permission nperm = pset.get(name);
 
       if (nperm == null && fperm == null) {
@@ -150,13 +141,15 @@ public class SecurityController {
       }
 
       if (((nperm.getOperator() & PermissionEnum.READ.getPermission()) != 0)
-          || ((nperm.getOperator() & PermissionEnum.ADMIN.getPermission()) == PermissionEnum.ADMIN.getPermission())) {
+         || ((nperm.getOperator() & PermissionEnum.ADMIN.getPermission()) == PermissionEnum.ADMIN.getPermission())) {
         res.add(nperm);
       }
     }
   }
 
-  private void mergePermission(Permission permission, Hashtable<String, Permission> value) {
+  private void mergePermission(Permission permission,
+                               Map<Integer, Permission> value)
+  {
     Permission p = value.get(permission.getResource());
 
     if (p == null) {
@@ -167,11 +160,15 @@ public class SecurityController {
   }
 
   private void setAdminPermissions(List<Permission> res) {
-    String[] names = { ResourceEnum.PRODUCT, ResourceEnum.UNIT, ResourceEnum.PRICE, ResourceEnum.COMPANY,
-        ResourceEnum.DEPOT, ResourceEnum.DEPARTMENT, ResourceEnum.BRANCH, ResourceEnum.ORDERFORM, ResourceEnum.ROLE,
-        ResourceEnum.EMPLOYEE, ResourceEnum.ACCOUNT, ResourceEnum.LOG, ResourceEnum.REVENUE };
+    int[] names = { ResourceEnum.PRODUCT.getType(), ResourceEnum.UNIT.getType(),
+       ResourceEnum.PRICE.getType(), ResourceEnum.COMPANY.getType(),
+       ResourceEnum.DEPOT.getType(), ResourceEnum.DEPARTMENT.getType(),
+       ResourceEnum.BRANCH.getType(), ResourceEnum.ORDERFORM.getType(),
+       ResourceEnum.ROLE.getType(),
+       ResourceEnum.EMPLOYEE.getType(), ResourceEnum.ACCOUNT.getType(),
+       ResourceEnum.LOG.getType(), ResourceEnum.REVENUE.getType() };
 
-    for (String name : names) {
+    for (Integer name : names) {
       Permission nperm = new Permission();
       nperm.setResource(name);
       nperm.setOperator(PermissionEnum.ADMIN.getPermission());

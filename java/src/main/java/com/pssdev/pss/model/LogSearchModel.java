@@ -1,24 +1,22 @@
 package com.pssdev.pss.model;
 
-import java.util.Date;
-
 public class LogSearchModel {
-  private Date startDate;
-  private Date endDate;
+  private long startDate;
+  private long endDate;
 
-  public Date getStartDate() {
+  public long getStartDate() {
     return startDate;
   }
 
-  public void setStartDate(Date startDate) {
+  public void setStartDate(long startDate) {
     this.startDate = startDate;
   }
 
-  public Date getEndDate() {
+  public long getEndDate() {
     return endDate;
   }
 
-  public void setEndDate(Date endDate) {
+  public void setEndDate(long endDate) {
     this.endDate = endDate;
   }
 }

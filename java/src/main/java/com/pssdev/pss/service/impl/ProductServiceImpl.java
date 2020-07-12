@@ -47,11 +47,11 @@ public class ProductServiceImpl implements ProductService {
 
       if (unitPrices != null && unitPrices.size() > 0) {
         for (ProductUnitPrice unitPrice : unitPrices) {
-          if (ActionType.ADD == unitPrice.getActionType()) {
+          if (ActionType.ADD.getType() == unitPrice.getActionType()) {
             oldUnitPrices.add(unitPrice);
-          } else if (ActionType.MODIFY == unitPrice.getActionType()) {
+          } else if (ActionType.MODIFY.getType() == unitPrice.getActionType()) {
             modifyUnitPrice(unitPrice, oldUnitPrices);
-          } else if (ActionType.DELETE == unitPrice.getActionType()) {
+          } else if (ActionType.DELETE.getType() == unitPrice.getActionType()) {
             oldUnitPrices.remove(unitPrice);
           }
         }

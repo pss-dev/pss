@@ -1,8 +1,11 @@
 package com.pssdev.pss.service.impl;
 
+import com.pssdev.pss.annotation.Audit;
 import com.pssdev.pss.dao.DepartmentDao;
 import com.pssdev.pss.entity.Department;
 import com.pssdev.pss.service.DepartmentService;
+import com.pssdev.pss.util.ActionType;
+import com.pssdev.pss.util.ResourceEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.*;
 import org.springframework.stereotype.Service;
@@ -58,6 +61,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     return departmentDao.getAll();
   }
 
+  @Audit(ResourceEnum.DEPARTMENT)
   @Transactional
   @CacheEvict(allEntries = true)
   @Override
@@ -65,6 +69,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     return departmentDao.insert(department);
   }
 
+  @Audit(value = ResourceEnum.DEPARTMENT, actionType = ActionType.MODIFY)
   @Transactional
   @Caching(
      put = {
@@ -82,6 +87,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     departmentDao.update(department);
   }
 
+  @Audit(value = ResourceEnum.DEPARTMENT, actionType = ActionType.DELETE)
   @Transactional
   @CacheEvict(allEntries = true)
   @Override

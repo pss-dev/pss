@@ -10,6 +10,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,12 +29,14 @@ public class LogDaoImpl extends BaseDao<Log, Integer> implements LogDao {
     Root<Log> root = criteriaQuery.from(Log.class);
     List<Predicate> conditons = new ArrayList<>();
 
-    if (model.getStartDate() != null) {
-      conditons.add(criteriaBuilder.greaterThan(root.get("createDate"), model.getStartDate()));
-    }
+    if(model != null) {
+      if(model.getStartDate() > 0) {
+        conditons.add(criteriaBuilder.greaterThan(root.get("date"), new Date(model.getStartDate())));
+      }
 
-    if (model.getEndDate() != null) {
-      conditons.add(criteriaBuilder.lessThan(root.get("createDate"), model.getEndDate()));
+      if (model.getEndDate() > 0) {
+        conditons.add(criteriaBuilder.lessThan(root.get("date"), new Date(model.getEndDate())));
+      }
     }
 
     criteriaQuery.where(criteriaBuilder.and(conditons.toArray(new Predicate[0])));

@@ -1,11 +1,11 @@
 import baseApi from '../baseApi.js'
 import fetch from '@/http/fetch'
 
-function getLogData (params) {
+function getLogData (data) {
   return fetch({
     url: baseApi.baseApi('log'),
-    method: 'get',
-    params
+    method: 'post',
+    data
   })
 }
 

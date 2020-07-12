@@ -12,10 +12,10 @@ public final class SecurityUtil {
 
    // user constant
    public static final String Admin = "admin";
+   public static final String Anonymous = "Anonymous";
 
    // role constant
    public static final String Administrator = "Administrator";
-   public static final String Anonymous = "Anonymous";
 
    // permission constant
    public static final String SYSTEM_PERMISSION_FLAG = "system";
