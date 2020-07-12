@@ -19,17 +19,19 @@
       <el-form-item label="显示名称" prop="label">
         <el-input v-model="priceData.label" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item>
-        <el-button @click="closeDialog">取 消</el-button>
-        <el-button type="primary" @click="submitData">确 定</el-button>
-      </el-form-item>
     </el-form>
+    <dialog-footer @closeDialog="closeDialog" @submitData="submitData"></dialog-footer>
   </el-dialog>
 </template>
 
 <script>
+import BaseInfoDialogFooter from "@/views/base-info/components/base-info-dialog-footer.vue"
+
 export default {
   name: "priceInfoDialog",
+  components: {
+    "dialog-footer": BaseInfoDialogFooter
+  },
   data () {
     return {
       dialogVisible: true,

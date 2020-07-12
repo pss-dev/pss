@@ -55,16 +55,21 @@ public class SecurityController {
 
   @GetMapping("/api/1.0/principal")
   @ResponseBody
-  public Employee getCurrentEmployee() {
+  public String getCurrentEmployee() {
     Subject subject = SecurityUtils.getSubject();
     Object principal = subject.getPrincipal();
     Employee employee = null;
+    String userName = "";
 
     if (principal != null) {
       employee = employeeService.getEmployeeByName(principal.toString());
     }
 
-    return employee;
+    if (employee != null) {
+      userName = employee.getName();
+    }
+
+    return userName;
   }
 
   @GetMapping("/error")

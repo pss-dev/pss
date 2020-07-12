@@ -1,20 +1,20 @@
 <template>
   <el-container>
     <el-header height="30">
-      <el-row>
-        <el-col :span="8">
-          <el-date-picker
-            v-model="dateRangeValue"
-            type="daterange"
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-          ></el-date-picker>
-        </el-col>
-        <el-col :span="4">
-          <el-button :disabled="isDateRangeValueInvalid()" @click="searchLogData">查询</el-button>
-        </el-col>
-      </el-row>
+      <div>
+        <el-date-picker
+          v-model="dateRangeValue"
+          type="daterange"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+        ></el-date-picker>
+        <el-button
+          class="search-button"
+          :disabled="isDateRangeValueInvalid()"
+          @click="searchLogData"
+        >查询</el-button>
+      </div>
     </el-header>
     <el-main>
       <base-info-table :titles="titData" :tableData="tableData"></base-info-table>
@@ -79,5 +79,9 @@ export default {
 <style>
 .search-row {
   margin-bottom: 5px;
+}
+
+.search-button {
+  margin-left: 10px;
 }
 </style>

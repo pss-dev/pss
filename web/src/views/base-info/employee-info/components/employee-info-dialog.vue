@@ -68,8 +68,7 @@
         </el-row>
       </el-tab-pane>
     </el-tabs>
-    <el-button @click="closeDialog">取 消</el-button>
-    <el-button type="primary" @click="submitData">确 定</el-button>
+    <dialog-footer @closeDialog="closeDialog" @submitData="submitData"></dialog-footer>
     <branch-search-dialog
       v-if="branchDialogVisible"
       @closeDialog="closeBranchDialog"
@@ -92,13 +91,15 @@
 import BranchSearchDialog from "@/views/components/branch-search-dialog";
 import DepartmentSearchDialog from "@/views/components/department-search-dialog";
 import RoleSearchDialog from "@/views/components/role-search-dialog";
+import BaseInfoDialogFooter from "@/views/base-info/components/base-info-dialog-footer.vue"
 
 export default {
   name: "employeeInfoDialog",
   components: {
     "branch-search-dialog": BranchSearchDialog,
     "department-search-dialog": DepartmentSearchDialog,
-    "role-search-dialog": RoleSearchDialog
+    "role-search-dialog": RoleSearchDialog,
+    "dialog-footer": BaseInfoDialogFooter
   },
   props: {
     "title": {

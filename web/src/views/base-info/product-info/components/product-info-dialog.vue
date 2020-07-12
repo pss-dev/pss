@@ -1,167 +1,167 @@
 <template>
-  <el-dialog :modal="true"
-             :close-on-click-modal="false"
-             :title="title"
-             :visible.sync="dialogVisible"
-             :before-close="handleClose">
+  <el-dialog
+    :modal="true"
+    :close-on-click-modal="false"
+    :title="title"
+    :visible.sync="dialogVisible"
+    :before-close="handleClose"
+  >
     <el-tabs v-model="activeName">
-      <el-tab-pane label="基本资料"
-                   name="first">
-        <el-form :model="productData"
-                 ref="productData"
-                 :rules="rules"
-                 label-width="100px"
-                 class="demo-ruleForm">
-          <el-form-item label="编号"
-                        prop="identifier">
-            <el-input v-model="productData.identifier"
-                      autocomplete="off"></el-input>
+      <el-tab-pane label="基本资料" name="first">
+        <el-form
+          :model="productData"
+          ref="productData"
+          :rules="rules"
+          label-width="100px"
+          class="demo-ruleForm"
+        >
+          <el-form-item label="编号" prop="identifier">
+            <el-input v-model="productData.identifier" autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item label="名称"
-                        prop="name">
-            <el-input v-model="productData.name"
-                      autocomplete="off"></el-input>
+          <el-form-item label="名称" prop="name">
+            <el-input v-model="productData.name" autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item label="拼音码"
-                        prop="initials">
-            <el-input v-model="productData.initials"
-                      autocomplete="off"></el-input>
+          <el-form-item label="拼音码" prop="initials">
+            <el-input v-model="productData.initials" autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item label="规格"
-                        prop="specification">
-            <el-input v-model="productData.specification"
-                      autocomplete="off"></el-input>
+          <el-form-item label="规格" prop="specification">
+            <el-input v-model="productData.specification" autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item label="型号"
-                        prop="type">
-            <el-input v-model="productData.type"
-                      autocomplete="off"></el-input>
+          <el-form-item label="型号" prop="type">
+            <el-input v-model="productData.type" autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item label="产地"
-                        prop="address">
-            <el-input v-model="productData.address"
-                      autocomplete="off"></el-input>
+          <el-form-item label="产地" prop="address">
+            <el-input v-model="productData.address" autocomplete="off"></el-input>
           </el-form-item>
         </el-form>
       </el-tab-pane>
-      <el-tab-pane label="单位"
-                   name="second">
-        <el-card class="unit-card"
-                 shadow="never">
+      <el-tab-pane label="单位" name="second">
+        <el-card class="unit-card" shadow="never">
           <el-row>
-            <el-col :span="6">
+            <el-col :span="5">
               <div class="default-unit-label">默认收购单位：</div>
             </el-col>
             <el-col :span="6">
-              <el-select size="small"
-                         v-model="productData.purchaseDefaultUnit"
-                         value-key="id"
-                         placeholder="请选择">
-                <el-option v-for="item in productData.units"
-                           :key="item.unit.id"
-                           :label="item.unit.name"
-                           :value="item.unit"></el-option>
+              <el-select
+                size="small"
+                v-model="productData.purchaseDefaultUnit"
+                value-key="id"
+                placeholder="请选择"
+              >
+                <el-option
+                  v-for="item in productData.units"
+                  :key="item.unit.id"
+                  :label="item.unit.name"
+                  :value="item.unit"
+                ></el-option>
               </el-select>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="7">
               <div class="default-unit-label">默认销售单位：</div>
             </el-col>
             <el-col :span="6">
-              <el-select size="small"
-                         v-model="productData.sellDefaultUnit"
-                         value-key="id"
-                         placeholder="请选择">
-                <el-option v-for="item in productData.units"
-                           :key="item.unit.id"
-                           :label="item.unit.name"
-                           :value="item.unit"></el-option>
+              <el-select
+                size="small"
+                v-model="productData.sellDefaultUnit"
+                value-key="id"
+                placeholder="请选择"
+              >
+                <el-option
+                  v-for="item in productData.units"
+                  :key="item.unit.id"
+                  :label="item.unit.name"
+                  :value="item.unit"
+                ></el-option>
               </el-select>
             </el-col>
           </el-row>
         </el-card>
 
         <el-row>
-          <el-col :span="24"
-                  class="add-unit-button">
-            <el-button size="small"
-                       @click="addUnit">添加单位</el-button>
+          <el-col :span="24" class="add-unit-button">
+            <el-button size="small" @click="addUnit">添加单位</el-button>
           </el-col>
         </el-row>
 
-        <el-table :data="productData.units"
-                  style="width: 100%"
-                  border>
-          <el-table-column prop="default"
-                           label="默认基本单位">
+        <el-table
+          class="unit-table"
+          :data="productData.units"
+          height="300px"
+          style="width: 100%"
+          border
+        >
+          <el-table-column prop="default" width="110" label="默认基本单位">
             <template slot-scope="scope">
               <span>{{scope.row.default}}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="unitID"
-                           label="单位"
-                           width="130">
+          <el-table-column prop="unitID" label="单位" width="130">
             <template slot-scope="scope">
-              <el-input readonly
-                        v-model="scope.row.unit.name"
-                        placeholder="名称">
-                <el-button size="small"
-                           @click="showUnitDialog(scope)"
-                           slot="append"
-                           icon="el-icon-search"></el-button>
+              <el-input readonly v-model="scope.row.unit.name" placeholder="名称">
+                <el-button
+                  size="small"
+                  @click="showUnitDialog(scope)"
+                  slot="append"
+                  icon="el-icon-search"
+                ></el-button>
               </el-input>
             </template>
           </el-table-column>
-          <el-table-column prop="crate"
-                           width="130"
-                           label="换算率">
+          <el-table-column prop="crate" width="130" label="换算率">
             <template slot-scope="scope">
-              <el-input type="number"
-                        v-model="scope.row.crate"
-                        placeholder="换算率"
-                        @input="unitInfoChange(scope.row)"></el-input>
+              <el-input
+                type="number"
+                v-model="scope.row.crate"
+                placeholder="换算率"
+                @input="unitInfoChange(scope.row)"
+              ></el-input>
             </template>
           </el-table-column>
 
-          <el-table-column v-for="(title, index) in priceTitles"
-                           v-bind="title"
-                           :key="title.prop"
-                           min-width="150px">
+          <el-table-column
+            v-for="(title, index) in priceTitles"
+            v-bind="title"
+            :key="title.prop"
+            min-width="120px"
+          >
             <template slot-scope="scope">
               <el-input v-model="scope.row.prices[index].value"></el-input>
             </template>
           </el-table-column>
-          <el-table-column fixed="right"
-                           label="操作"
-                           width="50">
+          <el-table-column fixed="right" label="操作" width="50">
             <template slot-scope="scope">
-              <el-button :disabled="getDisable(scope.row)"
-                         @click.native.prevent="deleteRow(scope.row, scope.$index)"
-                         type="text"
-                         size="small">移除</el-button>
+              <el-button
+                :disabled="getDisable(scope.row)"
+                @click.native.prevent="deleteRow(scope.row, scope.$index)"
+                type="text"
+                size="small"
+              >移除</el-button>
             </template>
           </el-table-column>
         </el-table>
       </el-tab-pane>
     </el-tabs>
-    <el-button @click="closeDialog">取 消</el-button>
-    <el-button type="primary"
-               @click="submitData">确 定</el-button>
-    <product-unit-search-dialog :tableData="unitTableData"
-                                @closeDialog="closeUnitDialog"
-                                @submitData="submitUnitData"
-                                v-if="unitdialogVisible"></product-unit-search-dialog>
+    <dialog-footer @closeDialog="closeDialog" @submitData="submitData"></dialog-footer>
+    <product-unit-search-dialog
+      :tableData="unitTableData"
+      @closeDialog="closeUnitDialog"
+      @submitData="submitUnitData"
+      v-if="unitdialogVisible"
+    ></product-unit-search-dialog>
   </el-dialog>
 </template>
 
 <script>
 import UnitSearchDialog from "../../../components/unit-search-dialog";
+import BaseInfoDialogFooter from "@/views/base-info/components/base-info-dialog-footer.vue"
 import unitApi from "../../../../api/unit-info-api/unitInfoApi.js";
 import Tool from "@/views/constant/tool.js";
 
 export default {
   name: "productInfoDialog",
   components: {
-    "product-unit-search-dialog": UnitSearchDialog
+    "product-unit-search-dialog": UnitSearchDialog,
+    "dialog-footer": BaseInfoDialogFooter
   },
 
   props: {
@@ -178,7 +178,7 @@ export default {
     }
   },
 
-  data() {
+  data () {
     return {
       dialogVisible: true,
       unitdialogVisible: false,
@@ -208,7 +208,7 @@ export default {
   },
 
   methods: {
-    getScopeVModel(prices, id) {
+    getScopeVModel (prices, id) {
       prices.forEach(priceValue => {
         if (priceValue.price.id == id) {
           return priceValue;
@@ -216,11 +216,11 @@ export default {
       });
     },
 
-    closeDialog() {
+    closeDialog () {
       this.$emit("closeDialog");
     },
 
-    unitInfoChange(row) {
+    unitInfoChange (row) {
       console.log("======= unitInfoChange ", row);
 
       if (row.actionType != Tool.actionType.add) {
@@ -228,7 +228,7 @@ export default {
       }
     },
 
-    addUnit() {
+    addUnit () {
       var pricesValue = [];
 
       this.priceData.forEach(value => {
@@ -246,20 +246,20 @@ export default {
       this.productData.units.push(emptyUnitPrice);
     },
 
-    closeUnitDialog() {
+    closeUnitDialog () {
       this.unitdialogVisible = false;
     },
 
-    showUnitDialog(scopw) {
+    showUnitDialog (scopw) {
       this.selectUnitData = scopw.row;
       this.unitdialogVisible = true;
     },
 
-    handleClose() {
+    handleClose () {
       this.$emit("closeDialog");
     },
 
-    submitData() {
+    submitData () {
       if (!this.unitsValid()) {
         this.$message({
           message: `有无效的单位，请删除或者修改之后再确定！`,
@@ -279,19 +279,19 @@ export default {
       });
     },
 
-    submitUnitData(value) {
+    submitUnitData (value) {
       this.selectUnitData.unit = value;
       this.closeUnitDialog();
     },
 
-    getProductUnitData() {
+    getProductUnitData () {
       unitApi.getUnitInfo().then(res => {
         this.unitTableData = res.data;
         console.log("======getProductUnitData  ", res);
       });
     },
 
-    unitsValid() {
+    unitsValid () {
       let valid = true;
 
       this.productData.units.forEach(unitPrice => {
@@ -303,7 +303,7 @@ export default {
       return valid;
     },
 
-    getDisable(row) {
+    getDisable (row) {
       return (
         this.productData.units.length <= 1 ||
         row.actionType != Tool.actionType.add ||
@@ -311,14 +311,14 @@ export default {
       );
     },
 
-    deleteRow(row, index) {
+    deleteRow (row, index) {
       if (row.actionType == Tool.actionType.add) {
         this.productData.units.splice(index, 1);
       }
     }
   },
 
-  created: function() {
+  created: function () {
     this.getProductUnitData();
     console.log("======= priceData ", this.priceData);
   }
@@ -333,6 +333,7 @@ export default {
 .default-unit-label {
   height: 32px;
   line-height: 32px;
+  text-align: right;
 }
 
 .add-unit-button {
@@ -342,5 +343,9 @@ export default {
 
 .unit-card {
   margin-bottom: 10px;
+}
+
+.unit-table {
+  margin-bottom: 22px;
 }
 </style>

@@ -6,7 +6,7 @@
       </el-header>
       <el-main>
         <base-info-table
-          :titles="titData"
+          :titles="titleData"
           :tableData="tableData"
           @handleCurrentChange="handleCurrentChange"
           @getChildData="getChildData"

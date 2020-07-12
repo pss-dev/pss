@@ -25,17 +25,19 @@
       <el-form-item label="卡号" prop="account">
         <el-input v-model="accountData.account" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item>
-        <el-button @click="closeDialog">取 消</el-button>
-        <el-button type="primary" @click="submitData">确 定</el-button>
-      </el-form-item>
     </el-form>
+    <dialog-footer @closeDialog="closeDialog" @submitData="submitData"></dialog-footer>
   </el-dialog>
 </template>
 
 <script>
+import BaseInfoDialogFooter from "@/views/base-info/components/base-info-dialog-footer.vue"
+
 export default {
   name: "accountInfoDialog",
+  components: {
+    "dialog-footer": BaseInfoDialogFooter
+  },
   props: {
     "title": {
       type: String

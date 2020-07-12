@@ -1,24 +1,20 @@
 <template>
   <div>
     <el-container>
+      <el-header height="30">
+        <div>
+          <el-date-picker
+            v-model="dateRangeValue"
+            type="daterange"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+          ></el-date-picker>
+          <el-button class="search-button" @click="getRevenue">查询</el-button>
+        </div>
+      </el-header>
       <el-main>
-        <el-card>
-          <el-row class="el-row-bottom-20">
-            <el-col :span="8">
-              <el-date-picker
-                v-model="dateRangeValue"
-                type="daterange"
-                range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-              ></el-date-picker>
-            </el-col>
-            <el-col :span="4">
-              <div>
-                <el-button @click="getRevenue">查询</el-button>
-              </div>
-            </el-col>
-          </el-row>
+        <el-card shadow="never">
           <el-row class="el-row-bottom-20">
             <el-col :span="4">入库单数量：{{revenueData.purchaseCount}}</el-col>
             <el-col :span="4">入库退货数量：{{revenueData.sellCount}}</el-col>
@@ -97,5 +93,9 @@ export default {
 <style>
 .el-row-bottom-20 {
   margin-bottom: 20px;
+}
+
+.search-button {
+  margin-left: 10px;
 }
 </style>

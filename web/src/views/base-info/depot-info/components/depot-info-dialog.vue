@@ -24,11 +24,8 @@
       <el-form-item label="拼音码" prop="initials">
         <el-input v-model="depotData.initials" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item>
-        <el-button @click="closeDialog">取 消</el-button>
-        <el-button type="primary" @click="submitData">确 定</el-button>
-      </el-form-item>
     </el-form>
+    <dialog-footer @closeDialog="closeDialog" @submitData="submitData"></dialog-footer>
     <branch-search-dialog
       @closeDialog="closeBranchDialog"
       @submitData="submitBranchData"
@@ -39,11 +36,13 @@
 
 <script>
 import BranchSearchDialog from "../../../components/branch-search-dialog"
+import BaseInfoDialogFooter from "@/views/base-info/components/base-info-dialog-footer.vue"
 
 export default {
   name: "depotInfoDialog",
   components: {
-    "branch-search-dialog": BranchSearchDialog
+    "branch-search-dialog": BranchSearchDialog,
+    "dialog-footer": BaseInfoDialogFooter
   },
 
   props: {

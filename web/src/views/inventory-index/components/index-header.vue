@@ -5,8 +5,14 @@
         <span>进销存logo</span>
         <span>进销存v0.1</span>
       </div>
-      <a class="header-right"
-         href="/logout">登出</a>
+      <div class="header-right">
+        <el-dropdown>
+          <span class="el-icon-user-solid">{{userName}}</span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item onclick="location.href='/logout'">登出</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </div>
     </div>
   </header>
 </template>
@@ -14,7 +20,12 @@
 <script>
 export default {
   name: "IndexHeader",
-  data() {
+  props: {
+    "userName": {
+      type: String,
+    }
+  },
+  data () {
     return {};
   },
   methods: {}

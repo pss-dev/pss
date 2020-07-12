@@ -13,7 +13,7 @@
         @pageSizeChange="handleSizeChange"
       ></base-info-table>
     </el-main>
-    <el-footer class="footer">
+    <div class="footer">
       <el-button
         v-if="previousVisiable"
         @click="previous"
@@ -26,9 +26,9 @@
         size="small"
         :disabled="previousDisable"
       >下一层</el-button>
-      <el-button @click="ok" size="small">确定</el-button>
+      <el-button @click="ok" size="small" type="primary">确定</el-button>
       <el-button @click="close" size="small">关闭</el-button>
-    </el-footer>
+    </div>
   </el-container>
 </template>
   
@@ -135,5 +135,6 @@ export default {
 
 .footer {
   height: 30px;
+  text-align: center;
 }
 </style>

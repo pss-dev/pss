@@ -85,13 +85,7 @@
             </el-col>
             <el-col :span="12">
               <div>
-                <el-input
-                  type="textarea"
-                  maxlength="30"
-                  placeholder="摘要"
-                  autosize
-                  v-model="orderFormData.summary"
-                ></el-input>
+                <el-input maxlength="30" placeholder="摘要" v-model="orderFormData.summary"></el-input>
               </div>
             </el-col>
           </el-row>
@@ -240,19 +234,19 @@
                 ></el-button>
               </el-input>
             </el-col>
-            <el-col :span="3">
+            <el-col :span="2" class="money-label">
               <label class="account-label">收款金额：</label>
             </el-col>
             <el-col :span="3">
               <el-input placeholder="收款金额" v-model="orderFormData.money" @change="moneyChange"></el-input>
             </el-col>
-            <el-col :span="3">
+            <el-col :span="2" class="money-label">
               <label class="account-label">抹零金额：</label>
             </el-col>
             <el-col :span="3">
               <el-input placeholder="抹零金额" v-model="orderFormData.wipe" @change="moneyChange"></el-input>
             </el-col>
-            <el-col :span="3">
+            <el-col :span="2" class="money-label">
               <label class="account-label">抹零后金额：</label>
             </el-col>
             <el-col :span="3">
@@ -264,17 +258,17 @@
       <el-footer>
         <div>
           <el-row>
-            <el-col :span="3">
+            <el-col :span="2">
               <el-button v-if="writePermission" :disabled="verified()" @click="save()">保存草稿</el-button>
             </el-col>
-            <el-col :span="3">
+            <el-col :span="2">
               <el-button
                 v-if="verifyPermission"
                 :disabled="verified()"
                 @click="verifyOrderForm"
               >审核过账</el-button>
             </el-col>
-            <el-col :span="3">
+            <el-col :span="2">
               <el-button @click="showPrintDialog">打印</el-button>
             </el-col>
           </el-row>
@@ -893,5 +887,9 @@ export default {
   float: right;
   color: red;
   font-size: 20px;
+}
+
+.money-label {
+  text-align: right;
 }
 </style>

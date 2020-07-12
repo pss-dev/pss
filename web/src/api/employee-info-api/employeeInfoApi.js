@@ -47,11 +47,19 @@ function getPermission () {
   })
 }
 
+function getPrincipal () {
+  return fetch({
+    url: baseApi.baseApi('principal'),
+    method: 'get',
+  })
+}
+
 export default {
   getEmployeeInfo,
   addEmployeeInfo,
   modifyEmployeeInfo,
   deleteEmployeeInfo,
   getPermission,
+  getPrincipal,
   checkEmployeeDuplicate
 }

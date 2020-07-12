@@ -39,11 +39,8 @@
       <el-form-item label="拼音码" prop="initials">
         <el-input v-model="branchData.initials" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item>
-        <el-button @click="closeDialog">取 消</el-button>
-        <el-button type="primary" @click="submitData">确 定</el-button>
-      </el-form-item>
     </el-form>
+    <dialog-footer @closeDialog="closeDialog" @submitData="submitData"></dialog-footer>
     <company-search-dialog
       @closeDialog="closeCompanyDialog"
       @submitData="submitCompanyData"
@@ -55,11 +52,13 @@
 
 <script>
 import CompanySearchDialog from "../../../components/company-search-dialog.vue"
+import BaseInfoDialogFooter from "@/views/base-info/components/base-info-dialog-footer.vue"
 
 export default {
   name: "branchInfoDialog",
   components: {
-    "company-search-dialog": CompanySearchDialog
+    "company-search-dialog": CompanySearchDialog,
+    "dialog-footer": BaseInfoDialogFooter
   },
 
   props: {

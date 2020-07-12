@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="base-info-footer">
     <el-button v-if="newInfoVisiable" @click="newInfo" size="small">空白新增</el-button>
     <el-button
       v-if="copyNewVisiable"
@@ -124,4 +124,6 @@ export default {
 </script>
 
 <style>
+.base-info-footer {
+}
 </style>

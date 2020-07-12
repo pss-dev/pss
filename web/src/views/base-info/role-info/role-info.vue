@@ -4,74 +4,78 @@
       <el-aside class="role-cointainer">
         <el-container class="source-container">
           <el-main>
-            <el-table ref="roleTable"
-                      :data="tableData"
-                      highlight-current-row
-                      @current-change="handleCurrentChange"
-                      style="width: 100%">
-              <el-table-column prop="name"
-                               label="角色列表"></el-table-column>
+            <el-table
+              ref="roleTable"
+              :data="tableData"
+              highlight-current-row
+              @current-change="handleCurrentChange"
+              style="width: 100%"
+            >
+              <el-table-column prop="name" label="角色列表"></el-table-column>
             </el-table>
           </el-main>
           <el-footer>
-            <el-row>
-              <el-col :span="12">
-                <el-button v-if="writePermission"
-                           @click="newRole">添加</el-button>
-              </el-col>
-              <el-col :span="12">
-                <el-button v-if="deletePermission">删除</el-button>
-              </el-col>
-            </el-row>
+            <div class="role-footer">
+              <el-button v-if="writePermission" @click="newRole">添加</el-button>
+              <el-button v-if="deletePermission" @click="deleteInfo" type="danger">删除</el-button>
+            </div>
           </el-footer>
         </el-container>
         <div class="role-pane"></div>
       </el-aside>
       <el-main class="rule-pane">
-        <label v-if="isSelectedInfoInvalid()">please select a role</label>
-        <el-container v-if="!isSelectedInfoInvalid()"
-                      class="source-container">
+        <label v-if="isSelectedInfoInvalid()">请选择一个角色</label>
+        <el-container v-if="!isSelectedInfoInvalid()" class="source-container">
           <el-header>
+            <div class="role-name-pane">
+              角色名称：
+              <div class="role-name-input">
+                <el-input v-model="selectedInfo.name" @input="nameChange"></el-input>
+              </div>
+            </div>
             <el-row class="role-name-pane">
-              <el-col :span="3">角色名称：</el-col>
-              <el-col :span="6">
-                <el-input v-model="selectedInfo.name"
-                          @input="nameChange"></el-input>
-              </el-col>
+              <el-col :span="3"></el-col>
+              <el-col :span="6"></el-col>
             </el-row>
           </el-header>
           <el-main class="source-main">
+            <div class="role-name-pane">权限设置：</div>
             <el-container>
               <el-aside width="200px">
-                <el-tree :data="treeData"
-                         @node-click="handleNodeClick"
-                         :expand-on-click-node="false"></el-tree>
+                <el-container>
+                  <el-main class="source-tree">
+                    <el-tree
+                      :data="treeData"
+                      @node-click="handleNodeClick"
+                      :expand-on-click-node="false"
+                    ></el-tree>
+                  </el-main>
+                </el-container>
               </el-aside>
               <el-main>
                 <el-card>
-                  <div v-if="selectedSourceValid()">
-                    <el-checkbox @change="readChange"
-                                 v-model="readChecked">读</el-checkbox>
-                    <el-checkbox @change="writeChange"
-                                 v-model="writeChecked">写</el-checkbox>
-                    <el-checkbox @change="deleteChange"
-                                 v-model="deleteChecked">删</el-checkbox>
-                    <el-checkbox @change="verifyChange"
-                                 v-model="verifyChecked"
-                                 v-if="verifyVisiable">审核</el-checkbox>
+                  <div slot="header">
+                    <div v-if="!selectedSourceValid()">请选择资源</div>
+                    <span v-if="selectedSourceValid()">{{selectedSourceName}}</span>
                   </div>
-                  <div v-if="!selectedSourceValid()">请选择资源</div>
+                  <div v-if="selectedSourceValid()">
+                    <el-checkbox @change="readChange" v-model="readChecked">读</el-checkbox>
+                    <el-checkbox @change="writeChange" v-model="writeChecked">写</el-checkbox>
+                    <el-checkbox @change="deleteChange" v-model="deleteChecked">删</el-checkbox>
+                    <el-checkbox
+                      @change="verifyChange"
+                      v-model="verifyChecked"
+                      v-if="verifyVisiable"
+                    >审核</el-checkbox>
+                  </div>
                 </el-card>
               </el-main>
             </el-container>
           </el-main>
           <el-footer>
-            <el-row>
-              <el-col :span="4">
-                <el-button v-if="writePermission"
-                           @click="submitData">保存</el-button>
-              </el-col>
-            </el-row>
+            <div class="role-footer">
+              <el-button v-if="writePermission" @click="submitData">保存</el-button>
+            </div>
           </el-footer>
         </el-container>
       </el-main>
@@ -97,7 +101,7 @@ export default {
 
   props: {},
 
-  data() {
+  data () {
     return {
       titData: [{ prop: "name", label: "名称" }],
 
@@ -177,6 +181,7 @@ export default {
       ],
 
       selectedSource: -1,
+      selectedSourceName: "",
       selectedSourceRule: {},
 
       readChecked: false,
@@ -188,15 +193,16 @@ export default {
   },
 
   methods: {
-    handleCurrentChange(data) {
+    handleCurrentChange (data) {
       this.selectedInfo = data;
       this.selectedSource = -1;
+      this.selectedSourceName = "";
       this.selectedSourceRule = {};
     },
 
-    nameChange() {},
+    nameChange () { },
 
-    newRole() {
+    newRole () {
       let newRole = {
         id: null,
         name: "新角色1",
@@ -207,7 +213,7 @@ export default {
       this.$refs["roleTable"].setCurrentRow(newRole);
     },
 
-    submitData() {
+    submitData () {
       console.log("=====  submit ", this.selectedInfo);
 
       RoleInfoApi.checkRoleDuplicate(this.selectedInfo).then(res => {
@@ -231,13 +237,13 @@ export default {
       });
     },
 
-    deleteInfo() {
+    deleteInfo () {
       RoleInfoApi.deleteRoleInfo(this.selectedInfo).then(() => {
         this.getRoleInfo();
       });
     },
 
-    getRoleInfo() {
+    getRoleInfo () {
       RoleInfoApi.getRoleInfo().then(res => {
         console.log("==========getRoleInfo  ", res);
         this.setResponseResult(res.data);
@@ -245,10 +251,11 @@ export default {
       });
     },
 
-    handleNodeClick(data) {
+    handleNodeClick (data) {
       this.selectedSource = data.key;
+      this.selectedSourceName = data.label;
 
-      let permissions = this.selectedInfo.permissions.filter(function(rule) {
+      let permissions = this.selectedInfo.permissions.filter(function (rule) {
         return rule.resource == data.key;
       });
 
@@ -271,7 +278,7 @@ export default {
       console.log("==handleNodeClick ", this.selectedInfo);
     },
 
-    getNewRule(sourceValue) {
+    getNewRule (sourceValue) {
       let rule = {
         id: null,
         resource: sourceValue,
@@ -281,13 +288,13 @@ export default {
       return rule;
     },
 
-    selectedSourceValid() {
+    selectedSourceValid () {
       return this.selectedSource != -1;
     },
 
-    handleRuleChange() {},
+    handleRuleChange () { },
 
-    setRuleCheckBoxValue() {
+    setRuleCheckBoxValue () {
       this.readChecked =
         (this.selectedSourceRule.operator & RuleTool.rule.read) != 0;
       this.writeChecked =
@@ -298,7 +305,7 @@ export default {
         (this.selectedSourceRule.operator & RuleTool.rule.verify) != 0;
     },
 
-    readChange(value) {
+    readChange (value) {
       if (value) {
         this.selectedSourceRule.operator =
           this.selectedSourceRule.operator | RuleTool.rule.read;
@@ -312,7 +319,7 @@ export default {
       console.log("======= this.selectedSourceRule ", this.selectedSourceRule);
     },
 
-    writeChange(value) {
+    writeChange (value) {
       if (value) {
         this.selectedSourceRule.operator =
           this.selectedSourceRule.operator | RuleTool.rule.write;
@@ -326,7 +333,7 @@ export default {
       console.log("======= this.selectedSourceRule ", this.selectedSourceRule);
     },
 
-    deleteChange(value) {
+    deleteChange (value) {
       if (value) {
         this.selectedSourceRule.operator =
           this.selectedSourceRule.operator | RuleTool.rule.delete;
@@ -340,7 +347,7 @@ export default {
       console.log("======= this.selectedSourceRule ", this.selectedSourceRule);
     },
 
-    verifyChange(value) {
+    verifyChange (value) {
       if (value) {
         this.selectedSourceRule.operator =
           this.selectedSourceRule.operator | RuleTool.rule.verify;
@@ -355,7 +362,7 @@ export default {
     }
   },
 
-  created: function() {
+  created: function () {
     this.getRoleInfo();
     this.initPermission(RuleTool.resource.role);
   }
@@ -369,7 +376,7 @@ export default {
 
 .role-cointainer {
   width: 400px;
-  min-height: 400px;
+  min-height: 450px;
   text-align: center;
   border-right: 1px solid gray;
 }
@@ -378,11 +385,24 @@ export default {
   height: 100%;
 }
 
-.el-footer {
-  height: 32px;
+.role-name-input {
+  width: 150px;
+  display: inline-block;
+}
+
+.role-footer {
+  line-height: 60px;
 }
 
 .rule-pane {
   padding-bottom: 0px;
+}
+
+.source-tree {
+  padding-left: 0px;
+}
+
+.role-name-pane {
+  padding-left: 6px;
 }
 </style>
