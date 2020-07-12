@@ -15,7 +15,7 @@
 gradlew[.bat] clean build
 ```
 
-#### 1.2 Build Develop Environment
+#### 1.2 Build Production Environment
 ``` shell script
 gradlew[.bat] clean build -Pbuildenv=prod
 ```
@@ -39,13 +39,13 @@ Or
 gradlew[.bat] web:watch -Pbuildenv=prod # watch product mode
 ```
 
-#### 2.3 build jar
+#### 2.3 Build Release Jar
 
 ```shell script
 gradlew[.bat] cleanAll bootJar -Pbuildenv=prod
 ```
 
-#### 2.4 Run jar
+#### 2.4 Run Release Jar
 
 ```shell script
 java -jar pss-ms-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod
@@ -63,6 +63,10 @@ java -jar pss-ms-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod
 #### 3.3 Dao
 * 所有 Dao 都继承 `BaseDao` 就默认拥有简单 CURD 功能, 只有特殊业务场景或者需求时才需要在自己的 `daoImpl` 中去扩展
 * DELETE 操作使用 entity 实例对象删除而不是 ID
+
+#### 3.4 Audit/Log
+* 所有 `Audit` 在 `Service` 层或者 `Controller` 层处理
+* 使用 @Audit 注解, 可参考 `DepartmentServiceImpl`
 
 ### 4. 代码提交
 * Fix bug 携带 bug 号, GitHub 会自动关联, 格式为 `#2 message`
