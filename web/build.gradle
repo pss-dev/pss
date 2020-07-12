@@ -32,14 +32,34 @@ task compileProduction(type: NpmTask, dependsOn: npmInstall) {
 
 task compile(dependsOn: npmInstall) {
    group 'build'
-   description 'Compile angular'
+   description 'Compile vue'
    dependsOn compileDevelopment, compileProduction
 }
 
 task lint(type: NpmTask, dependsOn: npmInstall) {
    group 'verification'
-   description = 'Runs the linter on the TypeScript source code'
+   description = 'Runs the linter on source code'
    args = ['run', 'lint']
+}
+
+task watchDev(type: NpmTask, dependsOn: npmInstall) {
+   onlyIf { !productionBuild }
+   group 'verification'
+   description = 'Runs the watch on develop mode'
+   args = ['run', 'build:watch']
+}
+
+task watchProd(type: NpmTask, dependsOn: npmInstall) {
+   onlyIf { productionBuild }
+   group 'verification'
+   description = 'Runs the watch on product mode'
+   args = ['run', 'build:prod:watch']
+}
+
+task watch() {
+   group 'build'
+   description 'Watch source'
+   dependsOn watchDev, watchProd
 }
 
 task build(dependsOn: [lint, compile]) {

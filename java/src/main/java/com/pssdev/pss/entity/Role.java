@@ -1,5 +1,6 @@
 package com.pssdev.pss.entity;
 
+import com.pssdev.pss.util.SecurityUtil;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
@@ -40,5 +41,9 @@ public class Role implements Serializable {
 
   public void setPermissions(Set<Permission> permissions) {
     this.permissions = permissions;
+  }
+
+  public boolean isAdministrator() {
+    return SecurityUtil.Administrator.equals(name);
   }
 }

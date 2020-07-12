@@ -10,15 +10,45 @@
 * 前端在 `web/` 下
 
 ### 1. Build Project
+#### 1.1 Build Develop Environment
 ``` shell script
 gradlew[.bat] clean build
 ```
 
-### 2. Startup Project
+#### 1.2 Build Develop Environment
 ``` shell script
-gradlew[.bat] bootRun # 先编译后启动
-# or
-gradlew[.bat] server # 不会编译 classes
+gradlew[.bat] clean build -Pbuildenv=prod
+```
+
+### 2. Project Runner
+#### 2.1 Startup
+``` shell script
+gradlew[.bat] server
+Or
+gradlew[.bat] server -Pbuildenv=prod # Product Mode
+```
+
+#### 2.2 Compile
+```shell script
+gradlew[.bat] classes # 编译 Java 
+```
+
+```shell script
+gradlew[.bat] web:watch # watch 前端
+Or
+gradlew[.bat] web:watch -Pbuildenv=prod # watch product mode
+```
+
+#### 2.3 build jar
+
+```shell script
+gradlew[.bat] cleanAll bootJar -Pbuildenv=prod
+```
+
+#### 2.4 Run jar
+
+```shell script
+java -jar pss-ms-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod
 ```
 
 ### 3. Server 端编码规范

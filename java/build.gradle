@@ -36,7 +36,7 @@ dependencies {
 
    // datasource
    runtimeOnly "mysql:mysql-connector-java:${mysqlVersion}"
-   testRuntimeOnly 'com.h2database:h2'
+   runtimeOnly 'com.h2database:h2' // for test and develop mode
    implementation 'com.alibaba:druid:1.1.18'
 
    // security
@@ -95,8 +95,11 @@ task server() {
    doLast {
       javaexec {
          classpath sourceSets.main.runtimeClasspath
+         def envMode = productionBuild ? 'prod' : 'dev'
+
          main = 'com.pssdev.pss.PssApplication'
          jvmArgs = [
+            "-Dspring.profiles.active=${envMode}",
             '-Djava.rmi.server.hostname=127.0.0.1',
             '-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005']
          args = ['--stop-port', '8082', '--stop-key', 'stop']

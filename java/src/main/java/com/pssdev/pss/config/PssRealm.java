@@ -52,6 +52,10 @@ public class PssRealm extends AuthorizingRealm {
       // 添加角色
       authorizationInfo.addRole(role.getName());
 
+      if(role.isAdministrator()) {
+        authorizationInfo.addStringPermission(SecurityUtil.ALL_PERMISSION);
+      }
+
       // 添加权限
       for(Permission permission: role.getPermissions()) {
         authorizationInfo.addStringPermission(SecurityUtil.buildPermissionString(username, role, permission));

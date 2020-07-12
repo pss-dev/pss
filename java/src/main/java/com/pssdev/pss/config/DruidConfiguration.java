@@ -9,16 +9,12 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 
 import javax.sql.DataSource;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Configuration
 @ConditionalOnClass(DruidDataSource.class)
-@PropertySource(value = "classpath:pssdb/datasource.properties")
 public class DruidConfiguration {
 
     @Bean
