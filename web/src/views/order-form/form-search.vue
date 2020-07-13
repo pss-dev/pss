@@ -109,12 +109,7 @@
       <el-main>
         <div>
           <el-table
-            :data="
-							tableData.slice(
-								(currentPage - 1) * pageSize,
-								currentPage * pageSize
-							)
-						"
+            :data="tableData.slice((currentPage - 1) * pageSize,currentPage * pageSize)"
             border
             highlight-current-row
             @current-change="handleCurrentChange"

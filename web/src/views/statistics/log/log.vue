@@ -17,21 +17,62 @@
       </div>
     </el-header>
     <el-main>
-      <base-info-table :titles="titData" :tableData="tableData"></base-info-table>
+      <el-table
+        :data="tableData.slice((currentPage - 1) * pageSize,currentPage * pageSize)"
+        border
+        highlight-current-row
+        height="400"
+        style="width: 100%"
+      >
+        <el-table-column prop="date" label="操作时间">
+          <template slot-scope="scope">
+            <span>{{ scope.row.date.substring(0, 10) }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="employee" label="员工">
+          <template slot-scope="scope">
+            <span>{{ scope.row.employee }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="action" label="操作">
+          <template slot-scope="scope">
+            <span>{{ scope.row.action }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="resource" label="资源">
+          <template slot-scope="scope">
+            <span>{{ scope.row.resource }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="message" label="备注">
+          <template slot-scope="scope">
+            <span>{{ scope.row.message }}</span>
+          </template>
+        </el-table-column>
+      </el-table>
+      <el-pagination
+        class="pagination"
+        @size-change="pageSizeChange"
+        @current-change="pageChange"
+        :small="true"
+        :current-page="currentPage"
+        :page-sizes="[30, 50, 100, 200]"
+        layout="sizes, jumper, prev, next, total"
+        :total="totalSize"
+      ></el-pagination>
     </el-main>
   </el-container>
 </template>
 
 <script>
-import BaseInfoTabler from "../../base-info/components/base-info-table"
-
+import TableBaseInfo from "@/views/mixIns/table-base-info.js"
 import LogApi from "@/api/log-api/logApi.js"
 
 export default {
   name: "accountInfo",
+  mixins: [TableBaseInfo],
 
   components: {
-    "base-info-table": BaseInfoTabler,
   },
 
   props: {},
@@ -39,10 +80,6 @@ export default {
   data () {
     return {
       dateRangeValue: null,
-      titData:
-        [{ prop: "date", label: "时间" },
-        { prop: "employee", label: "员工" },
-        { prop: "action", label: "操作" }],
 
       tableData: []
     }
