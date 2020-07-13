@@ -1,8 +1,12 @@
 package com.pssdev.pss.service.impl;
 
+import com.pssdev.pss.annotation.Audit;
 import com.pssdev.pss.dao.EmployeeDao;
 import com.pssdev.pss.entity.Employee;
 import com.pssdev.pss.service.EmployeeService;
+import com.pssdev.pss.util.ActionType;
+import com.pssdev.pss.util.ResourceEnum;
+
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,18 +54,21 @@ public class EmployeeServiceImpl implements EmployeeService {
     return employeeDao.getAll();
   }
 
+  @Audit(value = ResourceEnum.EMPLOYEE)
   @Transactional
   @Override
   public void insertEmployee(Employee employee) {
     employeeDao.insert(employee);
   }
 
+  @Audit(value = ResourceEnum.EMPLOYEE, actionType = ActionType.MODIFY)
   @Transactional
   @Override
   public void updateEmployee(Employee employee) {
     employeeDao.update(employee);
   }
 
+  @Audit(value = ResourceEnum.EMPLOYEE, actionType = ActionType.DELETE)
   @Transactional
   @Override
   public void deleteEmployee(Employee employee) {

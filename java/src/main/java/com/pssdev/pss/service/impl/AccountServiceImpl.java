@@ -1,8 +1,12 @@
 package com.pssdev.pss.service.impl;
 
+import com.pssdev.pss.annotation.Audit;
 import com.pssdev.pss.dao.AccountDao;
 import com.pssdev.pss.entity.Account;
 import com.pssdev.pss.service.AccountService;
+import com.pssdev.pss.util.ActionType;
+import com.pssdev.pss.util.ResourceEnum;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -15,6 +19,7 @@ public class AccountServiceImpl implements AccountService {
   @Autowired
   private AccountDao accountDao;
 
+  @Audit(ResourceEnum.ACCOUNT)
   @Override
   @Transactional
   public void insertAccount(Account account) throws Exception {
@@ -33,12 +38,14 @@ public class AccountServiceImpl implements AccountService {
     accountDao.insert(account);
   }
 
+  @Audit(value = ResourceEnum.ACCOUNT, actionType = ActionType.DELETE)
   @Override
   @Transactional
   public void deleteAccount(Account account) {
     accountDao.delete(account);
   }
 
+  @Audit(value = ResourceEnum.ACCOUNT, actionType = ActionType.MODIFY)
   @Override
   @Transactional
   public void updateAccount(Account account) throws Exception {

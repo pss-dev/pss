@@ -1,9 +1,13 @@
 package com.pssdev.pss.service.impl;
 
+import com.pssdev.pss.annotation.Audit;
 import com.pssdev.pss.dao.DepotDao;
 import com.pssdev.pss.dao.ProductDao;
 import com.pssdev.pss.entity.*;
 import com.pssdev.pss.service.DepotService;
+import com.pssdev.pss.util.ActionType;
+import com.pssdev.pss.util.ResourceEnum;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -18,6 +22,7 @@ public class DepotServiceImpl implements DepotService {
   @Autowired
   private ProductDao productDao;
 
+  @Audit(value = ResourceEnum.DEPOT)
   @Override
   @Transactional
   public void insertDepot(Depot Depot) throws Exception {
@@ -36,6 +41,7 @@ public class DepotServiceImpl implements DepotService {
     depotDao.insert(Depot);
   }
 
+  @Audit(value = ResourceEnum.DEPOT, actionType = ActionType.DELETE)
   @Override
   @Transactional
   public void deleteDepot(Depot depot) {
@@ -61,6 +67,7 @@ public class DepotServiceImpl implements DepotService {
     return depotDao.getInventoryProducts(depot, productFatherID);
   }
 
+  @Audit(value = ResourceEnum.DEPOT, actionType = ActionType.MODIFY)
   @Override
   @Transactional
   public void updateDepot(Depot depot) throws Exception {

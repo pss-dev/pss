@@ -1,8 +1,12 @@
 package com.pssdev.pss.service.impl;
 
+import com.pssdev.pss.annotation.Audit;
 import com.pssdev.pss.dao.CompanyDao;
 import com.pssdev.pss.entity.Company;
 import com.pssdev.pss.service.CompanyService;
+import com.pssdev.pss.util.ActionType;
+import com.pssdev.pss.util.ResourceEnum;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +18,7 @@ public class CompanyServiceImpl implements CompanyService {
   @Autowired
   private CompanyDao companyDao;
 
+  @Audit(value = ResourceEnum.COMPANY)
   @Override
   @Transactional
   public void insertCompany(Company company) throws Exception {
@@ -28,12 +33,14 @@ public class CompanyServiceImpl implements CompanyService {
     companyDao.insert(company);
   }
 
+  @Audit(value = ResourceEnum.COMPANY, actionType = ActionType.DELETE)
   @Override
   @Transactional
   public void deleteCompany(Company company) {
     companyDao.delete(company);
   }
 
+  @Audit(value = ResourceEnum.COMPANY, actionType = ActionType.MODIFY)
   @Override
   @Transactional
   public void modifyCompany(Company company) throws Exception {

@@ -52,9 +52,9 @@ public class OrderFormController {
     // check 'verify' perimission
     if (orderForm.getId() == null) {
       orderForm.setCreatUser(user);
-      orderFormService.insertOrderForm(orderForm);
+      orderFormService.verifyOrderForm(orderForm, true);
     } else {
-      orderFormService.modifyOrderForm(orderForm);
+      orderFormService.verifyOrderForm(orderForm, false);
     }
 
     Depot depot = orderForm.getDepot();

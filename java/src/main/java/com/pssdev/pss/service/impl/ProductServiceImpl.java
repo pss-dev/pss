@@ -1,11 +1,14 @@
 package com.pssdev.pss.service.impl;
 
+import com.pssdev.pss.annotation.Audit;
 import com.pssdev.pss.dao.ProductDao;
 import com.pssdev.pss.entity.PriceValue;
 import com.pssdev.pss.entity.Product;
 import com.pssdev.pss.entity.ProductUnitPrice;
 import com.pssdev.pss.service.ProductService;
 import com.pssdev.pss.util.ActionType;
+import com.pssdev.pss.util.ResourceEnum;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -20,16 +23,19 @@ public class ProductServiceImpl implements ProductService {
   @Autowired
   private ProductDao productDao;
 
+  @Audit(value = ResourceEnum.PRODUCT)
   @Override
   public Integer insertProduct(Product product) throws Exception {
     return this.productDao.insert(product);
   }
 
+  @Audit(value = ResourceEnum.PRODUCT, actionType = ActionType.DELETE)
   @Override
   public void deleteProduct(Product product) {
     this.productDao.delete(product);
   }
 
+  @Audit(value = ResourceEnum.PRODUCT, actionType = ActionType.MODIFY)
   @Override
   public void modifyProduct(Product product) throws Exception {
     Product old = this.productDao.get(product.getId());

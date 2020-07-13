@@ -5,8 +5,6 @@ import com.pssdev.pss.model.OrderFormSearchModel;
 
 import java.util.List;
 
-import javax.persistence.criteria.Order;
-
 public interface OrderFormService {
   /**
    * 插入单据信息
@@ -28,6 +26,13 @@ public interface OrderFormService {
    * @param orderForm
    */
   void modifyOrderForm(OrderForm orderForm) throws Exception;
+
+  /**
+   * 审核单据
+   * 
+   * @param orderForm
+   */
+  void verifyOrderForm(OrderForm orderForm, boolean insert) throws Exception;
 
   /**
    * 获得所有单据信息

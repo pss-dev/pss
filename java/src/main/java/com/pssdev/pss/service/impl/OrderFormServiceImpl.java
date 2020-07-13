@@ -1,11 +1,15 @@
 package com.pssdev.pss.service.impl;
 
+import com.pssdev.pss.annotation.Audit;
 import com.pssdev.pss.dao.OrderFormDao;
 import com.pssdev.pss.entity.OrderForm;
 import com.pssdev.pss.entity.OrderFormProduct;
 import com.pssdev.pss.entity.DepotItem;
 import com.pssdev.pss.model.OrderFormSearchModel;
 import com.pssdev.pss.service.*;
+import com.pssdev.pss.util.ActionType;
+import com.pssdev.pss.util.ResourceEnum;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,11 +24,13 @@ public class OrderFormServiceImpl implements OrderFormService {
   @Autowired
   private DepotService depotService;
 
+  @Audit(value = ResourceEnum.ORDERFORM)
   @Override
   public Long insertOrderForm(OrderForm orderForm) throws Exception {
     return this.orderFormDao.insert(orderForm);
   }
 
+  @Audit(value = ResourceEnum.ORDERFORM, actionType = ActionType.DELETE)
   @Override
   public void deleteOrderForm(OrderForm orderForm) {
     if (orderForm != null && orderForm.getId() != null) {
@@ -32,9 +38,20 @@ public class OrderFormServiceImpl implements OrderFormService {
     }
   }
 
+  @Audit(value = ResourceEnum.ORDERFORM, actionType = ActionType.MODIFY)
   @Override
   public void modifyOrderForm(OrderForm orderForm) throws Exception {
     this.orderFormDao.update(orderForm);
+  }
+
+  @Audit(value = ResourceEnum.ORDERFORM, actionType = ActionType.VERIFY)
+  @Override
+  public void verifyOrderForm(OrderForm orderForm, boolean insert) throws Exception {
+    if (insert) {
+      this.initOrderForm(orderForm);
+    } else {
+      this.modifyOrderForm(orderForm);
+    }
   }
 
   @Override
