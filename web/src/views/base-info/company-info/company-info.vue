@@ -130,7 +130,7 @@ export default {
       console.log("====== submitData ", companyData);
 
       companyInfoApi.checkCompanyDuplicate(companyData).then((res) => {
-        if (res.data == false) {
+        if (res.data == true) {
           this.$message({
             message: "来往单位名称重复",
             type: "error",

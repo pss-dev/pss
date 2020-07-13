@@ -27,7 +27,7 @@ public class EmployeeController {
   public boolean checkEmployeeDuplicate(@RequestBody Employee employee) throws Exception {
     Employee emp = employeeService.getEmployeeByName(employee.getName());
 
-    return emp == null;
+    return emp != null && emp.getId() != employee.getId();
   }
 
   @PostMapping("/employee")

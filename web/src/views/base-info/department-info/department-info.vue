@@ -112,7 +112,7 @@ export default {
       console.log("======departmentData  ", departmentData);
 
       departmentInfoApi.checkDepartmentDuplicate(departmentData).then((res) => {
-        if (res.data == false) {
+        if (res.data == true) {
           this.$message({
             message: "部门名称重复",
             type: "error",

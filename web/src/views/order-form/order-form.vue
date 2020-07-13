@@ -542,9 +542,16 @@ export default {
     },
 
     showProductSelectDialog (row) {
-      this.productDialogVisiable = true;
-      this.scopeValue = row;
-
+      if (this.getDepotID() == null) {
+        this.$message({
+          message: `请先选择仓库！`,
+          showClose: true
+        });
+      }
+      else {
+        this.productDialogVisiable = true;
+        this.scopeValue = row;
+      }
     },
 
     closeProductDialog () {

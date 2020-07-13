@@ -41,7 +41,7 @@ public class DepartmentController {
   public boolean checkDepartmentDuplicate(@RequestBody Department department) throws Exception {
     Department dept = departmentService.getDepartmentByName(department.getName());
 
-    return dept == null;
+    return dept != null && dept.getId() != department.getId();
   }
 
   @PostMapping("/department")

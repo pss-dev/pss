@@ -165,7 +165,7 @@ export default {
       console.log("========= submitData ", productData);
 
       productInfoApi.checkProductDuplicate(productData).then((res) => {
-        if (res.data == false) {
+        if (res.data == true) {
           this.$message({
             message: "商品编号重复",
             type: "error",

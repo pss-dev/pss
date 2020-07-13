@@ -25,7 +25,7 @@ public class RoleController {
   public boolean checkRoleDuplicate(@RequestBody Role role) throws Exception {
     Role rol = roleService.getRoleByName(role.getName());
 
-    return rol == null;
+    return rol != null && rol.getId() != role.getId();
   }
 
   @DeleteMapping("/role")

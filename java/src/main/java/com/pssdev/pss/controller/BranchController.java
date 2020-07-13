@@ -36,7 +36,7 @@ public class BranchController {
   public boolean checkBranchDuplicate(@RequestBody Branch branch) throws Exception {
     Branch bra = branchService.getBranchByName(branch.getName());
 
-    return bra == null;
+    return bra != null && bra.getId() != branch.getId();
   }
 
   @GetMapping("/branches")

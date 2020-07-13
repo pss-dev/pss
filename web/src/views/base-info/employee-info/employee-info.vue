@@ -109,7 +109,7 @@ export default {
       console.log("====== submitData ", employeeData);
 
       employeeInfoApi.checkEmployeeDuplicate(employeeData).then((res) => {
-        if (res.data == false) {
+        if (res.data == true) {
           this.$message({
             message: "员工名称重复",
             type: "error",

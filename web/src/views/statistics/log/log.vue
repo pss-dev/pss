@@ -62,7 +62,7 @@ export default {
 
       LogApi.getLogData(params).then((res) => {
         console.log(res);
-        this.tableData = res;
+        this.tableData = res.data;
       });
     },
 

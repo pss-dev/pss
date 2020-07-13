@@ -25,7 +25,7 @@ public class CompanyController {
   public boolean checkCompanyDuplicate(@RequestBody Company company) throws Exception {
     Company com = companyService.getCompanyByName(company.getName());
 
-    return com == null;
+    return com != null && com.getId() != company.getId();
   }
 
   @DeleteMapping("/company")

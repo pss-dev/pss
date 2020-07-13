@@ -25,7 +25,7 @@ public class ProductUnitController {
   public boolean checkProductUnitDuplicate(@RequestBody ProductUnit productUnit) throws Exception {
     ProductUnit unit = productUnitService.getUnitByName(productUnit.getName());
 
-    return unit == null;
+    return unit != null && unit.getId() != productUnit.getId();
   }
 
   @DeleteMapping("/unit")

@@ -43,7 +43,7 @@ public class ProductController {
   public boolean checkProductDuplicate(@RequestBody Product product) throws Exception {
     Product pro = productService.getProductByName(product.getName());
 
-    return pro == null;
+    return pro != null && pro.getId() != product.getId();
   }
 
   @DeleteMapping("/product")

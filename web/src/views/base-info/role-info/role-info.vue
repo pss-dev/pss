@@ -217,7 +217,7 @@ export default {
       console.log("=====  submit ", this.selectedInfo);
 
       RoleInfoApi.checkRoleDuplicate(this.selectedInfo).then(res => {
-        if (res.data == false) {
+        if (res.data == true) {
           this.$message({
             message: "角色名称重复",
             type: "error",

@@ -111,20 +111,31 @@ export default {
     },
 
     submitData (depotData) {
-      var getInfoParams = this.getParameterForNewTable(this.getParentID());
+      depotInfoApi.checkDepotDuplicate(depotData).then((res) => {
+        if (res.data == true) {
+          this.$message({
+            message: "仓库名称重复",
+            type: "error",
+            showClose: true
+          });
+        }
+        else {
+          var getInfoParams = this.getParameterForNewTable(this.getParentID());
 
-      if (this.addInfo) {
-        depotInfoApi.addDepotInfo(depotData).then(
-          () => {
-            this.getDepotInfo(getInfoParams);
-          });
-      }
-      else {
-        depotInfoApi.modifyDepotInfo(depotData).then(
-          () => {
-            this.getDepotInfo(getInfoParams);
-          });
-      }
+          if (this.addInfo) {
+            depotInfoApi.addDepotInfo(depotData).then(
+              () => {
+                this.getDepotInfo(getInfoParams);
+              });
+          }
+          else {
+            depotInfoApi.modifyDepotInfo(depotData).then(
+              () => {
+                this.getDepotInfo(getInfoParams);
+              });
+          }
+        }
+      });
     },
 
     deleteInfo () {

@@ -26,7 +26,7 @@ public class DepotController {
   public boolean checkDepotDuplicate(@RequestBody Depot depot) throws Exception {
     Depot depo = depotService.getDepotByName(depot.getName());
 
-    return depo == null;
+    return depo != null && depo.getId() != depot.getId();
   }
 
   @DeleteMapping("/depot")

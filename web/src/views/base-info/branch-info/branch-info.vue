@@ -116,7 +116,7 @@ export default {
       console.log("====== branchData ", branchData);
 
       branchInfoApi.checkBranchDuplicate(branchData).then((res) => {
-        if (res.data == false) {
+        if (res.data == true) {
           this.$message({
             message: "分级机构名称重复",
             type: "error",

@@ -1,7 +1,10 @@
 <template class="c1">
   <div>
+    <el-input v-model="search" size="mini" placeholder="输入关键字搜索" />
     <el-table
-      :data="tableData.slice((currentPage-1) * pageSize, currentPage * pageSize)"
+      :data="search !== '' ? tableData.filter(data =>
+        data.name.toLowerCase().includes(search.toLowerCase())): 
+        tableData.slice((currentPage-1) * pageSize, currentPage * pageSize)"
       border
       highlight-current-row
       @current-change="handleCurrentChange"
@@ -61,6 +64,7 @@ export default {
 
   data () {
     return {
+      search: ''
     }
   },
 

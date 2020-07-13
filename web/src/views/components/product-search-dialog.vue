@@ -50,8 +50,6 @@ export default {
         { prop: "product.identifier", label: "编号" },
         { prop: "product.name", label: "名称" },
         { prop: "productCount", label: "库存" }],
-
-      tableData: [],
     }
   },
 

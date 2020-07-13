@@ -104,7 +104,7 @@ export default {
 
     submitData (unitData) {
       unitInfoApi.checkUnitDuplicate(unitData).then((res) => {
-        if (res.data == false) {
+        if (res.data == true) {
           this.$message({
             message: "单位名称重复",
             type: "error",

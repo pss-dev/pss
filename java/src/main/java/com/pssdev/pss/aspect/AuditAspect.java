@@ -21,65 +21,61 @@ import java.util.Objects;
 @Aspect
 public class AuditAspect {
 
-   @Autowired
-   public AuditAspect(LogService logService) {
-      this.logService = logService;
-   }
+  @Autowired
+  public AuditAspect(LogService logService) {
+    this.logService = logService;
+  }
 
-   @Pointcut("@annotation(com.pssdev.pss.annotation.Audit) && within(com.pssdev.pss..*)")
-   public void audit() {
-   }
+  @Pointcut("@annotation(com.pssdev.pss.annotation.Audit) && within(com.pssdev.pss..*)")
+  public void audit() {
+  }
 
-   @Around("audit()")
-   public Object recordLog(ProceedingJoinPoint pjp) throws Throwable {
-      Log log = null;
-      Object principal = null;
+  @Around("audit()")
+  public Object recordLog(ProceedingJoinPoint pjp) throws Throwable {
+    Log log = null;
+    Object principal = null;
 
-      try {
-         Subject subject = SecurityUtils.getSubject();
-         principal = subject.getPrincipal();
-      }
-      catch(Exception ignore) {
-      }
+    try {
+      Subject subject = SecurityUtils.getSubject();
+      principal = subject.getPrincipal();
+    } catch (Exception ignore) {
+    }
 
-      try {
-         MethodSignature signature = (MethodSignature) pjp.getSignature();
-         Audit annotation = signature.getMethod().getAnnotation(Audit.class);
-         ResourceEnum resource = annotation.value();
-         ActionType actionType = annotation.actionType();
+    try {
+      MethodSignature signature = (MethodSignature) pjp.getSignature();
+      Audit annotation = signature.getMethod().getAnnotation(Audit.class);
+      ResourceEnum resource = annotation.value();
+      ActionType actionType = annotation.actionType();
+      System.out.println("===========audit " + resource.getLabel());
+      log = new Log();
+      log.setDate(new Date());
+      log.setEmployee(Objects.toString(principal, SecurityUtil.Anonymous));
+      log.setResource(resource.getLabel());
+      log.setAction(actionType.getLabel());
+    } catch (Exception ignore) {
+      LOGGER.warn("Build Log Failed!");
+    }
 
-         log = new Log();
-         log.setDate(new Date());
-         log.setEmployee(Objects.toString(principal, SecurityUtil.Anonymous));
-         log.setResource(resource.getLabel());
-         log.setAction(actionType.getLabel());
-      }
-      catch(Exception ignore) {
-         LOGGER.warn("Build Log Failed!");
-      }
+    Object result;
 
-      Object result;
-
-      try {
-         result = pjp.proceed();
-      }
-      catch(Throwable throwable) {
-         if(log != null) {
-            log.setMessage("Execute Failed: " + throwable.getMessage());
-         }
-
-         throw throwable;
-      }
-      finally {
-         if(log != null) {
-            logService.insertLog(log);
-         }
+    try {
+      result = pjp.proceed();
+    } catch (Throwable throwable) {
+      if (log != null) {
+        log.setMessage("Execute Failed: " + throwable.getMessage());
       }
 
-      return result;
-   }
+      throw throwable;
+    } finally {
+      if (log != null) {
+        logService.insertLog(log);
+      }
+    }
 
-   private final LogService logService;
+    return result;
+  }
 
-   private static final Logger LOGGER = LoggerFactory.getLogger(AuditAspect.class);
+  private final LogService logService;
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(AuditAspect.class);
 }
