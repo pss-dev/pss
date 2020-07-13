@@ -77,7 +77,7 @@ dependencies {
 
 task cleanAll(type: Delete, dependsOn: [clean]) {
    group 'build'
-   delete = ['out', '.gradle']
+   delete = ['out']
 }
 
 test {
