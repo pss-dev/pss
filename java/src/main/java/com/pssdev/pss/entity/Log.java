@@ -73,4 +73,46 @@ public class Log {
        ", message='" + message + '\'' +
        '}';
   }
+
+  public static int exportColumnCount() {
+    return 6;
+  }
+
+  public static String exportLabel(int index) {
+    switch(index) {
+      case 0:
+        return "编号"; // id
+      case 1:
+        return "资源"; // resource
+      case 2:
+        return "行为"; // action
+      case 3:
+        return "操作人"; // employee
+      case 4:
+        return "日期"; // date
+      case 5:
+        return "备注"; // message
+      default:
+        return null;
+    }
+  }
+
+  public static Object exportData(Log log, int index) {
+    switch(index) {
+      case 0:
+        return log.id; // id
+      case 1:
+        return log.resource; // resource
+      case 2:
+        return log.action; // action
+      case 3:
+        return log.employee; // employee
+      case 4:
+        return log.date; // date
+      case 5:
+        return log.message; // message
+      default:
+        return null;
+    }
+  }
 }

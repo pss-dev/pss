@@ -5,7 +5,7 @@ import com.pssdev.pss.model.LogSearchModel;
 
 import java.util.List;
 
-public interface LogService {
+public interface LogService extends ExportService {
   void insertLog(Log log) throws Exception;
 
   void deleteLog(Log log);

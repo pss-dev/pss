@@ -45,6 +45,11 @@ dependencies {
    }
    implementation "org.apache.shiro:shiro-spring:${shiroVersion}"
 
+   // poi
+   implementation "org.apache.poi:poi:${poiVersion}"
+   implementation "org.apache.poi:poi-ooxml-schemas:${poiVersion}"
+   implementation "org.apache.poi:poi-ooxml:${poiVersion}"
+
    // tools
    developmentOnly 'org.springframework.boot:spring-boot-devtools'
    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'

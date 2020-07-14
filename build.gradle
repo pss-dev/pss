@@ -22,6 +22,7 @@ allprojects {
          swaggerVersion = "2.9.2"
          shiroVersion = "1.5.3"
          mysqlVersion = '8.0.20'
+         poiVersion = "4.1.2"
 
          // all projects variable
          productionBuild = project.hasProperty('buildenv') && project.property('buildenv') == 'prod'

@@ -9,7 +9,9 @@ function getLogData (data) {
   })
 }
 
+const exportUrl = baseApi.baseApi('log/export');
 
 export default {
   getLogData,
+  exportUrl
 }

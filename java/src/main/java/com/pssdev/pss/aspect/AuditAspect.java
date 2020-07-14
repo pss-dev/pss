@@ -46,7 +46,6 @@ public class AuditAspect {
       Audit annotation = signature.getMethod().getAnnotation(Audit.class);
       ResourceEnum resource = annotation.value();
       ActionType actionType = annotation.actionType();
-      System.out.println("===========audit " + resource.getLabel());
       log = new Log();
       log.setDate(new Date());
       log.setEmployee(Objects.toString(principal, SecurityUtil.Anonymous));

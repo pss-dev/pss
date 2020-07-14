@@ -9,9 +9,6 @@ public interface LogDao extends CURDDao<Log, Integer> {
 
   /**
    * 查询单据
-   * 
-   * @param model
-   * @return
    */
   List<Log> search(LogSearchModel model);
 }

@@ -14,6 +14,10 @@
           :disabled="isDateRangeValueInvalid()"
           @click="searchLogData"
         >查询</el-button>
+        <el-button
+          class="export-button"
+          @click="exportLogData"
+        >导出</el-button>
       </div>
     </el-header>
     <el-main>
@@ -105,6 +109,10 @@ export default {
 
     isDateRangeValueInvalid () {
       return this.dateRangeValue == null;
+    },
+
+    exportLogData () {
+       window.open(LogApi.exportUrl);
     },
   },
 
