@@ -95,14 +95,12 @@ export default {
         return;
       }
 
-      var params = {
+      let params = {
         startDate: this.dateRangeValue[0].getTime(),
         endDate: this.dateRangeValue[1].getTime()
       };
-      console.log("====== searchLogData ", params);
 
       LogApi.getLogData(params).then((res) => {
-        console.log(res);
         this.tableData = res.data;
       });
     },
@@ -112,7 +110,14 @@ export default {
     },
 
     exportLogData () {
-       window.open(LogApi.exportUrl);
+       let params = "";
+
+       if(!!this.dateRangeValue) {
+          params = "?startDate=" + this.dateRangeValue[0].getTime()
+            + "&endDate=" + this.dateRangeValue[1].getTime()
+       }
+
+       window.open(LogApi.exportUrl + params);
     },
   },
 

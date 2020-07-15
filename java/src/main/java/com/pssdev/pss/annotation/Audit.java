@@ -15,5 +15,13 @@ public @interface Audit {
     */
    ResourceEnum value();
 
+   /**
+    * op object name
+    */
+   String objectName() default "";
+
+   /**
+    * op
+    */
    ActionType actionType() default ActionType.ADD;
 }

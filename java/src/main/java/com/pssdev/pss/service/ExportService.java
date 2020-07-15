@@ -2,9 +2,9 @@ package com.pssdev.pss.service;
 
 import java.io.OutputStream;
 
-public interface ExportService {
+public interface ExportService <T> {
 
    String Excel2007_Suffix = ".xlsx";
 
-   void export(OutputStream out) throws Exception;
+   void export(OutputStream out, T filter) throws Exception;
 }

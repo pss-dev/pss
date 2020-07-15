@@ -1,6 +1,7 @@
 package com.pssdev.pss.aspect;
 
 import com.pssdev.pss.annotation.Audit;
+import com.pssdev.pss.annotation.AuditObject;
 import com.pssdev.pss.entity.Log;
 import com.pssdev.pss.service.LogService;
 import com.pssdev.pss.util.*;
@@ -13,7 +14,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.expression.Expression;
+import org.springframework.expression.spel.standard.SpelExpressionParser;
+import org.springframework.expression.spel.support.StandardEvaluationContext;
+import org.springframework.util.StringUtils;
 
+import java.lang.annotation.Annotation;
 import java.util.Date;
 import java.util.Objects;
 
@@ -46,10 +52,41 @@ public class AuditAspect {
       Audit annotation = signature.getMethod().getAnnotation(Audit.class);
       ResourceEnum resource = annotation.value();
       ActionType actionType = annotation.actionType();
+      String objectName = annotation.objectName();
+
+      Annotation[][] paramAnnotations
+         = signature.getMethod().getParameterAnnotations();
+
+      for(int i = 0; i < paramAnnotations.length; i++) {
+        for(int j = 0; j < paramAnnotations[i].length; j++) {
+          if(StringUtils.isEmpty(objectName)
+             && paramAnnotations[i][j] instanceof AuditObject)
+          {
+            AuditObject auditObject = (AuditObject) paramAnnotations[i][j];
+            Object arg = pjp.getArgs()[i];
+
+            if(auditObject.value().isEmpty()) {
+              objectName = String.valueOf(arg);
+            }
+            else {
+              StandardEvaluationContext context = new StandardEvaluationContext(arg);
+              Expression expr = spelParser.parseExpression(auditObject.value());
+              objectName = expr.getValue(context, String.class);
+            }
+
+            break;
+          }
+        }
+
+        if(StringUtils.hasText(objectName)) {
+          break;
+        }
+      }
+
       log = new Log();
       log.setDate(new Date());
       log.setEmployee(Objects.toString(principal, SecurityUtil.Anonymous));
-      log.setResource(resource.getLabel());
+      log.setResource(resource.getLabel() + ":" + objectName);
       log.setAction(actionType.getLabel());
     } catch (Exception ignore) {
       LOGGER.warn("Build Log Failed!");
@@ -75,6 +112,7 @@ public class AuditAspect {
   }
 
   private final LogService logService;
+  private final SpelExpressionParser spelParser = new SpelExpressionParser();
 
   private static final Logger LOGGER = LoggerFactory.getLogger(AuditAspect.class);
 }

@@ -25,8 +25,9 @@ public class LogDaoImpl extends BaseDao<Log, Integer> implements LogDao {
     List<Predicate> conditons = new ArrayList<>();
 
     if(model != null) {
+      // search query result: [start, end)
       if(model.getStartDate() > 0) {
-        conditons.add(criteriaBuilder.greaterThan(root.get("date"), new Date(model.getStartDate())));
+        conditons.add(criteriaBuilder.greaterThanOrEqualTo(root.get("date"), new Date(model.getStartDate())));
       }
 
       if (model.getEndDate() > 0) {

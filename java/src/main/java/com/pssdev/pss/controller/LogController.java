@@ -32,10 +32,17 @@ public class LogController {
   }
 
   @GetMapping("/log/export")
-  public void export(HttpServletResponse response) throws Exception {
+  public void export(@RequestParam(value = "startDate", required = false) Long startDate,
+                     @RequestParam(value = "endDate", required = false) Long endDate,
+                     HttpServletResponse response) throws Exception {
     ServletOutputStream out = response.getOutputStream();
+    LogSearchModel filter = null;
 
-    logService.export(out);
+    if(startDate != null) {
+      filter = new LogSearchModel(startDate, endDate);
+    }
+
+    logService.export(out, filter);
 
     LocalDateTime localDateTime = LocalDateTime.now();
     String fileName = "Pss MS Audit-"

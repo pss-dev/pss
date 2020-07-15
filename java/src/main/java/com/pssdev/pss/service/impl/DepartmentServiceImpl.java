@@ -1,6 +1,7 @@
 package com.pssdev.pss.service.impl;
 
 import com.pssdev.pss.annotation.Audit;
+import com.pssdev.pss.annotation.AuditObject;
 import com.pssdev.pss.dao.DepartmentDao;
 import com.pssdev.pss.entity.Department;
 import com.pssdev.pss.service.DepartmentService;
@@ -65,7 +66,7 @@ public class DepartmentServiceImpl implements DepartmentService {
   @Transactional
   @CacheEvict(allEntries = true)
   @Override
-  public int insertDepartment(Department department) {
+  public int insertDepartment(@AuditObject("getName()") Department department) {
     return departmentDao.insert(department);
   }
 
@@ -83,7 +84,7 @@ public class DepartmentServiceImpl implements DepartmentService {
      }
   )
   @Override
-  public void updateDepartment(Department department) {
+  public void updateDepartment(@AuditObject("getName()") Department department) {
     departmentDao.update(department);
   }
 
@@ -91,7 +92,7 @@ public class DepartmentServiceImpl implements DepartmentService {
   @Transactional
   @CacheEvict(allEntries = true)
   @Override
-  public void deleteDepartment(Department dept) {
+  public void deleteDepartment(@AuditObject("getName()") Department dept) {
     assert dept.getId() != null;
     departmentDao.delete(dept);
   }

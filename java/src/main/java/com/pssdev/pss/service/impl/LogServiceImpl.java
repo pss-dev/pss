@@ -61,7 +61,7 @@ public class LogServiceImpl implements LogService {
   }
 
   @Transactional(readOnly = true)
-  public void export(OutputStream out) throws Exception {
+  public void export(OutputStream out, LogSearchModel filter) throws Exception {
     int columnCount = Log.exportColumnCount();
 
     HSSFWorkbook workbook = HSSFWorkbookFactory.createWorkbook();
@@ -89,7 +89,7 @@ public class LogServiceImpl implements LogService {
     }
 
     // fill data
-    List<Log> logs = logDao.search(null);
+    List<Log> logs = logDao.search(filter);
     HSSFRow dataRow;
 
     for(Log log : logs) {
