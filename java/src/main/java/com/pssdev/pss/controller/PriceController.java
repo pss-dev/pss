@@ -14,21 +14,6 @@ public class PriceController {
   @Autowired
   private PriceService priceService;
 
-  @PostMapping("/price")
-  @RequiresPermissions("*:8:w")
-  public List<Price> insertPrices(@RequestBody Price price) throws Exception {
-    priceService.insertPrice(price);
-    return priceService.getPrices();
-  }
-
-  @DeleteMapping("/price")
-  @RequiresPermissions("*:8:d")
-  public List<Price> deletePrice(@RequestBody Price price) {
-    priceService.deletePrice(price);
-
-    return priceService.getPrices();
-  }
-
   @PutMapping("/price")
   @RequiresPermissions("*:8:w")
   public List<Price> modifyPrice(@RequestBody Price price) throws Exception {

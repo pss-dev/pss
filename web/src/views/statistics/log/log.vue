@@ -16,6 +16,7 @@
         >查询</el-button>
         <el-button
           class="export-button"
+          :disabled="isDateRangeValueInvalid()"
           @click="exportLogData"
         >导出</el-button>
       </div>
@@ -110,14 +111,14 @@ export default {
     },
 
     exportLogData () {
-       let params = "";
+      let params = "";
 
-       if(!!this.dateRangeValue) {
-          params = "?startDate=" + this.dateRangeValue[0].getTime()
-            + "&endDate=" + this.dateRangeValue[1].getTime()
-       }
+      if (this.dateRangeValue && this.dateRangeValue.length == 2) {
+        params = "?startDate=" + this.dateRangeValue[0].getTime()
+          + "&endDate=" + this.dateRangeValue[1].getTime()
+      }
 
-       window.open(LogApi.exportUrl + params);
+      window.open(LogApi.exportUrl + params);
     },
   },
 

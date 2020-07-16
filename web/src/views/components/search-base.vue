@@ -20,12 +20,7 @@
         size="small"
         :disabled="previousDisable"
       >上一层</el-button>
-      <el-button
-        v-if="nextVisiable"
-        @click="getChildData"
-        size="small"
-        :disabled="previousDisable"
-      >下一层</el-button>
+      <el-button v-if="nextVisiable" @click="getChildData" size="small" :disabled="nextDisable">下一层</el-button>
       <el-button @click="ok" size="small" type="primary">确定</el-button>
       <el-button @click="close" size="small">关闭</el-button>
     </div>

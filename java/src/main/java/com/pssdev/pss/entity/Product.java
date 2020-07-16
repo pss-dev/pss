@@ -16,6 +16,7 @@ public class Product {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Integer id;
+  private String identifier;
   private String name;
   private String initials;
   private String specification;
@@ -32,7 +33,6 @@ public class Product {
   private Product parent;
   @Transient
   private int actionType;
-  private String identifier;
   @OneToOne(targetEntity = ProductUnit.class)
   @JoinColumn(name = "sell_default_unit_id")
   private ProductUnit sellDefaultUnit;

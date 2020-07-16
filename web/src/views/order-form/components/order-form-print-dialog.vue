@@ -10,27 +10,27 @@
       <div ref="print" id="print">
         <div class="print-title">{{printInfo.title}}</div>
         <el-row :gutter="10">
-          <el-col :span="3">客户姓名：</el-col>
+          <el-col :span="3">客户姓名:</el-col>
           <el-col :span="5">{{getCompanyName()}}</el-col>
-          <el-col :span="3">发货仓库：</el-col>
+          <el-col :span="3">发货仓库:</el-col>
           <el-col :span="5">{{getDepotName()}}</el-col>
-          <el-col :span="3">录单日期：</el-col>
+          <el-col :span="3">录单日期:</el-col>
           <el-col :span="5">{{orderFormData.createDate.toISOString().substring(0, 10)}}</el-col>
         </el-row>
 
         <el-row :gutter="10">
-          <el-col :span="3">联系人：</el-col>
+          <el-col :span="3">联系人:</el-col>
           <el-col :span="5">{{getCompanyContactPerson()}}</el-col>
-          <el-col :span="3">经手人：</el-col>
+          <el-col :span="3">经手人:</el-col>
           <el-col :span="5">{{getEmployeeName()}}</el-col>
-          <el-col :span="3">付款方式：</el-col>
+          <el-col :span="3">付款方式:</el-col>
           <el-col :span="5">{{getAccountName()}}</el-col>
         </el-row>
 
         <el-row :gutter="10">
-          <el-col :span="3">联系电话：</el-col>
+          <el-col :span="3">联系电话:</el-col>
           <el-col :span="5">{{getCompanyContactPhone()}}</el-col>
-          <el-col :span="3">摘要：</el-col>
+          <el-col :span="3">摘要:</el-col>
           <el-col :span="13">{{orderFormData.summary}}</el-col>
         </el-row>
 
@@ -50,37 +50,37 @@
           ></el-table-column>
         </el-table>
         <el-row :gutter="10">
-          <el-col :span="3">总计大写：</el-col>
+          <el-col :span="3">总计大写:</el-col>
           <el-col :span="13">{{bigMoney}}</el-col>
         </el-row>
         <el-row :gutter="10">
-          <el-col :span="3">收款金额：</el-col>
+          <el-col :span="3">收款金额:</el-col>
           <el-col :span="5">{{orderFormData.money}}</el-col>
-          <el-col :span="3">抹零金额：</el-col>
+          <el-col :span="3">抹零金额:</el-col>
           <el-col :span="5">{{orderFormData.wipe}}</el-col>
-          <el-col :span="4">抹零后金额：</el-col>
+          <el-col :span="4">抹零后金额:</el-col>
           <el-col :span="4">{{afterWipe}}</el-col>
         </el-row>
         <el-row :gutter="10">
-          <el-col :span="3">制单人：</el-col>
+          <el-col :span="3">制单人:</el-col>
           <el-col :span="5">{{getCreateUserName()}}</el-col>
-          <el-col :span="3">经手人：</el-col>
+          <el-col :span="3">经手人:</el-col>
           <el-col :span="5">{{getEmployeeName()}}</el-col>
-          <el-col :span="3">打印日期：</el-col>
+          <el-col :span="3">打印日期:</el-col>
           <el-col :span="5">{{printDate.toISOString().substring(0, 10)}}</el-col>
         </el-row>
         <el-row :gutter="10">
-          <el-col :span="3">地址：</el-col>
+          <el-col :span="3">地址:</el-col>
           <el-col :span="13">{{getCompanyAddress()}}</el-col>
-          <el-col :span="3">电话：</el-col>
+          <el-col :span="3">电话:</el-col>
           <el-col :span="5">{{getCompanyTelephone()}}</el-col>
         </el-row>
         <el-row :gutter="10">
-          <el-col :span="3">银行账户：</el-col>
+          <el-col :span="3">银行账户:</el-col>
           <el-col :span="21">{{getAccountInfo()}}</el-col>
         </el-row>
         <el-row :gutter="10">
-          <el-col :span="3">温馨提示：</el-col>
+          <el-col :span="3">温馨提示:</el-col>
           <el-col :span="21">{{printInfo.prompt}}</el-col>
         </el-row>
       </div>

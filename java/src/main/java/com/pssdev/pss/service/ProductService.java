@@ -4,7 +4,7 @@ import com.pssdev.pss.entity.Product;
 
 import java.util.List;
 
-public interface ProductService {
+public interface ProductService extends ImportService {
   /**
    * 插入商品信息
    * 

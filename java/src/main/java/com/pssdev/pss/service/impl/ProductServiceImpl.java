@@ -2,26 +2,32 @@ package com.pssdev.pss.service.impl;
 
 import com.pssdev.pss.annotation.Audit;
 import com.pssdev.pss.dao.ProductDao;
-import com.pssdev.pss.entity.PriceValue;
-import com.pssdev.pss.entity.Product;
-import com.pssdev.pss.entity.ProductUnitPrice;
+import com.pssdev.pss.entity.*;
+import com.pssdev.pss.service.PriceService;
 import com.pssdev.pss.service.ProductService;
-import com.pssdev.pss.util.ActionType;
-import com.pssdev.pss.util.ResourceEnum;
+import com.pssdev.pss.service.ProductUnitService;
+import com.pssdev.pss.util.*;
 
+import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
+
+import java.io.InputStream;
+import java.util.*;
 
 @Service
 @Transactional
 public class ProductServiceImpl implements ProductService {
   @Autowired
   private ProductDao productDao;
+  @Autowired
+  private ProductUnitService unitService;
+  @Autowired
+  private PriceService priceService;
 
   @Audit(value = ResourceEnum.PRODUCT)
   @Override
@@ -151,4 +157,118 @@ public class ProductServiceImpl implements ProductService {
   public Product getProductByName(String name) {
     return productDao.getByName(name);
   }
+
+  @Transactional
+  @Override
+  public void importData(MultipartFile file, String parentId) throws Exception {
+    InputStream in = file.getInputStream();
+    String fileName = file.getOriginalFilename();
+
+    Product parent = null;
+
+    if (parentId != null && !"null".equals(parentId)) {
+      parent = getProduct(Integer.parseInt(parentId));
+    }
+
+    Workbook workbook = ImportUitl.getWorkBook(in, fileName);
+    Sheet sheet = workbook.getSheetAt(0);
+    List<Product> productList = new ArrayList<>();
+
+    Row rowHeader = sheet.getRow(0);
+    int colCount = rowHeader.getPhysicalNumberOfCells();
+    int rowCount = sheet.getPhysicalNumberOfRows();
+
+    if (ImportUitl.isColumnCountError(colCount)) {
+      // data error
+    }
+
+    List<Price> prices = priceService.getPrices();
+
+    if (prices.size() != 10) {
+      // price error
+    }
+
+    Map<String, Price> priceMap = new HashMap<>();
+
+    prices.forEach((price) -> {
+      priceMap.put(price.getName(), price);
+    });
+
+    Map<String, ProductUnit> unitset = new HashMap<>();
+
+    for (int i = 1; i < rowCount; i++) {
+      Row row = sheet.getRow(i);
+
+      Product product = new Product();
+
+      String identifier = row.getCell(0).getStringCellValue();
+      product.setIdentifier(identifier);
+
+      String name = row.getCell(1).getStringCellValue();
+      product.setName(name);
+
+      String initials = row.getCell(2).getStringCellValue();
+      product.setInitials(initials);
+
+      String specification = row.getCell(3).getStringCellValue();
+      product.setSpecification(specification);
+
+      String type = row.getCell(4).getStringCellValue();
+      product.setType(type);
+
+      String address = row.getCell(5).getStringCellValue();
+      product.setAddress(address);
+
+      String unitName = row.getCell(6).getStringCellValue();
+
+      ProductUnit unit = unitset.get(unitName);
+
+      if (unit == null) {
+        unit = unitService.getUnitByName(unitName);
+      }
+
+      if (unit == null) {
+        // fix error
+      }
+
+      unitset.put(unitName, unit);
+      product.setSellDefaultUnit(unit);
+      product.setPurchaseDefaultUnit(unit);
+
+      List<PriceValue> priceValues = new ArrayList<>();
+
+      ProductUnitPrice pUnitPrice = new ProductUnitPrice();
+      pUnitPrice.setUnit(unit);
+      int crate = (int) row.getCell(7).getNumericCellValue();
+      pUnitPrice.setCrate(crate);
+
+      for (int k = 0; k < 10; k++) {
+        PriceValue priceValue = getPriceValues(row, k + 8, PriceEnum.getPriceName(k), priceMap);
+        priceValues.add(priceValue);
+      }
+
+      pUnitPrice.setPrices(priceValues);
+      pUnitPrice.setDefault(true);
+      pUnitPrice.setActionType(ActionType.ADD.getType());
+
+      product.setParent(parent);
+      product.setStopPurchase(false);
+      product.setActionType(ActionType.ADD.getType());
+      productList.add(product);
+    }
+
+    for (Product product : productList) {
+      insertProduct(product);
+    }
+  }
+
+  private PriceValue getPriceValues(Row row, int col, String priceName, Map<String, Price> priceMap) {
+    PriceValue price = new PriceValue();
+    Double pvalue = row.getCell(col).getNumericCellValue();
+    price.setValue(pvalue);
+    price.setPrice(priceMap.get(priceName));
+
+    return price;
+  }
+
 }

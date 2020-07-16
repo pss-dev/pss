@@ -48,6 +48,7 @@ export default {
     cloneData (data) {
       var obj = {};
       obj = JSON.parse(JSON.stringify(data));
+      obj.id = null;
 
       return obj;
     },

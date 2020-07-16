@@ -33,6 +33,18 @@
       size="small"
       :disabled="!isSelectedLeaf || stopPurchaseDisable"
     >停止采购</el-button>
+    <el-upload
+      v-if="uploadVisiable"
+      class="upload-button"
+      :action="uploadAction"
+      :data="uploadData"
+      :multiple="false"
+      :show-file-list="false"
+      :before-upload="beforeUpload"
+      :on-success="uploadSuccess"
+    >
+      <el-button size="small">上传数据</el-button>
+    </el-upload>
   </div>
 </template>
 
@@ -83,6 +95,16 @@ export default {
     "stopPurchaseDisable": {
       type: Boolean,
       default: false
+    },
+    "uploadVisiable": {
+      type: Boolean,
+      default: false
+    },
+    "uploadAction": {
+      type: String
+    },
+    "uploadData": {
+      type: Object
     }
   },
 
@@ -119,11 +141,30 @@ export default {
     stopPurchase () {
       this.$emit('stopPurchase');
     },
+
+    uploadSuccess () {
+      this.$message({
+        message: "上传成功!",
+        showClose: true
+      });
+    },
+
+    beforeUpload () {
+      this.$message({
+        message: "开始上传",
+        showClose: true
+      });
+    }
   },
 }
 </script>
 
 <style>
 .base-info-footer {
+}
+
+.upload-button {
+  display: inline-block;
+  margin-left: 10px;
 }
 </style>

@@ -4,8 +4,7 @@ import com.pssdev.pss.annotation.Audit;
 import com.pssdev.pss.dao.PriceDao;
 import com.pssdev.pss.entity.Price;
 import com.pssdev.pss.service.PriceService;
-import com.pssdev.pss.util.ActionType;
-import com.pssdev.pss.util.ResourceEnum;
+import com.pssdev.pss.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,16 +17,6 @@ import java.util.List;
 public class PriceServiceImpl implements PriceService {
   @Autowired
   private PriceDao priceDao;
-
-  @Override
-  public void insertPrice(Price price) throws Exception {
-    this.priceDao.insert(price);
-  }
-
-  @Override
-  public void deletePrice(Price price) {
-    this.priceDao.delete(price);
-  }
 
   @Audit(value = ResourceEnum.PRICE, actionType = ActionType.MODIFY)
   @Override
@@ -45,19 +34,35 @@ public class PriceServiceImpl implements PriceService {
 
   @Override
   public List<Price> getPrices() {
-    if (this.priceDao.getAll().size() < 10) {
-      for (int i = 0; i < 10; i++) {
-        Price price = new Price();
-        price.setName("价格" + i);
-        price.setLabel("价格" + i);
-        try {
-          this.priceDao.insert(price);
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
-      }
+    List<Price> prices = this.priceDao.getAll();
+
+    if (prices.size() < 10) {
+      insertPrice0(PriceEnum.PURCHASEPRICE1.getName());
+      insertPrice0(PriceEnum.PURCHASEPRICE2.getName());
+      insertPrice0(PriceEnum.PURCHASEPRICE3.getName());
+      insertPrice0(PriceEnum.HIGHESTPURCHASEPRICE.getName());
+      insertPrice0(PriceEnum.SELLPRICE1.getName());
+      insertPrice0(PriceEnum.SELLPRICE2.getName());
+      insertPrice0(PriceEnum.SELLPRICE3.getName());
+      insertPrice0(PriceEnum.RETAILPRICE.getName());
+      insertPrice0(PriceEnum.LOWESTSELLPRICE.getName());
+      insertPrice0(PriceEnum.HIGHESTSELLPRICE.getName());
+
+      prices = this.priceDao.getAll();
     }
 
-    return this.priceDao.getAll();
+    return prices;
+  }
+
+  private void insertPrice0(String priceName) {
+    Price price = new Price();
+    price.setName(priceName);
+    price.setLabel(priceName);
+
+    try {
+      this.priceDao.insert(price);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 }

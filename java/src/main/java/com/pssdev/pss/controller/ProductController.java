@@ -5,8 +5,12 @@ import com.pssdev.pss.service.*;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import java.util.ArrayList;
 
 @RestController
@@ -44,6 +48,12 @@ public class ProductController {
     Product pro = productService.getProductByName(product.getName());
 
     return pro != null && pro.getId() != product.getId();
+  }
+
+  @PostMapping("/product/upload")
+  @RequiresPermissions("*:2:w")
+  public void uploadProducts(String parentId, MultipartFile file) throws Exception {
+    productService.importData(file, parentId);
   }
 
   @DeleteMapping("/product")
