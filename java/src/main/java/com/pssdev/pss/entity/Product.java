@@ -3,6 +3,8 @@ package com.pssdev.pss.entity;
 import org.hibernate.annotations.Cascade;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.pssdev.pss.util.PriceEnum;
+
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
@@ -167,5 +169,52 @@ public class Product {
         + specification + '\'' + ", type='" + type + '\'' + ", address='" + address + '\'' + ", units=" + units
         + ", stopPurchase=" + stopPurchase + ", parent=" + parent + ", actionType=" + actionType + ", identifier='"
         + identifier + '\'' + '}';
+  }
+
+  public static int getColumnCount() {
+    return 18;
+  }
+
+  public static String templatetLabel(int index) {
+    switch (index) {
+      case 0:
+        return "编号"; // identifier
+      case 1:
+        return "名称"; // resource
+      case 2:
+        return "拼音码"; // action
+      case 3:
+        return "规格"; // employee
+      case 4:
+        return "型号"; // date
+      case 5:
+        return "地址"; // message
+      case 6:
+        return "单位名称"; // identifier
+      case 7:
+        return "换算率"; // resource
+      case 8:
+        return PriceEnum.getPriceName(0); // action
+      case 9:
+        return PriceEnum.getPriceName(1); // employee
+      case 10:
+        return PriceEnum.getPriceName(2); // date
+      case 11:
+        return PriceEnum.getPriceName(3); // message
+      case 12:
+        return PriceEnum.getPriceName(4); // identifier
+      case 13:
+        return PriceEnum.getPriceName(5); // resource
+      case 14:
+        return PriceEnum.getPriceName(6); // action
+      case 15:
+        return PriceEnum.getPriceName(7); // employee
+      case 16:
+        return PriceEnum.getPriceName(8); // date
+      case 17:
+        return PriceEnum.getPriceName(9); // message
+      default:
+        return null;
+    }
   }
 }

@@ -33,6 +33,7 @@
       size="small"
       :disabled="!isSelectedLeaf || stopPurchaseDisable"
     >停止采购</el-button>
+    <el-button v-if="uploadVisiable" size="small" @click="getDataTemplate">获取数据模板</el-button>
     <el-upload
       v-if="uploadVisiable"
       class="upload-button"
@@ -140,6 +141,10 @@ export default {
 
     stopPurchase () {
       this.$emit('stopPurchase');
+    },
+
+    getDataTemplate () {
+      this.$emit('getDataTemplate');
     },
 
     uploadSuccess () {

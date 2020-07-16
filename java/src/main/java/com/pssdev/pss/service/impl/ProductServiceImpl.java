@@ -9,6 +9,8 @@ import com.pssdev.pss.service.ProductUnitService;
 import com.pssdev.pss.util.*;
 
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.hssf.usermodel.*;
+import org.apache.poi.hssf.util.HSSFColor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -17,7 +19,10 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.transaction.Transactional;
 
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.*;
+
+import static com.pssdev.pss.util.ExportUtil.DEFAULT_COL_WIDTH;
 
 @Service
 @Transactional
@@ -160,6 +165,38 @@ public class ProductServiceImpl implements ProductService {
 
   @Transactional
   @Override
+  public void getDataTemplate(OutputStream out) throws Exception {
+    int columnCount = Product.getColumnCount();
+
+    HSSFWorkbook workbook = HSSFWorkbookFactory.createWorkbook();
+    HSSFSheet sheet = workbook.createSheet("Pss MS product");
+
+    for (int i = 0; i < columnCount; i++) {
+      sheet.setColumnWidth(i, DEFAULT_COL_WIDTH);
+    }
+
+    HSSFCell cell;
+    int rowIndex = 0; // title row
+    HSSFRow header = ExportUtil.createRow(workbook, sheet, rowIndex);
+
+    for (int i = 0; i < columnCount; i++) {
+      cell = ExportUtil.createHeaderCell(workbook, header, i);
+      cell.setCellValue(Product.templatetLabel(i));
+
+      if (i == 0 || i == 1 || i == 6 || i == 7) {
+        HSSFCellStyle cellStyle = cell.getCellStyle();
+        HSSFFont font = workbook.createFont();
+        font.setBold(true);
+        font.setColor(HSSFColor.HSSFColorPredefined.BLUE.getIndex());
+        cellStyle.setFont(font);
+      }
+    }
+
+    workbook.write(out);
+  }
+
+  @Transactional
+  @Override
   public void importData(MultipartFile file, String parentId) throws Exception {
     InputStream in = file.getInputStream();
     String fileName = file.getOriginalFilename();
@@ -178,7 +215,7 @@ public class ProductServiceImpl implements ProductService {
     int colCount = rowHeader.getPhysicalNumberOfCells();
     int rowCount = sheet.getPhysicalNumberOfRows();
 
-    if (ImportUitl.isColumnCountError(colCount)) {
+    if (Product.getColumnCount() != colCount) {
       // data error
     }
 

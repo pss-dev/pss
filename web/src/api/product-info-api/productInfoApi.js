@@ -41,10 +41,13 @@ function deleteProductInfo (data) {
   })
 }
 
+const templateUrl = baseApi.baseApi('product/template');
+
 export default {
   getProductInfo,
   addProductInfo,
   modifyProductInfo,
   deleteProductInfo,
-  checkProductDuplicate
+  checkProductDuplicate,
+  templateUrl
 }

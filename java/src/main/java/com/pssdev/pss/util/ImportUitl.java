@@ -20,12 +20,6 @@ public class ImportUitl {
     return workbook;
   }
 
-  public static boolean isColumnCountError(int count) {
-    return count != columnCount;
-  }
-
-  public static int columnCount = 18;
-
   public static String Excel_xls = ".xls";
   public static String Excel2007_Suffix = ".xlsx";
 }

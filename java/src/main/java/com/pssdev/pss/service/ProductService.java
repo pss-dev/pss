@@ -3,6 +3,7 @@ package com.pssdev.pss.service;
 import com.pssdev.pss.entity.Product;
 
 import java.util.List;
+import java.io.OutputStream;
 
 public interface ProductService extends ImportService {
   /**
@@ -49,4 +50,9 @@ public interface ProductService extends ImportService {
    * @return
    */
   Product getProductByName(String name);
+
+  /**
+   * get product by name
+   */
+  void getDataTemplate(OutputStream out) throws Exception;
 }

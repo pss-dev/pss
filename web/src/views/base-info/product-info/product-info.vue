@@ -36,6 +36,7 @@
           @previous="previous"
           @next="getChildData"
           @stopPurchase="stopPurchase"
+          @getDataTemplate="getDataTemplate"
         ></base-info-footer>
       </el-footer>
     </el-container>
@@ -267,6 +268,10 @@ export default {
       }
 
       return { parentId: pvalue };
+    },
+
+    getDataTemplate () {
+      window.open(productInfoApi.templateUrl);
     }
   },
 

@@ -9,7 +9,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.activation.MimetypesFileTypeMap;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.ServletOutputStream;
 
 import java.util.ArrayList;
 
@@ -54,6 +56,21 @@ public class ProductController {
   @RequiresPermissions("*:2:w")
   public void uploadProducts(String parentId, MultipartFile file) throws Exception {
     productService.importData(file, parentId);
+  }
+
+  @GetMapping("/product/template")
+  public void getDataTemplate(HttpServletResponse response) throws Exception {
+    ServletOutputStream out = response.getOutputStream();
+    String fileName = "Pss MS Products Template" + ExportService.Excel2007_Suffix;
+    productService.getDataTemplate(out);
+
+    String type = new MimetypesFileTypeMap().getContentType(fileName);
+
+    response.setCharacterEncoding("utf-8");
+    response.setContentType(type);
+    String downloadFileName = new String(fileName.getBytes("utf-8"), "iso-8859-1");
+    response.setHeader("Content-Disposition", "attachment;fileName=" + downloadFileName);
+    out.flush();
   }
 
   @DeleteMapping("/product")
