@@ -128,7 +128,18 @@ export default {
     },
 
     deleteInfo () {
-      this.$emit('deleteInfo');
+      this.$confirm('将执行删除操作, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$emit('deleteInfo');
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
     },
 
     previous () {
