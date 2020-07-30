@@ -97,7 +97,7 @@ import Revenue from "@/views/statistics/revenue/revenue"
 import Tool from '@/views/constant/tool.js'
 import RuleTool from '@/views/constant/rule-tool.js'
 
-import EmployeeApi from '@/api/employee-info-api/employeeInfoApi.js'
+//import EmployeeApi from '@/api/employee-info-api/employeeInfoApi.js'
 
 export default {
   components: {
@@ -394,11 +394,26 @@ export default {
   },
   created () {
     // get all permission
-    EmployeeApi.getPermission().then((res) => {
-      console.log(res.data);
-      this.init(res.data);
-      this.navData = getNavData();
-    });
+    let perms = [
+      { resource: "2", operator: 16 },
+      { resource: "4", operator: 16 },
+      { resource: "8", operator: 16 },
+      { resource: "16", operator: 16 },
+      { resource: "32", operator: 16 },
+      { resource: "64", operator: 16 },
+      { resource: "128", operator: 16 },
+      { resource: "256", operator: 16 },
+      { resource: "1024", operator: 16 },
+      { resource: "2048", operator: 16 },
+      { resource: "4096", operator: 16 },
+      { resource: "16384", operator: 16 },
+      { resource: "32768", operator: 16 },
+    ]
+    //EmployeeApi.getPermission().then((res) => {
+    //  console.log(res.data);
+    this.init(perms);
+    this.navData = getNavData();
+    //});
   }
 };
 </script>

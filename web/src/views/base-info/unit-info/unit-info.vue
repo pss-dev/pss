@@ -98,7 +98,7 @@ export default {
     },
 
     copyNew () {
-      this.setDialogInfo("复制新增", this.cloneSelectedInfoData(), true);
+      this.setDialogInfo("复制新增", this.cloneSelectedInfoData(true), true);
       this.showDialog = true;
     },
 

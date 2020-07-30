@@ -46,6 +46,7 @@
     >
       <el-button size="small">上传数据</el-button>
     </el-upload>
+    <el-button v-if="isProduct" @click="generatePrice" size="small">生成价格</el-button>
   </div>
 </template>
 
@@ -170,6 +171,10 @@ export default {
         message: "开始上传",
         showClose: true
       });
+    },
+
+    generatePrice () {
+      this.$emit('generatePrice');
     }
   },
 }

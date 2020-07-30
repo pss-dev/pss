@@ -37,6 +37,7 @@
           @next="getChildData"
           @stopPurchase="stopPurchase"
           @getDataTemplate="getDataTemplate"
+          @generatePrice="generatePrice"
         ></base-info-footer>
       </el-footer>
     </el-container>
@@ -48,6 +49,13 @@
       :priceData="priceData"
       v-if="showDialog"
     ></product-info-dialog>
+    <generate-price-dialog
+      :title="'更新商品价格'"
+      @closeDialog="closeGeneratePrice"
+      @submitData="submitGeneratePriceData"
+      :priceData="priceData"
+      v-if="generatePriceDialogVisiabel"
+    ></generate-price-dialog>
   </div>
 </template>
 
@@ -56,6 +64,7 @@ import BaseInfoHeader from "../components/base-info-header.vue"
 import BaseInfoTabler from "../components/base-info-table.vue"
 import BaseInfoFooter from "../components/base-info-footer.vue"
 import ProductInfoDialog from "./components/product-info-dialog.vue"
+import GeneratePriceDialog from "./components/generate-price-dialog.vue"
 
 import BseInfo from '../mixIns/base-info.js'
 import TableBaseInfo from '@/views/mixIns/table-base-info.js'
@@ -74,7 +83,8 @@ export default {
     "base-info-header": BaseInfoHeader,
     "base-info-table": BaseInfoTabler,
     "base-info-footer": BaseInfoFooter,
-    "product-info-dialog": ProductInfoDialog
+    "product-info-dialog": ProductInfoDialog,
+    "generate-price-dialog": GeneratePriceDialog
   },
 
   data () {
@@ -98,7 +108,9 @@ export default {
       { prop: "specification", label: "规格" },
       { prop: "type", label: "型号" },
       ],
-      booleanData: { prop: "stopPurchase", label: "停止采购" }
+      booleanData: { prop: "stopPurchase", label: "停止采购" },
+
+      generatePriceDialogVisiabel: false,
     }
   },
 
@@ -162,7 +174,7 @@ export default {
     },
 
     copyNew () {
-      this.setDialogInfo("复制新增", this.cloneSelectedInfoData(), true);
+      this.setDialogInfo("复制新增", this.cloneSelectedInfoData(true), true);
       this.showDialog = true;
     },
 
@@ -272,6 +284,22 @@ export default {
 
     getDataTemplate () {
       window.open(productInfoApi.templateUrl);
+    },
+
+    generatePrice () {
+      this.generatePriceDialogVisiabel = true;
+    },
+
+    closeGeneratePrice () {
+      this.generatePriceDialogVisiabel = false;
+    },
+
+    submitGeneratePriceData (model) {
+      console.log("=========submitGeneratePriceData  ", model);
+      model.parentProduct = this.parent;
+      productInfoApi.generatePrice(model).then(() => {
+        this.getProductInfo();
+      });
     }
   },
 

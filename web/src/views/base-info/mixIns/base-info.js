@@ -45,16 +45,19 @@ export default {
       });
     },
 
-    cloneData (data) {
+    cloneData (data, resetId) {
       var obj = {};
       obj = JSON.parse(JSON.stringify(data));
-      obj.id = null;
+
+      if (resetId == true) {
+        obj.id = null;
+      }
 
       return obj;
     },
 
-    cloneSelectedInfoData () {
-      return this.cloneData(this.selectedInfo);
+    cloneSelectedInfoData (resetId) {
+      return this.cloneData(this.selectedInfo, resetId);
     },
   }
 }

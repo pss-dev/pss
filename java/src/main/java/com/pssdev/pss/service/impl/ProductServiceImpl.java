@@ -3,10 +3,9 @@ package com.pssdev.pss.service.impl;
 import com.pssdev.pss.annotation.Audit;
 import com.pssdev.pss.dao.ProductDao;
 import com.pssdev.pss.entity.*;
-import com.pssdev.pss.service.PriceService;
-import com.pssdev.pss.service.ProductService;
-import com.pssdev.pss.service.ProductUnitService;
+import com.pssdev.pss.service.*;
 import com.pssdev.pss.util.*;
+import com.pssdev.pss.model.GeneratePriceModel;
 
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.hssf.usermodel.*;
@@ -21,6 +20,7 @@ import javax.transaction.Transactional;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.*;
+import java.math.BigDecimal;
 
 import static com.pssdev.pss.util.ExportUtil.DEFAULT_COL_WIDTH;
 
@@ -308,4 +308,75 @@ public class ProductServiceImpl implements ProductService {
     return price;
   }
 
+  public void generatePrice(GeneratePriceModel model) {
+    Product parent = model.getparentProduct();
+
+    List<Product> products = getProducts(parent.getId());
+
+    System.out.println("generatePrice ================ " + products.size());
+    products.forEach((product) -> {
+      generatePrice0(model, product);
+    });
+  }
+
+  private void generatePrice0(GeneratePriceModel model, Product product) {
+    Set<Product> children = product.getChildren();
+    System.out.println("generatePrice0 ================ " + children.size());
+    children.forEach((cproduct) -> {
+      generatePrice0(model, cproduct);
+    });
+
+    List<ProductUnitPrice> units = product.getUnits();
+    System.out.println("generatePrice0 ================ " + units.size());
+
+    for (ProductUnitPrice unit : units) {
+      System.out.println(
+          "unit ================ " + unit.getId() + " === " + unit.getUnit().getName() + " === " + unit.isDefault());
+      if (unit.isDefault()) {
+        List<PriceValue> prices = unit.getPrices();
+
+        PriceValue targetPrice = findPriceValue2(model.getTargetPrice(), prices);
+
+        PriceValue oringinalPrice = findPriceValue2(model.getOriginalPrice(), prices);
+        double newPrice = getNewPrice(oringinalPrice.getValue(), model.getMultiple(), model.getCalculate(),
+            model.getDecimal());
+        System.out
+            .println("========= targetPrice " + targetPrice.getPrice().getLabel() + " === " + targetPrice.getValue());
+        System.out.println(
+            "========= targetPrice " + oringinalPrice.getPrice().getLabel() + " === " + oringinalPrice.getValue());
+        System.out.println("========= generatePrice0 " + newPrice);
+        targetPrice.setValue(newPrice);
+      }
+    }
+
+    // System.out.println("============= " + product);
+    productDao.update(product);
+  }
+
+  private PriceValue findPriceValue2(Price oprice, List<PriceValue> prices) {
+    for (PriceValue price : prices) {
+      if (oprice.equals(price.getPrice())) {
+        return price;
+      }
+    }
+
+    return null;
+  }
+
+  private double getNewPrice(double oringialValue, double multiple, String calculate, int decimal) {
+    double result = oringialValue;
+
+    if ("*".equals(calculate)) {
+      result = oringialValue * multiple;
+    } else if ("/".equals(calculate)) {
+      result = oringialValue / multiple;
+    }
+
+    BigDecimal bg = new BigDecimal(result);
+    double result0 = bg.setScale(decimal, BigDecimal.ROUND_HALF_UP).doubleValue();
+
+    System.out.println("=========== getNewPrice:  " + result0);
+
+    return result0;
+  }
 }

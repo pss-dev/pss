@@ -2,6 +2,7 @@ package com.pssdev.pss.controller;
 
 import com.pssdev.pss.entity.*;
 import com.pssdev.pss.service.*;
+import com.pssdev.pss.model.GeneratePriceModel;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -48,7 +49,7 @@ public class ProductController {
   @RequiresPermissions("*:2:r")
   public boolean checkProductDuplicate(@RequestBody Product product) throws Exception {
     Product pro = productService.getProductByName(product.getName());
-
+    System.out.println("==========  " + pro.getId() + " === " + product.getId());
     return pro != null && pro.getId() != product.getId();
   }
 
@@ -89,5 +90,12 @@ public class ProductController {
   @RequiresPermissions("*:2:r")
   public List<Product> getProducts(@RequestParam(required = false) Integer fatherID) {
     return productService.getProducts(fatherID);
+  }
+
+  @PostMapping("/product/generate-price")
+  @RequiresPermissions("*:2:w")
+  public void generatePrice(@RequestBody GeneratePriceModel model) {
+    System.out.println("========= generatePrice " + model.getCalculate());
+    productService.generatePrice(model);
   }
 }

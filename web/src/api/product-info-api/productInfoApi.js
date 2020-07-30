@@ -41,6 +41,14 @@ function deleteProductInfo (data) {
   })
 }
 
+function generatePrice (data) {
+  return fetch({
+    url: baseApi.baseApi('product/generate-price'),
+    method: 'post',
+    data
+  })
+}
+
 const templateUrl = baseApi.baseApi('product/template');
 
 export default {
@@ -49,5 +57,6 @@ export default {
   modifyProductInfo,
   deleteProductInfo,
   checkProductDuplicate,
-  templateUrl
+  templateUrl,
+  generatePrice
 }

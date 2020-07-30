@@ -1,6 +1,7 @@
 package com.pssdev.pss.service;
 
 import com.pssdev.pss.entity.Product;
+import com.pssdev.pss.model.GeneratePriceModel;
 
 import java.util.List;
 import java.io.OutputStream;
@@ -55,4 +56,6 @@ public interface ProductService extends ImportService {
    * get product by name
    */
   void getDataTemplate(OutputStream out) throws Exception;
+
+  void generatePrice(GeneratePriceModel model);
 }
