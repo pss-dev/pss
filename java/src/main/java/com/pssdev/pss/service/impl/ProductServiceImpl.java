@@ -34,11 +34,28 @@ public class ProductServiceImpl implements ProductService {
   private ProductUnitService unitService;
   @Autowired
   private PriceService priceService;
+  @Autowired
+  private DepotService depotService;
 
   @Audit(value = ResourceEnum.PRODUCT)
   @Override
-  public Integer insertProduct(@AuditObject("getName()") Product product) throws Exception {
-    return this.productDao.insert(product);
+  public void insertProduct(@AuditObject("getName()") Product product) throws Exception {
+    Integer productId = this.productDao.insert(product);
+    Product newProduct = getProduct(productId);
+
+    List<Depot> depots = depotService.getDepots();
+    List<DepotItem> depotItems = new ArrayList<>();
+
+    depots.forEach((depot) -> {
+      DepotItem depotItem = new DepotItem();
+      depotItem.setDepot(depot);
+      depotItem.setProduct(newProduct);
+      depotItem.setProductCount(0);
+
+      depotItems.add(depotItem);
+    });
+
+    depotService.putInProducts(depotItems);
   }
 
   @Audit(value = ResourceEnum.PRODUCT, actionType = ActionType.DELETE)
@@ -201,7 +218,6 @@ public class ProductServiceImpl implements ProductService {
   public void importData(MultipartFile file, String parentId) throws Exception {
     InputStream in = file.getInputStream();
     String fileName = file.getOriginalFilename();
-
     Product parent = null;
 
     if (parentId != null && !"null".equals(parentId)) {
@@ -263,13 +279,14 @@ public class ProductServiceImpl implements ProductService {
 
       if (unit == null) {
         unit = unitService.getUnitByName(unitName);
+
+        if (unit == null) {
+          // fix error
+        }
+
+        unitset.put(unitName, unit);
       }
 
-      if (unit == null) {
-        // fix error
-      }
-
-      unitset.put(unitName, unit);
       product.setSellDefaultUnit(unit);
       product.setPurchaseDefaultUnit(unit);
 
@@ -288,10 +305,13 @@ public class ProductServiceImpl implements ProductService {
       pUnitPrice.setPrices(priceValues);
       pUnitPrice.setDefault(true);
       pUnitPrice.setActionType(ActionType.ADD.getType());
+      List<ProductUnitPrice> units = new ArrayList<>();
+      units.add(pUnitPrice);
 
       product.setParent(parent);
       product.setStopPurchase(false);
       product.setActionType(ActionType.ADD.getType());
+      product.setUnits(units);
       productList.add(product);
     }
 
@@ -314,7 +334,6 @@ public class ProductServiceImpl implements ProductService {
 
     List<Product> products = getProducts(parent.getId());
 
-    System.out.println("generatePrice ================ " + products.size());
     products.forEach((product) -> {
       generatePrice0(model, product);
     });
@@ -322,17 +341,14 @@ public class ProductServiceImpl implements ProductService {
 
   private void generatePrice0(GeneratePriceModel model, Product product) {
     Set<Product> children = product.getChildren();
-    System.out.println("generatePrice0 ================ " + children.size());
+
     children.forEach((cproduct) -> {
       generatePrice0(model, cproduct);
     });
 
     List<ProductUnitPrice> units = product.getUnits();
-    System.out.println("generatePrice0 ================ " + units.size());
 
     for (ProductUnitPrice unit : units) {
-      System.out.println(
-          "unit ================ " + unit.getId() + " === " + unit.getUnit().getName() + " === " + unit.isDefault());
       if (unit.isDefault()) {
         List<PriceValue> prices = unit.getPrices();
 
@@ -341,16 +357,10 @@ public class ProductServiceImpl implements ProductService {
         PriceValue oringinalPrice = findPriceValue2(model.getOriginalPrice(), prices);
         double newPrice = getNewPrice(oringinalPrice.getValue(), model.getMultiple(), model.getCalculate(),
             model.getDecimal());
-        System.out
-            .println("========= targetPrice " + targetPrice.getPrice().getLabel() + " === " + targetPrice.getValue());
-        System.out.println(
-            "========= targetPrice " + oringinalPrice.getPrice().getLabel() + " === " + oringinalPrice.getValue());
-        System.out.println("========= generatePrice0 " + newPrice);
         targetPrice.setValue(newPrice);
       }
     }
 
-    // System.out.println("============= " + product);
     productDao.update(product);
   }
 
@@ -375,8 +385,6 @@ public class ProductServiceImpl implements ProductService {
 
     BigDecimal bg = new BigDecimal(result);
     double result0 = bg.setScale(decimal, BigDecimal.ROUND_HALF_UP).doubleValue();
-
-    System.out.println("=========== getNewPrice:  " + result0);
 
     return result0;
   }

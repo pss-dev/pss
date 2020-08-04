@@ -12,9 +12,9 @@ public class ImportUitl {
     Workbook workbook = null;
 
     if (fileName.endsWith(Excel2007_Suffix)) {
-      workbook = new XSSFWorkbook();
+      workbook = new XSSFWorkbook(in);
     } else if (fileName.endsWith(Excel_xls)) {
-      workbook = new HSSFWorkbook();
+      workbook = new HSSFWorkbook(in);
     }
 
     return workbook;

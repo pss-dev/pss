@@ -12,7 +12,7 @@ public interface ProductService extends ImportService {
    * 
    * @param product
    */
-  Integer insertProduct(Product product) throws Exception;
+  void insertProduct(Product product) throws Exception;
 
   /**
    * 删除商品信息

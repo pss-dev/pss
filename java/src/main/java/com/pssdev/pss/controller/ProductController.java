@@ -21,28 +21,11 @@ import java.util.ArrayList;
 public class ProductController {
   @Autowired
   private ProductService productService;
-  @Autowired
-  private DepotService depotService;
 
   @PostMapping("/product")
   @RequiresPermissions("*:2:w")
   public void insertProducts(@RequestBody Product product) throws Exception {
-    Integer productId = productService.insertProduct(product);
-    Product newProduct = productService.getProduct(productId);
-
-    List<Depot> depots = depotService.getDepots();
-    List<DepotItem> depotItems = new ArrayList<>();
-
-    depots.forEach((depot) -> {
-      DepotItem depotItem = new DepotItem();
-      depotItem.setDepot(depot);
-      depotItem.setProduct(newProduct);
-      depotItem.setProductCount(0);
-
-      depotItems.add(depotItem);
-    });
-
-    depotService.putInProducts(depotItems);
+    productService.insertProduct(product);
   }
 
   @PostMapping("/product/duplicate")
@@ -62,7 +45,7 @@ public class ProductController {
   @GetMapping("/product/template")
   public void getDataTemplate(HttpServletResponse response) throws Exception {
     ServletOutputStream out = response.getOutputStream();
-    String fileName = "Pss MS Products Template" + ExportService.Excel2007_Suffix;
+    String fileName = "Pss MS Products Template" + ExportService.Excel_xls;
     productService.getDataTemplate(out);
 
     String type = new MimetypesFileTypeMap().getContentType(fileName);
