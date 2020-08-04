@@ -1,6 +1,7 @@
 package com.pssdev.pss.service.impl;
 
 import com.pssdev.pss.annotation.Audit;
+import com.pssdev.pss.annotation.AuditObject;
 import com.pssdev.pss.dao.AccountDao;
 import com.pssdev.pss.entity.Account;
 import com.pssdev.pss.service.AccountService;
@@ -22,7 +23,7 @@ public class AccountServiceImpl implements AccountService {
   @Audit(ResourceEnum.ACCOUNT)
   @Override
   @Transactional
-  public void insertAccount(Account account) throws Exception {
+  public void insertAccount(@AuditObject("getName()") Account account) throws Exception {
     if (!StringUtils.isEmpty(account.getParent())) {
       Account father = accountDao.get(account.getParent().getId());
 
@@ -41,14 +42,14 @@ public class AccountServiceImpl implements AccountService {
   @Audit(value = ResourceEnum.ACCOUNT, actionType = ActionType.DELETE)
   @Override
   @Transactional
-  public void deleteAccount(Account account) {
+  public void deleteAccount(@AuditObject("getName()") Account account) {
     accountDao.delete(account);
   }
 
   @Audit(value = ResourceEnum.ACCOUNT, actionType = ActionType.MODIFY)
   @Override
   @Transactional
-  public void updateAccount(Account account) throws Exception {
+  public void updateAccount(@AuditObject("getName()") Account account) throws Exception {
     Account oldAccount = accountDao.get(account.getId());
 
     if (oldAccount == null) {

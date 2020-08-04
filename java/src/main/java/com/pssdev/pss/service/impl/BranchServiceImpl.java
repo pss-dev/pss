@@ -1,6 +1,7 @@
 package com.pssdev.pss.service.impl;
 
 import com.pssdev.pss.annotation.Audit;
+import com.pssdev.pss.annotation.AuditObject;
 import com.pssdev.pss.dao.BranchDao;
 import com.pssdev.pss.entity.Branch;
 import com.pssdev.pss.service.BranchService;
@@ -50,21 +51,21 @@ public class BranchServiceImpl implements BranchService {
   @Audit(value = ResourceEnum.BRANCH)
   @Transactional
   @Override
-  public Integer insertBranch(Branch branch) {
+  public Integer insertBranch(@AuditObject("getName()") Branch branch) {
     return branchDao.insert(branch);
   }
 
   @Audit(value = ResourceEnum.BRANCH, actionType = ActionType.MODIFY)
   @Transactional
   @Override
-  public void updateBranch(Branch branch) {
+  public void updateBranch(@AuditObject("getName()") Branch branch) {
     branchDao.update(branch);
   }
 
   @Audit(value = ResourceEnum.BRANCH, actionType = ActionType.DELETE)
   @Transactional
   @Override
-  public void deleteBranch(Branch branch) {
+  public void deleteBranch(@AuditObject("getName()") Branch branch) {
     branchDao.delete(branch);
   }
 

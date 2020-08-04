@@ -1,6 +1,7 @@
 package com.pssdev.pss.service.impl;
 
 import com.pssdev.pss.annotation.Audit;
+import com.pssdev.pss.annotation.AuditObject;
 import com.pssdev.pss.dao.DepotDao;
 import com.pssdev.pss.dao.ProductDao;
 import com.pssdev.pss.entity.*;
@@ -25,7 +26,7 @@ public class DepotServiceImpl implements DepotService {
   @Audit(value = ResourceEnum.DEPOT)
   @Override
   @Transactional
-  public void insertDepot(Depot Depot) throws Exception {
+  public void insertDepot(@AuditObject("getName()") Depot Depot) throws Exception {
     if (!StringUtils.isEmpty(Depot.getParent())) {
       Depot father = depotDao.get(Depot.getParent().getId());
 
@@ -44,7 +45,7 @@ public class DepotServiceImpl implements DepotService {
   @Audit(value = ResourceEnum.DEPOT, actionType = ActionType.DELETE)
   @Override
   @Transactional
-  public void deleteDepot(Depot depot) {
+  public void deleteDepot(@AuditObject("getName()") Depot depot) {
     depotDao.delete(depot);
   }
 
@@ -70,7 +71,7 @@ public class DepotServiceImpl implements DepotService {
   @Audit(value = ResourceEnum.DEPOT, actionType = ActionType.MODIFY)
   @Override
   @Transactional
-  public void updateDepot(Depot depot) throws Exception {
+  public void updateDepot(@AuditObject("getName()") Depot depot) throws Exception {
     Depot oldDepot = depotDao.get(depot.getId());
 
     if (oldDepot == null) {

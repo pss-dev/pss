@@ -1,6 +1,7 @@
 package com.pssdev.pss.service.impl;
 
 import com.pssdev.pss.annotation.Audit;
+import com.pssdev.pss.annotation.AuditObject;
 import com.pssdev.pss.dao.RoleDao;
 import com.pssdev.pss.entity.Role;
 import com.pssdev.pss.service.RoleService;
@@ -24,21 +25,21 @@ public class RoleServiceImpl implements RoleService {
   @Audit(value = ResourceEnum.ROLE)
   @Transactional
   @Override
-  public void insertRole(Role role) throws Exception {
+  public void insertRole(@AuditObject("getName()") Role role) throws Exception {
     roleDao.insert(role);
   }
 
   @Audit(value = ResourceEnum.ROLE, actionType = ActionType.DELETE)
   @Transactional
   @Override
-  public void deleteRole(Role role) {
+  public void deleteRole(@AuditObject("getName()") Role role) {
     roleDao.delete(role);
   }
 
   @Audit(value = ResourceEnum.ROLE, actionType = ActionType.MODIFY)
   @Transactional
   @Override
-  public void modifyRole(Role role) throws Exception {
+  public void modifyRole(@AuditObject("getName()") Role role) throws Exception {
     roleDao.update(role);
   }
 

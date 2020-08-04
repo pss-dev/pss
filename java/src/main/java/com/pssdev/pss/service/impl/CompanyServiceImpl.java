@@ -1,6 +1,7 @@
 package com.pssdev.pss.service.impl;
 
 import com.pssdev.pss.annotation.Audit;
+import com.pssdev.pss.annotation.AuditObject;
 import com.pssdev.pss.dao.CompanyDao;
 import com.pssdev.pss.entity.Company;
 import com.pssdev.pss.service.CompanyService;
@@ -21,7 +22,7 @@ public class CompanyServiceImpl implements CompanyService {
   @Audit(value = ResourceEnum.COMPANY)
   @Override
   @Transactional
-  public void insertCompany(Company company) throws Exception {
+  public void insertCompany(@AuditObject("getName()") Company company) throws Exception {
     if (company.getParent() != null) {
       Company father = companyDao.get(company.getParent().getId());
 
@@ -36,14 +37,14 @@ public class CompanyServiceImpl implements CompanyService {
   @Audit(value = ResourceEnum.COMPANY, actionType = ActionType.DELETE)
   @Override
   @Transactional
-  public void deleteCompany(Company company) {
+  public void deleteCompany(@AuditObject("getName()") Company company) {
     companyDao.delete(company);
   }
 
   @Audit(value = ResourceEnum.COMPANY, actionType = ActionType.MODIFY)
   @Override
   @Transactional
-  public void modifyCompany(Company company) throws Exception {
+  public void modifyCompany(@AuditObject("getName()") Company company) throws Exception {
     Company oldCompany = companyDao.get(company.getId());
 
     if (oldCompany == null) {

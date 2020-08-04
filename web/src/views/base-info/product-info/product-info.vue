@@ -298,7 +298,9 @@ export default {
       console.log("=========submitGeneratePriceData  ", model);
       model.parentProduct = this.parent;
       productInfoApi.generatePrice(model).then(() => {
-        this.getProductInfo();
+        var getInfoParams = this.getParameterForNewTable(this.getParentID());
+        this.getProductInfo(getInfoParams);
+        this.closeGeneratePrice();
       });
     }
   },

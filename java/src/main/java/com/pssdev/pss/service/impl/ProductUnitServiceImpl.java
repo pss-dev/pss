@@ -1,6 +1,7 @@
 package com.pssdev.pss.service.impl;
 
 import com.pssdev.pss.annotation.Audit;
+import com.pssdev.pss.annotation.AuditObject;
 import com.pssdev.pss.dao.ProductUnitDao;
 import com.pssdev.pss.entity.ProductUnit;
 import com.pssdev.pss.service.ProductUnitService;
@@ -21,19 +22,19 @@ public class ProductUnitServiceImpl implements ProductUnitService {
 
   @Audit(value = ResourceEnum.UNIT)
   @Override
-  public void insertProductUnit(ProductUnit productUnit) throws Exception {
+  public void insertProductUnit(@AuditObject("getName()") ProductUnit productUnit) throws Exception {
     this.productUnitDao.insert(productUnit);
   }
 
   @Audit(value = ResourceEnum.UNIT, actionType = ActionType.DELETE)
   @Override
-  public void deleteProductUnit(ProductUnit productUnit) {
+  public void deleteProductUnit(@AuditObject("getName()") ProductUnit productUnit) {
     this.productUnitDao.delete(productUnit);
   }
 
   @Audit(value = ResourceEnum.UNIT, actionType = ActionType.MODIFY)
   @Override
-  public void modifyProductUnit(ProductUnit productUnit) throws Exception {
+  public void modifyProductUnit(@AuditObject("getName()") ProductUnit productUnit) throws Exception {
     ProductUnit old = this.productUnitDao.get(productUnit.getId());
 
     if (old != null) {

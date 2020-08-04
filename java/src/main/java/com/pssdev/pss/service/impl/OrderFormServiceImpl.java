@@ -1,6 +1,7 @@
 package com.pssdev.pss.service.impl;
 
 import com.pssdev.pss.annotation.Audit;
+import com.pssdev.pss.annotation.AuditObject;
 import com.pssdev.pss.dao.OrderFormDao;
 import com.pssdev.pss.entity.OrderForm;
 import com.pssdev.pss.entity.OrderFormProduct;
@@ -32,7 +33,7 @@ public class OrderFormServiceImpl implements OrderFormService {
 
   @Audit(value = ResourceEnum.ORDERFORM, actionType = ActionType.DELETE)
   @Override
-  public void deleteOrderForm(OrderForm orderForm) {
+  public void deleteOrderForm(@AuditObject("getSummary()") OrderForm orderForm) {
     if (orderForm != null && orderForm.getId() != null) {
       this.orderFormDao.delete(orderForm);
     }
@@ -40,13 +41,14 @@ public class OrderFormServiceImpl implements OrderFormService {
 
   @Audit(value = ResourceEnum.ORDERFORM, actionType = ActionType.MODIFY)
   @Override
-  public void modifyOrderForm(OrderForm orderForm) throws Exception {
+  public void modifyOrderForm(@AuditObject("getSummary()") OrderForm orderForm) throws Exception {
     this.orderFormDao.update(orderForm);
   }
 
   @Audit(value = ResourceEnum.ORDERFORM, actionType = ActionType.VERIFY)
   @Override
-  public void verifyOrderForm(OrderForm orderForm, boolean insert) throws Exception {
+  public void verifyOrderForm(@AuditObject("getSummary()") OrderForm orderForm, boolean insert)
+      throws Exception {
     if (insert) {
       this.initOrderForm(orderForm);
     } else {

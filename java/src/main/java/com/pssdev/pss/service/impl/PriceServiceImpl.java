@@ -1,6 +1,7 @@
 package com.pssdev.pss.service.impl;
 
 import com.pssdev.pss.annotation.Audit;
+import com.pssdev.pss.annotation.AuditObject;
 import com.pssdev.pss.dao.PriceDao;
 import com.pssdev.pss.entity.Price;
 import com.pssdev.pss.service.PriceService;
@@ -20,7 +21,7 @@ public class PriceServiceImpl implements PriceService {
 
   @Audit(value = ResourceEnum.PRICE, actionType = ActionType.MODIFY)
   @Override
-  public void modifyPrice(Price price) throws Exception {
+  public void modifyPrice(@AuditObject("getLabel()") Price price) throws Exception {
     Price old = this.priceDao.get(price.getId());
 
     if (old != null) {

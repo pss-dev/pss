@@ -1,6 +1,7 @@
 package com.pssdev.pss.service.impl;
 
 import com.pssdev.pss.annotation.Audit;
+import com.pssdev.pss.annotation.AuditObject;
 import com.pssdev.pss.dao.EmployeeDao;
 import com.pssdev.pss.entity.Employee;
 import com.pssdev.pss.service.EmployeeService;
@@ -57,21 +58,21 @@ public class EmployeeServiceImpl implements EmployeeService {
   @Audit(value = ResourceEnum.EMPLOYEE)
   @Transactional
   @Override
-  public void insertEmployee(Employee employee) {
+  public void insertEmployee(@AuditObject("getName()") Employee employee) {
     employeeDao.insert(employee);
   }
 
   @Audit(value = ResourceEnum.EMPLOYEE, actionType = ActionType.MODIFY)
   @Transactional
   @Override
-  public void updateEmployee(Employee employee) {
+  public void updateEmployee(@AuditObject("getName()") Employee employee) {
     employeeDao.update(employee);
   }
 
   @Audit(value = ResourceEnum.EMPLOYEE, actionType = ActionType.DELETE)
   @Transactional
   @Override
-  public void deleteEmployee(Employee employee) {
+  public void deleteEmployee(@AuditObject("getName()") Employee employee) {
     employeeDao.delete(employee);
   }
 
