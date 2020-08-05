@@ -35,9 +35,6 @@ export default {
     "search-base": searchBase
   },
 
-  props: {
-  },
-
   data () {
     return {
       title: "员工信息查询",

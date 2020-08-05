@@ -27,6 +27,7 @@
           :isProduct="true"
           :stopPurchaseDisable="getStopPurchaseStatus()"
           :uploadVisiable="true"
+          :parentIsNull="parent == null"
           :uploadAction="'/api/1.0/product/upload'"
           :uploadData="getParent()"
           @newInfo="newInfo"

@@ -65,7 +65,7 @@
                 <el-input readonly placeholder="经手人" v-model="searchModel.employee.name">
                   <el-button
                     size="small"
-                    @click="showDepartmentDialog"
+                    @click="showEmployeeDialog"
                     slot="append"
                     icon="el-icon-search"
                   ></el-button>
@@ -168,6 +168,11 @@
       @submitData="submitCompanyData"
       @closeDialog="closeCompanyDialog"
     ></company-search-dialog>
+    <employee-search-dialog
+      v-if="employeeDialogVisiable"
+      @submitData="submitEmployeeData"
+      @closeDialog="closeEmployeeDialog"
+    ></employee-search-dialog>
     <department-search-dialog
       v-if="departmentDialogVisiable"
       @submitData="submitDepartmentData"
@@ -178,21 +183,6 @@
       @submitData="submitDepotData"
       @closeDialog="closeDepotDialog"
     ></depot-search-dialog>
-    <product-search-dialog
-      v-if="productDialogVisiable"
-      @submitData="submitProductData"
-      @closeDialog="closeProductDialog"
-    ></product-search-dialog>
-    <unit-search-dialog
-      v-if="productUnitDialogVisiable"
-      @submitData="submitProductUnitData"
-      @closeDialog="closeProductUnitDialog"
-    ></unit-search-dialog>
-    <account-search-dialog
-      v-if="accountDialogVisiable"
-      @submitData="submitAccountData"
-      @closeDialog="closeAccountDialog"
-    ></account-search-dialog>
   </div>
 </template>
 
@@ -201,9 +191,7 @@ import DepartmentSearchDialog from "../components/department-search-dialog.vue"
 import BranchSearchDialog from "../components/branch-search-dialog.vue"
 import CompanySearchDialog from "../components/company-search-dialog.vue"
 import DepotSearchDialog from "../components/depot-search-dialog.vue"
-import ProductSearchDialog from "../components/product-search-dialog.vue"
-import UnitSearchDialog from "../components/unit-search-dialog.vue"
-import AccountSearchDialog from "../components/account-search-dialog.vue"
+import EmployeeSearchDialog from "../components/employee-search-dialog"
 
 import TableBaseInfo from "@/views/mixIns/table-base-info.js"
 import orderFormApi from "../../api/order-form-api/orderFormApi.js"
@@ -220,9 +208,7 @@ export default {
     "branch-search-dialog": BranchSearchDialog,
     "company-search-dialog": CompanySearchDialog,
     "depot-search-dialog": DepotSearchDialog,
-    "product-search-dialog": ProductSearchDialog,
-    "unit-search-dialog": UnitSearchDialog,
-    "account-search-dialog": AccountSearchDialog,
+    "employee-search-dialog": EmployeeSearchDialog
   },
 
   props: {},
@@ -370,50 +356,6 @@ export default {
       this.searchModel.depot = depotValue
 
       this.depotDialogVisiable = false
-    },
-
-    showProductSelectDialog (scope) {
-      this.productDialogVisiable = true
-      this.scopeValue = scope.row
-    },
-
-    closeProductDialog () {
-      this.productDialogVisiable = false
-    },
-
-    submitProductData (productValue) {
-      this.scopeValue.productID = productValue.id
-
-      this.productDialogVisiable = false
-    },
-
-    showProductUnitSelectDialog (scope) {
-      this.productUnitDialogVisiable = true
-      this.scopeValue = scope.row
-    },
-
-    closeProductUnitDialog () {
-      this.productUnitDialogVisiable = false
-    },
-
-    submitProductUnitData (productUnitValue) {
-      this.scopeValue.product.Unit = productUnitValue
-
-      this.productUnitDialogVisiable = false
-    },
-
-    showAccountDialog () {
-      this.accountDialogVisiable = true
-    },
-
-    closeAccountDialog () {
-      this.accountDialogVisiable = false
-    },
-
-    submitAccountData (accountValue) {
-      this.searchModel.account = accountValue
-
-      this.accountDialogVisiable = false
     },
 
     getOrderForms () {

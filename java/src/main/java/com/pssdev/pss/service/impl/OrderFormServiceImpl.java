@@ -50,7 +50,7 @@ public class OrderFormServiceImpl implements OrderFormService {
   public void verifyOrderForm(@AuditObject("getSummary()") OrderForm orderForm, boolean insert)
       throws Exception {
     if (insert) {
-      this.initOrderForm(orderForm);
+      this.insertOrderForm(orderForm);
     } else {
       this.modifyOrderForm(orderForm);
     }

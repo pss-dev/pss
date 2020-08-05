@@ -85,12 +85,15 @@ export default {
           this.setResponseResult(res.data);
         });
     },
+
+    loadData () {
+      var params = this.getParameterForNewTable(this.getParentID());
+      this.getCompanyInfo(params);
+    }
   },
 
   created: function () {
-    var params = this.getParameterForNewTable(this.getParentID());
-
-    this.getCompanyInfo(params);
+    this.loadData();
   }
 }
 </script>

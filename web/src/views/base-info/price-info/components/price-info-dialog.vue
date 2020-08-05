@@ -14,7 +14,7 @@
       class="demo-ruleForm"
     >
       <el-form-item label="名称" prop="name">
-        <el-input v-model="priceData.name" autocomplete="off"></el-input>
+        <el-input readonly v-model="priceData.name" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="显示名称" prop="label">
         <el-input v-model="priceData.label" autocomplete="off"></el-input>

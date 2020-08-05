@@ -1,7 +1,7 @@
 <template class="c1">
   <el-container>
-    <el-header v-if="tableHeaderVisiable" height="30">
-      <base-info-header :paths="paths" @showTypeChange="showTypeChange"></base-info-header>
+    <el-header height="30">
+      <base-info-header v-if="tableHeaderVisiable" :paths="paths" @showTypeChange="showTypeChange"></base-info-header>
     </el-header>
     <el-main>
       <base-info-table

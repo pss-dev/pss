@@ -86,13 +86,17 @@ export default {
           this.setResponseResult(res.data);
         });
     },
+
+    loadData () {
+      var params = this.getParameterForNewTable(this.getParentID());
+      params.depot = this.depot;
+
+      this.getProductInfo(params);
+    }
   },
 
   created: function () {
-    var params = this.getParameterForNewTable(this.getParentID());
-    params.depot = this.depot;
-
-    this.getProductInfo(params);
+    this.loadData();
   }
 }
 </script>

@@ -33,9 +33,13 @@
       size="small"
       :disabled="!isSelectedLeaf || stopPurchaseDisable"
     >停止采购</el-button>
+    <el-button v-if="isProduct" 
+      :disabled="parentIsNull" 
+      @click="generatePrice" 
+      size="small">生成价格</el-button>
     <el-button v-if="uploadVisiable" size="small" @click="getDataTemplate">获取数据模板</el-button>
     <el-upload
-      v-if="uploadVisiable"
+      v-if="uploadVisiable && !parentIsNull"
       class="upload-button"
       :action="uploadAction"
       :data="uploadData"
@@ -46,7 +50,6 @@
     >
       <el-button size="small">上传数据</el-button>
     </el-upload>
-    <el-button v-if="isProduct" @click="generatePrice" size="small">生成价格</el-button>
   </div>
 </template>
 
@@ -95,6 +98,10 @@ export default {
       default: false
     },
     "stopPurchaseDisable": {
+      type: Boolean,
+      default: false
+    },
+    "parentIsNull": {
       type: Boolean,
       default: false
     },
