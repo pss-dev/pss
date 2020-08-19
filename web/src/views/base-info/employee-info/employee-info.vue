@@ -136,8 +136,8 @@ export default {
     deleteInfo () {
       employeeInfoApi
         .deleteEmployeeInfo(this.selectedInfo)
-        .then((res) => {
-          this.setResponseResult(res.data);
+        .then(() => {
+          this.getEmployeeInfo();
         });
     },
 
